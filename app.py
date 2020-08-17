@@ -55,6 +55,9 @@ def login():
             flash('Login Unsuccessful!', 'danger')
     return render_template("login.html", title='Login', form=form) 
         
+@app.route("/test")
+def test():
+    return render_template("test.html")
 
 if __name__ == "__main__":
 
