@@ -22,6 +22,63 @@ posts = [
     },
 ]
 
+geojson_sample = '''{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "icon": "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+        "marker-color": "#7e7e7e",
+        "marker-size": "medium",
+        "marker-symbol": "",
+        "Name": "Home"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.84022521972656,
+          -34.44315867450577
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "icon": "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+        "marker-color": "#7e7e7e",
+        "marker-size": "medium",
+        "marker-symbol": "",
+        "Name": "Airport"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.79010009765625,
+          -34.55888020163025
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "icon": "/static/img/marker/map-mark.png",
+        "marker-color": "#7e7e7e",
+        "marker-size": "medium",
+        "marker-symbol": "",
+        "Name": "Work"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.78632354736328,
+          -34.33606548328852
+        ]
+      }
+    }
+  ]
+} '''
+
 
 @app.route("/")
 @app.route("/home")
