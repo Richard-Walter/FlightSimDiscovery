@@ -263,11 +263,12 @@
     <br />
     <br />
     <h2>Test</h2>
-    {% for poi in posts %}
+    {% for poi in pois %}
 
     <h2>{{ poi.Name }}</h2>
 
     {% endfor %}
+    <h4>{{pois[0].Name}}</h4>
     <br />
 
     <!-- Test area end -->
@@ -318,16 +319,37 @@
             const workingdataGeoJSON = GeoJSON.parse(data, { Point: ["lat", "lng"] });
             console.log(workingdataGeoJSON);
 
+            // let sample_dict = {
+            //     'Name': "Location A",
+            //     'category': "Store",
+            //     'icon': "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+            //     'lat': '-34.984',
+            //     'lng': '150.343'
+            //   }
+
+            
             let sample_dict = {
-                'Name': "Location A",
+                'Name': "{{pois[0].Name}}",
                 'category': "Store",
-                'icon': "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-                'lat': '-34.984',
-                'lng': '150.343'
+                'icon': "{{pois[0].icon}}",
+                'lat': "{{pois[0].lat}}",
+                'lng': "{{pois[0].lng}}"
               }
 
             let test_array = []
             test_array.push(sample_dict)
+
+            var objects = {};  
+              
+            {% for poi in pois %}
+                
+                objects[{{loop.index}}]={'Name': '{{poi.Name}}', 'icon': "{{poi.icon}}", 'lat': '{{poi.lat}}','lng': '{{poi.lng}}'};
+                test_array.push(objects[{{loop.index}}])
+
+            {% endfor %}
+
+
+
             console.log(test_array);
             const dataGeoJSON = GeoJSON.parse(test_array, { Point: ["lat", "lng"] });
             console.log(dataGeoJSON);

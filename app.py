@@ -25,67 +25,67 @@ posts = [
 ]
 
 data = [
-  { 'Name': 'Location A', 'category': 'Store', 'street': 'Market', 'lat': -35.984, 'lng': 154.343 },
-  { 'Name': 'Location B', 'category': 'House', 'street': 'Broad', 'lat': -35.284, 'lng': 154.833 },
-  { 'Name': 'Location C', 'category': 'Office', 'street': 'South', 'lat': -35.123, 'lng': 154.534 },
+  { 'Name': 'Home', 'category': 'Store', 'icon': 'http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png', 'lat': -34.44315867450577, 'lng': 150.84022521972656 },
+  { 'Name': 'Work', 'category': 'House', 'icon': 'http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png', 'lat': -35.284, 'lng': 150.833 },
+  { 'Name': 'Airport', 'category': 'Office', 'icon': '/static/img/marker/map-mark.png', 'lat': -35.123, 'lng': 150.534 },
 ]
 
-geojson_sample = {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "icon": "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-        "marker-color": "#7e7e7e",
-        "marker-size": "medium",
-        "marker-symbol": "",
-        "Name": "Home"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          150.84022521972656,
-          -34.44315867450577
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "icon": "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-        "marker-color": "#7e7e7e",
-        "marker-size": "medium",
-        "marker-symbol": "",
-        "Name": "Airport"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          150.79010009765625,
-          -34.55888020163025
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "icon": "/static/img/marker/map-mark.png",
-        "marker-color": "#7e7e7e",
-        "marker-size": "medium",
-        "marker-symbol": "",
-        "Name": "Work"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          150.78632354736328,
-          -34.33606548328852
-        ]
-      }
-    }
-  ]
-}
+# geojson_sample = {
+#   "type": "FeatureCollection",
+#   "features": [
+#     {
+#       "type": "Feature",
+#       "properties": {
+#         "icon": "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+#         "marker-color": "#7e7e7e",
+#         "marker-size": "medium",
+#         "marker-symbol": "",
+#         "Name": "Home"
+#       },
+#       "geometry": {
+#         "type": "Point",
+#         "coordinates": [
+#           150.84022521972656,
+#           -34.44315867450577
+#         ]
+#       }
+#     },
+#     {
+#       "type": "Feature",
+#       "properties": {
+#         "icon": "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+#         "marker-color": "#7e7e7e",
+#         "marker-size": "medium",
+#         "marker-symbol": "",
+#         "Name": "Airport"
+#       },
+#       "geometry": {
+#         "type": "Point",
+#         "coordinates": [
+#           150.79010009765625,
+#           -34.55888020163025
+#         ]
+#       }
+#     },
+#     {
+#       "type": "Feature",
+#       "properties": {
+#         "icon": "/static/img/marker/map-mark.png",
+#         "marker-color": "#7e7e7e",
+#         "marker-size": "medium",
+#         "marker-symbol": "",
+#         "Name": "Work"
+#       },
+#       "geometry": {
+#         "type": "Point",
+#         "coordinates": [
+#           150.78632354736328,
+#           -34.33606548328852
+#         ]
+#       }
+#     }
+#   ]
+# }
 
 # # Create the GEoJSon file to post
 # newfile = pygeoj.new()
@@ -128,7 +128,7 @@ def login():
         
 @app.route("/test")
 def test():
-    return render_template("test.html", posts=data)
+    return render_template("test.html", pois=data)
     # return render_template("test.html", posts=newfile)
 
 if __name__ == "__main__":
