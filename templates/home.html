@@ -1,15 +1,477 @@
-{% extends "layout.html" %}
+{% extends "base.html" %}
 {% block content %}
-    {% for post in posts %}
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="#">{{ post.author }}</a>
-              <small class="text-muted">{{ post.date_posted }}</small>
+
+
+    <!-- slider_area_start -->
+    <div class="slider_area mb-5">
+      <div class="slider_active owl-carousel">
+        <div
+          class="single_slider d-flex align-items-center slider_bg_1 overlay"
+        >
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-xl-12 col-md-12">
+                <div class="slider_text text-center">
+                  <h3>Australia</h3>
+                  <p></p>
+                  <a href="#" class="boxed-btn3">Explore Now</a>
+                </div>
+              </div>
             </div>
-            <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
           </div>
-        </article>
+        </div>
+        <div
+          class="single_slider d-flex align-items-center slider_bg_2 overlay"
+        >
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-xl-12 col-md-12">
+                <div class="slider_text text-center">
+                  <h3>Vietnam</h3>
+                  <p></p>
+                  <a href="#" class="boxed-btn3">Explore Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="single_slider d-flex align-items-center slider_bg_3 overlay"
+        >
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-xl-12 col-md-12">
+                <div class="slider_text text-center">
+                  <h3>Switzerland</h3>
+                  <p></p>
+                  <a href="#" class="boxed-btn3">Explore Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="single_slider d-flex align-items-center slider_bg_4 overlay"
+        >
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-xl-12 col-md-12">
+                <div class="slider_text text-center">
+                  <h3>America</h3>
+                  <p></p>
+                  <a href="#" class="boxed-btn3">Explore Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="single_slider d-flex align-items-center slider_bg_5 overlay"
+        >
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-xl-12 col-md-12">
+                <div class="slider_text text-center">
+                  <h3>Egypt</h3>
+                  <p></p>
+                  <a href="#" class="boxed-btn3">Explore Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="single_slider d-flex align-items-center slider_bg_6 overlay"
+        >
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-xl-12 col-md-12">
+                <div class="slider_text text-center">
+                  <h3>Switzerland</h3>
+                  <p></p>
+                  <a href="#" class="boxed-btn3">Explore Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- slider_area_end -->
+    <br />
+    <br />
+    <!-- where_togo_area_start  -->
+    <div class="where_togo_area">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-3">
+            <div class="form_area">
+              <h3>Where you want to explore?</h3>
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <div class="search_wrap">
+              <form class="search_form" action="#">
+                <div class="input_field">
+                  <select>
+                    <option data-display="Category">Category</option>
+                    <option value="2">All</option>
+                    <option value="1">Natural Places</option>
+                    <option value="2">Another option</option>
+                  </select>
+                </div>
+                <!-- <div class="input_field">
+                                <select>
+                                    <option data-display="Continent">Continent</option>
+                                    <option value="1">Some option</option>
+                                    <option value="2">Another option</option>
+                                </select>
+                            </div> -->
+                <div class="input_field">
+                  <select>
+                    <option data-display="Country">Country</option>
+                    <option value="2">All</option>
+                    <option value="1">Australia</option>
+                    <option value="2">Another option</option>
+                  </select>
+                </div>
+                <div class="input_field">
+                  <select>
+                    <option data-display="Rating">Rating</option>
+                    <option value="2">All</option>
+                    <option value="1">5 stars</option>
+                    <option value="2">4 stars or higher</option>
+                    <option value="2">3 stars or higher</option>
+                    <option value="2">2 stars or higher</option>
+                    >
+                  </select>
+                </div>
+                <div class="search_btn">
+                  <button class="boxed-btn4" type="submit">Search</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- where_togo_area_end  -->
+
+    <!-- Test area -->
+    <br />
+    <br />
+    <h2>Test</h2>
+    {% for poi in pois %}
+
+    <h2>{{ poi.Name }}</h2>
+
     {% endfor %}
+    <h4>{{pois[0].Name}}</h4>
+    <br />
+
+    <!-- Test area end -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/geojson/0.5.0/geojson.min.js"></script>
+    <!-- <script src="static/js/markerclustererplus.min.js"></script> -->
+    <!-- google_map_area_start  -->
+    <div id="google_map" class="google_map_area">
+      <div class="">
+        <div class="d-sm-block pb-4">
+          <div
+            id="map"
+            style="
+              width: 100%;
+              height: 1020px;
+              position: relative;
+              overflow: hidden;
+            "
+          ></div>
+          <script>
+
+            // TEST AREA
+            // var data = [
+            //   {
+            //     'Name': "Location A",
+            //     'category': "Store",
+            //     'icon': "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+            //     'lat': -'34.984',
+            //     'lng': '150.343',
+            //   },
+            //   {
+            //     'Name': "Location B",
+            //     'category': "House",
+            //     'icon': "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+            //     'lat': '-34.284',
+            //     'lng': '150.843',
+            //   },
+            //   {
+            //     'Name': "Location C",
+            //     'category': "Office",
+            //     'icon': "/static/img/marker/map-mark.png",
+            //     'lat': '-34.123',
+            //     'lng': '150.534',
+            //   },
+            // ];
+            
+            // console.log(data)
+            // const workingdataGeoJSON = GeoJSON.parse(data, { Point: ["lat", "lng"] });
+            // console.log(workingdataGeoJSON);
+
+            // let sample_dict = {
+            //     'Name': "Location A",
+            //     'category': "Store",
+            //     'icon': "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+            //     'lat': '-34.984',
+            //     'lng': '150.343'
+            //   }
+
+            
+            // let sample_dict = {
+            //     'Name': "{{pois[0].Name}}",
+            //     'category': "Store",
+            //     'icon': "{{pois[0].icon}}",
+            //     'lat': "{{pois[0].lat}}",
+            //     'lng': "{{pois[0].lng}}"
+            //   }
+
+            
+            // TEST AREA END
+            
+
+            // Parse the posted data into a GeoJSon format required by Google Maps
+            let test_array = []
+            var objects = {};  
+              
+            {% for poi in pois %}
+                
+                objects[{{loop.index}}]={'Name': '{{poi.Name}}', 'icon': "{{poi.icon}}", 'lat': '{{poi.lat}}','lng': '{{poi.lng}}'};
+                test_array.push(objects[{{loop.index}}])
+
+            {% endfor %}
+
+            console.log(test_array);
+            const dataGeoJSON = GeoJSON.parse(test_array, { Point: ["lat", "lng"] });
+            console.log(dataGeoJSON);
+            
+            //Create the GOogle Map
+            let map;
+
+            function initMap() {
+              var map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8,
+                center: {
+                  lat: -34,
+                  lng: 150,
+                },
+                mapTypeId: google.maps.MapTypeId.TERRAIN,
+              });
+
+              // var markerCollection = map.data.addGeoJson(geoJson);
+              var markerCollection = map.data.addGeoJson(dataGeoJSON);
+                // var markerCollection = map.data.loadGeoJson("static/map.geojson");
+
+                // map.data.setStyle(function (feature) {
+                //   var art = feature.getProperty("icon");
+                //   var icons = customIcons[art] || {};
+                //   return {
+                //   //   icon: 'http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png'
+                //       icon: feature.getProperty("icon")
+                //   };
+                // });
+
+              for (
+                var i = 0, length = markerCollection.length;
+                i < length;
+                i++
+              ) {
+                var feature = markerCollection[i];
+                debugger;
+                if (feature.getProperty("icon")) {
+                  map.data.setStyle(function (feature) {
+                    return {
+                      icon: feature.getProperty("icon"),
+                    };
+                  });
+                }
+              }
+
+              // // Marker Clustering
+              // var markerCluster = new MarkerClusterer(map, markerCollection, {
+              //   imagePath:
+              //     "/static/img/markerclusterer/m",
+              // });
+
+              // var s = document.createElement( 'script' );
+              // s.setAttribute( 'src', 'https://cdn.rawgit.com/Connum/data-layer-clusterer/2ef00e0a1ad2839aa1de3144428cb1e35a736022/src/datalayerclusterer.js' );
+              // s.async = false;
+              // document.head.appendChild( s );
+              // s.onload = function() {
+              //     var cluster = new DataLayerClusterer({
+              //                 "map": map,
+              //                 "maxZoom": 15
+              //             });
+              //     cluster.addGeoJson(geoJson)}
+
+              //Info Window
+              map.data.addListener("click", function (event) {
+                var name = event.feature.getProperty("Name");
+                var html_content =
+                  "<div style='width:150px; text-align: center;'>" +
+                  name +
+                  "</div>";
+
+                var infowindow = new google.maps.InfoWindow({
+                  content: html_content,
+                });
+
+                infowindow.setContent(
+                  "<div style='width:150px; text-align: center;'>" +
+                    name +
+                    "</div>"
+                );
+                infowindow.setPosition(event.feature.getGeometry().get());
+                infowindow.setOptions({
+                  pixelOffset: new google.maps.Size(0, 0),
+                });
+                infowindow.open(map);
+              });
+
+              google.maps.event.addListener(map, "click", function () {
+                infowindow.close();
+              });
+            }
+
+            // function initMap() {
+            //     var uluru = {
+            //         lat: -34.363,
+            //         lng: 150.044
+            //     };
+            //     var grayStyles = [{
+            //             featureType: "all",
+            //             stylers: [{
+            //                     saturation: -90
+            //                 },
+            //                 {
+            //                     lightness: 50
+            //                 }
+            //             ]
+            //         },
+            //         {
+            //             elementType: 'labels.text.fill',
+            //             stylers: [{
+            //                 color: '#ccdee9'
+            //             }]
+            //         }
+            //     ];
+            //     var map = new google.maps.Map(document.getElementById('map'), {
+            //         center: {
+            //             lat: -34.363,
+            //             lng: 150.044
+            //         },
+            //         zoom: 9,
+            //         styles: grayStyles,
+            //         scrollwheel: false
+            //     });
+            // }
+          </script>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap"></script>
+          <!-- <script src="static/js/markerclusterer.js"></script> -->
+          
+        </div>
+      </div>
+    </div>
+    <!-- google_map_area_end  -->
+
+    <!-- popular_destination_area_start  -->
+    <div class="popular_destination_area">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="section_title text-center mb_70">
+              <h3>Popular Destinations</h3>
+              <p>
+                Come and explore the most popular places visited by flight sim
+                users
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6">
+            <div class="single_destination">
+              <div class="thumb">
+                <img src="static/img/destination/Africa.png" alt="" />
+              </div>
+              <div class="content">
+                <p class="d-flex align-items-center">
+                  Africa <a href="travel_destination.html"> 07 Places</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="single_destination">
+              <div class="thumb">
+                <img src="static/img/destination/Asia.png" alt="" />
+              </div>
+              <div class="content">
+                <p class="d-flex align-items-center">
+                  Asia <a href="travel_destination.html"> 03 Places</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="single_destination">
+              <div class="thumb">
+                <img src="static/img/destination/Australia.png" alt="" />
+              </div>
+              <div class="content">
+                <p class="d-flex align-items-center">
+                  Australia<a href="travel_destination.html"> 10 Places</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="single_destination">
+              <div class="thumb">
+                <img src="static/img/destination/Europe.png" alt="" />
+              </div>
+              <div class="content">
+                <p class="d-flex align-items-center">
+                  Europe <a href="travel_destination.html"> 02 Places</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="single_destination">
+              <div class="thumb">
+                <img src="static/img/destination/South America.png" alt="" />
+              </div>
+              <div class="content">
+                <p class="d-flex align-items-center">
+                  South America <a href="travel_destination.html"> 02 Places</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="single_destination">
+              <div class="thumb">
+                <img src="static/img/destination/North America.png" alt="" />
+              </div>
+              <div class="content">
+                <p class="d-flex align-items-center">
+                  North America <a href="travel_destination.html"> 05 Places</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- popular_destination_area_end  -->
+
 {% endblock content %}

@@ -2,8 +2,6 @@ from flask import Flask
 from flask import render_template, url_for, flash, redirect
 from forms import RegistrationForm, LoginForm
 from flask import flash
-import pygeoj
-import json
 
 app = Flask(__name__)
 
@@ -30,75 +28,11 @@ data = [
   { 'Name': 'Airport', 'category': 'Office', 'icon': '/static/img/marker/map-mark.png', 'lat': -35.123, 'lng': 150.534 },
 ]
 
-# geojson_sample = {
-#   "type": "FeatureCollection",
-#   "features": [
-#     {
-#       "type": "Feature",
-#       "properties": {
-#         "icon": "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-#         "marker-color": "#7e7e7e",
-#         "marker-size": "medium",
-#         "marker-symbol": "",
-#         "Name": "Home"
-#       },
-#       "geometry": {
-#         "type": "Point",
-#         "coordinates": [
-#           150.84022521972656,
-#           -34.44315867450577
-#         ]
-#       }
-#     },
-#     {
-#       "type": "Feature",
-#       "properties": {
-#         "icon": "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-#         "marker-color": "#7e7e7e",
-#         "marker-size": "medium",
-#         "marker-symbol": "",
-#         "Name": "Airport"
-#       },
-#       "geometry": {
-#         "type": "Point",
-#         "coordinates": [
-#           150.79010009765625,
-#           -34.55888020163025
-#         ]
-#       }
-#     },
-#     {
-#       "type": "Feature",
-#       "properties": {
-#         "icon": "/static/img/marker/map-mark.png",
-#         "marker-color": "#7e7e7e",
-#         "marker-size": "medium",
-#         "marker-symbol": "",
-#         "Name": "Work"
-#       },
-#       "geometry": {
-#         "type": "Point",
-#         "coordinates": [
-#           150.78632354736328,
-#           -34.33606548328852
-#         ]
-#       }
-#     }
-#   ]
-# }
-
-# # Create the GEoJSon file to post
-# newfile = pygeoj.new()
-# newfile.add_feature(properties={"country":"Norway"},
-#                     geometry={"type":"Polygon", "coordinates":[[(21,3),(33,11),(44,22)]]} )
-# newfile.add_feature(properties={"country":"USA"},
-#                     geometry={"type":"Polygon", "coordinates":[[(11,23),(14,5),(66,31)]]} )
-
 @app.route("/")
+@app.route("/index")
 @app.route("/home")
 def home():
-    # return '<h1>Home Page<h1>'  # easier to use a template
-    return render_template("home.html", posts=posts)
+    return render_template("home.html", pois=data)
 
 
 @app.route("/about")
@@ -126,11 +60,6 @@ def login():
             flash('Login Unsuccessful!', 'danger')
     return render_template("login.html", title='Login', form=form) 
         
-@app.route("/test")
-def test():
-    return render_template("test.html", pois=data)
-    # return render_template("test.html", posts=newfile)
-
 if __name__ == "__main__":
 
     app.run(
