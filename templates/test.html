@@ -259,6 +259,20 @@
     </div>
     <!-- where_togo_area_end  -->
 
+    <!-- Test area -->
+    <br />
+    <br />
+    <h2>Test</h2>
+    {% for poi in posts %}
+
+    <h2>{{ poi.Name }}</h2>
+
+    {% endfor %}
+    <br />
+
+    <!-- Test area end -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/geojson/0.5.0/geojson.min.js"></script>
+    <!-- <script src="static/js/markerclustererplus.min.js"></script> -->
     <!-- google_map_area_start  -->
     <div id="google_map" class="google_map_area">
       <div class="">
@@ -273,8 +287,38 @@
             "
           ></div>
           <script>
+            // TEST AREA
+            var data = [
+              {
+                Name: "Location A",
+                category: "Store",
+                icon: "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+                lat: -34.984,
+                lng: 150.343,
+              },
+              {
+                Name: "Location B",
+                category: "House",
+                icon: "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+                lat: -34.284,
+                lng: 150.843,
+              },
+              {
+                Name: "Location C",
+                category: "Office",
+                icon: "/static/img/marker/map-mark.png",
+                lat: -34.123,
+                lng: 150.534,
+              },
+            ];
+            
+            const dataGeoJSON = GeoJSON.parse(data, { Point: ["lat", "lng"] });
+            console.log(dataGeoJSON);
+
+            // TEST AREA END
             let map;
 
+            // var geoJson = JSON.parse({{posts}})
             var geoJson = {
               type: "FeatureCollection",
               features: [
@@ -324,58 +368,63 @@
                 },
               ],
             };
-
-
+            console.log(geoJson);
 
             function initMap() {
-                var map = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 8,
-                    center: {
-                    lat: -34,
-                    lng: 150,
-                    },
-                    mapTypeId: google.maps.MapTypeId.TERRAIN,
-                });
+              var map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8,
+                center: {
+                  lat: -34,
+                  lng: 150,
+                },
+                mapTypeId: google.maps.MapTypeId.TERRAIN,
+              });
 
-                    var markerCollection = map.data.addGeoJson(geoJson);
-                //   var markerCollection = map.data.loadGeoJson("static/map.geojson");
+              // var markerCollection = map.data.addGeoJson(geoJson);
+              var markerCollection = map.data.addGeoJson(dataGeoJSON);
+                // var markerCollection = map.data.loadGeoJson("static/map.geojson");
 
+                // map.data.setStyle(function (feature) {
+                //   var art = feature.getProperty("icon");
+                //   var icons = customIcons[art] || {};
+                //   return {
+                //   //   icon: 'http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png'
+                //       icon: feature.getProperty("icon")
+                //   };
+                // });
 
-
-                for (
-                    var i = 0, length = markerCollection.length;
-                    i < length;
-                    i++
-                ) {
-                    var feature = markerCollection[i];
-                    debugger;
-                    if (feature.getProperty("icon")) {
-                    map.data.setStyle(function (feature) {
-                        return {
-                        icon: feature.getProperty("icon"),
-                        };
-                    });
-                    }
+              for (
+                var i = 0, length = markerCollection.length;
+                i < length;
+                i++
+              ) {
+                var feature = markerCollection[i];
+                debugger;
+                if (feature.getProperty("icon")) {
+                  map.data.setStyle(function (feature) {
+                    return {
+                      icon: feature.getProperty("icon"),
+                    };
+                  });
                 }
+              }
 
-            //   Marker Clustering
+              // // Marker Clustering
               // var markerCluster = new MarkerClusterer(map, markerCollection, {
               //   imagePath:
               //     "/static/img/markerclusterer/m",
               // });
 
-                // var s = document.createElement( 'script' );
-                // s.setAttribute( 'src', 'https://cdn.rawgit.com/Connum/data-layer-clusterer/2ef00e0a1ad2839aa1de3144428cb1e35a736022/src/datalayerclusterer.js' );
-                // s.async = false;
-                // document.head.appendChild( s );
-                // s.onload = function() {
-                //     var cluster = new DataLayerClusterer({
-                //                 "map": map,
-                //                 "maxZoom": 15
-                //             });
-                //     cluster.addGeoJson(geoJson)}
-
-                
+              // var s = document.createElement( 'script' );
+              // s.setAttribute( 'src', 'https://cdn.rawgit.com/Connum/data-layer-clusterer/2ef00e0a1ad2839aa1de3144428cb1e35a736022/src/datalayerclusterer.js' );
+              // s.async = false;
+              // document.head.appendChild( s );
+              // s.onload = function() {
+              //     var cluster = new DataLayerClusterer({
+              //                 "map": map,
+              //                 "maxZoom": 15
+              //             });
+              //     cluster.addGeoJson(geoJson)}
 
               //Info Window
               map.data.addListener("click", function (event) {
@@ -441,7 +490,7 @@
           </script>
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap"></script>
           <!-- <script src="static/js/markerclusterer.js"></script> -->
-          <!-- <script src="static/js/markerclustererplus.min.js"></script> -->
+          
         </div>
       </div>
     </div>
@@ -588,6 +637,7 @@
 
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"> </script> -->
     <!-- JS here -->
+    <script src="static/js/geojson.min.js"></script>
     <script src="static/js/vendor/modernizr-3.5.0.min.js"></script>
     <script src="static/js/vendor/jquery-1.12.4.min.js"></script>
     <script src="static/js/popper.min.js"></script>

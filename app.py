@@ -2,6 +2,8 @@ from flask import Flask
 from flask import render_template, url_for, flash, redirect
 from forms import RegistrationForm, LoginForm
 from flask import flash
+import pygeoj
+import json
 
 app = Flask(__name__)
 
@@ -22,7 +24,13 @@ posts = [
     },
 ]
 
-geojson_sample = '''{
+data = [
+  { 'Name': 'Location A', 'category': 'Store', 'street': 'Market', 'lat': -35.984, 'lng': 154.343 },
+  { 'Name': 'Location B', 'category': 'House', 'street': 'Broad', 'lat': -35.284, 'lng': 154.833 },
+  { 'Name': 'Location C', 'category': 'Office', 'street': 'South', 'lat': -35.123, 'lng': 154.534 },
+]
+
+geojson_sample = {
   "type": "FeatureCollection",
   "features": [
     {
@@ -77,8 +85,14 @@ geojson_sample = '''{
       }
     }
   ]
-} '''
+}
 
+# # Create the GEoJSon file to post
+# newfile = pygeoj.new()
+# newfile.add_feature(properties={"country":"Norway"},
+#                     geometry={"type":"Polygon", "coordinates":[[(21,3),(33,11),(44,22)]]} )
+# newfile.add_feature(properties={"country":"USA"},
+#                     geometry={"type":"Polygon", "coordinates":[[(11,23),(14,5),(66,31)]]} )
 
 @app.route("/")
 @app.route("/home")
@@ -114,7 +128,8 @@ def login():
         
 @app.route("/test")
 def test():
-    return render_template("test.html")
+    return render_template("test.html", posts=data)
+    # return render_template("test.html", posts=newfile)
 
 if __name__ == "__main__":
 
