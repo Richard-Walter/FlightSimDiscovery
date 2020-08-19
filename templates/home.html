@@ -158,7 +158,7 @@
     <!-- where_togo_area_end  -->
 
     <!-- Test area -->
-    <br />
+    <!-- <br />
     <br />
     <h2>Test</h2>
     {% for poi in pois %}
@@ -167,7 +167,7 @@
 
     {% endfor %}
     <h4>{{pois[0].Name}}</h4>
-    <br />
+    <br /> -->
 
     <!-- Test area end -->
 
@@ -244,7 +244,7 @@
               
             {% for poi in pois %}
                 
-                objects[{{loop.index}}]={'Name': '{{poi.Name}}', 'icon': "{{poi.icon}}", 'lat': '{{poi.lat}}','lng': '{{poi.lng}}'};
+                objects[{{loop.index}}]={'name': '{{poi.name}}', 'icon': "{{poi.icon}}", 'lat': '{{poi.lat}}','lng': '{{poi.lng}}'};
                 test_array.push(objects[{{loop.index}}])
 
             {% endfor %}
@@ -314,7 +314,7 @@
 
               //Info Window
               map.data.addListener("click", function (event) {
-                var name = event.feature.getProperty("Name");
+                var name = event.feature.getProperty("name");
                 var html_content =
                   "<div style='width:150px; text-align: center;'>" +
                   name +
