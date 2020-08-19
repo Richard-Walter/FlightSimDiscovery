@@ -271,6 +271,7 @@
     <br />
 
     <!-- Test area end -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/geojson/0.5.0/geojson.min.js"></script>
     <!-- <script src="static/js/markerclustererplus.min.js"></script> -->
     <!-- google_map_area_start  -->
@@ -287,88 +288,108 @@
             "
           ></div>
           <script>
+
             // TEST AREA
             var data = [
               {
-                Name: "Location A",
-                category: "Store",
-                icon: "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-                lat: -34.984,
-                lng: 150.343,
+                'Name': "Location A",
+                'category': "Store",
+                'icon': "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+                'lat': -'34.984',
+                'lng': '150.343',
               },
               {
-                Name: "Location B",
-                category: "House",
-                icon: "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-                lat: -34.284,
-                lng: 150.843,
+                'Name': "Location B",
+                'category': "House",
+                'icon': "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+                'lat': '-34.284',
+                'lng': '150.843',
               },
               {
-                Name: "Location C",
-                category: "Office",
-                icon: "/static/img/marker/map-mark.png",
-                lat: -34.123,
-                lng: 150.534,
+                'Name': "Location C",
+                'category': "Office",
+                'icon': "/static/img/marker/map-mark.png",
+                'lat': '-34.123',
+                'lng': '150.534',
               },
             ];
             
-            const dataGeoJSON = GeoJSON.parse(data, { Point: ["lat", "lng"] });
+            console.log(data)
+            const workingdataGeoJSON = GeoJSON.parse(data, { Point: ["lat", "lng"] });
+            console.log(workingdataGeoJSON);
+
+            let sample_dict = {
+                'Name': "Location A",
+                'category': "Store",
+                'icon': "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+                'lat': '-34.984',
+                'lng': '150.343'
+              }
+
+            let test_array = []
+            test_array.push(sample_dict)
+            console.log(test_array);
+            const dataGeoJSON = GeoJSON.parse(test_array, { Point: ["lat", "lng"] });
             console.log(dataGeoJSON);
 
+
             // TEST AREA END
-            let map;
 
             // var geoJson = JSON.parse({{posts}})
-            var geoJson = {
-              type: "FeatureCollection",
-              features: [
-                {
-                  type: "Feature",
-                  properties: {
-                    icon:
-                      "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-                    "marker-color": "#7e7e7e",
-                    "marker-size": "medium",
-                    "marker-symbol": "",
-                    Name: "Home",
-                  },
-                  geometry: {
-                    type: "Point",
-                    coordinates: [150.84022521972656, -34.44315867450577],
-                  },
-                },
-                {
-                  type: "Feature",
-                  properties: {
-                    icon:
-                      "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-                    "marker-color": "#7e7e7e",
-                    "marker-size": "medium",
-                    "marker-symbol": "",
-                    Name: "Airport",
-                  },
-                  geometry: {
-                    type: "Point",
-                    coordinates: [150.79010009765625, -34.55888020163025],
-                  },
-                },
-                {
-                  type: "Feature",
-                  properties: {
-                    icon: "/static/img/marker/map-mark.png",
-                    "marker-color": "#7e7e7e",
-                    "marker-size": "medium",
-                    "marker-symbol": "",
-                    Name: "Work",
-                  },
-                  geometry: {
-                    type: "Point",
-                    coordinates: [150.78632354736328, -34.33606548328852],
-                  },
-                },
-              ],
-            };
-            console.log(geoJson);
+            // var geoJson = {
+            //   type: "FeatureCollection",
+            //   features: [
+            //     {
+            //       type: "Feature",
+            //       properties: {
+            //         icon:
+            //           "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+            //         "marker-color": "#7e7e7e",
+            //         "marker-size": "medium",
+            //         "marker-symbol": "",
+            //         Name: "Home",
+            //       },
+            //       geometry: {
+            //         type: "Point",
+            //         coordinates: [150.84022521972656, -34.44315867450577],
+            //       },
+            //     },
+            //     {
+            //       type: "Feature",
+            //       properties: {
+            //         icon:
+            //           "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
+            //         "marker-color": "#7e7e7e",
+            //         "marker-size": "medium",
+            //         "marker-symbol": "",
+            //         Name: "Airport",
+            //       },
+            //       geometry: {
+            //         type: "Point",
+            //         coordinates: [150.79010009765625, -34.55888020163025],
+            //       },
+            //     },
+            //     {
+            //       type: "Feature",
+            //       properties: {
+            //         icon: "/static/img/marker/map-mark.png",
+            //         "marker-color": "#7e7e7e",
+            //         "marker-size": "medium",
+            //         "marker-symbol": "",
+            //         Name: "Work",
+            //       },
+            //       geometry: {
+            //         type: "Point",
+            //         coordinates: [150.78632354736328, -34.33606548328852],
+            //       },
+            //     },
+            //   ],
+            // };
+
+
+            // console.log(geoJson);
+
+            let map;
 
             function initMap() {
               var map = new google.maps.Map(document.getElementById("map"), {
