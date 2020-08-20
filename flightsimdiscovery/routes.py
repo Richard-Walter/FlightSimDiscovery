@@ -1,11 +1,7 @@
-from flask import Flask
 from flask import render_template, url_for, flash, redirect
-from forms import RegistrationForm, LoginForm
-from flask import flash
-
-app = Flask(__name__)
-
-app.config['SECRET_KEY'] = '100d56df75a29ea6717b1db3436e06b8'   # prevents website attacks, cookie manipulation
+from flightsimdiscovery import app
+from flightsimdiscovery.forms import RegistrationForm, LoginForm
+from flightsimdiscovery.models import User, Pois
 
 # example data that needs to be created from database and then posted to home.html
 data = [
@@ -23,11 +19,11 @@ def home():
 
 @app.route("/about")
 def about():
-    return render_template("about.html", title='About')
+    return render_template("about.html")
 
 @app.route("/contact")
 def contact():
-    return render_template("about.html", title='About')
+    return render_template("contact.html")
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -39,7 +35,7 @@ def login():
             return redirect(url_for('home'))
         else:
             flash('Login Unsuccessful!', 'danger')
-    return render_template("login.html", title='Login', form=form)
+    return render_template("login.html", form=form)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -48,11 +44,4 @@ def register():
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('home'))
 
-    return render_template("register.html", title='Register', form=form)
-        
-if __name__ == "__main__":
-
-    app.run(
-        debug=True
-    )  # this means you dont have to restart the server after each change
-
+    return render_template("register.html", form=form)
