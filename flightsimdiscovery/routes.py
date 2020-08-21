@@ -112,12 +112,28 @@ def account():
 def new_poi():
     form = PoiForm()
     if form.validate_on_submit():
-        # poi = Pois(title=form.title.data, content=form.content.data, author=current_user)
-        # db.session.add(post)
-        # db.session.commit()
+        poi = Pois(name=form.name.data, latitude=float(form.latitude.data), longitude=float(form.longitude.data),
+                 region='Dummy region', country=form.country.data, category=form.category.data, description=form.description.data,
+                 nearest_icao_code=form.nearest_airport.data, rating=5)
+        db.session.add(poi)
+        db.session.commit()
         flash('A new point of interest has been created!', 'success')
         return redirect(url_for('home'))
     return render_template('create_poi.html', form=form, legend='New Poi')
+
+
+    # id = db.Column(db.Integer, primary_key=True)
+    # name = db.Column(db.String(50), unique=True, nullable=False)
+    # latitude = db.Column(db.FLOAT, unique=False, nullable=False)
+    # longitude = db.Column(db.FLOAT, unique=False, nullable=False)
+    # region = db.Column(db.String(20), unique=False, nullable=False)
+    # country = db.Column(db.String(60), unique=False, nullable=False)
+    # category = db.Column(db.String(20), unique=False, nullable=False)
+    # description = db.Column(db.Text, nullable=True)
+    # nearest_icao_code = db.Column(db.String(4), nullable=True)
+    # rating = db.Column(db.Integer, nullable=True)
+    # date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
 
 
     # name = StringField('Name', validators=[DataRequired()])

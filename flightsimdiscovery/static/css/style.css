@@ -2537,6 +2537,19 @@ h3 {
   padding: 50px 0;
 }
 
+.form_mew_poi {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.section_top_area {
+  background: #040E27;
+  padding: 40px 0;
+}
 
 /* line 5, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_where_to_go.scss */
 .where_togo_area .form_area h3 {
