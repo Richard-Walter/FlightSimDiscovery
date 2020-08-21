@@ -381,6 +381,38 @@
       </div>
     </div>
     <!-- google_map_area_end  -->
+    <br>
+    <!-- database table_area_start  -->
+    <div class="db_table_area">
+      <!-- <div class="container"> -->
+        <table class="table table-striped ">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">category</th>
+              <th scope="col">country</th>
+              <th scope="col">description</th>
+              <th scope="col">rating</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            {% for poi in pois %}
+            <tr>
+              <td>{{poi.name}}</td>
+              <td>{{poi.category}}</td>
+              <td>{{poi.country}}</td>
+              <td>{{poi.description}}</td>
+              <td>{{poi.rating}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+  
+      <!-- </div> -->
+    </div>
+    <!-- database table_area_end  -->
+
 
     <!-- popular_destination_area_start  -->
     <div class="popular_destination_area">
