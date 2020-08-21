@@ -1,4 +1,4 @@
-import os
+import os, sys
 import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
@@ -8,17 +8,43 @@ from flightsimdiscovery.models import User, Pois
 from flask_login import login_user, current_user, logout_user, login_required
 
 # example data that needs to be created from database and then posted to home.html
-data = [
-  { 'name': 'Home', 'category': 'Bush airport', 'country': 'Australia', 'description': 'Awesome remote bush strip', 'rating': '5','icon': 'http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png', 'lat': -34.44315867450577, 'lng': 150.84022521972656 },
-  { 'name': 'Work', 'category': 'Sea base', 'country': 'Vietnam', 'description': 'Great water landing', 'rating': '4', 'icon': 'http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png', 'lat': -35.284, 'lng': 150.833 },
-  { 'name': 'Airport', 'category': 'National Park', 'country': 'Congo', 'description': 'Giant trees in mountains areas', 'rating': '3', 'icon': '/static/img/marker/map-mark.png', 'lat': -35.123, 'lng': 150.534 },
-]
+# data = [
+#   { 'name': 'Home', 'category': 'Bush airport', 'country': 'Australia', 'description': 'Awesome remote bush strip', 'rating': '5','icon': 'http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png', 'lat': -34.44315867450577, 'lng': 150.84022521972656 },
+#   { 'name': 'Work', 'category': 'Sea base', 'country': 'Vietnam', 'description': 'Great water landing', 'rating': '4', 'icon': 'http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png', 'lat': -35.284, 'lng': 150.833 },
+#   { 'name': 'Airport', 'category': 'National Park', 'country': 'Congo', 'description': 'Giant trees in mountains areas', 'rating': '3', 'icon': '/static/img/marker/map-mark.png', 'lat': -35.123, 'lng': 150.534 },
+# ]
+
 
 @app.route("/")
 @app.route("/index")
 @app.route("/home")
 def home():
-    return render_template("home.html", pois=data)
+
+    # print('This is standard output', file=sys.stdout)
+    #  data array to be posted which can be converted into a GeoJson object within Javascript on the front-end
+    map_data = []
+
+    # we need to get the pois data from the database and create the data array now
+    pois = Pois.query.all()
+
+    for poi in pois:
+        
+        data_dic = {}
+        data_dic['name'] = poi.name
+        data_dic['category'] = poi.category
+        data_dic['country'] = poi.country
+        data_dic['description'] = poi.description
+        data_dic['rating'] = poi.rating
+        data_dic['icon'] = '/static/img/marker/map-mark.png'
+        data_dic['lat'] = poi.latitude
+        data_dic['lng'] = poi.longitude
+        
+        map_data.append(data_dic)
+
+    print(map_data, file=sys.stdout)
+
+    return render_template("home.html", pois=map_data)
+    # return render_template("home.html", pois=data)
 
 
 @app.route("/about")
