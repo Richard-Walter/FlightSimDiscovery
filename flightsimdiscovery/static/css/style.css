@@ -40,6 +40,17 @@ body {
   transition: 0.3s;
 }
 
+.account-img {
+  height: 90px;
+  width: 90px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
 /* line 17, ../../Arafath/CL/December/231. Travel-02/HTML/scss/theme-default.scss */
 a,
 .button {
