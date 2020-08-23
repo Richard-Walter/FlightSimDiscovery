@@ -4,6 +4,7 @@ from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flightsimdiscovery.models import User
+from utilities import validate_latitude, validate_longitude
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
@@ -33,6 +34,8 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class UpdateAccountForm(FlaskForm):
+
+    
     username = StringField('Username',
                             validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email',
@@ -66,10 +69,10 @@ class PoiForm(FlaskForm):
     def validate_latitude(self, latitude):
 
         # add logic here
-        if not latitude:
+        if validate_latitude:
             raise ValidationError('Please enter a valid latitude in degrees decimal   e.g.-34.407279')
 
     def validate_longitude(self, longitude):
 
-        if not longitude:
+        if validate_longitude:
             raise ValidationError('Please enter a valid longitude in degrees decimal   e.g. 150.676888')

@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-
     <!-- slider_area_start -->
     <div class="slider_area mb-5">
       <div class="slider_active owl-carousel">
@@ -101,6 +100,41 @@
     <br />
     <br />
     <!-- where_togo_area_start  -->
+    <!-- <div class="where_togo_area">
+      <div class="container">
+          <div class="row align-items-center">
+              <div class="col-lg-3">
+                  <div class="form_area">
+                      <h3>Where you want to go?</h3>
+                  </div>
+              </div>
+              <div class="col-lg-9">
+                  <div class="search_wrap">
+                      <form class="search_form" action="#">
+                          <div class="input_field">
+                              <input type="text" placeholder="Where to go?">
+                          </div>
+                          <div class="input_field">
+                              <input id="datepicker" placeholder="Date">
+                          </div>
+                          <div class="input_field">
+                              <select>
+                                  <option data-display="Travel type">Travel type</option>
+                                  <option value="1">Some option</option>
+                                  <option value="2">Another option</option>
+                              </select>
+                          </div>
+                          <div class="search_btn">
+                              <button class="boxed-btn4 " type="submit" >Search</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div> -->
+
+
     <div class="where_togo_area">
       <div class="container">
         <div class="row align-items-center">
@@ -113,37 +147,37 @@
             <div class="search_wrap">
               <form class="search_form" action="#">
                 <div class="input_field">
-                  <select>
+                  <select id="selectCategory">
                     <option data-display="Category">Category</option>
-                    <option value="2">All</option>
-                    <option value="1">Natural Places</option>
-                    <option value="2">Another option</option>
+                    <!-- <option value="2">All</option>
+                    <option value="1">Natural </option>
+                    <option value="2">Another </option> -->
                   </select>
                 </div>
-                <!-- <div class="input_field">
-                                <select>
-                                    <option data-display="Continent">Continent</option>
-                                    <option value="1">Some option</option>
-                                    <option value="2">Another option</option>
-                                </select>
-                            </div> -->
                 <div class="input_field">
-                  <select>
-                    <option data-display="Country">Country</option>
-                    <option value="2">All</option>
+                  <select id="selectRegion">
+                    <option data-display="Region">Region</option>
+                    <!-- <option value="2">All</option>
                     <option value="1">Australia</option>
-                    <option value="2">Another option</option>
+                    <option value="2">Another option</option> -->
                   </select>
                 </div>
                 <div class="input_field">
-                  <select>
+                  <select id="selectCountry">
+                    <option data-display="Country">Country</option>
+                    <!-- <option value="2">All</option>
+                    <option value="1">Australia</option>
+                    <option value="2">Another option</option> -->
+                  </select>
+                </div>
+                <div class="input_field">
+                  <select id="selectNumber">
                     <option data-display="Rating">Rating</option>
                     <option value="2">All</option>
                     <option value="1">5 stars</option>
                     <option value="2">4 stars or higher</option>
                     <option value="2">3 stars or higher</option>
                     <option value="2">2 stars or higher</option>
-                    >
                   </select>
                 </div>
                 <div class="search_btn">
@@ -285,7 +319,7 @@
                 i++
               ) {
                 var feature = markerCollection[i];
-                debugger;
+              
                 if (feature.getProperty("icon")) {
                   map.data.setStyle(function (feature) {
                     return {
