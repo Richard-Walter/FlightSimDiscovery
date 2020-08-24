@@ -2,28 +2,23 @@ import re
 import csv
 
 # validate latitude and longitude constants
-SIGN = '[\+-]?'
-DECIMALS = '(\.[0-9]+)?'
-ZEROS = '(\.0+)?'
+lat_pattern = re.compile(r"^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$")
+long_pattern = re.compile(r"^(\+|-)?(?:180(?:(?:\.0{1,10})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,10})?))$")
 
-LATITUDE =  f'{SIGN}(90{ZEROS}|[1-8]\d{DECIMALS}|\d{DECIMALS})'
-LONGITUDE = f'{SIGN}(180{ZEROS}|1[0-7]\d{DECIMALS}|[1-9]\d{DECIMALS}|\d{DECIMALS})'
+def validate_lat(value):
+    print(value)
+    match = lat_pattern.search(value.strip())
+    print(match)
+    return match
 
-LAT_REGEX = f'\({LATITUDE}\)'
-LONG_REGEX = f'\({LATITUDE}\)'
+def validate_long(value):
+    print(value)
+    match = long_pattern.search(value.strip())
+    print(match)
+    return match
 
-lat_pattern = re.compile(LAT_REGEX)
-long_pattern = re.compile(LONG_REGEX)
+def generate_csvs():
 
-def validate_latitude(value):
-    return lat_pattern.search(value)
-
-def validate_longitude(value):
-    return long_pattern.search(value)
-
-if __name__ == '__main__':
-
-    # generate countries dictionary
     region_dict = 'countries_details = {' + '\n'
 
     with open('Countries centroid.csv') as csv_file:
@@ -116,3 +111,15 @@ if __name__ == '__main__':
 
     with open("JS_Regions_dict.txt", "w") as text_file:
         text_file.write(js_dict)    
+
+if __name__ == '__main__':
+
+    # generate_csvs()
+
+    # test lattitude
+    lat_value = 34
+    validity = validate_lat(str(lat_value))
+
+    # test longitude
+    long_value = 220.3423
+    validity = validate_long(str(long_value))

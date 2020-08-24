@@ -332,7 +332,7 @@ for(var i = 0; i < categoryList.length; i++) {
  //  Populate the where you want to explore dropdowns
  var select = document.getElementById("selectRegion");
  // var options = ["1", "2", "3", "4", "5"];
- var regionList = Object.keys(region_country)
+ var regionList = Object.keys(region_country).sort()
 
  for(var i = 0; i < regionList.length; i++) {
      var opt = regionList[i];
@@ -360,3 +360,24 @@ for(var i = 0; i < categoryList.length; i++) {
      el.value = opt;
      select.appendChild(el);
  }
+
+ //add change listener on region dropdown to dynamically update country
+$('#selectRegion').change(function() {
+    // get the second dropdown
+    $('#selectCountry').html(
+
+
+        // get array by the selected value
+        region_country[this.value]
+        // iterate  and generate options
+        .map(function(v) {
+          // generate options with the array element
+          return $('<option/>', {
+            value: v,
+            text: v
+          })
+        })
+      )
+      // trigger change event to generate second select tag initially
+  }).change()
+
