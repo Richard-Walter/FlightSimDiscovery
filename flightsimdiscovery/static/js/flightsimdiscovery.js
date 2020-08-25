@@ -4,296 +4,6 @@
  *
  */
 
- const countryList = [
-    "Afghanistan",
-    "Albania",
-    "Algeria",
-    "American Samoa",
-    "Andorra",
-    "Angola",
-    "Anguilla",
-    "Antarctica",
-    "Antigua and Barbuda",
-    "Argentina",
-    "Armenia",
-    "Aruba",
-    "Australia",
-    "Austria",
-    "Azerbaijan",
-    "Bahamas",
-    "Bahrain",
-    "Bangladesh",
-    "Barbados",
-    "Belarus",
-    "Belgium",
-    "Belize",
-    "Benin",
-    "Bermuda",
-    "Bhutan",
-    "Bolivia",
-    "Bosnia and Herzegovina",
-    "Botswana",
-    "Brazil",
-    "British Indian Ocean Territory",
-    "British Virgin Islands",
-    "Brunei",
-    "Bulgaria",
-    "Burkina Faso",
-    "Burundi",
-    "Cabo Verde",
-    "Cambodia",
-    "Cameroon",
-    "Canada",
-    "Cayman Islands",
-    "Central African Republic",
-    "Chad",
-    "Chile",
-    "China",
-    "Christmas Island",
-    "Cocos (Keeling) Islands",
-    "Colombia",
-    "Comoros",
-    "Congo",
-    "Congo, Democratic Republic of the",
-    "Cook Islands",
-    "Costa Rica",
-    "Croatia",
-    "Cuba",
-    "Cyprus",
-    "Czechia",
-    "Denmark",
-    "Djibouti",
-    "Dominica",
-    "Dominican Republic",
-    "Ecuador",
-    "Egypt",
-    "El Salvador",
-    "Equatorial Guinea",
-    "Eritrea",
-    "Estonia",
-    "Eswatini",
-    "Ethiopia",
-    "Falkland Islands (Malvinas)",
-    "Faroe Islands",
-    "Fiji",
-    "Finland",
-    "France",
-    "French Guiana",
-    "French Oceania",
-    "French Southern Territories",
-    "Gabon",
-    "Gambia",
-    "Georgia",
-    "Germany",
-    "Ghana",
-    "Gibraltar",
-    "Great Britain",
-    "Greece",
-    "Greenland",
-    "Grenada",
-    "Guadeloupe",
-    "Guam",
-    "Guatemala",
-    "Guernsey",
-    "Guinea",
-    "Guinea-Bissau",
-    "Guyana",
-    "Haiti",
-    "Heard Island and McDonald Islands",
-    "Honduras",
-    "Hong Kong",
-    "Hungary",
-    "Iceland",
-    "India",
-    "Indonesia",
-    "Iran",
-    "Iraq",
-    "Ireland",
-    "Isle of Man",
-    "Israel",
-    "Italy",
-    "Ivory Coast",
-    "Jamaica",
-    "Japan",
-    "Jersey",
-    "Jordan",
-    "Kazakhstan",
-    "Kenya",
-    "Kiribati",
-    "Kosovo",
-    "Kuwait",
-    "Kyrgyzstan",
-    "Laos",
-    "Latvia",
-    "Lebanon",
-    "Lesotho",
-    "Liberia",
-    "Libya",
-    "Liechtenstein",
-    "Lithuania",
-    "Luxembourg",
-    "Macao",
-    "Madagascar",
-    "Malawi",
-    "Malaysia",
-    "Maldives",
-    "Mali",
-    "Malta",
-    "Marshall Islands",
-    "Martinique",
-    "Mauritania",
-    "Mauritius",
-    "Mayotte",
-    "Mexico",
-    "Moldova, Republic of",
-    "Monaco",
-    "Mongolia",
-    "Montenegro",
-    "Montserrat",
-    "Morocco",
-    "Mozambique",
-    "Myanmar",
-    "Namibia",
-    "Nauru",
-    "Nepal",
-    "Netherlands",
-    "New Caledonia",
-    "New Zealand",
-    "Nicaragua",
-    "Niger",
-    "Nigeria",
-    "Niue",
-    "Norfolk Island",
-    "North Korea",
-    "North Macedonia",
-    "Northern Mariana Islands",
-    "Norway",
-    "Oceania (Federated States of)",
-    "Oman",
-    "Pakistan",
-    "Palau",
-    "Palestine, State of",
-    "Panama",
-    "Papua New Guinea",
-    "Paraguay",
-    "Peru",
-    "Philippines",
-    "Pitcairn",
-    "Poland",
-    "Portugal",
-    "Puerto Rico",
-    "Qatar",
-    "Reunion",
-    "Romania",
-    "Russian Federation",
-    "Rwanda",
-    "Saint Barthélemy",
-    "Saint Helena",
-    "Saint Kitts and Nevis",
-    "Saint Lucia",
-    "Saint Pierre and Miquelo",
-    "Saint Vincent and the Grenadines",
-    "Samoa",
-    "San Marino",
-    "Sao Tome and Principe",
-    "Saudi Arabia",
-    "Senegal",
-    "Serbia",
-    "Seychelles",
-    "Sierra Leone",
-    "Singapore",
-    "Slovakia",
-    "Slovenia",
-    "Solomon Islands",
-    "Somalia",
-    "South Africa",
-    "South Georgia",
-    "South Korea",
-    "South Sudan",
-    "Spain",
-    "Sri Lanka",
-    "Sudan",
-    "Suriname",
-    "Svalbard and Jan Mayen",
-    "Swaziland",
-    "Sweden",
-    "Switzerland",
-    "Syria",
-    "Taiwan",
-    "Tajikistan",
-    "Tanzania",
-    "Thailand",
-    "Timor-Leste",
-    "Togo",
-    "Tokelau",
-    "Tonga",
-    "Trinidad and Tobago",
-    "Tunisia",
-    "Turkey",
-    "Turkmenistan",
-    "Turks and Caicos Islands",
-    "Tuvalu",
-    "U.S. Virgin Islands",
-    "Uganda",
-    "Ukraine",
-    "United Arab Emirates",
-    "United States of America",
-    "Uruguay",
-    "Uzbekistan",
-    "Vanuatu",
-    "Venezuela",
-    "VietNam",
-    "Wallis and Futuna",
-    "Western Sahara",
-    "Yemen",
-    "Zambia",
-    "Zimbabwe"
-  ];
-
-  const regionList = [
-  "Africa - Eastern",
-  "Africa - Middle",
-  "Africa - Northern",
-  "Africa - Southern",
-  "Africa - Western",
-  "America - Central",
-  "America - Northern",
-  "America - South",
-  "Antartica",
-  "Asia - Central",
-  "Asia - Eastern",
-  "Asia - South-eastern",
-  "Asia - Southern",
-  "Asia - Western",
-  "Caribbean",
-  "Europe - Eastern",
-  "Europe - Northern",
-  "Europe - Southern",
-  "Europe - Western",
-  "Oceania"
-  ];
-
-const categoryList = [
-  "Building",
-  "Bush Strips",
-  "Canyon",
-  "City/town",
-  "Dessert",
-  "Helipads",
-  "Infrastructure",
-  "Interesting",
-  "Island",
-  "Lake",
-  "Mountain",
-  "National Park",
-  "Other",
-  "Reef",
-  "River",
-  "Seaports",
-  "Seaports",
-  "Volcano",
-  "Waterfall",
-];
 
 var region_country = {
   "Asia - Southern": [
@@ -579,58 +289,17 @@ var region_country = {
   ],
 };
 
-// //  Populate the where you want to explore dropdowns
-// var select = document.getElementById("selectCategory");
-// // var options = ["1", "2", "3", "4", "5"];
-// for (var i = 0; i < categoryList.length; i++) {
-//   var opt = categoryList[i];
-//   var el = document.createElement("option");
-//   el.textContent = opt;
-//   el.value = opt.trim();
-//   select.appendChild(el);
-// }
-
-// //  Populate the where you want to explore dropdowns
-// var select = document.getElementById("selectRegion");
-// // var options = ["1", "2", "3", "4", "5"];
-// var regionList = Object.keys(region_country).sort();
-
-// for (var i = 0; i < regionList.length; i++) {
-//   var opt = regionList[i];
-//   var el = document.createElement("option");
-//   el.textContent = opt;
-//   el.value = opt;
-//   select.appendChild(el);
-// }
-
-// //  Populate the where you want to explore dropdowns
-// var select = document.getElementById("selectCountry");
-// var countryList = [];
-// for (var region in region_country) {
-//   Array.prototype.push.apply(countryList, region_country[region]);
-//   countryList.sort();
-// }
-
-// console.log(countryList);
-
-// for (var i = 0; i < countryList.length; i++) {
-//   var opt = countryList[i];
-//   var el = document.createElement("option");
-//   el.textContent = opt;
-//   el.value = opt;
-//   select.appendChild(el);
-// }
-
-
+var countryList = getCountryList();
+var country_default = $('#countryDefaultVaule').val();
+console.log(country_default)
 
 //add change listener on region dropdown to dynamically update country
 $("#selectRegion")
   .change(function () {
-    console.log(this.value.trim());
-    var selected_value = $("#selectCountry").value
-    console.log(selected_value)
+    
     if (this.value.trim()!='Region') {
       $('#selectCountry').empty();
+      // country_default = "Country"
       $('#selectCountry').html('<option data-display="Country">Country</option>');
       // get the second dropdown
       $("#selectCountry").append(
@@ -645,6 +314,7 @@ $("#selectRegion")
             });
           })
       );
+      // $('#selectCountry').val(country_default);
     } else {
 
         $('#selectCountry').empty();
@@ -653,11 +323,32 @@ $("#selectRegion")
         $('#selectCountry').append($('<option></option>').val(p).html(p));
         });
 
+        // set default value
+        $('#selectCountry').val("Country");
+
     }     
   
 	
 	// $('#selectCountry').prepend(new Option("Country", "Country"))
-  // set default value
-  $('#selectCountry').val('Country');
+ 
 
-  }).change();
+  })
+
+  // set default value
+  $('#selectCountry').val(country_default);
+
+  function getCountryList(){
+
+    countryList = [];
+    // for (var i = 0; i < region_country.length; i++) {
+      for (const [ region, regions_countries ] of Object.entries(region_country)) {
+        // var regions_countries = value;
+        // console.log(regions_countries);
+        Array.prototype.push.apply(countryList, regions_countries);
+        countryList.sort();
+    }
+    // console.log(countryList);
+    return countryList;
+  }
+  
+

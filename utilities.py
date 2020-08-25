@@ -125,26 +125,6 @@ def generate_csvs():
     with open("Regions_dict.txt", "w") as text_file:
         text_file.write(region_dict)
 
-     # generate category javscript array
-    cat_array = 'const categoryList = [ ' + '\n'
-
-    with open('Category List.csv') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        line_count = 0
-        for row in csv_reader:
-            if line_count == 0:
-                print(f'Column names are {", ".join(row)}')
-                line_count += 1
-            else:
-                # create dictionary
-                cat_details = '"' + str(row[0]).strip() + '",' + '\n'
-                cat_array += '\t' + cat_details
-                line_count += 1
-    cat_array += '];'
-
-    with open("Category List.txt", "w") as text_file:
-        text_file.write(cat_array)
-
 
     # generate Javascript ccuntry_region dict
     python_region_dict = {}
@@ -160,10 +140,7 @@ def generate_csvs():
             else:
                 # lets create a python dictionary first
                 python_region_dict.setdefault(str(row[3]).strip(),[]).append(str(row[0]))
-                
-    # print(python_region_dict)
-
-
+            
     js_dict = 'var region_country = {' + '\n'
 
     for region, country_list in python_region_dict.items():
@@ -173,8 +150,6 @@ def generate_csvs():
             line_count += 1
 
     js_dict += '}'
-
-    print(js_dict)
 
     with open("JS_Regions_dict.txt", "w") as text_file:
         text_file.write(js_dict)    
