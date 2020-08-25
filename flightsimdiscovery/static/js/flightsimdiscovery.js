@@ -621,11 +621,14 @@ var region_country = {
 //   select.appendChild(el);
 // }
 
+
+
 //add change listener on region dropdown to dynamically update country
 $("#selectRegion")
   .change(function () {
     console.log(this.value.trim());
-
+    var selected_value = $("#selectCountry").value
+    console.log(selected_value)
     if (this.value.trim()!='Region') {
       $('#selectCountry').empty();
       $('#selectCountry').html('<option data-display="Country">Country</option>');
@@ -642,7 +645,6 @@ $("#selectRegion")
             });
           })
       );
-
     } else {
 
         $('#selectCountry').empty();

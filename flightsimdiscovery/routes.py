@@ -24,14 +24,21 @@ def home():
     #  data array to be posted which can be converted into a GeoJson object within Javascript on the front-end
     map_data = []
     pois = Pois.query.all()
+    search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating':'Rating'} 
 
     # check if user has submitted a search and filter database
     if request.method == 'POST':
         
-        category = request.form.get('selectCategory')
-        region = request.form.get('selectRegion')
-        country = request.form.get('selectCountry')
-        rating = request.form.get('selectRating')
+        category = request.form.get('selectCategory').strip()
+        region = request.form.get('selectRegion').strip()
+        country = request.form.get('selectCountry').strip()
+        rating = request.form.get('selectRating').strip()
+
+        #update search defaults so it shows the last search criteria
+        search_defaults['Category']=category
+        search_defaults['Region']=region
+        search_defaults['Country']=country
+        search_defaults['Rating']=rating
 
         # pois = Pois.query.filter_by(region='Oceania')
         if category != 'Category':
@@ -42,6 +49,8 @@ def home():
             pois = Pois.query.filter_by(country=country)         
         if rating != 'Rating':
             pois = Pois.query.filter_by(rating=rating)      
+
+    print("SEARCH DEFAULTS", search_defaults)
 
     for poi in pois:
         print('Poi', poi)
@@ -60,7 +69,7 @@ def home():
 
     print(map_data, file=sys.stdout)
 
-    return render_template("home.html", _anchor="where_togo_area", pois=map_data, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
+    return render_template("home.html", _anchor="where_togo_area", pois=map_data, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
     # return render_template("home.html", pois=data)
 
 
