@@ -58,6 +58,11 @@ def get_country_list():
 
     return sorted(countryList)
 
+def get_region_list():
+
+    region_list = countries_by_region.keys()
+    return sorted(region_list)
+
 def get_category_list():
     return categoryList
 
@@ -92,8 +97,8 @@ def generate_csvs():
                 line_count += 1
             else:
                 # create dictionary
-                region_details = '[\'' + str(row[3]) + '\', ' + str(row[4]) + ',' + str(row[5]) + '],' + '\n'
-                region_dict += '\t\'' + str(row[0]) + '\': ' + region_details
+                region_details = '[\'' + str(row[3]).strip() + '\', ' + str(row[4]).strip() + ',' + str(row[5]).strip() + '],' + '\n'
+                region_dict += '\t\'' + str(row[0]).strip() + '\': ' + region_details
                 line_count += 1
     region_dict += '}'
 
@@ -112,8 +117,8 @@ def generate_csvs():
                 line_count += 1
             else:
                 # create dictionary
-                region_details = '[' + str(row[1]) + ',' + str(row[2]) + ',' + str(row[3]) + '],' + '\n'
-                region_dict += '\t\'' + str(row[0]) + '\': ' + region_details
+                region_details = '[' + str(row[1]).strip() + ',' + str(row[2]).strip() + ',' + str(row[3]).strip() + '],' + '\n'
+                region_dict += '\t\'' + str(row[0]).strip() + '\': ' + region_details
                 line_count += 1
     region_dict += '}'
 
@@ -132,7 +137,7 @@ def generate_csvs():
                 line_count += 1
             else:
                 # create dictionary
-                cat_details = '"' + str(row[0]) + '",' + '\n'
+                cat_details = '"' + str(row[0]).strip() + '",' + '\n'
                 cat_array += '\t' + cat_details
                 line_count += 1
     cat_array += '];'
@@ -154,7 +159,7 @@ def generate_csvs():
                 line_count += 1
             else:
                 # lets create a python dictionary first
-                python_region_dict.setdefault(str(row[3]),[]).append(str(row[0]))
+                python_region_dict.setdefault(str(row[3]).strip(),[]).append(str(row[0]))
                 
     # print(python_region_dict)
 
@@ -176,10 +181,11 @@ def generate_csvs():
 
 if __name__ == '__main__':
 
-    # generate_csvs() 
+    generate_csvs() 
 
     # test get_country_region
-    print(get_country_region('Australia'))
+    # print(get_country_region('Australia'))
+    # print(get_region_list)
 
     #test lattitude
     # lat_value = 34

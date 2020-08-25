@@ -249,15 +249,15 @@
 //     "Zambia",
 //     "Zimbabwe"
 //   ];
-  
+
 //   const regionList = [
-//   "Africa - Eastern", 
+//   "Africa - Eastern",
 //   "Africa - Middle",
 //   "Africa - Northern",
 //   "Africa - Southern",
 //   "Africa - Western",
 //   "America - Central",
-//   "America - Northern", 
+//   "America - Northern",
 //   "America - South",
 //   "Antartica",
 //   "Asia - Central",
@@ -272,112 +272,379 @@
 //   "Europe - Western",
 //   "Oceania"
 //   ];
-  
-  const categoryList = [ 
-	"Building",
-	"Bush Strips",
-	"Canyon",
-	"City/town",
-	"Dessert",
-	"Helipads",
-	"Infrastructure",
-	"Interesting",
-	"Island",
-	"Lake",
-	"Mountain",
-	"National Park",
-	"Other",
-	"Reef",
-	"River",
-	"Seaports",
-	"Seaports",
-	"Volcano",
-	"Waterfall",
+
+const categoryList = [
+  "Building",
+  "Bush Strips",
+  "Canyon",
+  "City/town",
+  "Dessert",
+  "Helipads",
+  "Infrastructure",
+  "Interesting",
+  "Island",
+  "Lake",
+  "Mountain",
+  "National Park",
+  "Other",
+  "Reef",
+  "River",
+  "Seaports",
+  "Seaports",
+  "Volcano",
+  "Waterfall",
 ];
 
 var region_country = {
-	'Asia - Southern': ['Afghanistan', 'Bangladesh', 'Bhutan', 'India', 'Iran', 'Maldives', 'Nepal', 'Pakistan', 'Sri Lanka'],
-	'Europe - Southern ': ['Albania', 'Andorra', 'Bosnia and Herzegovina', 'Croatia', 'Gibraltar', 'Greece', 'Italy', 'Kosovo', 'Malta', 'Montenegro', 'North Macedonia', 'Portugal', 'San Marino', 'Serbia', 'Slovenia', 'Spain'],
-	'Africa - Northern ': ['Algeria', 'Egypt', 'Libya', 'Morocco', 'Sudan', 'Tunisia', 'Western Sahara'],
-	'Oceania': ['American Samoa', 'Australia', 'Christmas Island', 'Cocos (Keeling) Islands', 'Cook Islands', 'Fiji', 'French Oceania', 'Guam', 'Kiribati', 'Marshall Islands', 'Nauru', 'New Caledonia', 'New Zealand', 'Niue', 'Norfolk Island', 'Northern Mariana Islands', 'Oceania (Federated States of)', 'Palau', 'Papua New Guinea', 'Pitcairn', 'Samoa', 'Solomon Islands', 'Tokelau', 'Tonga', 'Tuvalu', 'Vanuatu', 'Wallis and Futuna'],
-	'Africa - Middle ': ['Angola', 'Cameroon', 'Central African Republic', 'Chad', 'Congo', 'Congo, Democratic Republic of the', 'Equatorial Guinea', 'Gabon', 'Sao Tome and Principe'],
-	'Caribbean': ['Anguilla', 'Antigua and Barbuda', 'Aruba', 'Bahamas', 'Barbados', 'British Virgin Islands', 'Cayman Islands', 'Cuba', 'Dominica', 'Dominican Republic', 'Grenada', 'Guadeloupe', 'Heard Island and McDonald Islands', 'Jamaica', 'Martinique', 'Montserrat', 'Puerto Rico', 'Saint Barthélemy', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Trinidad and Tobago', 'Turks and Caicos Islands', 'U.S. Virgin Islands'],
-	'Antartica': ['Antarctica'],
-	'America - South ': ['Argentina', 'Bolivia', 'Brazil', 'Chile', 'Colombia', 'Ecuador', 'Falkland Islands (Malvinas)', 'French Guiana', 'Haiti', 'Paraguay', 'Peru', 'South Georgia', 'Suriname', 'Uruguay', 'Venezuela'],
-	'Middle East': ['Armenia', 'Azerbaijan', 'Bahrain', 'Cyprus', 'Georgia', 'Iraq', 'Israel', 'Jordan', 'Kuwait', 'Lebanon', 'Oman', 'Palestine, State of', 'Qatar', 'Saudi Arabia', 'Syria', 'Turkey', 'United Arab Emirates', 'Yemen'],
-	'Europe - Western ': ['Austria', 'Belgium', 'France', 'Germany', 'Liechtenstein', 'Luxembourg', 'Monaco', 'Netherlands', 'Switzerland'],
-	'Europe - Eastern ': ['Belarus', 'Bulgaria', 'Czechia', 'Hungary', 'Moldova, Republic of', 'Poland', 'Romania', 'Russian Federation', 'Slovakia', 'Ukraine'],
-	'America - Central ': ['Belize', 'Costa Rica', 'El Salvador', 'Guatemala', 'Guernsey', 'Honduras', 'Mexico', 'Nicaragua', 'Panama'],
-	'Africa - Western ': ['Benin', 'Burkina Faso', 'Cabo Verde', "Côte d'Ivoire", 'Gambia', 'Ghana', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Liberia', 'Mali', 'Mauritania', 'Niger', 'Nigeria', 'Saint Helena', 'Senegal', 'Sierra Leone', 'Togo'],
-	'America - Northern ': ['Bermuda', 'Canada', 'Greenland', 'Saint Pierre and Miquelon', 'United States of America'],
-	'Africa - Southern': ['Botswana', 'Eswatini', 'Lesotho', 'Namibia', 'South Africa', 'Swaziland', 'Zambia', 'Zimbabwe'],
-	'Africa - Eastern ': ['British Indian Ocean Territory', 'Burundi', 'Comoros', 'Djibouti', 'Eritrea', 'Ethiopia', 'French Southern Territories', 'Kenya', 'Madagascar', 'Malawi', 'Mauritius', 'Mayotte', 'Mozambique', 'Réunion', 'Rwanda', 'Seychelles', 'Somalia', 'South Sudan', 'Tanzania', 'Uganda'],
-	'Asia - South-eastern ': ['Brunei', 'Cambodia', 'Indonesia', 'Laos', 'Malaysia', 'Myanmar', 'Philippines', 'Singapore', 'Thailand', 'Timor-Leste', 'VietNam'],
-	'Asia - Eastern': ['China', 'Hong Kong', 'Japan', 'Macao', 'Mongolia', 'North Korea', 'South Korea', 'Taiwan'],
-	'Europe - Northern ': ['Denmark', 'Estonia', 'Faroe Islands', 'Finland', 'Great Britain', 'Iceland', 'Ireland', 'Isle of Man', 'Jersey', 'Latvia', 'Lithuania', 'Norway', 'Svalbard and Jan Mayen', 'Sweden'],
-	'Asia - Central': ['Kazakhstan', 'Kyrgyzstan', 'Tajikistan', 'Turkmenistan', 'Uzbekistan'],
-}
+  "Asia - Southern": [
+    "Afghanistan",
+    "Bangladesh",
+    "Bhutan",
+    "India",
+    "Iran",
+    "Maldives",
+    "Nepal",
+    "Pakistan",
+    "Sri Lanka",
+  ],
+  "Europe - Southern ": [
+    "Albania",
+    "Andorra",
+    "Bosnia and Herzegovina",
+    "Croatia",
+    "Gibraltar",
+    "Greece",
+    "Italy",
+    "Kosovo",
+    "Malta",
+    "Montenegro",
+    "North Macedonia",
+    "Portugal",
+    "San Marino",
+    "Serbia",
+    "Slovenia",
+    "Spain",
+  ],
+  "Africa - Northern ": [
+    "Algeria",
+    "Egypt",
+    "Libya",
+    "Morocco",
+    "Sudan",
+    "Tunisia",
+    "Western Sahara",
+  ],
+  Oceania: [
+    "American Samoa",
+    "Australia",
+    "Christmas Island",
+    "Cocos (Keeling) Islands",
+    "Cook Islands",
+    "Fiji",
+    "French Oceania",
+    "Guam",
+    "Kiribati",
+    "Marshall Islands",
+    "Nauru",
+    "New Caledonia",
+    "New Zealand",
+    "Niue",
+    "Norfolk Island",
+    "Northern Mariana Islands",
+    "Oceania (Federated States of)",
+    "Palau",
+    "Papua New Guinea",
+    "Pitcairn",
+    "Samoa",
+    "Solomon Islands",
+    "Tokelau",
+    "Tonga",
+    "Tuvalu",
+    "Vanuatu",
+    "Wallis and Futuna",
+  ],
+  "Africa - Middle": [
+    "Angola",
+    "Cameroon",
+    "Central African Republic",
+    "Chad",
+    "Congo",
+    "Congo, Democratic Republic of the",
+    "Equatorial Guinea",
+    "Gabon",
+    "Sao Tome and Principe",
+  ],
+  Caribbean: [
+    "Anguilla",
+    "Antigua and Barbuda",
+    "Aruba",
+    "Bahamas",
+    "Barbados",
+    "British Virgin Islands",
+    "Cayman Islands",
+    "Cuba",
+    "Dominica",
+    "Dominican Republic",
+    "Grenada",
+    "Guadeloupe",
+    "Heard Island and McDonald Islands",
+    "Jamaica",
+    "Martinique",
+    "Montserrat",
+    "Puerto Rico",
+    "Saint Barthélemy",
+    "Saint Kitts and Nevis",
+    "Saint Lucia",
+    "Saint Vincent and the Grenadines",
+    "Trinidad and Tobago",
+    "Turks and Caicos Islands",
+    "U.S. Virgin Islands",
+  ],
+  Antartica: ["Antarctica"],
+  "America - South": [
+    "Argentina",
+    "Bolivia",
+    "Brazil",
+    "Chile",
+    "Colombia",
+    "Ecuador",
+    "Falkland Islands (Malvinas)",
+    "French Guiana",
+    "Haiti",
+    "Paraguay",
+    "Peru",
+    "South Georgia",
+    "Suriname",
+    "Uruguay",
+    "Venezuela",
+  ],
+  "Middle East": [
+    "Armenia",
+    "Azerbaijan",
+    "Bahrain",
+    "Cyprus",
+    "Georgia",
+    "Iraq",
+    "Israel",
+    "Jordan",
+    "Kuwait",
+    "Lebanon",
+    "Oman",
+    "Palestine, State of",
+    "Qatar",
+    "Saudi Arabia",
+    "Syria",
+    "Turkey",
+    "United Arab Emirates",
+    "Yemen",
+  ],
+  "Europe - Western": [
+    "Austria",
+    "Belgium",
+    "France",
+    "Germany",
+    "Liechtenstein",
+    "Luxembourg",
+    "Monaco",
+    "Netherlands",
+    "Switzerland",
+  ],
+  "Europe - Eastern": [
+    "Belarus",
+    "Bulgaria",
+    "Czechia",
+    "Hungary",
+    "Moldova, Republic of",
+    "Poland",
+    "Romania",
+    "Russian Federation",
+    "Slovakia",
+    "Ukraine",
+  ],
+  "America - Central": [
+    "Belize",
+    "Costa Rica",
+    "El Salvador",
+    "Guatemala",
+    "Guernsey",
+    "Honduras",
+    "Mexico",
+    "Nicaragua",
+    "Panama",
+  ],
+  "Africa - Western": [
+    "Benin",
+    "Burkina Faso",
+    "Cabo Verde",
+    "Côte d'Ivoire",
+    "Gambia",
+    "Ghana",
+    "Guinea",
+    "Guinea-Bissau",
+    "Guyana",
+    "Liberia",
+    "Mali",
+    "Mauritania",
+    "Niger",
+    "Nigeria",
+    "Saint Helena",
+    "Senegal",
+    "Sierra Leone",
+    "Togo",
+  ],
+  "America - Northern": [
+    "Bermuda",
+    "Canada",
+    "Greenland",
+    "Saint Pierre and Miquelon",
+    "United States of America",
+  ],
+  "Africa - Southern": [
+    "Botswana",
+    "Eswatini",
+    "Lesotho",
+    "Namibia",
+    "South Africa",
+    "Swaziland",
+    "Zambia",
+    "Zimbabwe",
+  ],
+  "Africa - Eastern": [
+    "British Indian Ocean Territory",
+    "Burundi",
+    "Comoros",
+    "Djibouti",
+    "Eritrea",
+    "Ethiopia",
+    "French Southern Territories",
+    "Kenya",
+    "Madagascar",
+    "Malawi",
+    "Mauritius",
+    "Mayotte",
+    "Mozambique",
+    "Réunion",
+    "Rwanda",
+    "Seychelles",
+    "Somalia",
+    "South Sudan",
+    "Tanzania",
+    "Uganda",
+  ],
+  "Asia - South-eastern": [
+    "Brunei",
+    "Cambodia",
+    "Indonesia",
+    "Laos",
+    "Malaysia",
+    "Myanmar",
+    "Philippines",
+    "Singapore",
+    "Thailand",
+    "Timor-Leste",
+    "VietNam",
+  ],
+  "Asia - Eastern": [
+    "China",
+    "Hong Kong",
+    "Japan",
+    "Macao",
+    "Mongolia",
+    "North Korea",
+    "South Korea",
+    "Taiwan",
+  ],
+  "Europe - Northern": [
+    "Denmark",
+    "Estonia",
+    "Faroe Islands",
+    "Finland",
+    "Great Britain",
+    "Iceland",
+    "Ireland",
+    "Isle of Man",
+    "Jersey",
+    "Latvia",
+    "Lithuania",
+    "Norway",
+    "Svalbard and Jan Mayen",
+    "Sweden",
+  ],
+  "Asia - Central": [
+    "Kazakhstan",
+    "Kyrgyzstan",
+    "Tajikistan",
+    "Turkmenistan",
+    "Uzbekistan",
+  ],
+};
 
- //  Populate the where you want to explore dropdowns
-var select = document.getElementById("selectCategory");
-// var options = ["1", "2", "3", "4", "5"];
-for(var i = 0; i < categoryList.length; i++) {
-    var opt = categoryList[i];
-    var el = document.createElement("option");
-    el.textContent = opt;
-    el.value = opt.trim();
-    select.appendChild(el);
-}
+// //  Populate the where you want to explore dropdowns
+// var select = document.getElementById("selectCategory");
+// // var options = ["1", "2", "3", "4", "5"];
+// for (var i = 0; i < categoryList.length; i++) {
+//   var opt = categoryList[i];
+//   var el = document.createElement("option");
+//   el.textContent = opt;
+//   el.value = opt.trim();
+//   select.appendChild(el);
+// }
 
- //  Populate the where you want to explore dropdowns
- var select = document.getElementById("selectRegion");
- // var options = ["1", "2", "3", "4", "5"];
- var regionList = Object.keys(region_country).sort()
+// //  Populate the where you want to explore dropdowns
+// var select = document.getElementById("selectRegion");
+// // var options = ["1", "2", "3", "4", "5"];
+// var regionList = Object.keys(region_country).sort();
 
- for(var i = 0; i < regionList.length; i++) {
-     var opt = regionList[i];
-     var el = document.createElement("option");
-     el.textContent = opt;
-     el.value = opt;
-     select.appendChild(el);
- }
+// for (var i = 0; i < regionList.length; i++) {
+//   var opt = regionList[i];
+//   var el = document.createElement("option");
+//   el.textContent = opt;
+//   el.value = opt;
+//   select.appendChild(el);
+// }
 
- //  Populate the where you want to explore dropdowns
- var select = document.getElementById("selectCountry");
- var countryList = []
- for (var region in region_country){
-    Array.prototype.push.apply(countryList, region_country[region]); 
-    countryList.sort()
+// //  Populate the where you want to explore dropdowns
+// var select = document.getElementById("selectCountry");
+// var countryList = [];
+// for (var region in region_country) {
+//   Array.prototype.push.apply(countryList, region_country[region]);
+//   countryList.sort();
+// }
+
+// console.log(countryList);
+
+// for (var i = 0; i < countryList.length; i++) {
+//   var opt = countryList[i];
+//   var el = document.createElement("option");
+//   el.textContent = opt;
+//   el.value = opt;
+//   select.appendChild(el);
+// }
+
+//add change listener on region dropdown to dynamically update country
+$("#selectRegion")
+  .change(function () {
+    console.log(this.value.trim());
+
     
- }
-
- console.log( countryList );
-
- for(var i = 0; i < countryList.length; i++) {
-     var opt = countryList[i];
-     var el = document.createElement("option");
-     el.textContent = opt;
-     el.value = opt;
-     select.appendChild(el);
- }
-
- //add change listener on region dropdown to dynamically update country
-$('#selectRegion').change(function() {
     // get the second dropdown
-    $('#selectCountry').html(
-
-
-        // get array by the selected value
-        region_country[this.value]
+    $("#selectCountry").html(
+      // get array by the selected value
+      region_country[this.value.trim()]
         // iterate  and generate options
-        .map(function(v) {
+        .map(function (v) {
           // generate options with the array element
-          return $('<option/>', {
+          return $("<option/>", {
             value: v,
-            text: v
-          })
+            text: v,
+          });
         })
-      )
-      // trigger change event to generate second select tag initially
-  }).change()
+  );
+  
+  
+	
+	$('#selectCountry').prepend(new Option("Country", "Country"))
+  // set default value
+  $('#selectCountry').val('Country');
 
+  }).change();

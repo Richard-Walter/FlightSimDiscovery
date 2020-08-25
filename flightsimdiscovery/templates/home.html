@@ -97,8 +97,11 @@
       </div>
     </div>
     <!-- slider_area_end -->
-    <br />
-    <br />
+    <div id=searchTag>
+      <br>
+      <br>
+    </div>
+
     <!-- where_togo_area_start  -->
     <!-- <div class="where_togo_area">
       <div class="container">
@@ -135,7 +138,7 @@
   </div> -->
 
 
-    <div class="where_togo_area">
+    <div id="where_togo_area" class="where_togo_area">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-3">
@@ -145,38 +148,37 @@
           </div>
           <div class="col-lg-9">
             <div class="search_wrap">
-              <form class="search_form" action="#">
+              <form class="search_form" method="POST" action="/home">
                 <div class="input_field">
-                  <select id="selectCategory">
+                  <select name="selectCategory" id="selectCategory">
                     <option data-display="Category">Category</option>
-                    <!-- <option value="2">All</option>
-                    <option value="1">Natural </option>
-                    <option value="2">Another </option> -->
+                    {% for category in categories %}
+                      <option value="{{category}}">{{category}}</option>
+                    {% endfor %}
                   </select>
                 </div>
                 <div class="input_field">
-                  <select id="selectRegion">
+                  <select name="selectRegion" id="selectRegion">
                     <option data-display="Region">Region</option>
-                    <!-- <option value="2">All</option>
-                    <option value="1">Australia</option>
-                    <option value="2">Another option</option> -->
+                    {% for region in regions %}
+                      <option value="{{region}}">{{region}}</option>
+                    {% endfor %}
                   </select>
                 </div>
                 <div class="input_field">
-                  <select id="selectCountry">
+                  <select name="selectCountry" id="selectCountry">
                     <option data-display="Country">Country</option>
-                    <!-- <option value="2">All</option>
-                    <option value="1">Australia</option>
-                    <option value="2">Another option</option> -->
+                    {% for country in countries %}
+                      <option value="{{country}}">{{country}}</option>
+                    {% endfor %}
                   </select>
                 </div>
                 <div class="input_field">
-                  <select id="selectNumber">
+                  <select name="selectRating" id="selectRating">
                     <option data-display="Rating">Rating</option>
-                    <option value="2">All</option>
-                    <option value="1">5 stars</option>
-                    <option value="2">4 stars or higher</option>
-                    <option value="2">3 stars or higher</option>
+                    <option value="5">5 stars</option>
+                    <option value="4">4 stars or higher</option>
+                    <option value="3">3 stars or higher</option>
                     <option value="2">2 stars or higher</option>
                   </select>
                 </div>
@@ -190,20 +192,6 @@
       </div>
     </div>
     <!-- where_togo_area_end  -->
-
-    <!-- Test area -->
-    <!-- <br />
-    <br />
-    <h2>Test</h2>
-    {% for poi in pois %}
-
-    <h2>{{ poi.Name }}</h2>
-
-    {% endfor %}
-    <h4>{{pois[0].Name}}</h4>
-    <br /> -->
-
-    <!-- Test area end -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/geojson/0.5.0/geojson.min.js"></script>
     <!-- <script src="static/js/markerclustererplus.min.js"></script> -->
@@ -220,57 +208,7 @@
               overflow: hidden;
             "
           ></div>
-          <script>
-
-            // TEST AREA
-            // var data = [
-            //   {
-            //     'Name': "Location A",
-            //     'category': "Store",
-            //     'icon': "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-            //     'lat': -'34.984',
-            //     'lng': '150.343',
-            //   },
-            //   {
-            //     'Name': "Location B",
-            //     'category': "House",
-            //     'icon': "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-            //     'lat': '-34.284',
-            //     'lng': '150.843',
-            //   },
-            //   {
-            //     'Name': "Location C",
-            //     'category': "Office",
-            //     'icon': "/static/img/marker/map-mark.png",
-            //     'lat': '-34.123',
-            //     'lng': '150.534',
-            //   },
-            // ];
-            
-            // console.log(data)
-            // const workingdataGeoJSON = GeoJSON.parse(data, { Point: ["lat", "lng"] });
-            // console.log(workingdataGeoJSON);
-
-            // let sample_dict = {
-            //     'Name': "Location A",
-            //     'category': "Store",
-            //     'icon': "http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png",
-            //     'lat': '-34.984',
-            //     'lng': '150.343'
-            //   }
-
-            
-            // let sample_dict = {
-            //     'Name': "{{pois[0].Name}}",
-            //     'category': "Store",
-            //     'icon': "{{pois[0].icon}}",
-            //     'lat': "{{pois[0].lat}}",
-            //     'lng': "{{pois[0].lng}}"
-            //   }
-
-            
-            // TEST AREA END
-            
+          <script>            
 
             // Parse the posted data into a GeoJSon format required by Google Maps
             let test_array = []

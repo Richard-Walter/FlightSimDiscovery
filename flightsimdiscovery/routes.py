@@ -6,7 +6,7 @@ from flightsimdiscovery import app, db, bcrypt
 from flightsimdiscovery.forms import RegistrationForm, LoginForm, UpdateAccountForm, PoiForm
 from flightsimdiscovery.models import User, Pois
 from flask_login import login_user, current_user, logout_user, login_required
-from utilities import get_country_region
+from utilities import get_country_region, get_country_list, get_region_list, get_category_list
 
 # example data that needs to be created from database and then posted to home.html
 # data = [
@@ -15,21 +15,36 @@ from utilities import get_country_region
 #   { 'name': 'Airport', 'category': 'National Park', 'country': 'Congo', 'description': 'Giant trees in mountains areas', 'rating': '3', 'icon': '/static/img/marker/map-mark.png', 'lat': -35.123, 'lng': 150.534 },
 # ]
 
-
-@app.route("/")
-@app.route("/index")
-@app.route("/home")
+@app.route("/", methods=['GET', 'POST'])
+@app.route("/index", methods=['GET', 'POST'])
+@app.route("/home", methods=['GET', 'POST'])
 def home():
 
     # print('This is standard output', file=sys.stdout)
     #  data array to be posted which can be converted into a GeoJson object within Javascript on the front-end
     map_data = []
-
-    # we need to get the pois data from the database and create the data array now
     pois = Pois.query.all()
 
-    for poi in pois:
+    # check if user has submitted a search and filter database
+    if request.method == 'POST':
         
+        category = request.form.get('selectCategory')
+        region = request.form.get('selectRegion')
+        country = request.form.get('selectCountry')
+        rating = request.form.get('selectRating')
+
+        # pois = Pois.query.filter_by(region='Oceania')
+        if category != 'Category':
+            pois = Pois.query.filter_by(category=category)
+        if region != 'Region':
+            pois = Pois.query.filter_by(region=region)
+        if country != 'Country':
+            pois = Pois.query.filter_by(country=country)         
+        if rating != 'Rating':
+            pois = Pois.query.filter_by(rating=rating)      
+
+    for poi in pois:
+        print('Poi', poi)
         data_dic = {}
         data_dic['name'] = poi.name
         data_dic['category'] = poi.category
@@ -45,7 +60,7 @@ def home():
 
     print(map_data, file=sys.stdout)
 
-    return render_template("home.html", pois=map_data)
+    return render_template("home.html", _anchor="where_togo_area", pois=map_data, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
     # return render_template("home.html", pois=data)
 
 
