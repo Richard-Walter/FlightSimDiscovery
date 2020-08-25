@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flightsimdiscovery.models import User
-from utilities import validate_lat, validate_long
+from utilities import validate_lat, validate_long, get_country_list, get_category_list
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
@@ -57,10 +57,10 @@ class UpdateAccountForm(FlaskForm):
 
 class PoiForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    country = StringField('Country', validators=[DataRequired()])
-    category = StringField('Category', validators=[DataRequired()])
+    country = SelectField('Country', choices = get_country_list(), validators=[DataRequired()])
+    category = SelectField('Category', choices = get_category_list(), validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
-    latitude = StringField('Latitude', validators=[DataRequired(), Length(min=2, max=18)])
+    latitude = StringField('Latitude (Dec', validators=[DataRequired(), Length(min=2, max=18)])
     longitude = StringField('Longitude', validators=[DataRequired(), Length(min=2, max=18)])
     nearest_airport = StringField('Nearest Airpot (ICAO)', validators=[Length(min=0, max=4)])
     # remember = BooleanField('Remember Me')

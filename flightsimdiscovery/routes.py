@@ -6,6 +6,7 @@ from flightsimdiscovery import app, db, bcrypt
 from flightsimdiscovery.forms import RegistrationForm, LoginForm, UpdateAccountForm, PoiForm
 from flightsimdiscovery.models import User, Pois
 from flask_login import login_user, current_user, logout_user, login_required
+from utilities import get_country_region
 
 # example data that needs to be created from database and then posted to home.html
 # data = [
@@ -33,6 +34,7 @@ def home():
         data_dic['name'] = poi.name
         data_dic['category'] = poi.category
         data_dic['country'] = poi.country
+        data_dic['region'] = poi.region
         data_dic['description'] = poi.description
         data_dic['rating'] = poi.rating
         data_dic['icon'] = '/static/img/marker/map-mark.png'
@@ -139,36 +141,13 @@ def new_poi():
     form = PoiForm()
     if form.validate_on_submit():
         poi = Pois(name=form.name.data, latitude=float(form.latitude.data), longitude=float(form.longitude.data),
-                 region='Dummy region', country=form.country.data, category=form.category.data, description=form.description.data,
+                 region=get_country_region(form.country.data), country=form.country.data, category=form.category.data, description=form.description.data,
                  nearest_icao_code=form.nearest_airport.data, rating=5)
         db.session.add(poi)
         db.session.commit()
         flash('A new point of interest has been created!', 'success')
         return redirect(url_for('home'))
     return render_template('create_poi.html', form=form, legend='New Poi')
-
-
-    # id = db.Column(db.Integer, primary_key=True)
-    # name = db.Column(db.String(50), unique=True, nullable=False)
-    # latitude = db.Column(db.FLOAT, unique=False, nullable=False)
-    # longitude = db.Column(db.FLOAT, unique=False, nullable=False)
-    # region = db.Column(db.String(20), unique=False, nullable=False)
-    # country = db.Column(db.String(60), unique=False, nullable=False)
-    # category = db.Column(db.String(20), unique=False, nullable=False)
-    # description = db.Column(db.Text, nullable=True)
-    # nearest_icao_code = db.Column(db.String(4), nullable=True)
-    # rating = db.Column(db.Integer, nullable=True)
-    # date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-
-
-    # name = StringField('Name', validators=[DataRequired()])
-    # country = StringField('Country', validators=[DataRequired()])
-    # category = StringField('Category', validators=[DataRequired()])
-    # description = TextAreaField('Category', validators=[DataRequired()])
-    # latitude = StringField('Latitude', validators=[DataRequired(), Length(min=4, max=4)]])
-    # longitude = StringField('Longitude', validators=[DataRequired()])
-    # nearest_airport = StringField('nearest_airport (ICAO)', validators=[DataRequired(), Length(min=3, max=14)]])
 
 # @app.route("/poi/<int:poi_id>")
 # def poi(pooi_id):
