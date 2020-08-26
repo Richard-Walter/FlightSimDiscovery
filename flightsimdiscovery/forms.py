@@ -55,7 +55,7 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
 
-class PoiForm(FlaskForm):
+class PoiCreateForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     country = SelectField('Country', choices = get_country_list(), validators=[DataRequired()])
     category = SelectField('Category', choices = get_category_list(), validators=[DataRequired()])
@@ -65,6 +65,28 @@ class PoiForm(FlaskForm):
     nearest_airport = StringField('Nearest Airpot (ICAO)', validators=[Length(min=0, max=4)])
     # remember = BooleanField('Remember Me')
     submit = SubmitField('Create')
+
+    def validate_latitude(self, latitude):
+
+        # add logic here
+        if not validate_lat(str(latitude.data)):
+            raise ValidationError('Please enter a valid latitude (-90 and +90) in degrees decimal.  e.g.-34.407279')
+
+    def validate_longitude(self, longitude):
+
+        if not validate_long(str(longitude.data)):
+            raise ValidationError('Please enter a valid longitude (-180 and +180) in degrees decimal   e.g. 150.676888')
+
+class PoiUpdateForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    country = SelectField('Country', choices = get_country_list(), validators=[DataRequired()])
+    category = SelectField('Category', choices = get_category_list(), validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    latitude = StringField('Latitude (Dec', validators=[DataRequired(), Length(min=2, max=18)])
+    longitude = StringField('Longitude', validators=[DataRequired(), Length(min=2, max=18)])
+    nearest_airport = StringField('Nearest Airpot (ICAO)', validators=[Length(min=0, max=4)])
+    # remember = BooleanField('Remember Me')
+    submit = SubmitField('Update')
 
     def validate_latitude(self, latitude):
 

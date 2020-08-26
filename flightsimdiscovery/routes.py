@@ -3,7 +3,7 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from flightsimdiscovery import app, db, bcrypt
-from flightsimdiscovery.forms import RegistrationForm, LoginForm, UpdateAccountForm, PoiForm
+from flightsimdiscovery.forms import RegistrationForm, LoginForm, UpdateAccountForm, PoiCreateForm, PoiUpdateForm
 from flightsimdiscovery.models import User, Pois
 from flask_login import login_user, current_user, logout_user, login_required
 from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details
@@ -176,7 +176,7 @@ def account():
 @app.route("/poi/new", methods=['GET', 'POST'])
 # @login_required
 def new_poi():
-    form = PoiForm()
+    form = PoiCreateForm()
     if form.validate_on_submit():
         poi = Pois(name=form.name.data, latitude=float(form.latitude.data), longitude=float(form.longitude.data),
                  region=get_country_region(form.country.data), country=form.country.data, category=form.category.data, description=form.description.data,
@@ -187,30 +187,36 @@ def new_poi():
         return redirect(url_for('home'))
     return render_template('create_poi.html', form=form, legend='New Poi')
 
-# @app.route("/poi/<int:poi_id>")
-# def poi(pooi_id):
-#     poi = Poi.query.get_or_404(poi_id)
-#     return render_template('poi.html', title=poit.title, poit=poi)
+@app.route("/poi/<int:poi_id>")
+def poi(poi_id):
+    poi = Pois.query.get_or_404(poi_id)
+    return render_template('poi.html', poit=poi)
 
 
-# @app.route("/poi/<int:poi_id>/update", methods=['GET', 'POST'])
-# # @login_required
-# def update_post(poi_id):
-#     poi = Poi.query.get_or_404(poi_id)
-#     if post.author != current_user:
-#         abort(403)
-#     form = PoiForm()
-#     if form.validate_on_submit():
-#         poi.title = form.title.data
-#         poi.content = form.content.data
-#         db.session.commit()
-#         flash('Your post has been updated!', 'success')
-#         return redirect(url_for('poi', post_id=poi.id))
-#     elif request.method == 'GET':
-#         form.title.data = poi.title
-#         form.content.data = poi.content
-#     return render_template('create_post.html', title='Update Post',
-#                            form=form, legend='Update Post')
+@app.route("/poi/<int:poi_id>/update", methods=['GET', 'POST'])
+# @login_required
+def update_post(poi_id):
+    poi = Pois.query.get_or_404(poi_id)
+    # if post.author != current_user:
+    #     abort(403)
+    form = PoiUpdateForm()
+    if form.validate_on_submit():
+        poi = Pois(name=form.name.data, latitude=float(form.latitude.data), longitude=float(form.longitude.data),
+                 region=get_country_region(form.country.data), country=form.country.data, category=form.category.data, description=form.description.data,
+                 nearest_icao_code=form.nearest_airport.data, rating=5)
+        db.session.commit()
+        flash('Your post has been updated!', 'success')
+        return redirect(url_for('poi', post_id=poi.id))
+    elif request.method == 'GET':
+        form.name.data = poi.name
+        form.latitude.data = poi.latitude
+        form.longitude.data = poi.longitude
+        form.country.data = poi.country
+        form.description.data = poi.description
+        form.nearest_airport.data = poi.nearest_icao_code
+        # form.rating.data = poi.rating
+
+    return render_template('update_poi.html', form=form)
 
 
 # @app.route("/poi/<int:poi_id>/delete", methods=['POST'])

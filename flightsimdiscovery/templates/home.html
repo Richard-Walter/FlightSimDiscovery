@@ -336,17 +336,17 @@
                 
                 
                 var html_content =
-
-                  "<div id='content'>" +
-                  '<div id="siteNotice">'+
-                  '</div>'+
-                  '<h1 id="firstHeading" class="firstHeading">'+name+'</h1>'+
-                  '<h2 id="categoryHeading" class="categoryHeading">'+category+'</h2>'+
-                  '<div id="bodyContent">'+
-                  '<p>'+description+'</p>'+
-                  '<p>Rating: '+ rating + '</p>'+
-                  '</div>'+
-                  '</div>';
+                  "<head><link rel='stylesheet' href='style.css'/></head>" +
+                  "<div class='gm-style-iw' id='content'>" +
+                    '<div id="siteNotice">>/div>'+
+                    '<h1 id="firstHeading" class="firstHeading">'+marker_name+'</h1>'+
+                    '<h2 id="categoryHeading" class="categoryHeading">'+category+'</h2>'+
+                    '<div id="bodyContent">'+
+                      '<p>'+description+'</p>'+
+                      '<p>Rating: '+ rating + '</p>'+
+                      '</div>'
+                    '</div>'
+                  '</div>'
 
 
                 var infowindow = new google.maps.InfoWindow({

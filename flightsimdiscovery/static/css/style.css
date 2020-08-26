@@ -2508,6 +2508,21 @@ h3 {
   /* IE6-9 */
 }
 
+.gm-style-iw {
+    background-color:  rgb(255, 255, 255);
+    /* border: 1px solid rgba(72, 181, 233, 0.6);  */
+    /* border-radius: 10px; */
+    /* box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6); */
+    color: rgb(255, 255, 255) !important;
+    font-family: "Georgia", "Open Sans", Sans-serif;
+    text-align: center;
+    margin: 15px auto;
+    width: 100% !important;
+    left: 0 !important;
+    /* top: 20px !important; */
+
+}
+
 /* line 1, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_where_to_go.scss */
 .where_togo_area {
   background: #040E27;

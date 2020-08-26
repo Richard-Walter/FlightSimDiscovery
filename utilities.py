@@ -310,13 +310,13 @@ categoryList = [
 	"Lake",
 	"Mountain",
 	"National Park",
-	"Other",
 	"Reef",
 	"River",
 	"Seaports",
 	"Seaports",
 	"Volcano",
 	"Waterfall",
+	"Other",
 ]
 
 def get_country_list():
