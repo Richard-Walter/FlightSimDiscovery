@@ -6,7 +6,7 @@ from flightsimdiscovery import app, db, bcrypt
 from flightsimdiscovery.forms import RegistrationForm, LoginForm, UpdateAccountForm, PoiForm
 from flightsimdiscovery.models import User, Pois
 from flask_login import login_user, current_user, logout_user, login_required
-from utilities import get_country_region, get_country_list, get_region_list, get_category_list
+from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details
 
 # example data that needs to be created from database and then posted to home.html
 # data = [
@@ -23,6 +23,7 @@ def home():
     # print('This is standard output', file=sys.stdout)
     #  data array to be posted which can be converted into a GeoJson object within Javascript on the front-end
     map_data = []
+    map_init = {'zoom': 3, 'lat':23.6, 'long':170.9} # centre of map
     pois = Pois.query.all()
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating':'Rating'} 
 
@@ -40,6 +41,18 @@ def home():
         search_defaults['Country']=country
         search_defaults['Rating']=rating
 
+        # Creat the map intit variables
+        if country != 'Country':
+
+            map_init['zoom'] = 6    # default country zoom
+            map_init['lat'] = countries_details[country][1]
+            map_init['long'] = countries_details[country][2]
+
+        elif region != 'Region':
+            map_init['zoom'] = region_details[region][2]
+            map_init['lat'] = region_details[region][0]
+            map_init['long'] = region_details[region][1]
+
         # pois = Pois.query.filter_by(region='Oceania')
         if category != 'Category':
             pois = Pois.query.filter_by(category=category)
@@ -48,10 +61,11 @@ def home():
         if country != 'Country':
             pois = Pois.query.filter_by(country=country)         
         if rating != 'Rating':
-            pois = Pois.query.filter_by(rating=rating)      
+            pois = Pois.query.filter_by(rating=rating)     
 
     print("SEARCH DEFAULTS", search_defaults)
 
+    #create the Point of Interest dictionary that gets posted for map to use
     for poi in pois:
         print('Poi', poi)
         data_dic = {}
@@ -69,7 +83,7 @@ def home():
 
     print(map_data, file=sys.stdout)
 
-    return render_template("home.html", _anchor="where_togo_area", pois=map_data, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
+    return render_template("home.html", _anchor="where_togo_area", pois=map_data, map_init=map_init, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
     # return render_template("home.html", pois=data)
 
 

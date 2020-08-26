@@ -51,7 +51,6 @@ Congo,CG,Africa,Africa - Middle ,-4.038333,21.758664
 "Congo, Democratic Republic of the",CD,Africa,Africa - Middle ,-0.228021,15.827659
 Cook Islands,CK,Oceania,Oceania,-21.236736,-159.777671
 Costa Rica,CR,Americas,America - Central ,9.748917,-83.753428
-Côte d'Ivoire,CI,Africa,Africa - Western ,7.539989,-5.54708
 Croatia,HR,Europe,Europe - Southern ,45.1,15.2
 Cuba,CU,Americas,Caribbean,21.521757,-77.781167
 Cyprus,CY,Asia,Middle East,35.126413,33.429859
@@ -107,6 +106,7 @@ Ireland,IE,Europe,Europe - Northern ,53.41291,-8.24389
 Isle of Man,IM,Europe,Europe - Northern ,54.236107,-4.548056
 Israel,IL,Asia,Middle East,31.046051,34.851612
 Italy,IT,Europe,Europe - Southern ,41.87194,12.56738
+Ivory Coast,CI,Africa,Africa - Western ,7.539989,-5.54708
 Jamaica,JM,Americas,Caribbean,18.109581,-77.297508
 Japan,JP,Asia,Asia - Eastern,36.204824,138.252924
 Jersey,JE,Europe,Europe - Northern ,49.214439,-2.13125
@@ -178,11 +178,11 @@ Portugal,PT,Europe,Europe - Southern ,39.399872,-8.224454
 Puerto Rico,PR,Americas,Caribbean,18.220833,-66.590149
 Qatar,QA,Asia,Middle East,25.354826,51.183884
 Réunion,RE,Africa,Africa - Eastern ,-21.115141,55.536384
-Romania,RO,Europe,Europe - Eastern ,45.943161,24.96676
-Russian Federation,RU,Europe,Europe - Eastern ,61.52401,105.318756
-Rwanda,RW,Africa,Africa - Eastern ,-1.940278,29.873888
+Romania,RO,Europe,Europe - Eastern,45.943161,24.96676
+Russian Federation,RU,Europe,Europe - Eastern,61.52401,105.318756
+Rwanda,RW,Africa,Africa - Eastern,-1.940278,29.873888
 Saint Barthélemy,BL,Americas,Caribbean,-15.95,-5.71667
-Saint Helena,SH,Africa,Africa - Western ,-24.143474,-10.030696
+Saint Helena,SH,Africa,Africa - Western,-24.143474,-10.030696
 Saint Kitts and Nevis,KN,Americas,Caribbean,17.357822,-62.782998
 Saint Lucia,LC,Americas,Caribbean,13.909444,-60.978893
 Saint Pierre and Miquelon,PM,Americas,America - Northern ,46.941936,-56.27111
@@ -204,7 +204,7 @@ South Africa,ZA,Africa,Africa - Southern,-30.559482,22.937506
 South Georgia,GS,Americas,America - South ,-54.429579,-36.587909
 South Korea,KR,Asia,Asia - Eastern,35.907757,127.766922
 South Sudan,SS,Africa,Africa - Eastern ,6.889577,30.747197
-Spain,ES,Europe,Europe - Southern ,40.463667,-3.74922
+Spain,ES,Europe,Europe - Southern,40.463667,-3.74922
 Sri Lanka,LK,Asia,Asia - Southern,7.873054,80.771797
 Sudan,SD,Africa,Africa - Northern ,12.862807,30.217636
 Suriname,SR,Americas,America - South ,3.919305,-56.027783

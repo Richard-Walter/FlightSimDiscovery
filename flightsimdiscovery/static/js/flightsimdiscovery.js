@@ -291,7 +291,7 @@ var region_country = {
 
 var countryList = getCountryList();
 var country_default = $('#countryDefaultVaule').val();
-console.log(country_default)
+// console.log(country_default)
 
 //add change listener on region dropdown to dynamically update country
 $("#selectRegion")
@@ -327,10 +327,6 @@ $("#selectRegion")
         $('#selectCountry').val("Country");
 
     }     
-  
-	
-	// $('#selectCountry').prepend(new Option("Country", "Country"))
- 
 
   })
 

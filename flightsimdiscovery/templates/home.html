@@ -137,8 +137,10 @@
       </div>
   </div> -->
 
-    <p>{{search_defaults['Country']}}</p>
+    <!-- <p>{{search_defaults['Country']}}</p> -->
+    <!-- This is a hidden value for country default that javascript retrieves -->
     <input id="countryDefaultVaule" name="countryDefaultVaule" type="hidden" value="{{search_defaults['Country']}}">
+    
     <div id="where_togo_area" class="where_togo_area">
       <div class="container">
         <div class="row align-items-center">
@@ -240,16 +242,25 @@
           <script>            
 
             // Parse the posted data into a GeoJSon format required by Google Maps
-            let test_array = []
+            let test_array = [];
             var objects = {};  
-              
+            var map_zoom = {{map_init['zoom']}};
+            var map_center_lat = {{map_init['lat']}};
+            var map_center_long = {{map_init['long']}};
+            var pois_js_dict = {}
+
+            // var testt = {{pois['name']}}
+            
             {% for poi in pois %}
                 
                 objects[{{loop.index}}]={'name': '{{poi.name}}', 'icon': "{{poi.icon}}", 'lat': '{{poi.lat}}','lng': '{{poi.lng}}'};
-                test_array.push(objects[{{loop.index}}])
+                test_array.push(objects[{{loop.index}}]);
 
+                pois_js_dict['{{poi.name}}'] = {'category': "{{poi.category}}", 'description': "{{poi.description}}"};
+                
             {% endfor %}
 
+            console.log(pois_js_dict);
             console.log(test_array);
             const dataGeoJSON = GeoJSON.parse(test_array, { Point: ["lat", "lng"] });
             console.log(dataGeoJSON);
@@ -259,10 +270,10 @@
 
             function initMap() {
               var map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 8,
+                zoom: map_zoom,
                 center: {
-                  lat: -34,
-                  lng: 150,
+                  lat: map_center_lat,
+                  lng: map_center_long,
                 },
                 mapTypeId: google.maps.MapTypeId.TERRAIN,
               });
@@ -315,21 +326,38 @@
 
               //Info Window
               map.data.addListener("click", function (event) {
-                var name = event.feature.getProperty("name");
+                var marker_name = event.feature.getProperty("name");
+                console.log(marker_name);
+                console.log(pois_js_dict);
+                console.log(pois_js_dict[marker_name]);
+                var category = pois_js_dict[marker_name]['category'];
+                var description = pois_js_dict[marker_name]['description'];
+                var rating = 5;
+                
+                
                 var html_content =
-                  "<div style='width:150px; text-align: center;'>" +
-                  name +
-                  "</div>";
+
+                  "<div id='content'>" +
+                  '<div id="siteNotice">'+
+                  '</div>'+
+                  '<h1 id="firstHeading" class="firstHeading">'+name+'</h1>'+
+                  '<h2 id="categoryHeading" class="categoryHeading">'+category+'</h2>'+
+                  '<div id="bodyContent">'+
+                  '<p>'+description+'</p>'+
+                  '<p>Rating: '+ rating + '</p>'+
+                  '</div>'+
+                  '</div>';
+
 
                 var infowindow = new google.maps.InfoWindow({
                   content: html_content,
                 });
 
-                infowindow.setContent(
-                  "<div style='width:150px; text-align: center;'>" +
-                    name +
-                    "</div>"
-                );
+                // infowindow.setContent(
+                //   "<div style='width:150px; text-align: center;'>" +
+                //     name +
+                //     "</div>"
+                // );
                 infowindow.setPosition(event.feature.getGeometry().get());
                 infowindow.setOptions({
                   pixelOffset: new google.maps.Size(0, 0),

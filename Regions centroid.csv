@@ -1,21 +1,21 @@
 sub-region,Latitude,Longitude,Zoom
-Africa - Eastern ,-5.188246,35.136011,4
-Africa - Middle ,2.099101,17.294214,4
-Africa - Northern ,26.028232,16.503199,4
-Africa - Southern,-23.988214,23.401357,4
-Africa - Western ,12,3,4
-America - Central ,17.4,-91,5
+Africa - Eastern ,-5.188246,35.136011,6
+Africa - Middle ,2.099101,17.294214,6
+Africa - Northern ,26.028232,16.503199,6
+Africa - Southern,-23.988214,23.401357,6
+Africa - Western ,12,3,6
+America - Central ,17.4,-91,7
 America - Northern ,48.35528,-99.99917,5
 America - South ,-19.24773,-61.52741,5
 Antartica,-75.250973,-0.071389,5
-Asia - Central,45.3,63.9,4
-Asia - Eastern,39.286757,112.064601,4
-Asia - South-eastern ,39.286757,112.064601,4
-Asia - Southern,26.9,72.2,4
-Asia - Western,32.811895,40.661186,4
+Asia - Central,45.3,63.9,6
+Asia - Eastern,39.286757,112.064601,6
+Asia - South-eastern ,39.286757,112.064601,6
+Asia - Southern,26.9,72.2,6
+Asia - Western,32.811895,40.661186,6
 Caribbean,14.52556,-75.81834,5
-Europe - Eastern ,50,30,3
-Europe - Northern ,59.155256,16.123697,3
-Europe - Southern ,54.261223,17.669846,3
-Europe - Western ,54.261223,17.669846,3
-Oceania,-22.696926,161.591196,6
+Europe - Eastern ,50,30,7
+Europe - Northern ,59.155256,16.123697,7
+Europe - Southern ,54.261223,17.669846,7
+Europe - Western ,54.261223,17.669846,7
+Oceania,-22.696926,161.591196,5

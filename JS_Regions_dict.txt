@@ -11,7 +11,7 @@ var region_country = {
 	'Europe - Western': ['Austria', 'Belgium', 'France', 'Germany', 'Liechtenstein', 'Luxembourg', 'Monaco', 'Netherlands', 'Switzerland'],
 	'Europe - Eastern': ['Belarus', 'Bulgaria', 'Czechia', 'Hungary', 'Moldova, Republic of', 'Poland', 'Romania', 'Russian Federation', 'Slovakia', 'Ukraine'],
 	'America - Central': ['Belize', 'Costa Rica', 'El Salvador', 'Guatemala', 'Guernsey', 'Honduras', 'Mexico', 'Nicaragua', 'Panama'],
-	'Africa - Western': ['Benin', 'Burkina Faso', 'Cabo Verde', "Côte d'Ivoire", 'Gambia', 'Ghana', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Liberia', 'Mali', 'Mauritania', 'Niger', 'Nigeria', 'Saint Helena', 'Senegal', 'Sierra Leone', 'Togo'],
+	'Africa - Western': ['Benin', 'Burkina Faso', 'Cabo Verde', 'Gambia', 'Ghana', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Ivory Coast', 'Liberia', 'Mali', 'Mauritania', 'Niger', 'Nigeria', 'Saint Helena', 'Senegal', 'Sierra Leone', 'Togo'],
 	'America - Northern': ['Bermuda', 'Canada', 'Greenland', 'Saint Pierre and Miquelon', 'United States of America'],
 	'Africa - Southern': ['Botswana', 'Eswatini', 'Lesotho', 'Namibia', 'South Africa', 'Swaziland', 'Zambia', 'Zimbabwe'],
 	'Africa - Eastern': ['British Indian Ocean Territory', 'Burundi', 'Comoros', 'Djibouti', 'Eritrea', 'Ethiopia', 'French Southern Territories', 'Kenya', 'Madagascar', 'Malawi', 'Mauritius', 'Mayotte', 'Mozambique', 'Réunion', 'Rwanda', 'Seychelles', 'Somalia', 'South Sudan', 'Tanzania', 'Uganda'],
