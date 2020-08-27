@@ -69,6 +69,8 @@ def home():
     for poi in pois:
         print('Poi', poi)
         data_dic = {}
+        data_dic['id'] = poi.id
+        data_dic['user_id'] = poi.user_id
         data_dic['name'] = poi.name
         data_dic['category'] = poi.category
         data_dic['country'] = poi.country
@@ -146,7 +148,6 @@ def save_picture(form_picture):
 
     return picture_fn
 
-@login_required
 @app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
@@ -177,8 +178,15 @@ def account():
 # @login_required
 def new_poi():
     form = PoiCreateForm()
+    user_id =1    # admin for an anonymous user
+
+    if current_user.is_authenticated:
+        user_id=current_user.id
+
+    print("User id is:  ", user_id)
+
     if form.validate_on_submit():
-        poi = Pois(name=form.name.data, latitude=float(form.latitude.data), longitude=float(form.longitude.data),
+        poi = Pois(user_id=user_id, name=form.name.data,latitude=float(form.latitude.data), longitude=float(form.longitude.data),
                  region=get_country_region(form.country.data), country=form.country.data, category=form.category.data, description=form.description.data,
                  nearest_icao_code=form.nearest_airport.data, rating=5)
         db.session.add(poi)
@@ -187,10 +195,12 @@ def new_poi():
         return redirect(url_for('home'))
     return render_template('create_poi.html', form=form, legend='New Poi')
 
+
 @app.route("/poi/<int:poi_id>")
+# @login_required
 def poi(poi_id):
     poi = Pois.query.get_or_404(poi_id)
-    return render_template('poi.html', poit=poi)
+    return render_template('poi.html', poi=poi)
 
 
 @app.route("/poi/<int:poi_id>/update", methods=['GET', 'POST'])

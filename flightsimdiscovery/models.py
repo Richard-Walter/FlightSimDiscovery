@@ -12,7 +12,6 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=True, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
-    # pois_visited = db.Column(db.ARRAY, nullable=True)
 
     # how the object is printed out
     def __repr__(self):
@@ -20,6 +19,7 @@ class User(db.Model, UserMixin):
 
 class Pois(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     name = db.Column(db.String(50), unique=True, nullable=False)
     latitude = db.Column(db.FLOAT, unique=False, nullable=False)
     longitude = db.Column(db.FLOAT, unique=False, nullable=False)
@@ -31,7 +31,6 @@ class Pois(db.Model):
     rating = db.Column(db.Integer, nullable=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-    # user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     def __repr__(self):
         return f"Pois('{self.name}', '{self.country}', '{self.category}', '{self.rating}')"
 
@@ -50,10 +49,13 @@ class Favorites(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     poi_id = db.Column(db.Integer, db.ForeignKey('pois.id'), nullable=False)
 
-# class Visited(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-#     poi_id = db.Column(db.Integer, db.ForeignKey('pois.id'), nullable=False)
+    def __repr__(self):
+        return f"Favorites('{self.user_id}', '{self.poi_id}')"
 
-#     def __repr__(self):
-#         return f"Visited('{self.user_id}', '{self.poi_id}')"
+class Visited(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    poi_id = db.Column(db.Integer, db.ForeignKey('pois.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Visited('{self.user_id}', '{self.poi_id}')"

@@ -2,105 +2,46 @@
 {% block content %}
 <div class="section_top_area"></div>
 <div class="container">
-    <div class="form_mew_poi">
-        <form method="POST" action="" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-            <fieldset class="form-group mt-5">
-                <legend class="border-bottom mb-4">Point of Interest</legend>
-                <div class="form-group">
-                    {{ form.name.label(class="form-control-label") }}
+    <br>
+    <br>
+    <br>
+    <h2 class="article-title display-4 text-center">Point of Interest {{poi.id}}- {{poi.name}}</h2>
+        <!-- database table_area_start  -->
+        <div class="db_table_area">
+            <!-- <div class="container"> -->
+                <br>
+                <br>
 
-                    {% if form.name.errors %}
-                        {{ form.name(class="form-control form-control-lg is-invalid") }}
-                        <div c.namess="invalid-feedback">
-                            {% for error in form.name.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.name(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.country.label(class="form-control-label") }}
-                    {% if form.country.errors %}
-                        {{ form.country(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.country.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.country(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.category.label(class="form-control-label") }}
-                    {% if form.category.errors %}
-                        {{ form.category(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.category.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.category(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.description.label(class="form-control-label") }}
-                    {% if form.description.errors %}
-                        {{ form.description(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.description.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.description(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.latitude.label(class="form-control-label") }}
-                    {% if form.latitude.errors %}
-                        {{ form.latitude(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.latitude.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.latitude(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.longitude.label(class="form-control-label") }}
-                    {% if form.longitude.errors %}
-                        {{ form.longitude(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.longitude.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.longitude(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.nearest_airport.label(class="form-control-label") }}
-                    {% if form.nearest_airport.errors %}
-                        {{ form.nearest_airport(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.nearest_airport.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.nearest_airport(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-            </fieldset>
-        </form>
-    </div>
+              <table class="table table-striped" >
+                <thead class="thead-dark">
+                  <tr>
+                    <tr>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">category</th>
+                        <th scope="col">country</th>
+                        <th scope="col">region</th>
+                        <th scope="col">description</th>
+                        <th scope="col">rating</th>
+                      </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{poi.user_id}}</td>
+                        <td>{{poi.name}}</td>
+                        <td>{{poi.category}}</td>
+                        <td>{{poi.country}}</td>
+                        <td>{{poi.region}}</td>
+                        <td>{{poi.description}}</td>
+                        <td>{{poi.rating}}</td>
+                      </tr>
+                </tbody>
+              </table>
+        
+            <!-- </div> -->
+          </div>
+          <!-- database table_area_end  -->
+          <br>
+          <br>
 </div>   
 {% endblock content %}

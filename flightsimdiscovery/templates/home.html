@@ -256,7 +256,7 @@
                 objects[{{loop.index}}]={'name': '{{poi.name}}', 'icon': "{{poi.icon}}", 'lat': '{{poi.lat}}','lng': '{{poi.lng}}'};
                 test_array.push(objects[{{loop.index}}]);
 
-                pois_js_dict['{{poi.name}}'] = {'category': "{{poi.category}}", 'description': "{{poi.description}}"};
+                pois_js_dict['{{poi.name}}'] = {'id': "{{poi.id}}",'category': "{{poi.category}}", 'description': "{{poi.description}}"};
                 
             {% endfor %}
 
@@ -330,6 +330,7 @@
                 console.log(marker_name);
                 console.log(pois_js_dict);
                 console.log(pois_js_dict[marker_name]);
+                var id = pois_js_dict[marker_name]['id'];
                 var category = pois_js_dict[marker_name]['category'];
                 var description = pois_js_dict[marker_name]['description'];
                 var rating = 5;
@@ -344,10 +345,11 @@
                     '<div id="bodyContent">'+
                       '<p>'+description+'</p>'+
                       '<p>Rating: '+ rating + '</p>'+
+                      '<p>POI ' + id + ' link: <a href="/poi/'+id+'">go to poi</a>'+
                       '</div>'
                     '</div>'
                   '</div>'
-
+                
 
                 var infowindow = new google.maps.InfoWindow({
                   content: html_content,
@@ -370,38 +372,6 @@
               });
             }
 
-            // function initMap() {
-            //     var uluru = {
-            //         lat: -34.363,
-            //         lng: 150.044
-            //     };
-            //     var grayStyles = [{
-            //             featureType: "all",
-            //             stylers: [{
-            //                     saturation: -90
-            //                 },
-            //                 {
-            //                     lightness: 50
-            //                 }
-            //             ]
-            //         },
-            //         {
-            //             elementType: 'labels.text.fill',
-            //             stylers: [{
-            //                 color: '#ccdee9'
-            //             }]
-            //         }
-            //     ];
-            //     var map = new google.maps.Map(document.getElementById('map'), {
-            //         center: {
-            //             lat: -34.363,
-            //             lng: 150.044
-            //         },
-            //         zoom: 9,
-            //         styles: grayStyles,
-            //         scrollwheel: false
-            //     });
-            // }
           </script>
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap"></script>
           <!-- <script src="static/js/markerclusterer.js"></script> -->
@@ -417,6 +387,7 @@
         <table class="table table-striped ">
           <thead class="thead-dark">
             <tr>
+              <th scope="col">User ID</th>
               <th scope="col">Name</th>
               <th scope="col">category</th>
               <th scope="col">country</th>
@@ -429,6 +400,7 @@
             
             {% for poi in pois %}
             <tr>
+              <td>{{poi.user_id}}</td>
               <td>{{poi.name}}</td>
               <td>{{poi.category}}</td>
               <td>{{poi.country}}</td>
