@@ -247,7 +247,9 @@
             var map_zoom = {{map_init['zoom']}};
             var map_center_lat = {{map_init['lat']}};
             var map_center_long = {{map_init['long']}};
-            var pois_js_dict = {}
+            var pois_js_dict = {};
+            var is_authenticated='{{is_authenticated}}';
+            // $("#updateDeleteIW").hide();
 
             // var testt = {{pois['name']}}
             
@@ -326,6 +328,7 @@
 
               //Info Window
               map.data.addListener("click", function (event) {
+
                 var marker_name = event.feature.getProperty("name");
                 console.log(marker_name);
                 console.log(pois_js_dict);
@@ -334,18 +337,32 @@
                 var category = pois_js_dict[marker_name]['category'];
                 var description = pois_js_dict[marker_name]['description'];
                 var rating = 5;
+                var hiddenDetails = 'style="display: none"';
+                
+                if (is_authenticated=='True'){
+                  hiddenDetails ='';
+                }
+
+                //update and delete - hide show logic
+                // var x = document.getElementsByClassName("updateDeleteIW");
+                // console.log(x)
+                // if (showHiddenDetails == true) {
+                //   x.style.display = "block";
+                // }
                 
                 
                 var html_content =
                   "<head><link rel='stylesheet' href='style.css'/></head>" +
                   "<div class='gm-style-iw' id='content'>" +
-                    '<div id="siteNotice">>/div>'+
+                    '<div id="siteNotice" </div>'+
                     '<h1 id="firstHeading" class="firstHeading">'+marker_name+'</h1>'+
                     '<h2 id="categoryHeading" class="categoryHeading">'+category+'</h2>'+
                     '<div id="bodyContent">'+
                       '<p>'+description+'</p>'+
                       '<p>Rating: '+ rating + '</p>'+
-                      '<p>Update POI ' + id + ': <a href="/poi/'+id+'/update">go to poi</a>'+
+                      '<div ' + hiddenDetails +'>' +
+                        '<a class="btn btn-secondary btn-sm mt-1 mb-1" href="/poi/'+id+'/update">Update</a>'+
+                        '<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>'+
                       '</div>'
                     '</div>'
                   '</div>'
@@ -511,4 +528,26 @@
     </div>
     <!-- popular_destination_area_end  -->
 
+  <!-- Delete Modal -->
+  <div class="custom_search_pop">
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Are you sure you want to delete this point of interest?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <form action="{{ url_for('delete_post', poi_id=2) }}" method="POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
 {% endblock content %}
+

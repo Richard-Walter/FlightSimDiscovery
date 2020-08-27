@@ -26,6 +26,11 @@ def home():
     map_init = {'zoom': 3, 'lat':23.6, 'long':170.9} # centre of map
     pois = Pois.query.all()
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating':'Rating'} 
+    is_authenticated = False
+
+    if current_user.is_authenticated:
+
+        is_authenticated = True
 
     # check if user has submitted a search and filter database
     if request.method == 'POST':
@@ -85,7 +90,7 @@ def home():
 
     print(map_data, file=sys.stdout)
 
-    return render_template("home.html", _anchor="where_togo_area", pois=map_data, map_init=map_init, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
+    return render_template("home.html", _anchor="where_togo_area", is_authenticated=is_authenticated, pois=map_data, map_init=map_init, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
     # return render_template("home.html", pois=data)
 
 
@@ -224,7 +229,6 @@ def update_post(poi_id):
         poi.description=form.description.data
         poi.nearest_icao_code=form.nearest_airport.data
         poi.rating=5
-
         db.session.commit()
         flash('Your post has been updated!', 'success')
         return redirect(url_for('poi', poi_id=poi.id))
@@ -240,13 +244,14 @@ def update_post(poi_id):
     return render_template('update_poi.html', form=form)
 
 
-# @app.route("/poi/<int:poi_id>/delete", methods=['POST'])
-# @login_required
-# def delete_post(poi_id):
-#     post = Post.query.get_or_404(post_id)
-#     if post.author != current_user:
-#         abort(403)
-#     db.session.delete(post)
-#     db.session.commit()
-#     flash('Your post has been deleted!', 'success')
-#     return redirect(url_for('home'))
+@app.route("/poi/<int:poi_id>/delete", methods=['POST'])
+@login_required
+def delete_post(poi_id):
+    print('delete post poid is ', poi_id )
+    poi = Pois.query.get_or_404(poi_id)
+    if (current_user.id != 1) and (poi.user_id != current_user.id):  
+        abort(403)
+    db.session.delete(poi)
+    db.session.commit()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('home'))
