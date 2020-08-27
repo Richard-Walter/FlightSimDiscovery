@@ -1,7 +1,7 @@
 import os, sys
 import secrets
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 from flightsimdiscovery import app, db, bcrypt
 from flightsimdiscovery.forms import RegistrationForm, LoginForm, UpdateAccountForm, PoiCreateForm, PoiUpdateForm
 from flightsimdiscovery.models import User, Pois
@@ -197,26 +197,37 @@ def new_poi():
 
 
 @app.route("/poi/<int:poi_id>")
-# @login_required
+@login_required
 def poi(poi_id):
     poi = Pois.query.get_or_404(poi_id)
     return render_template('poi.html', poi=poi)
 
 
 @app.route("/poi/<int:poi_id>/update", methods=['GET', 'POST'])
-# @login_required
+@login_required
 def update_post(poi_id):
     poi = Pois.query.get_or_404(poi_id)
-    # if post.author != current_user:
-    #     abort(403)
+    print('current poi ID is ', poi.id)
+    print(current_user.id)
+    if (current_user.id != 1) and (poi.user_id != current_user.id):  
+        abort(403)
+
     form = PoiUpdateForm()
     if form.validate_on_submit():
-        poi = Pois(name=form.name.data, latitude=float(form.latitude.data), longitude=float(form.longitude.data),
-                 region=get_country_region(form.country.data), country=form.country.data, category=form.category.data, description=form.description.data,
-                 nearest_icao_code=form.nearest_airport.data, rating=5)
+        poi.user_id= current_user.id
+        poi.name=form.name.data
+        poi.latitude=float(form.latitude.data)
+        poi.longitude=float(form.longitude.data)
+        poi.region=get_country_region(form.country.data)
+        poi.country=form.country.data
+        poi.category=form.category.data
+        poi.description=form.description.data
+        poi.nearest_icao_code=form.nearest_airport.data
+        poi.rating=5
+
         db.session.commit()
         flash('Your post has been updated!', 'success')
-        return redirect(url_for('poi', post_id=poi.id))
+        return redirect(url_for('poi', poi_id=poi.id))
     elif request.method == 'GET':
         form.name.data = poi.name
         form.latitude.data = poi.latitude

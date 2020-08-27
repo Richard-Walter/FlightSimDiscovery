@@ -345,7 +345,7 @@
                     '<div id="bodyContent">'+
                       '<p>'+description+'</p>'+
                       '<p>Rating: '+ rating + '</p>'+
-                      '<p>POI ' + id + ' link: <a href="/poi/'+id+'">go to poi</a>'+
+                      '<p>Update POI ' + id + ': <a href="/poi/'+id+'/update">go to poi</a>'+
                       '</div>'
                     '</div>'
                   '</div>'
@@ -394,6 +394,7 @@
               <th scope="col">region</th>
               <th scope="col">description</th>
               <th scope="col">rating</th>
+              <th scope="col">update</th>
             </tr>
           </thead>
           <tbody>
@@ -407,6 +408,7 @@
               <td>{{poi.region}}</td>
               <td>{{poi.description}}</td>
               <td>{{poi.rating}}</td>
+              <td><a href="/poi/{{poi.id}}/update">update</a></td>
             </tr>
             {% endfor %}
           </tbody>
