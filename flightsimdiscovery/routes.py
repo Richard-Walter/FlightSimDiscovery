@@ -25,12 +25,22 @@ def home():
     map_data = []
     map_init = {'zoom': 3, 'lat':23.6, 'long':170.9} # centre of map
     pois = Pois.query.all()
+    user_pois_list = []
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating':'Rating'} 
     is_authenticated = False
 
     if current_user.is_authenticated:
 
         is_authenticated = True
+
+        # Create a list of Users POIS for the google map info window to use
+        user_id = current_user.id
+        user_pois = Pois.query.filter_by(user_id=user_id).all()
+
+        for poi in user_pois:
+            print('USER POI', poi)        
+            # user_pois_data[poi.id] = data_dic
+            user_pois_list.append(poi.id)
 
     # check if user has submitted a search and filter database
     if request.method == 'POST':
@@ -89,8 +99,9 @@ def home():
         map_data.append(data_dic)
 
     print(map_data, file=sys.stdout)
+    print(user_pois, file=sys.stdout)
 
-    return render_template("home.html", _anchor="where_togo_area", is_authenticated=is_authenticated, pois=map_data, map_init=map_init, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
+    return render_template("home.html", _anchor="where_togo_area", is_authenticated=is_authenticated, pois=map_data, user_pois=user_pois_list, map_init=map_init, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
     # return render_template("home.html", pois=data)
 
 
@@ -223,8 +234,8 @@ def poi(poi_id):
 def update_post(poi_id):
     poi = Pois.query.get_or_404(poi_id)
     print('current poi ID is ', poi.id)
-    print(current_user.id)
-    if (current_user.id != 1) and (poi.user_id != current_user.id):  
+    print(current_user.username)
+    if (current_user.username != 'admin') and (poi.user_id != current_user.id):  
         abort(403)
 
     form = PoiUpdateForm()
@@ -259,7 +270,7 @@ def update_post(poi_id):
 def delete_post(poi_id):
     print('delete post poid is ', poi_id )
     poi = Pois.query.get_or_404(poi_id)
-    if (current_user.id != 1) and (poi.user_id != current_user.id):  
+    if (current_user.username != 'admin') and (poi.user_id != current_user.id):  
         abort(403)
     db.session.delete(poi)
     db.session.commit()

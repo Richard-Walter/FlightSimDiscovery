@@ -245,13 +245,14 @@
 
             // Parse the posted data into a GeoJSon format required by Google Maps
             let poi_data_array = [];
+            let user_pois_list = [];
             var poi_data = {}; 
 
             var map_zoom = {{map_init['zoom']}};
             var map_center_lat = {{map_init['lat']}};
             var map_center_long = {{map_init['long']}};
 
-            //create the infowindow data dictionary and user dictionary
+            //create the infowindow data dictionary
             var infowindow_dict = {};
             var infowindow_user_dict = {};
             
@@ -263,13 +264,21 @@
                 infowindow_dict['{{poi.name}}'] = {'id': "{{poi.id}}",'category': "{{poi.category}}", 'description': "{{poi.description}}", 'rating': "{{poi.rating}}"};
                 
             {% endfor %}
+            
+            //create the infowindow user list
+            {% for user_poi in user_pois %}
+
+                user_pois_list.push({{user_poi}});
+
+            {% endfor %}
 
 
 
-            console.log(infowindow_dict);
-            console.log(poi_data_array);
+            // console.log(infowindow_dict);
+            // console.log(poi_data_array);
+            console.log(user_pois_list);
             const dataGeoJSON = GeoJSON.parse(poi_data_array, { Point: ["lat", "lng"] });
-            console.log(dataGeoJSON);
+            // console.log(dataGeoJSON);
             
             //Create the Google Map
             let map;
@@ -334,24 +343,26 @@
               map.data.addListener("click", function (event) {
 
                 var marker_name = event.feature.getProperty("name");
-                console.log(marker_name);
-                console.log(infowindow_dict);
-                console.log(infowindow_dict[marker_name]);
+                // console.log(marker_name);
+                // console.log(infowindow_dict);
+                // console.log(infowindow_dict[marker_name]);
                 var id = infowindow_dict[marker_name]['id'];
                 var category = infowindow_dict[marker_name]['category'];
                 var description = infowindow_dict[marker_name]['description'];
                 var rating = infowindow_dict[marker_name]['rating'];;
                 var hiddenDetails = 'style="display: none"';
-                var hiddenUserPOIDetails = 'style="display: none"';
                 
-                if (is_authenticated=='True'){
-                  hiddenDetails ='';
+                console.log("USER POI LIST IS : " + user_pois_list);
+                if (is_authenticated=='True') {
+                  console.log("USER IS AUTHENTICATED.  POI ID IS: "+ id);
+                  console.log("POI NAME IS: " + marker_name); 
+
+                  if (user_pois_list.includes(parseInt(id))) {
+                    console.log("SHOWING DETAILS FOR THIS POI: "+ marker_name);
+                    hiddenDetails ='';
+                  }
                 }
                 
-                //UPDATE THIS
-                if (is_authenticated=='True'){
-                  hiddenUserPOIDetails ='';
-                }
 
                 //update and delete - hide show logic
                 // var x = document.getElementsByClassName("updateDeleteIW");
@@ -374,7 +385,7 @@
                         '<a class="btn btn-secondary btn-sm mt-1 mb-1" href="/poi/'+id+'/update">Update</a>'+
                         '<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>'+
                       '</div>'+
-                      '<div ' + hiddenUserPOIDetails +'>' +
+                      '<div ' + hiddenDetails +'>' +
                         '<form>'+
                           '<div class="mt-1 mb-1">'+
                             '<div class="form-check form-check-inline ">'+
