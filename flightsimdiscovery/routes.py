@@ -20,8 +20,8 @@ from utilities import get_country_region, get_country_list, get_region_list, get
 @app.route("/home", methods=['GET', 'POST'])
 def home():
 
-    # print('This is standard output', file=sys.stdout)
-    #  data array to be posted which can be converted into a GeoJson object within Javascript on the front-end
+
+    #variables required for google maps to display data
     map_data = []
     map_init = {'zoom': 3, 'lat':23.6, 'long':170.9} # centre of map
     pois = Pois.query.all()
@@ -39,8 +39,23 @@ def home():
 
         for poi in user_pois:
             print('USER POI', poi)        
-            # user_pois_data[poi.id] = data_dic
-            user_pois_list.append(poi.id)
+            # user_pois_list.append(poi.id)
+            data_dic = {}
+            data_dic['id'] = poi.id
+            # data_dic['user_id'] = poi.user_id
+            # data_dic['name'] = poi.name
+            # data_dic['category'] = poi.category
+            # data_dic['country'] = poi.country
+            # data_dic['region'] = poi.region
+            # data_dic['description'] = poi.description
+            data_dic['user_rating'] = str(get_user_rating(poi.id))  
+            # data_dic['icon'] = '/static/img/marker/map-mark.png'
+            # data_dic['lat'] = poi.latitude
+            # data_dic['lng'] = poi.longitude
+            data_dic['visited'] = get_visited(poi.id)
+            data_dic['favorited'] = get_favorited(poi.id)
+
+            user_pois_list.append(data_dic)
 
     # check if user has submitted a search and filter database
     if request.method == 'POST':
@@ -99,7 +114,7 @@ def home():
         map_data.append(data_dic)
 
     print(map_data, file=sys.stdout)
-    print(user_pois, file=sys.stdout)
+    # print(user_pois, file=sys.stdout)
 
     return render_template("home.html", _anchor="where_togo_area", is_authenticated=is_authenticated, pois=map_data, user_pois=user_pois_list, map_init=map_init, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
     # return render_template("home.html", pois=data)
@@ -286,3 +301,30 @@ def get_rating(poi_id):
         sum_rating += int(row.rating_score)
 
     return '{0:3.1f}'.format(sum_rating/count)
+
+def get_user_rating(poi_id):
+
+    rating = Ratings.query.filter_by(poi_id=poi_id).first()
+
+    if rating:
+        return str(rating.rating_score)
+
+    return ""
+
+def get_favorited(poi_id):
+
+    favorite = Favorites.query.filter_by(poi_id=poi_id).first()
+
+    if favorite:
+        return 'True'
+    else:
+        return 'False'
+
+def get_visited(poi_id):
+
+    visited = Visited.query.filter_by(poi_id=poi_id).first()
+
+    if visited:
+        return 'True'
+    else:
+        return 'False'

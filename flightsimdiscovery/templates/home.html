@@ -245,8 +245,9 @@
 
             // Parse the posted data into a GeoJSon format required by Google Maps
             let poi_data_array = [];
-            let user_pois_list = [];
             var poi_data = {}; 
+
+            // let user_pois_list = [];
 
             var map_zoom = {{map_init['zoom']}};
             var map_center_lat = {{map_init['lat']}};
@@ -266,9 +267,9 @@
             {% endfor %}
             
             //create the infowindow user list
-            {% for user_poi in user_pois %}
+            {% for poi in user_pois %}
 
-                user_pois_list.push({{user_poi}});
+                infowindow_user_dict['{{poi.id}}'] = {'user_rating': "{{poi.user_rating}}",'visited': "{{poi.visited}}", 'favorited': "{{poi.favorited}}"};
 
             {% endfor %}
 
@@ -276,7 +277,7 @@
 
             // console.log(infowindow_dict);
             // console.log(poi_data_array);
-            console.log(user_pois_list);
+            // console.log(user_pois_list);
             const dataGeoJSON = GeoJSON.parse(poi_data_array, { Point: ["lat", "lng"] });
             // console.log(dataGeoJSON);
             
@@ -350,16 +351,22 @@
                 var category = infowindow_dict[marker_name]['category'];
                 var description = infowindow_dict[marker_name]['description'];
                 var rating = infowindow_dict[marker_name]['rating'];;
+                var hiddenButtons = 'style="display: none"';
                 var hiddenDetails = 'style="display: none"';
                 
-                console.log("USER POI LIST IS : " + user_pois_list);
+                console.log("USER INFOWINDOW DICT IS : " + infowindow_user_dict);
+              
                 if (is_authenticated=='True') {
                   console.log("USER IS AUTHENTICATED.  POI ID IS: "+ id);
                   console.log("POI NAME IS: " + marker_name); 
+                  hiddenDetails ='';
 
-                  if (user_pois_list.includes(parseInt(id))) {
+                  console.log(infowindow_user_dict[id])
+                  
+                  // if (user_pois_list.includes(parseInt(id))) {  
+                  if (infowindow_user_dict[id]) {
                     console.log("SHOWING DETAILS FOR THIS POI: "+ marker_name);
-                    hiddenDetails ='';
+                    hiddenButtons ='';
                   }
                 }
                 
@@ -373,7 +380,7 @@
                 
                 
                 var html_content =
-                  "<head><link rel='stylesheet' href='style.css'/></head>" +
+                  "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
                   "<div class='gm-style-iw' id='content'>" +
                     '<div id="siteNotice" </div>'+
                     '<h1 id="firstHeading" class="firstHeading">'+marker_name+'</h1>'+
@@ -381,7 +388,7 @@
                     '<div id="bodyContent">'+
                       '<p>'+description+'</p>'+
                       '<p>Average User rating: '+ rating + '</p>'+
-                      '<div ' + hiddenDetails +'>' +
+                      '<div ' + hiddenButtons +'>' +
                         '<a class="btn btn-secondary btn-sm mt-1 mb-1" href="/poi/'+id+'/update">Update</a>'+
                         '<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>'+
                       '</div>'+
