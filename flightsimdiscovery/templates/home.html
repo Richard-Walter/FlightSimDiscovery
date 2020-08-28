@@ -258,7 +258,7 @@
                 objects[{{loop.index}}]={'name': '{{poi.name}}', 'icon': "{{poi.icon}}", 'lat': '{{poi.lat}}','lng': '{{poi.lng}}'};
                 test_array.push(objects[{{loop.index}}]);
 
-                pois_js_dict['{{poi.name}}'] = {'id': "{{poi.id}}",'category': "{{poi.category}}", 'description': "{{poi.description}}"};
+                pois_js_dict['{{poi.name}}'] = {'id': "{{poi.id}}",'category': "{{poi.category}}", 'description': "{{poi.description}}", 'rating': "{{poi.rating}}"};
                 
             {% endfor %}
 
@@ -336,7 +336,7 @@
                 var id = pois_js_dict[marker_name]['id'];
                 var category = pois_js_dict[marker_name]['category'];
                 var description = pois_js_dict[marker_name]['description'];
-                var rating = 5;
+                var rating = pois_js_dict[marker_name]['rating'];;
                 var hiddenDetails = 'style="display: none"';
                 
                 if (is_authenticated=='True'){
@@ -359,7 +359,7 @@
                     '<h2 id="categoryHeading" class="categoryHeading">'+category+'</h2>'+
                     '<div id="bodyContent">'+
                       '<p>'+description+'</p>'+
-                      '<p>Rating: '+ rating + '</p>'+
+                      '<p>Average User rating: '+ rating + '</p>'+
                       '<div ' + hiddenDetails +'>' +
                         '<a class="btn btn-secondary btn-sm mt-1 mb-1" href="/poi/'+id+'/update">Update</a>'+
                         '<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>'+

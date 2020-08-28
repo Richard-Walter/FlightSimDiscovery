@@ -4,7 +4,7 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from flightsimdiscovery import app, db, bcrypt
 from flightsimdiscovery.forms import RegistrationForm, LoginForm, UpdateAccountForm, PoiCreateForm, PoiUpdateForm
-from flightsimdiscovery.models import User, Pois
+from flightsimdiscovery.models import User, Pois, Ratings, Favorites, Visited
 from flask_login import login_user, current_user, logout_user, login_required
 from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details
 
@@ -81,7 +81,7 @@ def home():
         data_dic['country'] = poi.country
         data_dic['region'] = poi.region
         data_dic['description'] = poi.description
-        data_dic['rating'] = poi.rating
+        data_dic['rating'] = str(get_rating(poi.id))
         data_dic['icon'] = '/static/img/marker/map-mark.png'
         data_dic['lat'] = poi.latitude
         data_dic['lng'] = poi.longitude
@@ -191,11 +191,21 @@ def new_poi():
     print("User id is:  ", user_id)
 
     if form.validate_on_submit():
+
+        # Update POIS table
         poi = Pois(user_id=user_id, name=form.name.data,latitude=float(form.latitude.data), longitude=float(form.longitude.data),
                  region=get_country_region(form.country.data), country=form.country.data, category=form.category.data, description=form.description.data,
                  nearest_icao_code=form.nearest_airport.data, rating=5)
+        
         db.session.add(poi)
         db.session.commit()
+
+        #Update Rating table
+        print('Poi ID is: ', poi.id) # This gets the above poi that was just committed.
+        rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=5)
+        db.session.add(rating)
+        db.session.commit()
+
         flash('A new point of interest has been created!', 'success')
         return redirect(url_for('home'))
     return render_template('create_poi.html', form=form, legend='New Poi')
@@ -255,3 +265,13 @@ def delete_post(poi_id):
     db.session.commit()
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('home'))
+
+def get_rating(poi_id):
+
+    sum_rating = 0
+
+    ratings = Ratings.query.all()
+    for count, row in enumerate(ratings, start=1):
+        sum_rating += int(row.rating_score)
+
+    return '{0:3.1f}'.format(sum_rating/count)
