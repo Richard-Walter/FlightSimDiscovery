@@ -214,7 +214,7 @@
                   </select>
                 </div>
                 <div class="search_btn">
-                  <button class="boxed-btn4" type="submit">Search</button>
+                  <button name="search_form_submit" class="boxed-btn4" type="submit">Search</button>
                 </div>
               </form>
             </div>
@@ -350,7 +350,7 @@
                 var id = infowindow_dict[marker_name]['id'];
                 var category = infowindow_dict[marker_name]['category'];
                 var description = infowindow_dict[marker_name]['description'];
-                var rating = infowindow_dict[marker_name]['rating'];;
+                var rating = infowindow_dict[marker_name]['rating'];
                 var hiddenButtons = 'style="display: none"';
                 var hiddenDetails = 'style="display: none"';
                 
@@ -393,7 +393,8 @@
                         '<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>'+
                       '</div>'+
                       '<div ' + hiddenDetails +'>' +
-                        '<form>'+
+                        '<form method="POST" action="/home" target="dummyframe">'+
+                        '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
                           '<div class="mt-1 mb-1">'+
                             '<div class="form-check form-check-inline ">'+
                               '<input class="form-check-input" type="radio" name="ratingOptions" id="ratingOptions1" value="1">'+
@@ -418,14 +419,15 @@
                           '</div>'+
                           '<div class="mt-1 mb-1">' +
                             '<div class="form-check-inline">'+
-                            '<input type="checkbox" class="form-check-input" value="" id="favoritetCheck">'+
+                            '<input type="checkbox" class="form-check-input" name="favoriteChecked" value="Yes" id="favoritetCheck">'+
                             '<label class="form-check-label" for="favoritetCheck">favorite</label>'+
                             '</div>'+
                             '<div class="form-check-inline">'+
-                            '<input type="checkbox" class="form-check-input" value="" id="visitedtCheck">'+
+                            '<input type="checkbox" class="form-check-input" name="visitedChecked" value="Yes" id="visitedtCheck">'+
                             '<label class="form-check-label" for="visitedtCheck">explored</label>'+
                             '</div>'+
-                            '<button type="submit" class="btn btn-primary btn-sm">Submit</button>'+
+                            '<input type="hidden" id="poi_id" name="poi_id" value="'+id+'">'+
+                            '<button name="infowindow_form_submit" type="submit" class="btn btn-primary btn-sm">Submit</button>'+
                           '</div>'+
                         '</form>'+
                       '</div>'+
@@ -495,11 +497,9 @@
             {% endfor %}
           </tbody>
         </table>
-  
       <!-- </div> -->
     </div>
     <!-- database table_area_end  -->
-
 
     <!-- popular_destination_area_start  -->
     <div class="popular_destination_area">

@@ -28,6 +28,7 @@ def home():
     user_pois_list = []
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating':'Rating'} 
     is_authenticated = False
+    user_id = None
 
     if current_user.is_authenticated:
 
@@ -42,16 +43,7 @@ def home():
             # user_pois_list.append(poi.id)
             data_dic = {}
             data_dic['id'] = poi.id
-            # data_dic['user_id'] = poi.user_id
-            # data_dic['name'] = poi.name
-            # data_dic['category'] = poi.category
-            # data_dic['country'] = poi.country
-            # data_dic['region'] = poi.region
-            # data_dic['description'] = poi.description
             data_dic['user_rating'] = str(get_user_rating(poi.id))  
-            # data_dic['icon'] = '/static/img/marker/map-mark.png'
-            # data_dic['lat'] = poi.latitude
-            # data_dic['lng'] = poi.longitude
             data_dic['visited'] = get_visited(poi.id)
             data_dic['favorited'] = get_favorited(poi.id)
 
@@ -59,41 +51,95 @@ def home():
 
     # check if user has submitted a search and filter database
     if request.method == 'POST':
+
+        if 'search_form_submit' in request.form:
         
-        category = request.form.get('selectCategory').strip()
-        region = request.form.get('selectRegion').strip()
-        country = request.form.get('selectCountry').strip()
-        rating = request.form.get('selectRating').strip()
+            category = request.form.get('selectCategory').strip()
+            region = request.form.get('selectRegion').strip()
+            country = request.form.get('selectCountry').strip()
+            rating = request.form.get('selectRating').strip()
 
-        #update search defaults so it shows the last search criteria
-        search_defaults['Category']=category
-        search_defaults['Region']=region
-        search_defaults['Country']=country
-        search_defaults['Rating']=rating
+            #update search defaults so it shows the last search criteria
+            search_defaults['Category']=category
+            search_defaults['Region']=region
+            search_defaults['Country']=country
+            search_defaults['Rating']=rating
 
-        # Creat the map intit variables
-        if country != 'Country':
+            # Creat the map intit variables
+            if country != 'Country':
 
-            map_init['zoom'] = 6    # default country zoom
-            map_init['lat'] = countries_details[country][1]
-            map_init['long'] = countries_details[country][2]
+                map_init['zoom'] = 6    # default country zoom
+                map_init['lat'] = countries_details[country][1]
+                map_init['long'] = countries_details[country][2]
 
-        elif region != 'Region':
-            map_init['zoom'] = region_details[region][2]
-            map_init['lat'] = region_details[region][0]
-            map_init['long'] = region_details[region][1]
+            elif region != 'Region':
+                map_init['zoom'] = region_details[region][2]
+                map_init['lat'] = region_details[region][0]
+                map_init['long'] = region_details[region][1]
 
-        # pois = Pois.query.filter_by(region='Oceania')
-        if category != 'Category':
-            pois = Pois.query.filter_by(category=category)
-        if region != 'Region':
-            pois = Pois.query.filter_by(region=region)
-        if country != 'Country':
-            pois = Pois.query.filter_by(country=country)         
-        if rating != 'Rating':
-            pois = Pois.query.filter_by(rating=rating)     
+            # pois = Pois.query.filter_by(region='Oceania')
+            if category != 'Category':
+                pois = Pois.query.filter_by(category=category)
+            if region != 'Region':
+                pois = Pois.query.filter_by(region=region)
+            if country != 'Country':
+                pois = Pois.query.filter_by(country=country)         
+            if rating != 'Rating':
+                pois = Pois.query.filter_by(rating=rating)
 
-    print("SEARCH DEFAULTS", search_defaults)
+        elif 'infowindow_form_submit' in request.form:
+            
+            #  Stores users POI preferences from submitted form
+            rating_score = request.form.get('ratingOptions') 
+            favorited = request.form.get('favoriteChecked')
+            visited = request.form.get('visitedChecked')
+            poi_id = request.form.get('poi_id')
+                           
+            # Update ratings table
+            if rating_score:
+                rating = Ratings.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+                print('OLD RATING: ', rating)
+                if rating:
+                    rating.user_id=user_id
+                    rating.poi_id=poi_id
+                    rating.rating_score=rating_score
+                else:
+                    rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=rating_score)
+                    db.session.add(rating)
+                db.session.commit()
+                print('NEW RATING: ', rating)
+
+            # Add/Update favorites table
+            if favorited:
+                favorite = Favorites.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+                print('OLD favorite: ', favorite)
+
+                if favorite:
+                    favorite.user_id=user_id
+                    favorite.poi_id=poi_id
+                else:
+                    favorite=Favorites(user_id=user_id, poi_id= poi.id)
+                    db.session.add(favorite)
+                db.session.commit()
+                print('NEW favorite: ', favorite)
+
+            # Add/Update Visited table
+            if visited:
+                visited = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+                print('OLD visited: ', visited)
+
+                if favorite: 
+                    visited.user_id=user_id
+                    visited.poi_id=poi_id
+                else:
+                    visited=Visited(user_id=user_id, poi_id= poi.id)
+                    db.session.add(visited)    
+                db.session.commit()
+                print('NEW visited: ', visited)
+
+            # return   # dont wont to reload the page, just store the users settg
+
+    # print("SEARCH DEFAULTS", search_defaults)
 
     #create the Point of Interest dictionary that gets posted for map to use
     for poi in pois:
@@ -202,9 +248,6 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-
-
-
 @app.route("/poi/new", methods=['GET', 'POST'])
 # @login_required
 def new_poi():
@@ -228,7 +271,7 @@ def new_poi():
 
         #Update Rating table
         print('Poi ID is: ', poi.id) # This gets the above poi that was just committed.
-        rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=5)
+        rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=4)
         db.session.add(rating)
         db.session.commit()
 
@@ -296,11 +339,14 @@ def get_rating(poi_id):
 
     sum_rating = 0
 
-    ratings = Ratings.query.all()
-    for count, row in enumerate(ratings, start=1):
-        sum_rating += int(row.rating_score)
+    ratings = Ratings.query.filter_by(poi_id=poi_id).all()
+    number_of_ratings = 0
 
-    return '{0:3.1f}'.format(sum_rating/count)
+    for row in ratings:
+        sum_rating += int(row.rating_score)
+        number_of_ratings += 1
+
+    return '{0:3.1f}'.format(sum_rating/number_of_ratings)
 
 def get_user_rating(poi_id):
 
