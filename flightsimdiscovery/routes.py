@@ -1,5 +1,6 @@
 import os, sys
 import secrets
+from openpyxl import Workbook, load_workbook
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from flightsimdiscovery import app, db, bcrypt
@@ -264,7 +265,7 @@ def new_poi():
         # Update POIS table
         poi = Pois(user_id=user_id, name=form.name.data,latitude=float(form.latitude.data), longitude=float(form.longitude.data),
                  region=get_country_region(form.country.data), country=form.country.data, category=form.category.data, description=form.description.data,
-                 nearest_icao_code=form.nearest_airport.data, rating=5)
+                 nearest_icao_code=form.nearest_airport.data)
         
         db.session.add(poi)
         db.session.commit()
@@ -335,6 +336,58 @@ def delete_post(poi_id):
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('home'))
 
+@app.route("/build_db")
+@login_required
+def build_db():
+
+    # open spreadsheet
+    workbook = load_workbook(filename="poi_unedited_ouput.xlsx")
+    sheet = workbook.active
+    print("######################")
+    print(sheet.cell(row=10, column=3).value)
+
+    print('Building dadtabase')
+
+    if (current_user.username == 'admin') and (False):
+        
+        # Test Create
+        user_id = 1 # admin will create all these 
+
+        for count, row in enumerate(sheet.rows, start=1):
+            print(count)
+            if count ==1:
+                continue    # dont include header
+
+            if row[0].value == "":
+                break   # no more data in spreadhseet
+
+            
+
+            poi = Pois(
+                user_id=user_id,
+                name=row[0].value,latitude=float(row[2].value),
+                longitude=float(row[3].value),
+                region=get_country_region(row[4].value),
+                country=row[4].value, category=row[1].value,
+                description=row[6].value
+            )
+        
+            db.session.add(poi)
+            db.session.commit()
+
+            #Update Rating table
+            # print('Poi ID is: ', poi.id) # This gets the above poi that was just committed.
+            rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=4)
+            db.session.add(rating)
+            db.session.commit()
+
+        flash('Database has been built', 'success')
+        return redirect(url_for('home'))
+    else:
+        
+        abort(403)
+
+
 def get_rating(poi_id):
 
     sum_rating = 0
@@ -374,3 +427,6 @@ def get_visited(poi_id):
         return 'True'
     else:
         return 'False'
+
+
+

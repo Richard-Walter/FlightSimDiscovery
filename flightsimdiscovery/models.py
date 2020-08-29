@@ -28,11 +28,13 @@ class Pois(db.Model):
     category = db.Column(db.String(20), unique=False, nullable=False)
     description = db.Column(db.Text, nullable=True)
     nearest_icao_code = db.Column(db.String(4), nullable=True)
-    rating = db.Column(db.Integer, nullable=True)
+    # rating = db.Column(db.Integer, nullable=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    share = db.Column(db.Boolean(), nullable=False, default=True)
+    flag = db.Column(db.Boolean(), nullable=False, default=False)
 
     def __repr__(self):
-        return f"Pois('{self.name}', '{self.country}', '{self.category}', '{self.rating}')"
+        return f"Pois('{self.name}', '{self.country}', '{self.category}')"
 
 class Ratings(db.Model):
     id = db.Column(db.Integer, primary_key=True)
