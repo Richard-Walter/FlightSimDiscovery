@@ -353,6 +353,15 @@
                 var rating = infowindow_dict[marker_name]['rating'];
                 var hiddenButtons = 'style="display: none"';
                 var hiddenDetails = 'style="display: none"';
+                var ratingRadio1 = '';
+                var ratingRadio2 = '';
+                var ratingRadio3 = '';
+                var ratingRadio4 = '';
+                var ratingRadio5 = '';
+                var favoriteCheck = ''
+                var visitedCheck = '';
+              
+ 
                 
                 console.log("USER INFOWINDOW DICT IS : " + infowindow_user_dict);
               
@@ -364,9 +373,34 @@
                   console.log(infowindow_user_dict[id])
                   
                   // if (user_pois_list.includes(parseInt(id))) {  
-                  if (infowindow_user_dict[id]) {
+                  user_poi_infowindow_dict =  infowindow_user_dict[id]
+                  if (user_poi_infowindow_dict) {
                     console.log("SHOWING DETAILS FOR THIS POI: "+ marker_name);
                     hiddenButtons ='';
+                    
+                    user_poi_rating = user_poi_infowindow_dict['user_rating'];
+                    user_poi_visited = user_poi_infowindow_dict['visited'];
+                    user_poi_favorited = user_poi_infowindow_dict['favorited'];
+
+                    if (user_poi_rating ==1) {
+                      ratingRadio1 = 'checked';
+                    } else if (user_poi_rating ==2){
+                      ratingRadio2 = 'checked';
+                    } else if (user_poi_rating ==3){
+                      ratingRadio3 = 'checked';
+                    } else if (user_poi_rating ==4){
+                      ratingRadio4 = 'checked';
+                    } else if (user_poi_rating ==5){
+                      ratingRadio5 = 'checked';
+                    }
+
+                    if (user_poi_visited=='True') {
+                      visitedCheck = 'checked';
+                    }
+                    if (user_poi_visited=='True') {
+                      favoriteCheck = 'checked';
+                    }
+
                   }
                 }
                 
@@ -397,33 +431,33 @@
                         '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
                           '<div class="mt-1 mb-1">'+
                             '<div class="form-check form-check-inline ">'+
-                              '<input class="form-check-input" type="radio" name="ratingOptions" id="ratingOptions1" value="1">'+
+                              '<input class="form-check-input" type="radio" name="ratingOptions" id="ratingOptions1" value="1" ' + ratingRadio1 +'>'+
                               '<label class="form-check-label" for="ratingOptions1">1</label>'+
                             '</div>'+
                             '<div class="form-check form-check-inline">'+
-                              '<input class="form-check-input" type="radio" name="ratingOptions" id="ratingOptions2" value="2">'+
+                              '<input class="form-check-input" type="radio" name="ratingOptions" id="ratingOptions2" value="2"' + ratingRadio2 +'>'+
                               '<label class="form-check-label" for="ratingOptions2">2</label>'+
                             '</div>'+
                             '<div class="form-check form-check-inline">'+
-                              '<input class="form-check-input" type="radio" name="ratingOptions" id="ratingOptions3" value="3">'+
+                              '<input class="form-check-input" type="radio" name="ratingOptions" id="ratingOptions3" value="3"' + ratingRadio3 +'>'+
                               '<label class="form-check-label" for="ratingOptions3">3</label>'+
                             '</div>'+
                             '<div class="form-check form-check-inline">'+
-                              '<input class="form-check-input" type="radio" name="ratingOptions" id="ratingOptions4" value="4">'+
+                              '<input class="form-check-input" type="radio" name="ratingOptions" id="ratingOptions4" value="4"' + ratingRadio4 +'>'+
                               '<label class="form-check-label" for="ratingOptions3">4</label>'+
                             '</div>'+
                             '<div class="form-check form-check-inline">'+
-                              '<input class="form-check-input" type="radio" name="ratingOptions" id="ratingOptions5" value="5">'+
+                              '<input class="form-check-input" type="radio" name="ratingOptions" id="ratingOptions5" value="5"' + ratingRadio5 +'>'+
                               '<label class="form-check-label" for="ratingOptions3">5</label>'+
                             '</div>'+
                           '</div>'+
                           '<div class="mt-1 mb-1">' +
                             '<div class="form-check-inline">'+
-                            '<input type="checkbox" class="form-check-input" name="favoriteChecked" value="Yes" id="favoritetCheck">'+
+                            '<input type="checkbox" class="form-check-input" name="favoriteChecked" value="Yes" id="favoritetCheck "' + favoriteCheck +'>'+
                             '<label class="form-check-label" for="favoritetCheck">favorite</label>'+
                             '</div>'+
                             '<div class="form-check-inline">'+
-                            '<input type="checkbox" class="form-check-input" name="visitedChecked" value="Yes" id="visitedtCheck">'+
+                            '<input type="checkbox" class="form-check-input" name="visitedChecked" value="Yes" id="visitedtCheck "'+ visitedCheck +'>'+
                             '<label class="form-check-label" for="visitedtCheck">explored</label>'+
                             '</div>'+
                             '<input type="hidden" id="poi_id" name="poi_id" value="'+id+'">'+

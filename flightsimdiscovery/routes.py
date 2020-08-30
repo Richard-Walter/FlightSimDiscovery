@@ -40,7 +40,7 @@ def home():
         user_pois = Pois.query.filter_by(user_id=user_id).all()
 
         for poi in user_pois:
-            print('USER POI', poi)        
+            # print('USER POI', poi)        
             # user_pois_list.append(poi.id)
             data_dic = {}
             data_dic['id'] = poi.id
@@ -99,10 +99,11 @@ def home():
             # Update ratings table
             if rating_score:
                 rating = Ratings.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+                print('\n\n')
                 print('OLD RATING: ', rating)
-                if rating:
-                    rating.user_id=user_id
-                    rating.poi_id=poi_id
+                if rating:  # update rating score
+                    # rating.user_id=user_id
+                    # rating.poi_id=poi_id
                     rating.rating_score=rating_score
                 else:
                     rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=rating_score)
@@ -115,28 +116,41 @@ def home():
                 favorite = Favorites.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
                 print('OLD favorite: ', favorite)
 
-                if favorite:
-                    favorite.user_id=user_id
-                    favorite.poi_id=poi_id
+                if favorite: # record already exists do nothing
+                    pass
                 else:
-                    favorite=Favorites(user_id=user_id, poi_id= poi.id)
+                    favorite=Favorites(user_id=user_id, poi_id= poi_id)
                     db.session.add(favorite)
-                db.session.commit()
-                print('NEW favorite: ', favorite)
+                    db.session.commit()
+                    print('NEW favorite: ', favorite)
+            else:   # remove record from db if exists
+                favorite = Favorites.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+
+                if favorite: 
+                    print('REMOVING favorite: ', favorite)
+                    db.session.delete(favorite)
+                    db.session.commit()
+                               
 
             # Add/Update Visited table
             if visited:
-                visited = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
-                print('OLD visited: ', visited)
+                visit = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+                print('OLD Visited: ', visit)
 
-                if favorite: 
-                    visited.user_id=user_id
-                    visited.poi_id=poi_id
+                if visit: # record already exists do nothing
+                    pass
                 else:
-                    visited=Visited(user_id=user_id, poi_id= poi.id)
-                    db.session.add(visited)    
-                db.session.commit()
-                print('NEW visited: ', visited)
+                    visit=Visited(user_id=user_id, poi_id= poi_id)
+                    db.session.add(visit)
+                    db.session.commit()
+                    print('NEW Visited: ', visit)
+            else:   # remove record from db if exists
+                visit = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+
+                if visit: 
+                    print('REMOVING Visited: ', visit)
+                    db.session.delete(visit)
+                    db.session.commit()
 
             # return   # dont wont to reload the page, just store the users settg
 
@@ -144,7 +158,7 @@ def home():
 
     #create the Point of Interest dictionary that gets posted for map to use
     for poi in pois:
-        print('Poi', poi)
+        # print('Poi', poi)
         data_dic = {}
         data_dic['id'] = poi.id
         data_dic['user_id'] = poi.user_id
@@ -160,7 +174,7 @@ def home():
         
         map_data.append(data_dic)
 
-    print(map_data, file=sys.stdout)
+    # print(map_data, file=sys.stdout)
     # print(user_pois, file=sys.stdout)
 
     return render_template("home.html", _anchor="where_togo_area", is_authenticated=is_authenticated, pois=map_data, user_pois=user_pois_list, map_init=map_init, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
