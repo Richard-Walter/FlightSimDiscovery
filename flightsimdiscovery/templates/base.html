@@ -71,7 +71,7 @@
               <div class="row align-items-center">
                 <div class="col-xl-4 col-lg-4">
                   <div class="logo">
-                    <a href="home">
+                    <a href="{{ url_for('home') }}">
                       <!-- <img src="static/img/logo.png" alt="" /> -->
                       <img src="{{ url_for('static', filename='/img/logo.png') }}">
                     </a>
@@ -81,7 +81,7 @@
                   <div class="main-menu d-none d-lg-block">
                     <nav>
                       <ul id="navigation">
-                        <li><a class="active" href="{{ url_for('home') }}">home</a></li>
+                        <!-- <li><a class="active" href="{{ url_for('home') }}">home</a></li> -->
                         <li><a href="{{ url_for('new_poi') }}">Create POI</a></li>
                         <li><a href="{{ url_for('about') }}">About</a></li>
                         <li><a href="{{ url_for('contact') }}">Contact</a></li>

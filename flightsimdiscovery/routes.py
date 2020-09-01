@@ -88,12 +88,10 @@ def home():
             if rating != 'Rating':
                 pois = Pois.query.filter_by(rating=rating)
 
-        elif 'infowindow_form_submit' in request.form:
+        elif 'ratingOptions' in request.form:
             
             #  Stores users POI preferences from submitted form
             rating_score = request.form.get('ratingOptions') 
-            favorited = request.form.get('favoriteChecked')
-            visited = request.form.get('visitedChecked')
             poi_id = request.form.get('poi_id')
                            
             # Update ratings table
@@ -110,6 +108,12 @@ def home():
                     db.session.add(rating)
                 db.session.commit()
                 print('NEW RATING: ', rating)
+
+        elif 'favoriteChecked' in request.form:
+            
+            #  Stores users POI preferences from submitted form
+            favorited = request.form.get('favoriteChecked')
+            poi_id = request.form.get('poi_id')
 
             # Add/Update favorites table
             if favorited:
@@ -131,7 +135,12 @@ def home():
                     db.session.delete(favorite)
                     db.session.commit()
                                
-
+        elif 'visitedChecked' in request.form:
+            
+            #  Stores users POI preferences from submitted form
+            visited = request.form.get('visitedChecked')
+            poi_id = request.form.get('poi_id')
+                               
             # Add/Update Visited table
             if visited:
                 visit = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
