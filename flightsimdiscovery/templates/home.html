@@ -85,8 +85,8 @@
 </div>
 <!-- slider_area_end -->
 <div id="searchTag">
-  <br />
-  <br />
+  <!-- <br />
+  <br /> -->
 </div>
 
 <!-- where_togo_area_start  -->
@@ -251,24 +251,13 @@
         var map_center_long = {{map_init['long']}};
 
         //create the infowindow data dictionary
-        var infowindow_dict = {};
-        var infowindow_user_dict = {};
+        infowindow_dict = {}
+        var pois_array = {{pois|tojson}};
+        var infowindow_user_dict = {{user_pois_json|tojson}};
 
-        {% for poi in pois %}
-
-            poi_data[{{loop.index}}]={'name': '{{poi.name}}', 'icon': "{{poi.icon}}", 'lat': '{{poi.lat}}','lng': '{{poi.lng}}'};
-            poi_data_array.push(poi_data[{{loop.index}}]);
-
-            infowindow_dict['{{poi.name}}'] = {'id': "{{poi.id}}",'category': "{{poi.category}}", 'description': "{{poi.description}}", 'rating': "{{poi.rating}}"};
-
-        {% endfor %}
-
-        //create the infowindow user list
-        {% for poi in user_pois %}
-
-            infowindow_user_dict['{{poi.id}}'] = {'user_rating': "{{poi.user_rating}}",'visited': "{{poi.visited}}", 'favorited': "{{poi.favorited}}"};
-
-        {% endfor %}
+        pois_array.forEach(function (poi, index) {
+          infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'description': poi.description, 'rating': poi.rating};
+        });
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
@@ -280,7 +269,7 @@
             mapTypeId: google.maps.MapTypeId.TERRAIN,
           });
 
-          const dataGeoJSON = GeoJSON.parse(poi_data_array, { Point: ["lat", "lng"] });
+          const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
           markerCollection = map.data.addGeoJson(dataGeoJSON);
 
             // var markerCollection = map.data.loadGeoJson("static/map.geojson");
@@ -415,18 +404,16 @@
                           '<input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="favoriteChecked" value="Yes" id="favoritetCheck "' + favoriteCheck +'>'+
                           '<label class="form-check-label" for="favoritetCheck">favorite</label>'+
                           '</div>'+
-                          '<input type="hidden" id="poi_id" name="poi_id" value="'+id+'">'+
                         '</div>'+
                       '</form>'+
                       '<form id="formIWvisited" method="POST" action="/home" target="dummyframe3">'+
                       '<iframe name="dummyframe3" id="dummyframe3" style="display: none;"></iframe>' +
                         '<div class="mt-1 mb-1">' +
                           '<div class="form-check-inline">'+
-                          '<input type="hidden" name="visitedChecked" value="" id="favoritetCheck ">'+
+                          '<input type="hidden" name="visitedChecked" value="" id="visitedChecked ">'+
                           '<input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="visitedChecked" value="Yes" id="visitedtCheck "'+ visitedCheck +'>'+
                           '<label class="form-check-label" for="visitedtCheck">explored</label>'+
                           '</div>'+
-                          '<input type="hidden" id="poi_id" name="poi_id" value="'+id+'">'+
                         '</div>'+
                       '</form>'+
                     '</div>'+

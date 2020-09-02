@@ -1,6 +1,7 @@
 import os, sys
 import secrets
 from openpyxl import Workbook, load_workbook
+import json
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from flightsimdiscovery import app, db, bcrypt
@@ -24,9 +25,11 @@ def home():
 
     #variables required for google maps to display data
     map_data = []
+    map_data_dict = {}
     map_init = {'zoom': 3, 'lat':23.6, 'long':170.9} # centre of map
     pois = Pois.query.all()
-    user_pois_list = []
+    # user_pois_list = []
+    user_pois_dict = {}
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating':'Rating'} 
     is_authenticated = False
     user_id = None
@@ -37,18 +40,15 @@ def home():
 
         # Create a list of Users POIS for the google map info window to use
         user_id = current_user.id
-        user_pois = Pois.query.filter_by(user_id=user_id).all()
+        user_pois = Pois.query.filter_by(user_id=user_id).all() #  returns a list
 
         for poi in user_pois:
-            # print('USER POI', poi)        
-            # user_pois_list.append(poi.id)
-            data_dic = {}
-            data_dic['id'] = poi.id
-            data_dic['user_rating'] = str(get_user_rating(poi.id))  
-            data_dic['visited'] = get_visited(poi.id)
-            data_dic['favorited'] = get_favorited(poi.id)
 
-            user_pois_list.append(data_dic)
+            rating = str(get_user_rating(poi.id))  
+            visited= get_visited(poi.id)
+            favorited = get_favorited(poi.id)
+
+            user_pois_dict[poi.id] = {'user_rating': rating, 'visited': visited,'favorited': favorited}        
 
     # check if user has submitted a search and filter database
     if request.method == 'POST':
@@ -100,8 +100,7 @@ def home():
                 print('\n\n')
                 print('OLD RATING: ', rating)
                 if rating:  # update rating score
-                    # rating.user_id=user_id
-                    # rating.poi_id=poi_id
+
                     rating.rating_score=rating_score
                 else:
                     rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=rating_score)
@@ -163,7 +162,6 @@ def home():
 
             # return   # dont wont to reload the page, just store the users settg
 
-    # print("SEARCH DEFAULTS", search_defaults)
 
     #create the Point of Interest dictionary that gets posted for map to use
     for poi in pois:
@@ -183,10 +181,7 @@ def home():
         
         map_data.append(data_dic)
 
-    # print(map_data, file=sys.stdout)
-    # print(user_pois, file=sys.stdout)
-
-    return render_template("home.html", _anchor="where_togo_area", is_authenticated=is_authenticated, pois=map_data, user_pois=user_pois_list, map_init=map_init, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
+    return render_template("home.html", _anchor="where_togo_area", is_authenticated=is_authenticated, user_pois_json=user_pois_dict, pois=map_data, map_init=map_init, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
     # return render_template("home.html", pois=data)
 
 
