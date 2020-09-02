@@ -253,7 +253,10 @@
         //create the infowindow data dictionary
         infowindow_dict = {}
         var pois_array = {{pois|tojson}};
-        var infowindow_user_dict = {{user_pois_json|tojson}};
+        var user_pois = {{user_pois_json|tojson}};
+        var user_ratings_dict = {{user_ratings|tojson}};
+        var user_favorites = {{user_favorites|tojson}};
+        var user_visited = {{user_visited|tojson}};
 
         pois_array.forEach(function (poi, index) {
           infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'description': poi.description, 'rating': poi.rating};
@@ -306,6 +309,7 @@
               var rating = infowindow_dict[marker_name]['rating'];
               var hiddenButtons = 'style="display: none"';
               var hiddenDetails = 'style="display: none"';
+              var hiddenRatings = '';
               var ratingRadio1 = '';
               var ratingRadio2 = '';
               var ratingRadio3 = '';
@@ -314,47 +318,49 @@
               var favoriteCheck = ''
               var visitedCheck = '';
 
-              console.log("USER INFOWINDOW DICT IS : " + infowindow_user_dict);
 
               if (is_authenticated=='True') {
                 console.log("USER IS AUTHENTICATED.  POI ID IS: "+ id);
                 console.log("POI NAME IS: " + marker_name);
                 hiddenDetails ='';
 
-                console.log(infowindow_user_dict[id])
 
                 // if (user_pois_list.includes(parseInt(id))) {
-                user_poi_infowindow_dict =  infowindow_user_dict[id]
-                if (user_poi_infowindow_dict) {
+                // user_poi_infowindow_dict =  infowindow_user_dict[id]
+                if (user_pois.includes(id)) {
                   console.log("SHOWING DETAILS FOR THIS POI: "+ marker_name);
                   hiddenButtons ='';
-
-                  user_poi_rating = user_poi_infowindow_dict['user_rating'];
-                  user_poi_visited = user_poi_infowindow_dict['visited'];
-                  user_poi_favorited = user_poi_infowindow_dict['favorited'];
-
-                  if (user_poi_rating ==1) {
-                    ratingRadio1 = 'checked';
-                  } else if (user_poi_rating ==2){
-                    ratingRadio2 = 'checked';
-                  } else if (user_poi_rating ==3){
-                    ratingRadio3 = 'checked';
-                  } else if (user_poi_rating ==4){
-                    ratingRadio4 = 'checked';
-                  } else if (user_poi_rating ==5){
-                    ratingRadio5 = 'checked';
-                  }
-
-                  if (user_poi_visited=='True') {
-                    visitedCheck = 'checked';
-                  }
-                  if (user_poi_favorited=='True') {
-                    favoriteCheck = 'checked';
-                  }
-
                 }
-              }
 
+                user_poi_rating = user_ratings_dict[id]
+                
+                //  Hide star rating if already rated??
+                // if (user_poi_rating) {
+                //   hiddenRatings = 'style="display: none"';
+                // }
+
+                if (user_poi_rating ==1) {
+                  ratingRadio1 = 'checked';
+                } else if (user_poi_rating ==2){
+                  ratingRadio2 = 'checked';
+                } else if (user_poi_rating ==3){
+                  ratingRadio3 = 'checked';
+                } else if (user_poi_rating ==4){
+                  ratingRadio4 = 'checked';
+                } else if (user_poi_rating ==5){
+                  ratingRadio5 = 'checked';
+                }
+
+
+                if (user_visited.includes(id)) {
+                  visitedCheck = 'checked';
+                }
+                if (user_favorites.includes(id)) {
+                  favoriteCheck = 'checked';
+                }
+
+                
+              }
 
               var html_content =
                 "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
@@ -370,32 +376,24 @@
                       '<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>'+
                     '</div>'+
                     '<div ' + hiddenDetails +'>' +
-                      '<form id="formIWrating" method="POST" action="/home" target="dummyframe">'+
-                      '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
-                        '<div class="mt-1 mb-1">'+
-                          '<div class="form-check form-check-inline ">'+
-                            '<input class="form-check-input" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions1" value="1" ' + ratingRadio1 +'>'+
-                            '<label class="form-check-label" for="ratingOptions1">1</label>'+
-                          '</div>'+
-                          '<div class="form-check form-check-inline">'+
-                            '<input class="form-check-input" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions2" value="2"' + ratingRadio2 +'>'+
-                            '<label class="form-check-label" for="ratingOptions2">2</label>'+
-                          '</div>'+
-                          '<div class="form-check form-check-inline">'+
-                            '<input class="form-check-input" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions3" value="3"' + ratingRadio3 +'>'+
-                            '<label class="form-check-label" for="ratingOptions3">3</label>'+
-                          '</div>'+
-                          '<div class="form-check form-check-inline">'+
-                            '<input class="form-check-input" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions4" value="4"' + ratingRadio4 +'>'+
-                            '<label class="form-check-label" for="ratingOptions3">4</label>'+
-                          '</div>'+
-                          '<div class="form-check form-check-inline">'+
-                            '<input class="form-check-input" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions5" value="5"' + ratingRadio5 +'>'+
-                            '<label class="form-check-label" for="ratingOptions3">5</label>'+
-                          '</div>'+
-                          '<input type="hidden" name="poi_id" value="'+id+'">'+
-                        '</div>'+
-                      '</form>'+
+                      // '<form id="formIWrating" method="POST" action="/home" target="dummyframe">'+
+                      // '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
+                      //   '<div class="mt-1 mb-1 poi_rating">'+
+                      //       '<input class="radio-btn hide" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions1" value="1" ' + ratingRadio1 +'>'+
+                      //       '<label for="ratingOptions1">☆</label>'+
+                      //       '<input class="radio-btn hide" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions2" value="2"' + ratingRadio2 +'>'+
+                      //       '<label for="ratingOptions2">☆</label>'+
+                      //       '<input class="radio-btn hide" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions3" value="3"' + ratingRadio3 +'>'+
+                      //       '<label for="ratingOptions3">☆</label>'+
+                      //       '<input class="radio-btn hide" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions4" value="4"' + ratingRadio4 +'>'+
+                      //       '<label  for="ratingOptions3">☆</label>'+
+                      //       '<input class=" radio-btn hide" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions5" value="5"' + ratingRadio5 +'>'+
+                      //       '<label  for="ratingOptions3">☆</label>'+
+                      //       '<div class="clear"></div>'+
+                      //     '</div>'+                         
+                      //     '<input type="hidden" name="poi_id" value="'+id+'">'+
+                      //   '</div>'+
+                      // '</form>'+
                       '<form id="formIWfavorite" method="POST" action="/home" target="dummyframe2">'+
                       '<iframe name="dummyframe2" id="dummyframe2" style="display: none;"></iframe>' +
                         '<div class="mt-1 mb-1">' +
@@ -419,6 +417,27 @@
                         '</div>'+
                       '</form>'+
                     '</div>'+
+                    '<div ' + hiddenRatings +'>' +
+                      '<div class="txt-center ">'+
+                        '<form id="formIWrating" method="POST" action="/home" target="dummyframe">'+
+                        '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
+                              '<div class="poi_rating center-block">'+
+                                  '<input id="ratingOptions5" name="ratingOptions" type="radio" value="5" class="radio-btn hide" onclick="this.form.submit()" />'+
+                                  '<label for="ratingOptions5" >☆</label>'+
+                                  '<input id="ratingOptions4" name="ratingOptions" type="radio" value="4" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                  '<label for="ratingOptions4" >☆</label>'+
+                                  '<input id="ratingOptions3" name="ratingOptions" type="radio" value="3" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                  '<label for="ratingOptions3" >☆</label>'+
+                                  '<input id="ratingOptions2" name="ratingOptions" type="radio" value="2" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                  '<label for="ratingOptions2" >☆</label>'+
+                                  '<input id="ratingOptions1" name="ratingOptions" type="radio" value="1" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                  '<label for="ratingOptions1" >☆</label>'+
+                                  '<div class="clear"></div>'+     
+                                  '<input type="hidden" name="poi_id" value="'+id+'">'+                           
+                              '</div>'+
+                        '</form>'+
+                      '</div>'+
+                    '</div>'+  
                   '</div>'+
                 '</div>'
 

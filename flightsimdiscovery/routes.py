@@ -30,6 +30,10 @@ def home():
     pois = Pois.query.all()
     # user_pois_list = []
     user_pois_dict = {}
+    user_pois_list = []
+    user_ratings = {}
+    user_favorites = []
+    user_visited= []
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating':'Rating'} 
     is_authenticated = False
     user_id = None
@@ -44,11 +48,31 @@ def home():
 
         for poi in user_pois:
 
-            rating = str(get_user_rating(poi.id))  
-            visited= get_visited(poi.id)
-            favorited = get_favorited(poi.id)
+            # rating = str(get_user_rating(poi.id))  
+            # visited= get_visited(poi.id)
+            # favorited = get_favorited(poi.id)
 
-            user_pois_dict[poi.id] = {'user_rating': rating, 'visited': visited,'favorited': favorited}        
+            # user_pois_dict[poi.id] = {'user_rating': rating, 'visited': visited,'favorited': favorited}    
+            user_pois_list.append(poi.id)    
+
+        #  User ratings
+        user_ratings_query = Ratings.query.filter_by(user_id=user_id).all() #  returns a list
+        for rating in user_ratings_query:
+
+            rating_score = str((rating.rating_score))  
+            user_ratings[rating.poi_id] = {'user_rating': rating_score} 
+
+        #  User favorites
+        user_favorite_query = Favorites.query.filter_by(user_id=user_id).all() #  returns a list
+        for favorite in user_favorite_query:
+
+            user_favorites.append(favorite.poi_id)  
+
+        #  User visited
+        user_visited_query = Visited.query.filter_by(user_id=user_id).all() #  returns a list
+        for visit in user_visited_query:
+
+            user_visited.append(visit.poi_id)  
 
     # check if user has submitted a search and filter database
     if request.method == 'POST':
@@ -103,7 +127,7 @@ def home():
 
                     rating.rating_score=rating_score
                 else:
-                    rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=rating_score)
+                    rating = Ratings(user_id=user_id, poi_id= poi_id, rating_score=rating_score)
                     db.session.add(rating)
                 db.session.commit()
                 print('NEW RATING: ', rating)
@@ -181,7 +205,7 @@ def home():
         
         map_data.append(data_dic)
 
-    return render_template("home.html", _anchor="where_togo_area", is_authenticated=is_authenticated, user_pois_json=user_pois_dict, pois=map_data, map_init=map_init, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
+    return render_template("home.html", _anchor="where_togo_area", is_authenticated=is_authenticated, user_visited=user_visited, user_favorites=user_favorites, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init, search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list()) 
     # return render_template("home.html", pois=data)
 
 
@@ -288,11 +312,11 @@ def new_poi():
         db.session.add(poi)
         db.session.commit()
 
-        #Update Rating table
-        print('Poi ID is: ', poi.id) # This gets the above poi that was just committed.
-        rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=4)
-        db.session.add(rating)
-        db.session.commit()
+        # #Update Rating table
+        # print('Poi ID is: ', poi.id) # This gets the above poi that was just committed.
+        # rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=4)
+        # db.session.add(rating)
+        # db.session.commit()
 
         flash('A new point of interest has been created!', 'success')
         return redirect(url_for('home'))
