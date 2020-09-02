@@ -348,7 +348,7 @@
                   if (user_poi_visited=='True') {
                     visitedCheck = 'checked';
                   }
-                  if (user_poi_visited=='True') {
+                  if (user_poi_favorited=='True') {
                     favoriteCheck = 'checked';
                   }
 
@@ -393,27 +393,29 @@
                             '<input class="form-check-input" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions5" value="5"' + ratingRadio5 +'>'+
                             '<label class="form-check-label" for="ratingOptions3">5</label>'+
                           '</div>'+
-                          '<input type="hidden" id="poi_id" name="poi_id" value="'+id+'">'+
+                          '<input type="hidden" name="poi_id" value="'+id+'">'+
                         '</div>'+
                       '</form>'+
                       '<form id="formIWfavorite" method="POST" action="/home" target="dummyframe2">'+
                       '<iframe name="dummyframe2" id="dummyframe2" style="display: none;"></iframe>' +
                         '<div class="mt-1 mb-1">' +
                           '<div class="form-check-inline">'+
-                          '<input type="hidden" name="favoriteChecked" value="" id="favoritetCheck ">'+
-                          '<input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="favoriteChecked" value="Yes" id="favoritetCheck "' + favoriteCheck +'>'+
+                          '<input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="favoriteChecked" value="Yes" id="favoriteChecked "' + favoriteCheck +'>'+
+                          '<input type="hidden" name="favoriteChecked" value="" id="favoriteChecked ">'+
                           '<label class="form-check-label" for="favoritetCheck">favorite</label>'+
                           '</div>'+
+                          '<input type="hidden" name="poi_id" value="'+id+'">'+
                         '</div>'+
                       '</form>'+
                       '<form id="formIWvisited" method="POST" action="/home" target="dummyframe3">'+
                       '<iframe name="dummyframe3" id="dummyframe3" style="display: none;"></iframe>' +
                         '<div class="mt-1 mb-1">' +
                           '<div class="form-check-inline">'+
-                          '<input type="hidden" name="visitedChecked" value="" id="visitedChecked ">'+
                           '<input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="visitedChecked" value="Yes" id="visitedtCheck "'+ visitedCheck +'>'+
+                          '<input type="hidden" name="visitedChecked" value="" id="visitedChecked ">'+
                           '<label class="form-check-label" for="visitedtCheck">explored</label>'+
                           '</div>'+
+                          '<input type="hidden" name="poi_id" value="'+id+'">'+
                         '</div>'+
                       '</form>'+
                     '</div>'+
