@@ -88,13 +88,31 @@ class PoiUpdateForm(FlaskForm):
     # remember = BooleanField('Remember Me')
     submit = SubmitField('Update')
 
-    def validate_latitude(self, latitude):
 
-        # add logic here
-        if not validate_lat(str(latitude.data)):
-            raise ValidationError('Please enter a valid latitude (-90 and +90) in degrees decimal.  e.g.-34.407279')
+class RequestResetForm(FlaskForm):
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
 
-    def validate_longitude(self, longitude):
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('There is no account with that email. You must register first.')
 
-        if not validate_long(str(longitude.data)):
-            raise ValidationError('Please enter a valid longitude (-180 and +180) in degrees decimal   e.g. 150.676888')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
+
+def validate_latitude(self, latitude):
+
+    # add logic here
+    if not validate_lat(str(latitude.data)):
+        raise ValidationError('Please enter a valid latitude (-90 and +90) in degrees decimal.  e.g.-34.407279')
+
+def validate_longitude(self, longitude):
+
+    if not validate_long(str(longitude.data)):
+        raise ValidationError('Please enter a valid longitude (-180 and +180) in degrees decimal   e.g. 150.676888')
