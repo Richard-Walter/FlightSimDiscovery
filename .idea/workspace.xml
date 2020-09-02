@@ -2,10 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18ec903c-65d0-47af-a46f-69bccf0eea94" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Category List.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Category List.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Category List.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Countries by region and centroid.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Countries centroid.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Countries_dict.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FSDiscovery locations raw.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JS_Regions_dict.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Regions centroid.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Regions_dict.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/flightsimdiscovery/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/site - Copy.db" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/site - Copy.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/site.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/poi_spaced_output.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/poi_unedited_ouput.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,8 +40,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/flightsimdiscovery/routes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3774">
-              <caret line="230" column="11" selection-start-line="230" selection-start-column="11" selection-end-line="230" selection-end-column="11" />
+            <state relative-caret-position="549">
+              <caret line="394" column="54" lean-forward="true" selection-start-line="394" selection-start-column="54" selection-end-line="394" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -40,8 +49,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utilities.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="647">
-              <caret line="766" lean-forward="true" selection-start-line="766" selection-end-line="766" />
+            <state relative-caret-position="696">
+              <caret line="787" column="75" lean-forward="true" selection-start-line="787" selection-start-column="75" selection-end-line="787" selection-end-column="75" />
+              <folding>
+                <element signature="e#24#33#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -55,6 +67,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/utilities.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/routes.py" />
       </list>
     </option>
   </component>
@@ -148,7 +161,7 @@
     <frame x="270" y="0" width="1386" height="1390" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -168,6 +181,13 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/routes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="549">
+          <caret line="394" column="54" lean-forward="true" selection-start-line="394" selection-start-column="54" selection-end-line="394" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/flightsimdiscovery/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
@@ -178,17 +198,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/routes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3774">
-          <caret line="230" column="11" selection-start-line="230" selection-start-column="11" selection-end-line="230" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utilities.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="647">
-          <caret line="766" lean-forward="true" selection-start-line="766" selection-end-line="766" />
+        <state relative-caret-position="696">
+          <caret line="787" column="75" lean-forward="true" selection-start-line="787" selection-start-column="75" selection-end-line="787" selection-end-column="75" />
+          <folding>
+            <element signature="e#24#33#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

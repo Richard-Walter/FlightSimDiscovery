@@ -385,7 +385,7 @@ def delete_post(poi_id):
 def build_db():
 
     # open spreadsheet
-    workbook = load_workbook(filename="poi_unedited_ouput.xlsx")
+    workbook = load_workbook(filename="\\data\\poi_database.xlsx")
     sheet = workbook.active
     print("######################")
     print(sheet.cell(row=10, column=3).value)

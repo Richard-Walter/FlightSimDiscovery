@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 import csv
+import os
 from openpyxl import Workbook
 import codecs
 from flightsimdiscovery import app, db, bcrypt
@@ -396,7 +397,8 @@ def validate_long(value):
 def generate_csvs():
     region_dict = 'countries_details = {' + '\n'
 
-    with open('Countries centroid.csv') as csv_file:
+    print(os.getcwd());
+    with open('flightsimdiscovery\\data\\Countries centroid.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
@@ -410,13 +412,13 @@ def generate_csvs():
                 line_count += 1
     region_dict += '}'
 
-    with open("Countries_dict.txt", "w") as text_file:
+    with open("flightsimdiscovery\\output\\Countries_dict.txt", "w") as text_file:
         text_file.write(region_dict)
 
     # generate region dictionary
     region_dict = 'region_details = {' + '\n'
 
-    with open('Regions centroid.csv') as csv_file:
+    with open('flightsimdiscovery\\data\\Regions centroid.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
@@ -430,13 +432,13 @@ def generate_csvs():
                 line_count += 1
     region_dict += '}'
 
-    with open("Regions_dict.txt", "w") as text_file:
+    with open("flightsimdiscovery\\output\\Regions_dict.txt", "w") as text_file:
         text_file.write(region_dict)
 
     # generate Javascript ccuntry_region dict
     python_region_dict = {}
 
-    with open('Countries centroid.csv') as csv_file:
+    with open('flightsimdiscovery\\data\\Countries centroid.csv') as csv_file:
 
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
@@ -458,18 +460,18 @@ def generate_csvs():
 
     js_dict += '}'
 
-    with open("JS_Regions_dict.txt", "w") as text_file:
+    with open("flightsimdiscovery\\output\\JS_Regions_dict.txt", "w") as text_file:
         text_file.write(js_dict)
 
 
 def create_pois_csv():
 
     # read in raw txt file and create a spaced file for each poi for regex to work with
-    with open("FSDiscovery locations raw.txt", encoding="utf8") as myfile:
+    with open("flightsimdiscovery\\data\\FSDiscovery locations raw.txt", encoding="utf8") as myfile:
     # with open("poi_spaced_output.txt", encoding="utf8") as myfile:
         data = myfile.read()
         # write raw output file that has each poi on a new line
-        f = codecs.open("poi_spaced_output.txt", "w", "utf-8-sig", )
+        f = codecs.open("flightsimdiscovery\\output\\poi_spaced_output.txt", "w", "utf-8-sig", )
         start_poi_matches = list(poi_start_pattern_compile.finditer(data))
         print(start_poi_matches)
 
@@ -486,7 +488,7 @@ def create_pois_csv():
 
         f.close()
 
-    with open("poi_spaced_output.txt", encoding="utf8") as myfile:
+    with open("flightsimdiscovery\\output\\poi_spaced_output.txt", encoding="utf8") as myfile:
         data = myfile.read()
 
     raw_poi_matches = re.findall(poi_pattern, data)
@@ -783,17 +785,15 @@ def create_pois_csv():
 
         row += 1
 
-    workbook.save(filename="poi_unedited_ouput.xlsx")
-
-
+    workbook.save(filename="flightsimdiscovery\\output\\poi_database.xlsx")
 
 
 if __name__ == '__main__':
 
     pass
    
-    # generate_csvs()
-    # create_pois_csv()
+    generate_csvs()
+    create_pois_csv()
 
     # test get_country_region
     # print(get_country_region('Australia'))
