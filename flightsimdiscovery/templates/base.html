@@ -71,7 +71,7 @@
               <div class="row align-items-center">
                 <div class="col-xl-4 col-lg-4">
                   <div class="logo">
-                    <a href="{{ url_for('home') }}">
+                    <a href="{{ url_for('main.home') }}">
                       <!-- <img src="static/img/logo.png" alt="" /> -->
                       <img src="{{ url_for('static', filename='/img/logo.png') }}">
                     </a>
@@ -81,11 +81,12 @@
                   <div class="main-menu d-none d-lg-block">
                     <nav>
                       <ul id="navigation">
-                        <!-- <li><a class="active" href="{{ url_for('home') }}">home</a></li> -->
-                        <li><a href="{{ url_for('new_poi') }}">Create POI</a></li>
-                        <li><a href="{{ url_for('about') }}">About</a></li>
-                        <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                        <!-- <li><a href="{{ url_for('home', _anchor='searchTag') }}">Go to specific id on suff page</a></li> -->
+                        <!-- <li><a class="active" href="{{ url_for('main.home') }}">home</a></li> -->
+                        <li><a href="{{ url_for('pois.new_poi') }}">Create POI</a></li>
+                        <li><a href="{{ url_for('main.about') }}">About</a></li>
+                        <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                        <!-- <li><a href="{{ url_for('main.home', _anchor='searchTag') }}">Go to specific id on suff
+                        page</a></li> -->
                       </ul>
                     </nav>
                   </div>
@@ -96,11 +97,11 @@
                       <nav>
                         <ul id="navigation">
                           {% if current_user.is_authenticated %}
-                          <li><a href="{{ url_for('account') }}">Account</a></li>
-                          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                          <li><a href="{{ url_for('users.account') }}">Account</a></li>
+                          <li><a href="{{ url_for('users.logout') }}">Logout</a></li>
                           {% else %}
-                          <li><a href="{{ url_for('login') }}">Login</a></li>
-                          <li><a href="{{ url_for('register') }}">Register</a></li>
+                          <li><a href="{{ url_for('users.login') }}">Login</a></li>
+                          <li><a href="{{ url_for('users.register') }}">Register</a></li>
                           {% endif %}
                         </ul>
                       </nav>

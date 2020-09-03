@@ -4,9 +4,6 @@ import csv
 import os
 from openpyxl import Workbook
 import codecs
-from flightsimdiscovery import app, db, bcrypt
-from flightsimdiscovery.models import User, Pois, Ratings, Favorites, Visited
-
 
 # validate latitude and longitude constants
 lat_pattern = re.compile(r"^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$")

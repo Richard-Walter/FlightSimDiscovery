@@ -1,7 +1,6 @@
-from flightsimdiscovery import app
+from flightsimdiscovery import create_app
 
-if __name__ == "__main__":
+app = create_app()
 
-    app.run(
-        debug=True
-    )  # this means you dont have to restart the server after each change
+if __name__ == '__main__':
+    app.run(debug=True)

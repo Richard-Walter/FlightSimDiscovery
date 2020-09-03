@@ -2,19 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18ec903c-65d0-47af-a46f-69bccf0eea94" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Category List.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Category List.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Category List.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Countries by region and centroid.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Countries centroid.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Countries_dict.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FSDiscovery locations raw.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/JS_Regions_dict.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Regions centroid.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Regions_dict.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/poi_spaced_output.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/poi_unedited_ouput.xlsx" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/flightsimdiscovery/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/Countries centroid.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/routes.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/poi.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/poi.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,32 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/flightsimdiscovery/forms.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/flightsimdiscovery/routes.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="394" column="54" lean-forward="true" selection-start-line="394" selection-start-column="54" selection-end-line="394" selection-end-column="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utilities.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="696">
-              <caret line="787" column="75" lean-forward="true" selection-start-line="787" selection-start-column="75" selection-end-line="787" selection-end-column="75" />
+            <state relative-caret-position="280">
+              <caret line="280" column="52" selection-start-line="280" selection-start-column="52" selection-end-line="280" selection-end-column="52" />
               <folding>
                 <element signature="e#24#33#0" expanded="true" />
               </folding>
@@ -58,7 +37,51 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/run.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/flightsimdiscovery/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>render</find>
+      <find>redirect</find>
+      <find>render_template</find>
+      <find>RegistrationForm</find>
+      <find>C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery</find>
+      <find>url_for(</find>
+      <find>app</find>
+      <find>app.</find>
+    </findStrings>
+    <replaceStrings>
+      <replace />
+    </replaceStrings>
+    <dirStrings>
+      <dir>C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery</dir>
+      <dir>C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -68,12 +91,30 @@
       <list>
         <option value="$PROJECT_DIR$/utilities.py" />
         <option value="$PROJECT_DIR$/flightsimdiscovery/routes.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/utilities.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/forms.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/users/forms.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/users/routes.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/pois/forms.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/pois/utils.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/config.py" />
+        <option value="$PROJECT_DIR$/run.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/main/routes.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/pois/routes.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/templates/home.html" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/templates/login.html" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/templates/poi.html" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/templates/register.html" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/templates/base.html" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/__init__.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/models.py" />
+        <option value="$PROJECT_DIR$/flightsimdiscovery/users/utitls.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="270" />
-    <option name="width" value="1386" />
+    <option name="x" value="-6" />
+    <option name="width" value="1619" />
     <option name="height" value="1390" />
   </component>
   <component name="ProjectView">
@@ -81,28 +122,18 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Flight Sim Discovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Flight Sim Discovery" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Flight Sim Discovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Flight Sim Discovery" type="462c0819:PsiDirectoryNode" />
-              <item name="flightsimdiscovery" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="settings.github" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -158,14 +189,13 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="270" y="0" width="1386" height="1390" extended-state="0" />
-    <editor active="true" />
+    <frame x="-6" y="0" width="1619" height="1390" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2567995" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3298217" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32901135" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -181,17 +211,124 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/routes.py">
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/forms.py" />
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/main/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/users/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="394" column="54" lean-forward="true" selection-start-line="394" selection-start-column="54" selection-end-line="394" selection-end-column="54" />
+        <state relative-caret-position="17">
+          <caret line="6" lean-forward="true" selection-end-line="74" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/forms.py">
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/routes.py" />
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/main/routes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
+        <state relative-caret-position="983">
+          <caret line="256" lean-forward="true" selection-start-line="256" selection-end-line="256" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/templates/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="608" column="29" selection-start-line="608" selection-start-column="29" selection-end-line="608" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="90" column="26" lean-forward="true" selection-start-line="90" selection-start-column="26" selection-end-line="90" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/templates/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="70" column="6" lean-forward="true" selection-start-line="70" selection-start-column="6" selection-end-line="70" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/templates/poi.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="53" column="43" lean-forward="true" selection-start-line="53" selection-start-column="43" selection-end-line="53" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/templates/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="677">
+          <caret line="58" column="22" lean-forward="true" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="21" column="31" lean-forward="true" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="23" lean-forward="true" selection-start-line="27" selection-start-column="23" selection-end-line="27" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/users/routes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="37" lean-forward="true" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#79#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/users/utitls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="7" lean-forward="true" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/pois/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/pois/routes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="52" column="27" selection-start-line="52" selection-start-column="27" selection-end-line="52" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#86#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/pois/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
@@ -200,11 +337,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/utilities.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="787" column="75" lean-forward="true" selection-start-line="787" selection-start-column="75" selection-end-line="787" selection-end-column="75" />
+        <state relative-caret-position="280">
+          <caret line="280" column="52" selection-start-line="280" selection-start-column="52" selection-end-line="280" selection-end-column="52" />
           <folding>
             <element signature="e#24#33#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
         </state>
       </provider>
     </entry>

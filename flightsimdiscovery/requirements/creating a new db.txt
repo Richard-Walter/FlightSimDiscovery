@@ -1,0 +1,2 @@
+-must be a user called admin
+-must be a user called anonymous
