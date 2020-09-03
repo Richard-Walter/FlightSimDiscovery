@@ -1,17 +1,18 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flightsimdiscovery import db
 from flightsimdiscovery.pois.forms import PoiCreateForm, PoiUpdateForm
-from flightsimdiscovery.models import Pois
+from flightsimdiscovery.models import Pois, User, Ratings
 from flask_login import current_user, login_required
 from utilities import get_country_region
 
 pois = Blueprint('pois', __name__)
+anonymous_username = 'anonymous'
 
 @pois.route("/poi/new", methods=['GET', 'POST'])
-@login_required
 def new_poi():
     form = PoiCreateForm()
-    user_id = 1  # admin for an anonymous user
+    # default user_id is anonymous
+    user_id = User.query.filter_by(username=anonymous_username).first().id  # returns a list  # admin for an anonymous user
 
     if current_user.is_authenticated:
         user_id = current_user.id
@@ -28,11 +29,11 @@ def new_poi():
         db.session.add(poi)
         db.session.commit()
 
-        # #Update Rating table
-        # print('Poi ID is: ', poi.id) # This gets the above poi that was just committed.
-        # rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=4)
-        # db.session.add(rating)
-        # db.session.commit()
+        # Update Rating table - defaul rating when first creating a new POI is 4
+        print('Poi ID is: ', poi.id) # This gets the above poi that was just committed.
+        rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=4)
+        db.session.add(rating)
+        db.session.commit()
 
         flash('A new point of interest has been created!', 'success')
         return redirect(url_for('main.home'))

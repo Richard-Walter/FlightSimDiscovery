@@ -183,7 +183,7 @@ def home():
         data_dic['country'] = poi.country
         data_dic['region'] = poi.region
         data_dic['description'] = poi.description
-        data_dic['rating'] = '4'   # give new poi a default rating of 4
+        data_dic['rating'] = str(get_rating(poi.id))
         data_dic['icon'] = '/static/img/marker/map-mark.png'
         data_dic['lat'] = poi.latitude
         data_dic['lng'] = poi.longitude
