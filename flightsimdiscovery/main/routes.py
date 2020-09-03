@@ -5,7 +5,7 @@ from flightsimdiscovery import db
 from flightsimdiscovery.models import Pois, Ratings, Favorites, Visited
 from flask_login import current_user, login_required
 from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details
-from flightsimdiscovery.pois.utils import get_rating
+from flightsimdiscovery.pois.utils import get_rating, get_pois_greater_than_or_equal_to
 
 main = Blueprint('main', __name__)
 
@@ -96,7 +96,7 @@ def home():
             if country != 'Country':
                 pois = Pois.query.filter_by(country=country)
             if rating != 'Rating':
-                pois = Pois.query.filter_by(rating=rating)
+                pois = get_pois_greater_than_or_equal_to(Pois.query.all(), rating)
 
         elif 'ratingOptions' in request.form:
 

@@ -1,4 +1,4 @@
-from flightsimdiscovery.models import Ratings
+from flightsimdiscovery.models import Ratings, Pois
 
 def get_rating(poi_id):
 
@@ -17,3 +17,16 @@ def get_rating(poi_id):
         print('ERROR occured getting rating.  Problably dividing by zero because no rating for the poi exists.  POI is :  '+ str(poi_id))
 
     return rating
+
+def get_pois_greater_than_or_equal_to(pois, search_rating):
+
+    pois_list = []
+
+    for poi in pois:
+        poi_rating = float(get_rating(poi.id))
+
+        if poi_rating >= float(search_rating):
+
+            pois_list.append(Pois.query.get(poi.id))
+
+    return pois_list 
