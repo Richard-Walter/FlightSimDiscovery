@@ -18,15 +18,43 @@ def get_rating(poi_id):
 
     return rating
 
-def get_pois_greater_than_or_equal_to(pois, search_rating):
 
-    pois_list = []
+def filter_pois_by_category(pois, category):
+
+    filtered_pois = []
+
+    for poi in pois:
+        if poi.category == category:
+            filtered_pois.append(poi)
+    return filtered_pois
+
+def filter_pois_by_region(pois, region):
+
+    filtered_pois = []
+
+    for poi in pois:
+        if poi.region == region:
+            filtered_pois.append(poi)
+    return filtered_pois
+
+def filter_pois_by_country(pois, country):
+
+    filtered_pois = []
+
+    for poi in pois:
+        if poi.country == country:
+            filtered_pois.append(poi)
+    return filtered_pois
+
+def filter_pois_by_rating(pois, rating):
+
+    filtered_pois = []
 
     for poi in pois:
         poi_rating = float(get_rating(poi.id))
 
-        if poi_rating >= float(search_rating):
+        if poi_rating >= float(rating):
 
-            pois_list.append(Pois.query.get(poi.id))
+            filtered_pois.append(poi)
 
-    return pois_list 
+    return filtered_pois 

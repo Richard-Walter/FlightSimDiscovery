@@ -5,7 +5,7 @@ from flightsimdiscovery import db
 from flightsimdiscovery.models import Pois, Ratings, Favorites, Visited
 from flask_login import current_user, login_required
 from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details
-from flightsimdiscovery.pois.utils import get_rating, get_pois_greater_than_or_equal_to
+from flightsimdiscovery.pois.utils import *
 
 main = Blueprint('main', __name__)
 
@@ -65,6 +65,10 @@ def home():
 
         if 'search_form_submit' in request.form:
 
+            pois_search_result_list = []
+            poi_id_search_result = set()
+            
+
             category = request.form.get('selectCategory').strip()
             region = request.form.get('selectRegion').strip()
             country = request.form.get('selectCountry').strip()
@@ -88,15 +92,16 @@ def home():
                 map_init['lat'] = region_details[region][0]
                 map_init['long'] = region_details[region][1]
 
-            # pois = Pois.query.filter_by(region='Oceania')
+            # Create refined pois list based on search criteria
             if category != 'Category':
-                pois = Pois.query.filter_by(category=category)
+                pois = filter_pois_by_category(pois, category)
             if region != 'Region':
-                pois = Pois.query.filter_by(region=region)
+                pois = filter_pois_by_region(pois, region)
             if country != 'Country':
-                pois = Pois.query.filter_by(country=country)
+                pois = filter_pois_by_country(pois, country)
             if rating != 'Rating':
-                pois = get_pois_greater_than_or_equal_to(Pois.query.all(), rating)
+                pois = filter_pois_by_rating(pois, rating)
+            
 
         elif 'ratingOptions' in request.form:
 
