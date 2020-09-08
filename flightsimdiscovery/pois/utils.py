@@ -1,5 +1,9 @@
 from flightsimdiscovery.models import Ratings, Pois
 
+favorite_marker = '/static/img/marker/favorite-marker.png'
+visited_marker = '/static/img/marker/visited-marker.png'
+normal_marker = '/static/img/marker/normal-marker.png'
+
 def get_rating(poi_id):
 
     rating = 4  # default if error occurs during division
@@ -57,4 +61,14 @@ def filter_pois_by_rating(pois, rating):
 
             filtered_pois.append(poi)
 
-    return filtered_pois 
+    return filtered_pois
+
+def get_marker_icon(poi, user_favorites, user_visited):
+
+    if poi.id in user_visited:
+        return visited_marker
+    elif poi.id in user_favorites:
+        return favorite_marker
+    else:
+        return normal_marker
+

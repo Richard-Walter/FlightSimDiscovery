@@ -189,7 +189,8 @@ def home():
         data_dic['region'] = poi.region
         data_dic['description'] = poi.description
         data_dic['rating'] = str(get_rating(poi.id))
-        data_dic['icon'] = '/static/img/marker/map-mark.png'
+        # data_dic['icon'] = '/static/img/marker/normal-marker.png'
+        data_dic['icon'] = get_marker_icon(poi, user_favorites, user_visited )
         data_dic['lat'] = poi.latitude
         data_dic['lng'] = poi.longitude
 

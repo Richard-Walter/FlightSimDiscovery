@@ -1,9 +1,9 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flightsimdiscovery import db, bcrypt
 from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
-from flightsimdiscovery.models import User
+from flightsimdiscovery.models import User, Pois
 from flask_login import login_user, current_user, logout_user, login_required
-from flightsimdiscovery.users.utitls import save_picture, send_reset_email
+from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited
 
 users = Blueprint('users', __name__)
 
@@ -50,6 +50,8 @@ def logout():
 @login_required
 def account():
     form = UpdateAccountForm()
+    user_pois = None
+    print(current_user.id)
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
@@ -64,10 +66,11 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
+        user_pois_with_additional_data = get_user_pois_dict_inc_favorites_visited(current_user.id)
+        print('###### USER POIS ###### ', user_pois_with_additional_data )
 
     image_file = url_for('static', filename='img/profile_pics/' + current_user.image_file)
-    return render_template('account.html', title='Account',
-                           image_file=image_file, form=form)
+    return render_template('account.html', user_pois=user_pois_with_additional_data, image_file=image_file, form=form)
 
 
 @users.route("/reset_password", methods=['GET', 'POST'])

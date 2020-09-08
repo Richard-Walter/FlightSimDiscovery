@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, SelectField
+from wtforms import StringField, SubmitField, TextAreaField, SelectField, BooleanField
 from wtforms.validators import DataRequired, Length, ValidationError
 from utilities import validate_lat, validate_long, get_country_list, get_category_list
 
@@ -12,12 +12,11 @@ class PoiCreateForm(FlaskForm):
     latitude = StringField('Latitude (decimal degrees)', validators=[DataRequired(), Length(min=2, max=18)])
     longitude = StringField('Longitude (decimal degrees)', validators=[DataRequired(), Length(min=2, max=18)])
     nearest_airport = StringField('Nearest Airpot (ICAO)', validators=[Length(min=0, max=4)])
-    # remember = BooleanField('Remember Me')
+    share = BooleanField('Share with the community', default="checked")
     submit = SubmitField('Create')
 
     def validate_latitude(self, latitude):
 
-        # add logic here
         if not validate_lat(str(latitude.data)):
             raise ValidationError('Please enter a valid latitude (-90 and +90) in degrees decimal.  e.g.-34.407279')
 
@@ -35,16 +34,15 @@ class PoiUpdateForm(FlaskForm):
     latitude = StringField('Latitude (decimal degrees) ', validators=[DataRequired(), Length(min=2, max=18)])
     longitude = StringField('Longitude (decimal degrees)', validators=[DataRequired(), Length(min=2, max=18)])
     nearest_airport = StringField('Nearest Airpot (ICAO)', validators=[Length(min=0, max=4)])
-    # remember = BooleanField('Remember Me')
+    share = BooleanField('Share with the community')
     submit = SubmitField('Update')
 
+    def validate_latitude(self, latitude):
 
-def validate_latitude(self, latitude):
-    # add logic here
-    if not validate_lat(str(latitude.data)):
-        raise ValidationError('Please enter a valid latitude (-90 and +90) in degrees decimal.  e.g.-34.407279')
+        if not validate_lat(str(latitude.data)):
+            raise ValidationError('Please enter a valid latitude (-90 and +90) in degrees decimal.  e.g.-34.407279')
 
+    def validate_longitude(self, longitude):
 
-def validate_longitude(self, longitude):
-    if not validate_long(str(longitude.data)):
-        raise ValidationError('Please enter a valid longitude (-180 and +180) in degrees decimal   e.g. 150.676888')
+        if not validate_long(str(longitude.data)):
+            raise ValidationError('Please enter a valid longitude (-180 and +180) in degrees decimal   e.g. 150.676888')

@@ -21,10 +21,11 @@ def new_poi():
 
     if form.validate_on_submit():
         # Update POIS table
+        print('##### SHARE VALUE: ', form.share.data)
         poi = Pois(user_id=user_id, name=form.name.data, latitude=float(form.latitude.data), longitude=float(form.longitude.data),
                    region=get_country_region(form.country.data), country=form.country.data, category=form.category.data,
                    description=form.description.data,
-                   nearest_icao_code=form.nearest_airport.data)
+                   nearest_icao_code=form.nearest_airport.data, share=form.share.data)
 
         db.session.add(poi)
         db.session.commit()
@@ -49,7 +50,7 @@ def poi(poi_id):
 
 @pois.route("/poi/<int:poi_id>/update", methods=['GET', 'POST'])
 @login_required
-def update_post(poi_id):
+def update_poi(poi_id):
     poi = Pois.query.get_or_404(poi_id)
     print('current poi ID is ', poi.id)
     print(current_user.username)
@@ -67,10 +68,11 @@ def update_post(poi_id):
         poi.category = form.category.data
         poi.description = form.description.data
         poi.nearest_icao_code = form.nearest_airport.data
-        poi.rating = 5
+        poi.share = form.share.data
+        # poi.rating = 5
         db.session.commit()
         flash('Your post has been updated!', 'success')
-        return redirect(url_for('pois.poi', poi_id=poi.id))
+        return redirect(url_for('main.home'))
     elif request.method == 'GET':
         form.name.data = poi.name
         form.latitude.data = poi.latitude
@@ -78,7 +80,7 @@ def update_post(poi_id):
         form.country.data = poi.country
         form.description.data = poi.description
         form.nearest_airport.data = poi.nearest_icao_code
-        # form.rating.data = poi.rating
+        form.share.data = poi.share
 
     return render_template('update_poi.html', form=form)
 

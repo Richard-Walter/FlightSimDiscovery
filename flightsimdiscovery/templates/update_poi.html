@@ -99,6 +99,10 @@
                         {{ form.nearest_airport(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <div class="form-check">
+                    {{ form.share(class="form-check-input") }}
+                    {{ form.share.label(class="form-check-label") }}
+                </div>
             </fieldset>
             <div class="form-group mb-5">
                 {{ form.submit(class="btn btn-outline-info") }}
