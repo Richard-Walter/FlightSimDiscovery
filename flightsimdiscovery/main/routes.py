@@ -13,6 +13,10 @@ main = Blueprint('main', __name__)
 @main.route("/", methods=['GET', 'POST'])
 @main.route("/home", methods=['GET', 'POST'])
 def home():
+
+    # test logging
+    print(3/0)
+
     # variables required for google maps to display data
     map_data = []
     map_data_dict = {}

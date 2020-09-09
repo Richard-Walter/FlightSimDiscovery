@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flightsimdiscovery.config import Config
+from logging import FileHandler, WARNING
 
 # app = Flask(__name__)
 # # PUT THIS IN IN A ENVIRON VARIABLE DONE DIFFERENTLY ON WINDOWS AND LINUX
@@ -34,8 +35,14 @@ mail = Mail()
 
 
 def create_app(config_class=Config):
+
     app = Flask(__name__)
-    # app.config.from_object(Config)
+
+    # set up logging
+    file_handler = FileHandler('error_log.txt')
+    file_handler.setLevel(WARNING)
+    app.logger.addHandler(file_handler)
+
     app.config.from_object(config_class)
 
     db.init_app(app)
