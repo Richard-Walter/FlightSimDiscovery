@@ -1,5 +1,5 @@
 import os
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, session
 from openpyxl import load_workbook
 from flightsimdiscovery import db
 from flightsimdiscovery.models import Pois, Ratings, Favorites, Visited
@@ -9,6 +9,8 @@ from flightsimdiscovery.pois.utils import *
 
 main = Blueprint('main', __name__)
 
+# TODO add logic to validate poi location based on category
+# TODO add logic to validate name/location when updating poi
 
 @main.route("/", methods=['GET', 'POST'])
 @main.route("/home", methods=['GET', 'POST'])
@@ -185,6 +187,22 @@ def home():
 
             # return   # dont wont to reload the page, just store the users settg
 
+        elif 'show_ony_user_pois_check' in request.form:
+            filter_user_pois = request.form.get('show_ony_user_pois_check')
+            
+
+            if filter_user_pois == 'Yes':
+                print('filtering user pois')
+                search_defaults['filter_user_pois'] = 'Yes'
+                pois_id = set(user_pois_list + user_favorites + user_visited)
+
+                for poi in pois[:]:
+                    if poi.id not in pois_id:
+                        pois.remove(poi)
+            else:
+                search_defaults['filter_user_pois'] = 'No'
+
+            
     # create the Point of Interest dictionary that gets posted for map to use
     for poi in pois:
         # print('Poi', poi)

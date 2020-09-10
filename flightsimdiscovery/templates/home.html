@@ -190,7 +190,7 @@
                 <option value="4">4 stars or higher</option>
                 {% endif %} {% if search_defaults['Rating'] == '3' %}
                 <option selected value="3">3 stars or higher</option>
-                {% else %}
+                
                 <option value="3">3 stars or higher</option>
                 {% endif %} {% if search_defaults['Rating'] == '2' %}
                 <option selected value="2">2 stars or higher</option>
@@ -212,6 +212,24 @@
         </div>
       </div>
     </div>
+    <div class="row align-items-center"></div>
+      <div class="float-right mt-2">
+        <form class="show_only_user_pois_form" method="POST" action="/home">
+          <div class="input_field">
+            {% if current_user.username %}         
+              {% if search_defaults['filter_user_pois'] == 'Yes' %}
+                <input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="show_ony_user_pois_check" id="show_ony_user_pois_check" value="Yes" checked >
+              {% else %}
+                <input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="show_ony_user_pois_check" id="show_ony_user_pois_check" value="Yes">
+              {% endif %}
+              <input type="hidden" name="show_ony_user_pois_check" value="No" id="show_ony_user_pois_check ">
+              <label class="form-check-label" for="show_ony_user_pois_check">show only my points of interest</label>
+            {% endif %}
+
+            
+          </div>
+        </form>
+      </div>
   </div>
 </div>
 <!-- where_togo_area_end  -->

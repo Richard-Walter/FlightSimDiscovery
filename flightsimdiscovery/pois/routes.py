@@ -1,9 +1,11 @@
-from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
+from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, session
 from flightsimdiscovery import db
 from flightsimdiscovery.pois.forms import PoiCreateForm, PoiUpdateForm
 from flightsimdiscovery.models import Pois, User, Ratings
+from flightsimdiscovery.pois.utils import location_exists
 from flask_login import current_user, login_required
 from utilities import get_country_region
+
 
 pois = Blueprint('pois', __name__)
 anonymous_username = 'anonymous'
@@ -22,6 +24,19 @@ def new_poi():
     print("User id is:  ", user_id)
 
     if form.validate_on_submit():
+
+        # check location has not already been used by another poi
+        if location_exists(pois, float(form.latitude.data), float(form.longitude.data), form.category.data):
+            new_form = PoiUpdateForm()
+            new_form.name.data = form.name.data
+            new_form.country.data = form.country.data
+            new_form.description.data = form.description.data
+            new_form.nearest_airport.data = form.nearest_airport.data
+            new_form.share.data = form.share.data
+
+            flash('A point of interest already exists at this location', 'danger')
+            return render_template('create_poi.html', form=new_form, legend='New Poi')
+
         # Update POIS table
         print('##### SHARE VALUE: ', form.share.data)
         poi = Pois(user_id=user_id, name=form.name.data, latitude=float(form.latitude.data), longitude=float(form.longitude.data),
@@ -40,7 +55,7 @@ def new_poi():
 
         flash('A new point of interest has been created!', 'success')
         return redirect(url_for('main.home', country=poi.country))
-    return render_template('create_poi.html', form=form, legend='New Poi')
+    return render_template('create_poi.html', form=form)
 
 
 @pois.route("/poi/<int:poi_id>")
@@ -61,6 +76,7 @@ def update_poi(poi_id):
 
     form = PoiUpdateForm()
     if form.validate_on_submit():
+        
         poi.user_id = current_user.id
         poi.name = form.name.data
         poi.latitude = float(form.latitude.data)

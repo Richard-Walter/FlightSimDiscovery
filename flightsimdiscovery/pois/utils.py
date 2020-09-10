@@ -6,6 +6,8 @@ user_marker = '/static/img/marker/user-marker.png'
 airport_marker = '/static/img/marker/airport-marker.png'
 normal_marker = '/static/img/marker/normal-marker.png'
 
+location_exists_diff_default = 0.005
+
 def get_rating(poi_id):
 
     rating = 4  # default if error occurs during division
@@ -85,3 +87,14 @@ def validate_poi_name(name):
             return False
 
     return True
+
+def location_exists(pois, latitude, longitude, category):
+    
+    for poi in pois:
+        latitude_diff = abs(float(poi.latitude) - latitude)
+        longitude_diff = abs(float(poi.longitude) - longitude)
+        print(latitude_diff, longitude_diff)
+        if (latitude_diff < location_exists_diff_default) and (longitude_diff < location_exists_diff_default):
+            return True
+
+    return False
