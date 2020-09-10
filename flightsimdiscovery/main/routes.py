@@ -15,7 +15,7 @@ main = Blueprint('main', __name__)
 def home():
 
     # test logging
-    print(3/0)
+    # print(3/0)
 
     # variables required for google maps to display data
     map_data = []
@@ -31,6 +31,7 @@ def home():
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating': 'Rating'}
     is_authenticated = False
     user_id = None
+    anchor = ''
 
     if current_user.is_authenticated:
 
@@ -64,8 +65,10 @@ def home():
         for visit in user_visited_query:
             user_visited.append(visit.poi_id)
 
-            # check if user has submitted a search and filter database
+    # check if user has submitted a search or user has updated poi via the infowindow
     if request.method == 'POST':
+
+        anchor = '/google_map'
 
         if 'search_form_submit' in request.form:
 
@@ -105,7 +108,8 @@ def home():
                 pois = filter_pois_by_country(pois, country)
             if rating != 'Rating':
                 pois = filter_pois_by_rating(pois, rating)
-            
+
+            anchor = 'where_togo_area'            
 
         elif 'ratingOptions' in request.form:
 
@@ -194,15 +198,23 @@ def home():
         data_dic['description'] = poi.description
         data_dic['rating'] = str(get_rating(poi.id))
         # data_dic['icon'] = '/static/img/marker/normal-marker.png'
-        data_dic['icon'] = get_marker_icon(poi, user_favorites, user_visited )
+        data_dic['icon'] = get_marker_icon(poi, user_favorites, user_visited, user_pois_list)
         data_dic['lat'] = poi.latitude
         data_dic['lng'] = poi.longitude
 
         map_data.append(data_dic)
 
-    return render_template("home.html", _anchor="where_togo_area", is_authenticated=is_authenticated, user_visited=user_visited,
+    # check to see if a new poi has been created.  If so we will zoom to the country level
+    country = request.args.get('country', None)
+    if country is not None:
+        map_init['zoom'] = 6  # default country zoom
+        map_init['lat'] = countries_details[country][1]
+        map_init['long'] = countries_details[country][2]
+        anchor = 'google_map'
+
+    return render_template("home.html", is_authenticated=is_authenticated, user_visited=user_visited,
                            user_favorites=user_favorites, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
-                           search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list())
+                           search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(), _anchor=anchor)
     # return render_template("home.html", pois=data)
 
 

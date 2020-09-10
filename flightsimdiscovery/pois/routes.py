@@ -10,6 +10,8 @@ anonymous_username = 'anonymous'
 
 @pois.route("/poi/new", methods=['GET', 'POST'])
 def new_poi():
+    
+    pois = Pois.query.all()
     form = PoiCreateForm()
     # default user_id is anonymous
     user_id = User.query.filter_by(username=anonymous_username).first().id  # returns a list  # admin for an anonymous user
@@ -37,7 +39,7 @@ def new_poi():
         db.session.commit()
 
         flash('A new point of interest has been created!', 'success')
-        return redirect(url_for('main.home'))
+        return redirect(url_for('main.home', country=poi.country))
     return render_template('create_poi.html', form=form, legend='New Poi')
 
 

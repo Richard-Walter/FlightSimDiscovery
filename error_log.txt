@@ -15,3 +15,116 @@ Traceback (most recent call last):
   File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\main\routes.py", line 18, in home
     print(3/0)
 ZeroDivisionError: division by zero
+Exception on / [GET]
+Traceback (most recent call last):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\main\routes.py", line 18, in home
+    # print(3/0)
+ZeroDivisionError: division by zero
+Exception on /home [GET]
+Traceback (most recent call last):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\main\routes.py", line 18, in home
+    # print(3/0)
+ZeroDivisionError: division by zero
+Exception on /home [GET]
+Traceback (most recent call last):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\main\routes.py", line 18, in home
+    # print(3/0)
+ZeroDivisionError: division by zero
+Exception on /poi/new [POST]
+Traceback (most recent call last):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\pois\routes.py", line 24, in new_poi
+    if form.validate_on_submit():
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask_wtf\form.py", line 100, in validate_on_submit
+    return self.is_submitted() and self.validate()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\wtforms\form.py", line 318, in validate
+    return super(Form, self).validate(extra)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\wtforms\form.py", line 150, in validate
+    if not field.validate(self, extra):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\wtforms\fields\core.py", line 226, in validate
+    stop_validation = self._run_validation_chain(form, chain)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\wtforms\fields\core.py", line 246, in _run_validation_chain
+    validator(form, self)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\pois\forms.py", line 32, in validate_name
+    if not validate_poi_name(name.data):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\pois\utils.py", line 84, in validate_poi_name
+    if poi.name.strip() == name.strip():
+AttributeError: 'StringField' object has no attribute 'strip'
+Exception on /poi/new [POST]
+Traceback (most recent call last):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\pois\routes.py", line 24, in new_poi
+    if form.validate_on_submit():
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask_wtf\form.py", line 100, in validate_on_submit
+    return self.is_submitted() and self.validate()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\wtforms\form.py", line 318, in validate
+    return super(Form, self).validate(extra)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\wtforms\form.py", line 150, in validate
+    if not field.validate(self, extra):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\wtforms\fields\core.py", line 226, in validate
+    stop_validation = self._run_validation_chain(form, chain)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\wtforms\fields\core.py", line 246, in _run_validation_chain
+    validator(form, self)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\pois\forms.py", line 32, in validate_name
+    if not validate_poi_name(name.data):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\pois\utils.py", line 84, in validate_poi_name
+    if poi.name.strip() == name.strip():
+AttributeError: 'StringField' object has no attribute 'strip'

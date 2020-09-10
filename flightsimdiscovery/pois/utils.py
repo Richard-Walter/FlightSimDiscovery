@@ -2,6 +2,8 @@ from flightsimdiscovery.models import Ratings, Pois
 
 favorite_marker = '/static/img/marker/favorite-marker.png'
 visited_marker = '/static/img/marker/visited-marker.png'
+user_marker = '/static/img/marker/user-marker.png'
+airport_marker = '/static/img/marker/airport-marker.png'
 normal_marker = '/static/img/marker/normal-marker.png'
 
 def get_rating(poi_id):
@@ -63,12 +65,23 @@ def filter_pois_by_rating(pois, rating):
 
     return filtered_pois
 
-def get_marker_icon(poi, user_favorites, user_visited):
-
+def get_marker_icon(poi, user_favorites, user_visited, user_pois):
+    
     if poi.id in user_visited:
         return visited_marker
+    elif ('Airport' in poi.category) or ('Bush Strip' in poi.category):
+        return airport_marker    
     elif poi.id in user_favorites:
         return favorite_marker
+    elif poi.id in user_pois:
+        return user_marker
     else:
         return normal_marker
 
+def validate_poi_name(name):
+    pois = Pois.query.all()
+    for poi in pois:
+        if poi.name.strip() == name.strip():
+            return False
+
+    return True
