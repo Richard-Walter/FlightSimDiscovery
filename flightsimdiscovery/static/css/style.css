@@ -1104,15 +1104,15 @@ h3 {
 /* line 210, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_header.scss */
 .header-area .main-header-area.sticky {
   box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.1);
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
   top: -70px;
   left: 0;
   right: 0;
-  z-index: 990;
-  transform: translateY(70px);
+  /* z-index: 990; */
+  /* transform: translateY(70px);
   transition: transform 500ms ease, background 500ms ease;
-  -webkit-transition: transform 500ms ease, background 500ms ease;
+  -webkit-transition: transform 500ms ease, background 500ms ease; */
   box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0.96);
 }
@@ -2635,7 +2635,7 @@ h3 {
 
 /* line 29, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_where_to_go.scss */
 .where_togo_area .search_wrap .input_field {
-  width: 160px;
+  width: 130px;
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
