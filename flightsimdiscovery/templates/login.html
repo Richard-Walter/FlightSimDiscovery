@@ -1,13 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-
+<!-- bradcam_area  -->
+<div class="bradcam_area login_bg">
+    <div class="container">
+        <div class="row">
+            <!-- <div class="col-xl-12">
+                <div class="bradcam_text text-center">
+                    <h3>Log In</h3>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!--/ bradcam_area  -->
 <!-- <div class="login_section"> -->
     <div class="container">
-        <div class="login_section">
+        <div class="login_section ">
 
             <form method="POST" action="">
                 {{ form.hidden_tag() }}
-                <fieldset class="form-group">
+                <fieldset class="form-group mt-4">
                     <legend class="border-bottom mb-4">Log In</legend>
                     <div class="form-group">
                         {{ form.email.label(class="form-control-label") }}
@@ -48,12 +60,13 @@
                     </small>
                 </div>
             </form>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    Need An Account? <a class="ml-2" href="{{ url_for('users.register') }}">Sign Up Now</a>
+                </small>
+            </div>
         </div>    
     </div>
 <!-- </div> -->
-<div class="border-top pt-3">
-    <small class="text-muted">
-        Need An Account? <a class="ml-2" href="{{ url_for('users.register') }}">Sign Up Now</a>
-    </small>
-</div>
+
 {% endblock content %}

@@ -1,12 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
+<!-- bradcam_area  -->
+<div class="bradcam_area update_poi_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text text-center">
+                    <h3>Update Point of Interest</h3>
+                    <!-- <p>Search - Download - Explore</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="section_top_area"></div>
 <div class="container">
     <div class="form_mew_poi">
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <fieldset class="form-group mt-5">
-                <legend class="border-bottom mb-4">Update Point of Interest</legend>
+                <!-- <legend class="border-bottom mb-4">Update Point of Interest</legend> -->
                 <div class="form-group">
                     {{ form.name.label(class="form-control-label") }}
 
