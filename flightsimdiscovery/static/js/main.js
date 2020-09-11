@@ -22,6 +22,8 @@ $("a.boxed-btn3").click(function(){
 });
 
 
+
+
   
 // review-active
 $('.slider_active').owlCarousel({

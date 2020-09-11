@@ -235,8 +235,28 @@
         var user_visited = {{user_visited|tojson}};
 
         pois_array.forEach(function (poi, index) {
-          infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'description': poi.description, 'rating': poi.rating};
+          infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating};
         });
+
+        //Update Country Select values
+        function copy_latLon() {
+
+          var textBox = document.getElementById("poi_lat_long");
+          textToClipboard(textBox.value);
+          // document.execCommand("copy");
+          /* Alert the copied text */
+          // alert("Copied the text: " + textBox.value);
+        };
+
+        function textToClipboard (latlong) {
+          var dummy = document.createElement("textarea");
+          document.body.appendChild(dummy);
+          dummy.value = latlong;
+          dummy.select();
+          document.execCommand("copy");
+          document.body.removeChild(dummy);
+          alert("Copied the text: " + dummy.value);
+        }
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
@@ -280,6 +300,8 @@
 
               var marker_name = marker.title;
               var id = infowindow_dict[marker_name]['id'];
+              var latitude = infowindow_dict[marker_name]['latitude'];
+              var longitude = infowindow_dict[marker_name]['longitude'];
               var category = infowindow_dict[marker_name]['category'];
               var description = infowindow_dict[marker_name]['description'];
               var rating = infowindow_dict[marker_name]['rating'];
@@ -347,29 +369,13 @@
                   '<div id="bodyContent">'+
                     '<p>'+description+'</p>'+
                     '<p>Average User rating: '+ rating + '</p>'+
+                    '<p><i class="fas fa-map-marker-alt"></i> '+ latitude + ', ' + longitude + ' <button class="btn btn-outline-info btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
+                    '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+latitude+', ' + longitude+'">'+
                     '<div ' + hiddenButtons +'>' +
                       '<a class="btn btn-secondary btn-sm mt-1 mb-1" href="/poi/'+id+'/update">Update</a>'+
                       '<button type="button" class="open_delete_modal btn btn-danger btn-sm m-1" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal">Delete</button>'+
                     '</div>'+
                     '<div ' + hiddenDetails +'>' +
-                      // '<form id="formIWrating" method="POST" action="/home" target="dummyframe">'+
-                      // '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
-                      //   '<div class="mt-1 mb-1 poi_rating">'+
-                      //       '<input class="radio-btn hide" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions1" value="1" ' + ratingRadio1 +'>'+
-                      //       '<label for="ratingOptions1">☆</label>'+
-                      //       '<input class="radio-btn hide" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions2" value="2"' + ratingRadio2 +'>'+
-                      //       '<label for="ratingOptions2">☆</label>'+
-                      //       '<input class="radio-btn hide" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions3" value="3"' + ratingRadio3 +'>'+
-                      //       '<label for="ratingOptions3">☆</label>'+
-                      //       '<input class="radio-btn hide" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions4" value="4"' + ratingRadio4 +'>'+
-                      //       '<label  for="ratingOptions3">☆</label>'+
-                      //       '<input class=" radio-btn hide" type="radio" onclick="this.form.submit()" name="ratingOptions" id="ratingOptions5" value="5"' + ratingRadio5 +'>'+
-                      //       '<label  for="ratingOptions3">☆</label>'+
-                      //       '<div class="clear"></div>'+
-                      //     '</div>'+                         
-                      //     '<input type="hidden" name="poi_id" value="'+id+'">'+
-                      //   '</div>'+
-                      // '</form>'+
                       '<form id="formIWfavorite" method="POST" action="/home" target="dummyframe2">'+
                       '<iframe name="dummyframe2" id="dummyframe2" style="display: none;"></iframe>' +
                         '<div class="mt-1 mb-1">' +
@@ -426,7 +432,7 @@
             });
 
             google.maps.event.addListener(map, "click", function () {
-            infowindow.close();
+              infowindow.close();
             });
           }
 
@@ -436,7 +442,7 @@
         }
 
       </script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap"></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script>
       <!-- <script src="static/js/markerclusterer.js"></script> -->
     </div>
   </div>

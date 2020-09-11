@@ -217,8 +217,8 @@ def home():
         data_dic['rating'] = str(get_rating(poi.id))
         # data_dic['icon'] = '/static/img/marker/normal-marker.png'
         data_dic['icon'] = get_marker_icon(poi, user_favorites, user_visited, user_pois_list)
-        data_dic['lat'] = poi.latitude
-        data_dic['lng'] = poi.longitude
+        data_dic['lat'] = format(poi.latitude, '.6f')
+        data_dic['lng'] = format(poi.longitude, '.6f')
 
         map_data.append(data_dic)
 
