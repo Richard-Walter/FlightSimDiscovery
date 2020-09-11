@@ -1,19 +1,5 @@
 (function ($) {
 "use strict";
-// TOP Menu Sticky
-$(window).on('scroll', function () {
-	var scroll = $(window).scrollTop();
-	if (scroll < 400) {
-    $("#sticky-header").removeClass("sticky");
-    $('#back-top').fadeIn(500);
-	} else {
-    $("#sticky-header").addClass("sticky");
-    $('#back-top').fadeIn(500);
-	}
-});
-
-
-
 
 
 $(document).ready(function(){
@@ -27,11 +13,16 @@ if(menu.length){
 		openedSymbol:'-'
 	});
 };
-// blog-menu
-  // $('ul#blog-menu').slicknav({
-  //   prependTo: ".blog_menu"
-  // });
 
+//Update Country Select values
+$("a.boxed-btn3").click(function(){
+
+  var country = $(this).parent().find("h3").text()
+  $("#selectCountry").val(country);
+});
+
+
+  
 // review-active
 $('.slider_active').owlCarousel({
   loop:true,
@@ -288,29 +279,6 @@ dots:false,
 });
 
 });
-
-// resitration_Form
-$(document).ready(function() {
-	$('.popup-with-form').magnificPopup({
-		type: 'inline',
-		preloader: false,
-		focus: '#name',
-
-		// When elemened is focused, some mobile browsers in some cases zoom in
-		// It looks not nice, so we disable it:
-		callbacks: {
-			beforeOpen: function() {
-				if($(window).width() < 700) {
-					this.st.focus = false;
-				} else {
-					this.st.focus = '#name';
-				}
-			}
-		}
-	});
-});
-
-
 
 //------- Mailchimp js --------//  
 function mailChimp() {
