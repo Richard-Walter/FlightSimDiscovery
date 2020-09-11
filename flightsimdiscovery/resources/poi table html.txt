@@ -1,0 +1,31 @@
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">User ID</th>
+        <th scope="col">POI ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">category</th>
+        <th scope="col">country</th>
+        <th scope="col">region</th>
+        <th scope="col">description</th>
+        <th scope="col">rating</th>
+        <th scope="col">update</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for poi in pois %}
+      <tr>
+        <td>{{poi.user_id}}</td>
+        <td>{{poi.id}}</td>
+        <td>{{poi.name}}</td>
+        <td>{{poi.category}}</td>
+        <td>{{poi.country}}</td>
+        <td>{{poi.region}}</td>
+        <td>{{poi.description}}</td>
+        <td>{{poi.rating}}</td>
+        <td><a href="/poi/{{poi.id}}/update">update</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div> -->

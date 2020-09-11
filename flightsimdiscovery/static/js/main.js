@@ -22,7 +22,16 @@ $("a.boxed-btn3").click(function(){
 });
 
 
-
+$('#account_poi_datatable').DataTable( {
+  
+  'columnDefs': [
+   
+    { className: 'text-center', targets: [1,2,4,5, 6] },
+   ],
+  "scrollY":        "800px",
+  "scrollCollapse": true,
+  "paging":         false
+} );
 
   
 // review-active

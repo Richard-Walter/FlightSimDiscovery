@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <!-- bradcam_area  -->
-<div class="bradcam_area account_bg">
+<div class="bradcam_area register_bg">
   <div class="container">
       <div class="row">
           <!-- <div class="col-xl-12">
@@ -54,7 +54,7 @@
                         {{ form.email(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     {{ form.picture.label() }}
                     {{ form.picture(class="form-control-file") }}
                     {% if form.picture.errors %}
@@ -62,29 +62,29 @@
                             <span class="text-danger">{{ error }}</span></br>
                         {% endfor %}
                     {% endif %}
-                </div>
+                </div> -->
             </fieldset>
             <div class="form-group mb-5">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
         </form>
     </div>
-    <div class="content-section">
+    <div class="content-section mb-5">
         <div class="db_table_area">
-                <h2>My Points of Interest</h2>
-            <table class="table table-striped">
-            <thead class="thead-dark">
+          <legend class="border-bottom mb-4">My Points of Interest</legend>
+            <table id="account_poi_datatable" class="stripe">
+            <thead class="">
                 <tr>
                 <th scope="col">Name</th>
-                <th scope="col">category</th>
-                <th scope="col">country</th>
-                <th scope="col">region</th>
-                <th scope="col">description</th>
-                <th scope="col">shared</th>
-                <th scope="col">visited</th>
-                <th scope="col">favorited</th>
-                <th scope="col">update</th>
-                <th scope="col">delete</th>
+                <th scope="col">Category</th>
+                <th scope="col">Country</th>
+                <!-- <th scope="col">Region</th> -->
+                <th scope="col">Description</th>
+                <!-- <th scope="col">shared</th> -->
+                <th scope="col">Visited</th>
+                <th scope="col">Favorited</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,14 +93,15 @@
                 <td>{{poi.name}}</td>
                 <td>{{poi.category}}</td>
                 <td>{{poi.country}}</td>
-                <td>{{poi.region}}</td>
+                <!-- <td>{{poi.region}}</td> -->
                 <td>{{poi.description}}</td>
-                <td>{{poi.share}}</td>
+                <!-- <td>{{poi.share}}</td> -->
                 <td>{{poi.visited}}</td>
                 <td>{{poi.favorited}}</td>
-                <td><a href="/poi/{{poi.id}}/update">update</a></td>
-                <td>
-                    <button type="button" class="open_delete_modal btn btn-danger" data-id="{{poi.id}}" data-toggle="modal" data-target="#deleteModal"><i class="far fa-trash-alt"></i></button></td>
+                <!-- <td><a href="/poi/{{poi.id}}/update">update</a></td> -->
+                <td><a href="/poi/{{poi.id}}/update" class="btn btn-info" role="button" aria-disabled="true"><i class="fas fa-edit"></i></a></td>
+                <!-- <td><button type="button" class="btn btn-info" data-id="{{poi.id}}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-edit"></i></button></td> -->
+                <td><button type="button" class="open_delete_modal btn btn-danger" data-id="{{poi.id}}" data-toggle="modal" data-target="#deleteModal"><i class="far fa-trash-alt"></i></button></td>
                 </tr>
                 {% endfor %}
             </tbody>
