@@ -17,8 +17,8 @@ if(menu.length){
 //Update Country Select values
 $("a.boxed-btn3").click(function(){
 
-  var country = $(this).parent().find("h3").text()
-  $("#selectCountry").val(country);
+  var country = $(this).parent().find("h3").text();
+  $("#selectCountry").val(country)
 });
 
 
