@@ -107,7 +107,7 @@
             
             </button>
             <div class="collapse navbar-collapse" id="navbarToggle">
-              <div class="navbar-nav ml-5 mr-auto">
+              <div class="navbar-nav mr-auto">
                 <a class="nav-item nav-link" href="{{ url_for('pois.new_poi') }}">Create POI</a>
                 <a class="nav-item nav-link" href="{{ url_for('main.about') }}">About</a>
                 <a class="nav-item nav-link" href="{{ url_for('main.contact') }}">Contact</a>
@@ -125,10 +125,10 @@
               <div class="main-menu">
                 <button
                   type="button"
-                  class="btn btn-danger"
+                  class="btn btn-danger mx-2"
                   data-toggle="modal"
                   data-target="#donateModal"
-                > Donate
+                > <i class="fas fa-donate"></i>
                 </button>
               </div>
             </div>

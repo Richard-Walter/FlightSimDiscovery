@@ -31,6 +31,7 @@ $('#account_poi_datatable').DataTable( {
   "scrollY":        "800px",
   "scrollCollapse": true,
   "paging":         false
+  // "pagingType": "full_numbers"
 } );
 
   

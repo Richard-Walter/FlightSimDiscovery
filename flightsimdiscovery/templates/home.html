@@ -264,7 +264,8 @@
               lat: map_center_lat,
               lng: map_center_long,
             },
-            mapTypeId: google.maps.MapTypeId.TERRAIN,
+            mapTypeId: google.maps.MapTypeId.SATELLITE,
+            mapTypeControl: true,
           });
 
           const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
@@ -371,8 +372,8 @@
                     '<p><i class="fas fa-map-marker-alt"></i> '+ latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-info btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
                     '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+latitude+', ' + longitude+'">'+
                     '<div ' + hiddenButtons +'>' +
-                      '<a class="btn btn-secondary btn-sm mt-1 mb-1" href="/poi/'+id+'/update">Update</a>'+
-                      '<button type="button" class="open_delete_modal btn btn-danger btn-sm m-1" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal">Delete</button>'+
+                      '<a class="btn btn-info btn-sm mt-1 mb-1" href="/poi/'+id+'/update"><i class="fas fa-edit"></i></a>'+
+                      '<button type="button" class="open_delete_modal btn btn-danger btn-sm m-1" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i class="far fa-trash-alt"></i></button>'+
                     '</div>'+
                     '<div ' + hiddenDetails +'>' +
                       '<form id="formIWfavorite" method="POST" action="/home" target="dummyframe2">'+
@@ -450,8 +451,11 @@
 <br />
 <!-- database table_area_start  -->
 <!-- <div class="db_table_area"> -->
-<!-- database table_area_end  -->
+
 <!--  see html text resources folder to pase back in here-->
+
+<!-- database table_area_end  -->
+
 <!-- popular_destination_area_start  -->
 <div class="popular_destination_area">
   <div class="container">
@@ -469,11 +473,11 @@
       <div class="col-lg-4 col-md-6">
         <div class="single_destination">
           <div class="thumb">
-            <img src="static/img/destination/Africa.png" alt="" />
+            <img src="static/img/destination/Africa.jpg" alt="" />
           </div>
           <div class="content">
             <p class="d-flex align-items-center">
-              Africa <a href="travel_destination.html"> 07 Places</a>
+              Africa <a href="travel_destination.html">top 10</a>
             </p>
           </div>
         </div>
@@ -481,23 +485,11 @@
       <div class="col-lg-4 col-md-6">
         <div class="single_destination">
           <div class="thumb">
-            <img src="static/img/destination/Asia.png" alt="" />
+            <img src="static/img/destination/Asia.jpg" alt="" />
           </div>
           <div class="content">
             <p class="d-flex align-items-center">
-              Asia <a href="travel_destination.html"> 03 Places</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="static/img/destination/Australia.png" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              Australia<a href="travel_destination.html"> 10 Places</a>
+              Asia <a href="travel_destination.html"> top 10</a>
             </p>
           </div>
         </div>
@@ -509,7 +501,7 @@
           </div>
           <div class="content">
             <p class="d-flex align-items-center">
-              Europe <a href="travel_destination.html"> 02 Places</a>
+              Europe <a href="travel_destination.html"> top 10</a>
             </p>
           </div>
         </div>
@@ -517,11 +509,11 @@
       <div class="col-lg-4 col-md-6">
         <div class="single_destination">
           <div class="thumb">
-            <img src="static/img/destination/South America.png" alt="" />
+            <img src="static/img/destination/South_America.png" alt="" />
           </div>
           <div class="content">
             <p class="d-flex align-items-center">
-              South America <a href="travel_destination.html"> 02 Places</a>
+              South America <a href="travel_destination.html"> top 10</a>
             </p>
           </div>
         </div>
@@ -529,11 +521,23 @@
       <div class="col-lg-4 col-md-6">
         <div class="single_destination">
           <div class="thumb">
-            <img src="static/img/destination/North America.png" alt="" />
+            <img src="static/img/destination/North_America.jpg" alt="" />
           </div>
           <div class="content">
             <p class="d-flex align-items-center">
-              North America <a href="travel_destination.html"> 05 Places</a>
+              North America <a href="travel_destination.html"> top 10</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="single_destination">
+          <div class="thumb">
+            <img src="static/img/destination/Oceania.jpg" alt="" />
+          </div>
+          <div class="content">
+            <p class="d-flex align-items-center">
+              Oceania<a href="travel_destination.html"> top 10</a>
             </p>
           </div>
         </div>
