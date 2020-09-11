@@ -243,9 +243,8 @@
 
           var textBox = document.getElementById("poi_lat_long");
           textToClipboard(textBox.value);
-          // document.execCommand("copy");
-          /* Alert the copied text */
-          // alert("Copied the text: " + textBox.value);
+          $("#copylatlong").html('Copied');
+
         };
 
         function textToClipboard (latlong) {
@@ -255,7 +254,7 @@
           dummy.select();
           document.execCommand("copy");
           document.body.removeChild(dummy);
-          alert("Copied the text: " + dummy.value);
+          // alert("Copied the text: " + dummy.value);
         }
 
         function initMap() {
@@ -369,7 +368,7 @@
                   '<div id="bodyContent">'+
                     '<p>'+description+'</p>'+
                     '<p>Average User rating: '+ rating + '</p>'+
-                    '<p><i class="fas fa-map-marker-alt"></i> '+ latitude + ', ' + longitude + ' <button class="btn btn-outline-info btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
+                    '<p><i class="fas fa-map-marker-alt"></i> '+ latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-info btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
                     '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+latitude+', ' + longitude+'">'+
                     '<div ' + hiddenButtons +'>' +
                       '<a class="btn btn-secondary btn-sm mt-1 mb-1" href="/poi/'+id+'/update">Update</a>'+
