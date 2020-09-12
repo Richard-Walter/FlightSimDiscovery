@@ -6,6 +6,8 @@ from flightsimdiscovery.models import Pois, Ratings, Favorites, Visited
 from flask_login import current_user, login_required
 from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details
 from flightsimdiscovery.pois.utils import *
+from flightsimdiscovery.main.forms import ContactForm
+from flightsimdiscovery.users.utitls import send_contact_email
 
 main = Blueprint('main', __name__)
 
@@ -240,10 +242,22 @@ def home():
 def about():
     return render_template("about.html")
 
-
-@main.route("/contact")
+@main.route("/contact", methods=['GET', 'POST'])
 def contact():
-    return render_template("contact.html")
+    form = ContactForm()
+
+    if form.validate_on_submit():
+        
+        message = form.message.data
+        email = form.email.data
+        subject = form.subject.data 
+
+        send_contact_email(message,email, subject)
+
+        flash('Thank you for your message.', 'info')
+        return redirect(url_for('main.home'))     
+
+    return render_template('contact.html', form=form)
 
 
 @main.route("/build_db")

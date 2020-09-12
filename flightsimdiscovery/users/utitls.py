@@ -20,6 +20,14 @@ def send_reset_email(user):
     '''
     mail.send(msg)
 
+def send_contact_email(message, email, subject):
+    
+    msg = Message('Flight Sim Discovery - ' + subject,
+                  sender=email,
+                  recipients=["willthisnamedo@gmail.com"])
+    msg.body = message
+    mail.send(msg)
+
 
 def save_picture(form_picture):
     # randomize the users profile picture so it doesn't conflict with another user
