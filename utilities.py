@@ -375,6 +375,8 @@ def get_region_list():
     return sorted(region_list)
 
 
+
+
 def get_category_list():
     return categoryList
 

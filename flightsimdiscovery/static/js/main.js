@@ -22,7 +22,7 @@ $("a.boxed-btn3").click(function(){
 });
 
 
-$('#topten_pois_section').DataTable( {
+$('#account_poi_datatable').DataTable( {
   
   'columnDefs': [
    
@@ -44,7 +44,8 @@ $('#topten_pois_datatable').DataTable( {
 
    "searching": false,
    "paging": false,
-   "info": false
+   "info": false,
+   "order": [[4, 'desc']]
   // "scrollY":        "800px",
   // "scrollCollapse": true,
   // "paging":         false

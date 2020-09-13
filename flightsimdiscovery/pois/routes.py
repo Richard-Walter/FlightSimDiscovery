@@ -2,9 +2,9 @@ from flask import render_template, url_for, flash, redirect, request, abort, Blu
 from flightsimdiscovery import db
 from flightsimdiscovery.pois.forms import PoiCreateForm, PoiUpdateForm
 from flightsimdiscovery.models import Pois, User, Ratings
-from flightsimdiscovery.pois.utils import location_exists
+from flightsimdiscovery.pois.utils import location_exists, get_rating
 from flask_login import current_user, login_required
-from utilities import get_country_region
+from utilities import get_country_region, continents_by_region
 
 
 pois = Blueprint('pois', __name__)
@@ -61,12 +61,30 @@ def new_poi():
 @pois.route("/topten_pois/<continent>")
 def topten_pois(continent):
 
-    topten_pois = Pois.query.all()
+    region_pois = []
+    poi_ratings = []
+    topten_pois = []
     data_table = []
 
-    # create the Point of Interest dictionary that gets posted for map to use
-    for poi in topten_pois:
-        # print('Poi', poi)
+    # get all pois for the continent
+    for region in continents_by_region[continent]:
+
+        pois = Pois.query.filter_by(region=region).all()
+        region_pois.extend(pois)
+
+     # get poi ratings and order pois by rating hightest to lowest
+    for poi in region_pois:
+        rating = str(get_rating(poi.id))
+        rating_dict = {'poi_id': poi.id, 'rating': rating}
+        poi_ratings.append(rating_dict)
+    
+    sorted_poi_ratings = sorted(poi_ratings, key=lambda k: k['rating']) 
+
+    # get the top ten pois and  dictionary that gets posted for map to use
+    for poi_dict in sorted_poi_ratings[-10:]:
+        
+        poi = Pois.query.get(poi_dict['poi_id'])
+
         data_dic = {}
         data_dic['id'] = poi.id
         data_dic['location'] = str(poi.latitude) +', ' + str(poi.longitude)
@@ -74,6 +92,7 @@ def topten_pois(continent):
         data_dic['category'] = poi.category
         data_dic['country'] = poi.country
         data_dic['description'] = poi.description
+        data_dic['rating'] = poi_dict['rating']
 
         data_table.append(data_dic)
 
