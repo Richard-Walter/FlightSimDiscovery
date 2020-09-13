@@ -65,10 +65,12 @@ body {
 
 }
 
-.user_pois_section{
+
+.topten_pois_section{
   height: 1200px;
 
 }
+
 
 /* line 17, ../../Arafath/CL/December/231. Travel-02/HTML/scss/theme-default.scss */
 a,
@@ -2118,6 +2120,10 @@ h3 {
 
 .register_bg {
   background-image: url(../img/banner/register_bg.jpg);
+}
+
+.topten_bg {
+  background-image: url(../img/banner/topten_bg.jpg);
 }
 
 

@@ -14,17 +14,29 @@ main = Blueprint('main', __name__)
 # TODO add logic to validate poi location based on category
 # TODO add logic to validate name/location when updating poi
 
-@main.route("/", methods=['GET', 'POST'])
-@main.route("/home", methods=['GET', 'POST'])
-def home():
+@main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
+@main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
+@main.route("/<filter_poi_location>", ) 
+def home(filter_poi_location):
 
     # test logging
     # print(3/0)
+    anchor = ''
 
     # variables required for google maps to display data
     map_data = []
     map_data_dict = {}
     map_init = {'zoom': 3, 'lat': 23.6, 'long': 170.9}  # centre of map
+
+    #set specific location if coming from a spcific poi link from another page like top ten
+    if filter_poi_location:
+        location = filter_poi_location.split(", ")
+        lat = float(location[0])
+        lng = float(location[1])
+
+        map_init = {'zoom': 10, 'lat': lat, 'long': lng}  # centre of poi
+        anchor = 'where_togo_area'  
+
     pois = Pois.query.all()
     # user_pois_list = []
     user_pois_dict = {}
@@ -35,7 +47,7 @@ def home():
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating': 'Rating'}
     is_authenticated = False
     user_id = None
-    anchor = ''
+    
 
     if current_user.is_authenticated:
 
@@ -72,7 +84,7 @@ def home():
     # check if user has submitted a search or user has updated poi via the infowindow
     if request.method == 'POST':
 
-        anchor = '/google_map'
+        anchor = 'where_togo_area' 
 
         if 'search_form_submit' in request.form:
 

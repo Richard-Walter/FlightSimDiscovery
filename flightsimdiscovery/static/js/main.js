@@ -22,7 +22,7 @@ $("a.boxed-btn3").click(function(){
 });
 
 
-$('#account_poi_datatable').DataTable( {
+$('#topten_pois_section').DataTable( {
   
   'columnDefs': [
    
@@ -31,6 +31,23 @@ $('#account_poi_datatable').DataTable( {
   "scrollY":        "800px",
   "scrollCollapse": true,
   "paging":         false
+  // "pagingType": "full_numbers"
+} );
+
+$('#topten_pois_datatable').DataTable( {
+
+  
+  'columnDefs': [
+   
+    { className: 'text-center', targets: [4,5] },
+   ],
+
+   "searching": false,
+   "paging": false,
+   "info": false
+  // "scrollY":        "800px",
+  // "scrollCollapse": true,
+  // "paging":         false
   // "pagingType": "full_numbers"
 } );
 

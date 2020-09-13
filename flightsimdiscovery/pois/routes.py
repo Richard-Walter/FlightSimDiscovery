@@ -59,10 +59,25 @@ def new_poi():
 
 
 @pois.route("/topten_pois/<continent>")
-@login_required
-def poi(poi_id):
-    poi = Pois.query.get_or_404(poi_id)
-    return render_template('topten_pois.html', poi=poi)
+def topten_pois(continent):
+
+    topten_pois = Pois.query.all()
+    data_table = []
+
+    # create the Point of Interest dictionary that gets posted for map to use
+    for poi in topten_pois:
+        # print('Poi', poi)
+        data_dic = {}
+        data_dic['id'] = poi.id
+        data_dic['location'] = str(poi.latitude) +', ' + str(poi.longitude)
+        data_dic['name'] = poi.name
+        data_dic['category'] = poi.category
+        data_dic['country'] = poi.country
+        data_dic['description'] = poi.description
+
+        data_table.append(data_dic)
+
+    return render_template('topten_pois.html', pois=data_table, continent= continent)
 
 
 @pois.route("/poi/<int:poi_id>/update", methods=['GET', 'POST'])
