@@ -329,7 +329,8 @@ continents_by_region = {
     'Europe': ['Europe - Southern', 'Europe - Western', 'Europe - Eastern', 'Europe - Northern'],
     'Africa': ['Africa - Northern', 'Africa - Middle', 'Africa - Western', 'Africa - Southern', 'Africa - Eastern'],
     'Oceania': ['Oceania'],
-    'South America': ['America - South']
+    'South America': ['America - South'],
+    'North America': ['Caribbean', 'America - Northern', 'America - Central']
 }
 
 categoryList = [
