@@ -35,6 +35,8 @@
   </head>
 
   <body>
+    <div id="page-container">
+      <div id="content-wrap">
     <!--[if lte IE 9]>
       <p class="browserupgrade">
         You are using an <strong>outdated</strong> browser. Please
@@ -159,7 +161,7 @@
     <!-- header-end -->
     {% block content %}{% endblock %}
     <!-- footer-start -->
-    <footer class="footer mt-5">
+    <footer id="footer" class="footer">
       <div class="copy-right_text">
         <div class="container">
           <div class="footer_border "></div>
@@ -251,5 +253,7 @@
         },
       });
     </script> -->
+  </div>
+</div>
   </body>
 </html>
