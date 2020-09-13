@@ -43,7 +43,7 @@
             <small class="text-muted">{{ poi.date_posted.strftime('%Y-%m-%d') }}</small>
             {% if (current_user.id == 1) or (poi.user_id == current_user.id) %} 
               <div>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('pois.update_post', poi_id=poi.id) }}">
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('pois.update_poi', poi_id=poi.id) }}">
                     Update</a>
                 <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
               </div>

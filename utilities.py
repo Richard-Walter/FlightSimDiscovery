@@ -324,6 +324,14 @@ countries_by_region = {
     'Asia - Central': ['Kazakhstan', 'Kyrgyzstan', 'Tajikistan', 'Turkmenistan', 'Uzbekistan'],
 }
 
+continents_by_region = {
+    'Asia': ['Asia - Southern', 'Middle East', 'Asia - South-eastern', 'Asia - Eastern', 'Asia - Central'],
+    'Europe': ['Europe - Southern', 'Europe - Western', 'Europe - Eastern', 'Europe - Northern'],
+    'Africa': ['Africa - Northern', 'Africa - Middle', 'Africa - Western', 'Africa - Southern', 'Africa - Eastern'],
+    'Oceania': ['Oceania'],
+    'South America': ['America - South']
+}
+
 categoryList = [
     "Airport (famous)",
     "Beach",

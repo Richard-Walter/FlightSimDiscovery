@@ -58,11 +58,11 @@ def new_poi():
     return render_template('create_poi.html', form=form)
 
 
-@pois.route("/poi/<int:poi_id>")
+@pois.route("/topten_pois/<continent>")
 @login_required
 def poi(poi_id):
     poi = Pois.query.get_or_404(poi_id)
-    return render_template('poi.html', poi=poi)
+    return render_template('topten_pois.html', poi=poi)
 
 
 @pois.route("/poi/<int:poi_id>/update", methods=['GET', 'POST'])
