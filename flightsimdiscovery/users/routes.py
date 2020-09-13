@@ -78,7 +78,7 @@ def user_pois():
     
     print(current_user.id)
 
-    user_pois_with_additional_data = get_user_pois_dict_inc_favorites_visited(current_user.id)
+    user_pois_with_additional_data = get_user_pois_dict_inc_favorites_visited(current_user.id, True)
   
     return render_template('user_pois.html', user_pois=user_pois_with_additional_data)
 

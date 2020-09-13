@@ -98,3 +98,10 @@ def location_exists(pois, latitude, longitude, category):
             return True
 
     return False
+
+def getTickImageBasedOnState(state):
+
+    if state:
+        return "fas fa-check"
+    else:
+        return ""

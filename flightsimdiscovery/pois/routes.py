@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request, abort, Blu
 from flightsimdiscovery import db
 from flightsimdiscovery.pois.forms import PoiCreateForm, PoiUpdateForm
 from flightsimdiscovery.models import Pois, User, Ratings
-from flightsimdiscovery.pois.utils import location_exists, get_rating
+from flightsimdiscovery.pois.utils import location_exists, get_rating,getTickImageBasedOnState
 from flask_login import current_user, login_required
 from utilities import get_country_region, continents_by_region
 
