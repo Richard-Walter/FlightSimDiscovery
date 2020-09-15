@@ -222,7 +222,7 @@
         var user_visited = {{user_visited|tojson}};
 
         pois_array.forEach(function (poi, index) {
-          infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating};
+          infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating};
         });
 
         //Update Country Select values
@@ -290,6 +290,7 @@
               var latitude = infowindow_dict[marker_name]['latitude'];
               var longitude = infowindow_dict[marker_name]['longitude'];
               var category = infowindow_dict[marker_name]['category'];
+              var country = infowindow_dict[marker_name]['country'];
               var description = infowindow_dict[marker_name]['description'];
               var rating = infowindow_dict[marker_name]['rating'];
               var hiddenButtons = 'style="display: none"';
@@ -349,16 +350,17 @@
 
               var html_content =
                 "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
-                "<div class='gm-style-iw' id='iw-container'>" +
-                  // '<div id="siteNotice" </div>'+
-                  '<div class="iw-poi_name mb-3">'+
-                    '<h3 id="firstHeading">'+marker_name+'</h3>'+
-                    '<h4 id="categoryHeading" class=" font-italic ">'+category+'</h4>'+
-                  '</div>'+
-           
+                "<a href='https://www.google.com/search?q=" + marker_name + ", "+ category + ", "+ country +"' target='_blank'>" +
+                  "<div class='gm-style-iw' id='iw-container'>" +
+                    // '<div id="siteNotice" </div>'+
+                      '<div class="iw-poi_header mb-3" style="cursor:pointer">'+
+                      '<h3 id="firstHeading">'+marker_name+'</h3>'+
+                      '<h4 id="categoryHeading" class=" font-italic ">'+category+'</h4>'+
+                    '</div>'+
+                  '</a>' +
                   '<div id="bodyContent">'+
                     '<div class="mb-2">'+
-                      '<p class="lead text-justify">'+description+'</p>'+
+                      '<p class="lead text-center">'+description+'</p>'+
                     '</div>'+
                     '<div class="d-flex justify-content-center"">'+
                       '<div class="mb-2">'+
@@ -622,6 +624,7 @@
      console.log(eventId);
      $('#poi').html( eventId );
 });
+
 </script>
 
 

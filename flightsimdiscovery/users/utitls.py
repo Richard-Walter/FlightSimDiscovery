@@ -58,6 +58,8 @@ def get_user_pois_dict_inc_favorites_visited(user_id, tick=False):
 
     for poi in user_pois:
         new_poi_data = {'id': poi.id,'name': poi.name, 'category': poi.category, 'country': poi.country, 'region': poi.region, 'description': poi.description }
+        # add location info for map icon in user pois
+        new_poi_data['location'] = str(poi.latitude) +', ' + str(poi.longitude)
         if poi.id in user_visited_poi_id_list:
             if tick:
                 new_poi_data['visited'] = getTickImageBasedOnState(True)

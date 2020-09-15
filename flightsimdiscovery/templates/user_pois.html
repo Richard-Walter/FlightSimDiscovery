@@ -29,6 +29,7 @@
                 <!-- <th scope="col">shared</th> -->
                 <th scope="col">Visited</th>
                 <th scope="col">Favorited</th>
+                <th scope="col">Map</th>
                 <th scope="col">Update</th>
                 <th scope="col">Delete</th>
                 </tr>
@@ -44,6 +45,7 @@
                 <!-- <td>{{poi.share}}</td> -->
                 <td><i class="{{poi.visited}}"></i></td>
                 <td><i class="{{poi.favorited}}"></i></td>
+                <td><a href="/{{poi.location}}" class="btn btn-primary" onclick="this.form.submit()" role="button" aria-disabled="true"><i class="fas fa-globe-americas"></i></a></td>
                 <!-- <td><a href="/poi/{{poi.id}}/update">update</a></td> -->
                 <td><a href="/poi/{{poi.id}}/update" class="btn btn-info" role="button" aria-disabled="true"><i class="fas fa-edit"></i></a></td>
                 <!-- <td><button type="button" class="btn btn-info" data-id="{{poi.id}}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-edit"></i></button></td> -->
@@ -106,5 +108,7 @@
        console.log(eventId);
        $('#poi').html( eventId );
   });
+
+  
   </script>
 {% endblock content %}
