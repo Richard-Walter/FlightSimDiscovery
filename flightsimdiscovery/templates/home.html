@@ -495,6 +495,8 @@
           $("#btn_addPoiToFlightPlan").addClass("d-none");
           $("#btn_removePoiToFlightPlan").removeClass("d-none");
 
+          infowindow.close()
+
 
           // Add a new marker at the new plotted point on the polyline.
           // new google.maps.Marker({
@@ -521,7 +523,9 @@
           }
           //hide the remove button and display the add button
           $( "#btn_removePoiToFlightPlan" ).addClass("d-none");
-          $( "#btn_addToFlightPlan" ).removeClass("d-none");
+          $("#btn_addPoiToFlightPlan").removeClass("d-none");
+
+          infowindow.close()
 
         }
 
