@@ -247,13 +247,18 @@
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
             zoom: map_zoom,
-            center: {
-              lat: map_center_lat,
-              lng: map_center_long,
-            },
+            center: {lat: map_center_lat, lng: map_center_long},
+            fullscreenControl: false,
+            // mapTypeControl: true,
             mapTypeId: google.maps.MapTypeId.TERRAIN,
+            mapTypeControlOptions: {
+              style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+              mapTypeIds: ["roadmap", "terrain"]
+            },
             mapTypeControl: true,
           });
+
+
 
           const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
           markerCollection = map.data.addGeoJson(dataGeoJSON);
@@ -433,27 +438,6 @@
               });
 
               infowindow.open(map, marker);
-              
-              google.maps.event.addListener(infowindow, 'domready', function() {
-
-            // Reference to the DIV which receives the contents of the infowindow using jQuery
-                var iwOuter = $('.gm-style-iw');
-                var iwCloseBtn = iwOuter.next();
-
-                // Apply the desired effect to the close button
-                iwCloseBtn.css({
-                  opacity: '1', // by default the close button has an opacity of 0.7
-                  right: '38px', top: '3px', // button repositioning
-                  border: '7px solid #48b5e9', // increasing button border and new color
-                  'border-radius': '13px', // circular effect
-                  'box-shadow': '0 0 5px #3990B9' // 3D effect to highlight the button
-                  });
-                  // The API automatically applies 0.7 opacity to the button after the mouseout event.
-                  // This function reverses this event to the desired value.
-                  iwCloseBtn.mouseout(function(){
-                    $(this).css({opacity: '1'});
-                  });
-              });
             
               google.maps.event.addListener(map, "click", function () {
                 infowindow.close();
@@ -465,7 +449,36 @@
           // Marker Clustering
           markerCluster = new MarkerClusterer(map, clusterMarkers,
           { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
+          //Create custon flight plan control
+          const centerControlDiv = document.createElement("div");
+          CenterControl(centerControlDiv, map);
+          map.controls[google.maps.ControlPosition.TOP_RIGHT].push(centerControlDiv);
         }
+
+        function CenterControl(controlDiv, map) {
+          // Set CSS for the control border.
+          const controlUI = document.createElement('div');
+          controlUI.classList = "Map_Flight_Plan_Btn btn btn-success"
+          controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+          controlUI.style.cursor = "pointer";
+          controlUI.style.margin = "15px";
+          controlUI.style.textAlign = "center";
+          controlUI.title = "Flight Plan";
+          controlDiv.appendChild(controlUI);
+          
+          // Set CSS for the control interior.
+          const controlText = document.createElement("div");
+          controlText.classList = "Map_Flight_Plan_Text"
+          controlText.innerHTML = "Flight Plan";
+          controlUI.appendChild(controlText);
+          // Setup the click event listeners: simply set the map to Chicago.
+          controlUI.addEventListener("click", () => {
+            alert("Success");
+            // $( ".Map_Flight_Plan_Btn" ).remove();
+          });
+        }
+
 
       </script>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script>
