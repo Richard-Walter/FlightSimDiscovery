@@ -263,16 +263,15 @@
           const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
           markerCollection = map.data.addGeoJson(dataGeoJSON);
 
-            // var markerCollection = map.data.loadGeoJson("static/map.geojson");
+          //Allow user to create a flight plan
+          flightPath = new google.maps.Polyline({
+            geodesic: true,
+            strokeColor: '#cf4ddb',
+            strokeOpacity: 0.5,
+            strokeWeight: 5
+          });
 
-            // map.data.setStyle(function (feature) {
-            //   var art = feature.getProperty("icon");
-            //   var icons = customIcons[art] || {};
-            //   return {
-            //   //   icon: 'http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png'
-            //       icon: feature.getProperty("icon")
-            //   };
-            // });
+          loadFlightPlan(flightPath, map);
 
           for (var i = 0, length = markerCollection.length;i < length;i++ ) {
             
@@ -300,6 +299,9 @@
               var rating = infowindow_dict[marker_name]['rating'];
               var hiddenButtons = 'style="display: none"';
               var hiddenDetails = 'style="display: none"';
+              var showAddWaypointBtn = 'd-none';
+              var showRemoveWaypointBtn = 'd-none';
+              
               // var hiddenRatings = '';
               var ratingRadio1 = '';
               var ratingRadio2 = '';
@@ -308,6 +310,11 @@
               var ratingRadio5 = '';
               var favoriteCheck = ''
               var visitedCheck = '';
+
+              // var showAddWaypointBTN  = 
+              //   '<div id="btn_addPoiToFlightPlan" class="my-2">' +
+              //     '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude + ')">Add to Flight plan</button> '+
+              //   '</div>'
 
 
               if (is_authenticated=='True') {
@@ -348,6 +355,21 @@
                 if (user_favorites.includes(id)) {
                   favoriteCheck = 'checked';
                 }
+              }
+
+              //show or hide add/remove waypoint buttons
+              if (hasWaypointBeenAdded(flightPath, latitude, longitude )) {
+
+                showRemoveWaypointBtn = '';
+                // $("#btn_addPoiToFlightPlan").addClass("d-none");
+                // $("#btn_removePoiToFlightPlan").removeClass("d-none");
+                // console.log("waypoint has been added before")
+                } else {
+
+                showAddWaypointBtn = '';
+                // $("#btn_removePoiToFlightPlan").addClass("d-none");
+                // $("#btn_addPoiToFlightPlan").removeClass("d-none");
+                // console.log("waypoint has NOT been added ")
               }
 
               var html_content =
@@ -426,11 +448,12 @@
                         '</form>'+
                       '</div>'+
                     '</div>'+
-                    '<div class="mt-2">'+
-                      '<button id="btn_addToFlightPlan"  class="btn btn-outline-info btn mx-2 py-0" style="font-size: 0.8em;" onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude + ')">Add to Flight plan</button> '+
-                    '</div>'+
-                    '<div class="mt-2">'+
-                      '<button id="btn_removePoiToFlightPlan"  class="btn btn-outline-danger btn mx-2 py-0" style="font-size: 0.8em;" onclick="removePoiToFlightPlan(' + latitude + ', ' + longitude + ')">Remove from Flight plan</button> '+
+                  '<div>'+
+                    '<div id="btn_addPoiToFlightPlan" class="my-2 ' + showAddWaypointBtn + '">' +
+                        '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude + ')">Add to Flight plan</button> '+
+                      '</div>' +
+                    '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
+                      '<button class="btn btn-danger btn-sm mx-2 py-0" onclick="removePoiToFlightPlan(' + latitude + ', ' + longitude + ')">Remove from Flight plan</button> '+
                     '</div>'+
                   '</div>'+
                 '</div>'
@@ -453,27 +476,6 @@
           markerCluster = new MarkerClusterer(map, clusterMarkers,
           { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
-          //Allow user to create a flight plan
-          var flightPlanCoordinates = [
-          {lat: 37.772, lng: -122.214},
-          {lat: 21.291, lng: -157.821},
-          {lat: -18.142, lng: 178.431},
-          {lat: -27.467, lng: 153.027}
-          ];
-
-          flightPath = new google.maps.Polyline({
-          // path: flightPlanCoordinates,
-          geodesic: true,
-          strokeColor: '#cf4ddb',
-          strokeOpacity: 0.5,
-          strokeWeight: 5
-          });
-
-          // Add a listener for the click event
-          // map.addListener('rightclick', addPoiToFlightPlan);
-
-          loadFlightPlan(flightPath, map);
-
           //Create custon flight plan control
           const flightPlanDiv = document.createElement("div");
           styleflightPlanBtn(flightPlanDiv, map, flightPath);
@@ -489,6 +491,11 @@
           // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
           path.push(new google.maps.LatLng(latLng[0], latLng[1]));
 
+          //hide the add button and display the remove button
+          $("#btn_addPoiToFlightPlan").addClass("d-none");
+          $("#btn_removePoiToFlightPlan").removeClass("d-none");
+
+
           // Add a new marker at the new plotted point on the polyline.
           // new google.maps.Marker({
           //   position: event.latLng,
@@ -499,24 +506,23 @@
 
         function removePoiToFlightPlan(latitude, longitude) {
           const path = flightPath.getPath();  
-          var latLng = [latitude, longitude]
           var flightpath_array = path.getArray()
           
           for (let i = 0; i < flightpath_array.length; i++) {
-
-            console.log(flightpath_array[i].lat())
-            console.log(flightpath_array[i].lng())
-            console.log(latitude, longitude)
             
             // if ((flightpath_array[i].lat() == latitude) && (flightpath_array[i].lat()  == longitude)) {
             if (flightpath_array[i].lat() == latitude) {
               if (flightpath_array[i].lng()  == longitude) {
-
                 path.removeAt(i);
+                break;
 
               }
             }  
           }
+          //hide the remove button and display the add button
+          $( "#btn_removePoiToFlightPlan" ).addClass("d-none");
+          $( "#btn_addToFlightPlan" ).removeClass("d-none");
+
         }
 
         function deleteFlightPlan(flightPath) {
@@ -526,6 +532,25 @@
         function loadFlightPlan(flightPath, map) {
           flightPath.setMap(map);
         }
+
+        function hasWaypointBeenAdded(flightPath, latitude, longitude ) {
+
+          const path = flightPath.getPath();  
+          var flightpath_array = path.getArray()
+
+          for (let i = 0; i < flightpath_array.length; i++) {
+            
+            // if ((flightpath_array[i].lat() == latitude) && (flightpath_array[i].lat()  == longitude)) {
+            if (flightpath_array[i].lat() == latitude) {
+              if (flightpath_array[i].lng()  == longitude) {
+
+                return true;
+              }
+            }          
+          }
+          return false;  
+        }
+
 
         function styleflightPlanBtn(controlDiv, map, flightPath) {
 
