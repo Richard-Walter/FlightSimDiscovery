@@ -199,6 +199,7 @@
         //Create the Google Map
         var map;
         var flightPath;
+        var flightPath_data
         var is_authenticated='{{is_authenticated}}';
         var markerCluster;
         var markerCollection;
@@ -452,10 +453,10 @@
                     '</div>'+
                   '<div>'+
                     '<div id="btn_addPoiToFlightPlan" class="my-2 ' + showAddWaypointBtn + '">' +
-                        '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude + ')">Add to Flight plan</button> '+
+                        '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name +'\')">Add to Flight plan</button> '+
                       '</div>' +
                     '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
-                      '<button class="btn btn-danger btn-sm mx-2 py-0" onclick="removePoiToFlightPlan(' + latitude + ', ' + longitude + ')">Remove from Flight plan</button> '+
+                      '<button class="btn btn-danger btn-sm mx-2 py-0" onclick="removePoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name + '\')">Remove from Flight plan</button> '+
                     '</div>'+
                   '</div>'+
                 '</div>'
@@ -487,12 +488,15 @@
         }
 
         //Add a new point to the FlightPath
-        function addPoiToFlightPlan(latitude, longitude) {
+        function addPoiToFlightPlan(latitude, longitude, waypoint) {
           const path = flightPath.getPath();
           var latLng = [latitude, longitude]
 
           // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
           path.push(new google.maps.LatLng(latLng[0], latLng[1]));
+
+          // We also need to add additional data to flightPath_data so we can create a flight plan
+          flightPath_data.push({'latLng': latLng, 'waypoint': waypoint})
 
           //hide the add button and display the remove button
           $("#btn_addPoiToFlightPlan").addClass("d-none");
@@ -509,7 +513,7 @@
           // });
         }
 
-        function removePoiToFlightPlan(latitude, longitude) {
+        function removePoiToFlightPlan(latitude, longitude, waypoint) {
           const path = flightPath.getPath();  
           var flightpath_array = path.getArray()
           
@@ -519,6 +523,10 @@
             if (flightpath_array[i].lat() == latitude) {
               if (flightpath_array[i].lng()  == longitude) {
                 path.removeAt(i);
+                // We also need to remove additional data to flightPath_data so we can create a flight plan
+                // flightPath_data.removeAt(i);
+                flightPath_data.splice(i, 1);
+                // delete flightPath_data[i];     //indexs wont change with this method
                 break;
 
               }
@@ -584,7 +592,7 @@
           // open up flight plan modal
           controlUI.addEventListener("click", () => {
 
-            modalBodyHTML = buildFlgihtPlanModalBody();
+            modalBodyHTML = buildFlightPlanModalBody(flightPath_data);
             $('#Flight_plan_modal').modal('show');
             $(".flight_plan_modal_body").html(modalBodyHTML);
             // alert("Deleting flight");
@@ -715,7 +723,7 @@
           <!-- <p>Modal body text goes here.</p> -->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="saveFlightPlan(document)">Save changes</button>
+          <button type="button" class="btn btn-primary" onclick="saveFlightPlan(document)">Save Flight Plan</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
