@@ -198,10 +198,12 @@
 
         //Create the Google Map
         var map;
+        var flightPath;
         var is_authenticated='{{is_authenticated}}';
         var markerCluster;
         var markerCollection;
         var clusterMarkers = [];
+
 
         // Parse the posted data into a GeoJSon format required by Google Maps
         var poi_data_array = [];
@@ -257,8 +259,6 @@
             },
             mapTypeControl: true,
           });
-
-
 
           const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
           markerCollection = map.data.addGeoJson(dataGeoJSON);
@@ -342,15 +342,12 @@
                   ratingRadio5 = 'checked';
                 }
 
-
                 if (user_visited.includes(id)) {
                   visitedCheck = 'checked';
                 }
                 if (user_favorites.includes(id)) {
                   favoriteCheck = 'checked';
                 }
-
-                
               }
 
               var html_content =
@@ -450,13 +447,44 @@
           markerCluster = new MarkerClusterer(map, clusterMarkers,
           { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
+          //Allow user to create a flight plan
+          var flightPlanCoordinates = [
+          {lat: 37.772, lng: -122.214},
+          {lat: 21.291, lng: -157.821},
+          {lat: -18.142, lng: 178.431},
+          {lat: -27.467, lng: 153.027}
+          ];
+
+          flightPath = new google.maps.Polyline({
+          path: flightPlanCoordinates,
+          geodesic: true,
+          strokeColor: '#cf4ddb',
+          strokeOpacity: 0.5,
+          strokeWeight: 5
+          });
+
+          loadFlightPlan(flightPath, map);
+
           //Create custon flight plan control
-          const centerControlDiv = document.createElement("div");
-          CenterControl(centerControlDiv, map);
-          map.controls[google.maps.ControlPosition.TOP_RIGHT].push(centerControlDiv);
+          const flightPlanDiv = document.createElement("div");
+          styleflightPlanBtn(flightPlanDiv, map, flightPath);
+          map.controls[google.maps.ControlPosition.TOP_RIGHT].push(flightPlanDiv);
         }
 
-        function CenterControl(controlDiv, map) {
+        function deleteFlightPlan(flightPath) {
+          flightPath.setMap(null);
+        }
+
+        function loadFlightPlan(flightPath, map) {
+          flightPath.setMap(map);
+        }
+
+        function styleflightPlanBtn(controlDiv, map, flightPath) {
+
+          console.log(controlDiv);
+          console.log(map);
+          console.log(flightPath);
+
           // Set CSS for the control border.
           const controlUI = document.createElement('div');
           controlUI.classList = "Map_Flight_Plan_Btn btn btn-success"
@@ -472,9 +500,11 @@
           controlText.classList = "Map_Flight_Plan_Text"
           controlText.innerHTML = "Flight Plan";
           controlUI.appendChild(controlText);
-          // Setup the click event listeners: simply set the map to Chicago.
+
+          // open up flight plan modal
           controlUI.addEventListener("click", () => {
-            alert("Success");
+            alert("Deleting flight");
+            deleteFlightPlan(flightPath);
             // $( ".Map_Flight_Plan_Btn" ).remove();
           });
         }
