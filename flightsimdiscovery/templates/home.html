@@ -272,6 +272,7 @@
           });
 
           loadFlightPlan(flightPath, map);
+          
 
           for (var i = 0, length = markerCollection.length;i < length;i++ ) {
             
@@ -371,7 +372,8 @@
                 // $("#btn_addPoiToFlightPlan").removeClass("d-none");
                 // console.log("waypoint has NOT been added ")
               }
-
+              
+              
               var html_content =
                 "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
                 "<a href='https://www.google.com/search?q=" + marker_name + ", "+ category + ", "+ country +"' target='_blank'>" +
@@ -461,6 +463,7 @@
 
               infowindow = new google.maps.InfoWindow({
                 content: html_content,
+
               });
 
               infowindow.open(map, marker);
@@ -580,8 +583,12 @@
 
           // open up flight plan modal
           controlUI.addEventListener("click", () => {
-            alert("Deleting flight");
-            deleteFlightPlan(flightPath);
+
+            modalBodyHTML = buildFlgihtPlanModalBody();
+            $('#Flight_plan_modal').modal('show');
+            $(".flight_plan_modal_body").html(modalBodyHTML);
+            // alert("Deleting flight");
+            // deleteFlightPlan(flightPath);
             // $( ".Map_Flight_Plan_Btn" ).remove();
           });
         }
@@ -693,16 +700,31 @@
 </div>
 <!-- popular_destination_area_end  -->
 
+<!-- Flight Plan Modal -->
+<div class="Flight_plan_modal">
+  <div class="modal fade" id="Flight_plan_modal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">My Flight Plan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body flight_plan_modal_body">
+          <!-- <p>Modal body text goes here.</p> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="saveFlightPlan(document)">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Delete Modal -->
 <div class="custom_search_pop">
-  <div
-    class="modal fade"
-    id="deleteModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="deleteModalLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade"  id="deleteModal"tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -710,13 +732,8 @@
             Are you sure you want to delete this point of interest?
           </h5>
           <input type="hidden" name="eventId" id="eventId"/>
-          <span id="poi"></span>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <!-- <span id="poi"></span> -->
+          <button type="button"  class="close" data-dismiss="modal"  aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -733,16 +750,17 @@
     </div>
   </div>
 </div>
+
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
-  $(document).on("click", ".open_delete_modal", function () {
-     
-     var eventId = $(this).data('id');
-     var form_action = '/poi/' + eventId + '/delete'
-     console.log(form_action)
-     $("#delete_poi_confirm").attr('action', form_action);
-     console.log(eventId);
-     $('#poi').html( eventId );
+$(document).on("click", ".open_delete_modal", function () {
+    
+    var eventId = $(this).data('id');
+    var form_action = '/poi/' + eventId + '/delete'
+    console.log(form_action)
+    $("#delete_poi_confirm").attr('action', form_action);
+    console.log(eventId);
+    $('#poi').html( eventId );
 });
 
 </script>
