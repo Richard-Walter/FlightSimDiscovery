@@ -34,11 +34,17 @@ function buildFlightPlanModalBody(flightPath_data) {
 
     console.log(flightPath_data);
 
-    var body_htm = "<p>No flight plan created.<br /><br />  Click on a Point of Interest and 'add to Flight Plan' first.</p>";
+    var body_html = "<p>No flight plan created.  Please add at least two waypoints.<br /><br />  Start creating a flight plan by clicking on a Point of Interest and 'add to Flight Plan'.</p>";
     
-    if (Array.isArray(flightPath_data) && flightPath_data.length) {
-        body_htm = '<p>We have detected flight plan data</p>';
+    if (Array.isArray(flightPath_data) && flightPath_data.length>1) {
+        body_html = '<p>We have detected flight plan data</p><br><p>';
+        for (var i = 0; i < flightPath_data.length; i++) {
+            body_html += flightPath_data[i]['waypoint'] + " --> ";
+          }
+        body_html = body_html.substring(0, body_html.length-5);  //remove the -->
+        body_html += '</p>'
+        
     }
         
-    return body_htm;
+    return body_html;
 }

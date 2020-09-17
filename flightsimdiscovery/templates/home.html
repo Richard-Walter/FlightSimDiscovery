@@ -498,6 +498,12 @@
           // We also need to add additional data to flightPath_data so we can create a flight plan
           flightPath_data.push({'latLng': latLng, 'waypoint': waypoint})
 
+          //enable modal buttons if valid flight plan
+          if (flightPath_data.length > 1){
+            $('#fp_save_btn').removeAttr('disabled')
+            $('#fp_delete_btn').removeAttr('disabled')
+          } 
+
           //hide the add button and display the remove button
           $("#btn_addPoiToFlightPlan").addClass("d-none");
           $("#btn_removePoiToFlightPlan").removeClass("d-none");
@@ -532,6 +538,13 @@
               }
             }  
           }
+
+          //disable modal buttons if not valid flight plan
+          if (flightPath_data.length < 2){
+            $('#fp_save_btn').attr('disabled', 'disabled');
+            $('#fp_delete_btn').attr('disabled', 'disabled');
+          } 
+
           //hide the remove button and display the add button
           $( "#btn_removePoiToFlightPlan" ).addClass("d-none");
           $("#btn_addPoiToFlightPlan").removeClass("d-none");
@@ -540,8 +553,13 @@
 
         }
 
-        function deleteFlightPlan(flightPath) {
-          flightPath.setMap(null);
+        function deleteFlightPlan() {
+          // flightPath.setMap(null);
+          flightPath.getPath().clear()
+          flightPath_data = [];
+          $("#Flight_plan_modal").modal('hide');
+          $('#fp_save_btn').attr('disabled', 'disabled');
+          $('#fp_delete_btn').attr('disabled', 'disabled');
         }
 
         function loadFlightPlan(flightPath, map) {
@@ -723,13 +741,14 @@
           <!-- <p>Modal body text goes here.</p> -->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="saveFlightPlan(document)">Save Flight Plan</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button id="fp_save_btn" type="button" class="btn btn-primary" disabled onclick="saveFlightPlan(document)">Save Flight Plan</button>
+          <button id="fp_delete_btn" type="button" class="btn btn-danger" disabled onclick="deleteFlightPlan()">Delete Flight Plan</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <!-- Delete Modal -->
 <div class="custom_search_pop">
   <div class="modal fade"  id="deleteModal"tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" >
