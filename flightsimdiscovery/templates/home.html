@@ -199,7 +199,7 @@
         //Create the Google Map
         var map;
         var flightPath;
-        var flightPath_data
+        var flightPath_data = []
         var is_authenticated='{{is_authenticated}}';
         var markerCluster;
         var markerCollection;
@@ -741,7 +741,7 @@
           <!-- <p>Modal body text goes here.</p> -->
         </div>
         <div class="modal-footer">
-          <button id="fp_save_btn" type="button" class="btn btn-primary" disabled onclick="saveFlightPlan(document)">Save Flight Plan</button>
+          <button id="fp_save_btn" type="button" class="btn btn-primary" disabled onclick="saveFlightPlan(document, flightPath_data)">Save Flight Plan</button>
           <button id="fp_delete_btn" type="button" class="btn btn-danger" disabled onclick="deleteFlightPlan()">Delete Flight Plan</button>
         </div>
       </div>
