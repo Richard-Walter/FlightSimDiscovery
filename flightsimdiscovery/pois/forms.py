@@ -2,11 +2,10 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, SelectField, BooleanField
 from wtforms.validators import DataRequired, Length, ValidationError
 from utilities import validate_lat, validate_long, get_country_list, get_category_list
-from flightsimdiscovery.pois.utils import validate_poi_name, location_exists
+from flightsimdiscovery.pois.utils import validate_poi_name
 
 
 class PoiCreateForm(FlaskForm):
-   
     name = StringField('Name', validators=[DataRequired()])
     country = SelectField('Country', choices=get_country_list(), validators=[DataRequired()])
     category = SelectField('Category', choices=get_category_list(), validators=[DataRequired()])
@@ -49,7 +48,6 @@ class PoiUpdateForm(FlaskForm):
         if not validate_lat(str(latitude.data)):
             raise ValidationError('Please enter a valid latitude (-90 and +90) in degrees decimal.  e.g.-34.407279')
 
-
     def validate_longitude(self, longitude):
 
         if not validate_long(str(longitude.data)):
@@ -59,4 +57,3 @@ class PoiUpdateForm(FlaskForm):
 
     #     if not validate_poi_name(name.data):
     #         raise ValidationError('This name is already used by another point of interest')
-

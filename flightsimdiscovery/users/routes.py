@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flightsimdiscovery import db, bcrypt
 from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
-from flightsimdiscovery.models import User, Pois
+from flightsimdiscovery.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited
 
@@ -72,15 +72,16 @@ def account():
     image_file = url_for('static', filename='img/profile_pics/' + current_user.image_file)
     return render_template('account.html', user_pois=user_pois_with_additional_data, image_file=image_file, form=form)
 
+
 @users.route("/user_pois")
 @login_required
 def user_pois():
-    
     print(current_user.id)
 
     user_pois_with_additional_data = get_user_pois_dict_inc_favorites_visited(current_user.id, True)
-  
+
     return render_template('user_pois.html', user_pois=user_pois_with_additional_data)
+
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():

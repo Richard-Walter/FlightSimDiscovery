@@ -2,27 +2,27 @@
 {% block content %}
 <!-- bradcam_area  -->
 <div class="bradcam_area register_bg">
-  <div class="container">
-      <div class="row">
-          <!-- <div class="col-xl-12">
-              <div class="bradcam_text text-center">
-                  <h3>Account</h3>
-                  <p>{{ current_user.username }}</p>
-              </div>
-          </div> -->
-      </div>
-  </div>
+    <div class="container">
+        <div class="row">
+            <!-- <div class="col-xl-12">
+                <div class="bradcam_text text-center">
+                    <h3>Account</h3>
+                    <p>{{ current_user.username }}</p>
+                </div>
+            </div> -->
+        </div>
+    </div>
 </div>
 <!--/ bradcam_area  -->
 <div class="container">
     <div class="account_section">
-      <!-- <div class="media">
-        <img class="rounded-circle  align-self-center mr-4 " src="{{ image_file }}">
-        <div class="media-body">
-          <h2 class="account-heading mt-3">{{ current_user.username }}</h2>
-          <p class="text-secondary">{{ current_user.email }}</p>
-        </div>
-      </div> -->
+        <!-- <div class="media">
+          <img class="rounded-circle  align-self-center mr-4 " src="{{ image_file }}">
+          <div class="media-body">
+            <h2 class="account-heading mt-3">{{ current_user.username }}</h2>
+            <p class="text-secondary">{{ current_user.email }}</p>
+          </div>
+        </div> -->
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <fieldset class="form-group mt-5">
@@ -31,27 +31,27 @@
                     {{ form.username.label(class="form-control-label") }}
 
                     {% if form.username.errors %}
-                        {{ form.username(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.username.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
+                    {{ form.username(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
                     {% else %}
-                        {{ form.username(class="form-control form-control-lg") }}
+                    {{ form.username(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
                 <div class="form-group">
                     {{ form.email.label(class="form-control-label") }}
                     {% if form.email.errors %}
-                        {{ form.email(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
+                    {{ form.email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
                     {% else %}
-                        {{ form.email(class="form-control form-control-lg") }}
+                    {{ form.email(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
                 <!-- <div class="form-group">
@@ -69,9 +69,9 @@
             </div>
         </form>
     </div>
-  </div>
-  <script src="https://code.jquery.com/jquery.min.js"></script>
-  <script type="text/javascript">
+</div>
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript">
     $(document).on("click", ".open_delete_modal", function () {
        
        var eventId = $(this).data('id');
@@ -81,5 +81,6 @@
        console.log(eventId);
        $('#poi').html( eventId );
   });
-  </script>
+
+</script>
 {% endblock content %}

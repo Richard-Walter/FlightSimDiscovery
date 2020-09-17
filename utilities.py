@@ -376,8 +376,6 @@ def get_region_list():
     return sorted(region_list)
 
 
-
-
 def get_category_list():
     return categoryList
 
@@ -473,10 +471,9 @@ def generate_csvs():
 
 
 def create_pois_csv():
-
     # read in raw txt file and create a spaced file for each poi for regex to work with
     with open("flightsimdiscovery\\data\\FSDiscovery locations raw.txt", encoding="utf8") as myfile:
-    # with open("poi_spaced_output.txt", encoding="utf8") as myfile:
+        # with open("poi_spaced_output.txt", encoding="utf8") as myfile:
         data = myfile.read()
         # write raw output file that has each poi on a new line
         f = codecs.open("flightsimdiscovery\\output\\poi_spaced_output.txt", "w", "utf-8-sig", )
@@ -485,9 +482,9 @@ def create_pois_csv():
 
         for count, match in enumerate(start_poi_matches):
             # print(start_poi_matches[count + 1])
-            if count+1 < len(start_poi_matches):
+            if count + 1 < len(start_poi_matches):
                 start_string = match.span()[0]
-                end_string = start_poi_matches[count+1].span()[0]
+                end_string = start_poi_matches[count + 1].span()[0]
 
                 line = data[start_string:end_string]
                 f.write(line)
@@ -568,7 +565,7 @@ def create_pois_csv():
             print('Notes: ' + notes)
         else:
             notes = ""
-            print('Notes: ' + notes )
+            print('Notes: ' + notes)
             update_notes_with_category = True
         print('\n', row)
         sheet['G' + str(row)] = notes
@@ -577,22 +574,22 @@ def create_pois_csv():
         category_match = re.search(category_pattern, match)
         if category_match:
             # print(category_match.group())
-            category = category_match.group(1).strip( '"' ).strip('\\').strip()
+            category = category_match.group(1).strip('"').strip('\\').strip()
 
             if update_notes_with_category:
                 sheet['G' + str(row)] = category
 
             # re-organise categories
-            if category in ['Town', 'City', 'Town/City', 'CIty', 'Towns','County', 'State Park', 'State Capital', 'Beach Town', 'Beach/Town',
+            if category in ['Town', 'City', 'Town/City', 'CIty', 'Towns', 'County', 'State Park', 'State Capital', 'Beach Town', 'Beach/Town',
                             'Botanical Garden',
-                            'Capital/National Park/Islands','City (Abandoned)', 'City/Geolical Landmark','City/Isthmus','City/Lake/Mountains',
-                            'Cliffs/Caverns','Ghost Town', 'Island/State Park','Municipality','Nature Preserve','Nature Reserve','Peninsula',
-                            'Scenic Byway', 'Abandoned Town','arcipelago','Oasis', 'Town/Peninsula','Achipelago']:
+                            'Capital/National Park/Islands', 'City (Abandoned)', 'City/Geolical Landmark', 'City/Isthmus', 'City/Lake/Mountains',
+                            'Cliffs/Caverns', 'Ghost Town', 'Island/State Park', 'Municipality', 'Nature Preserve', 'Nature Reserve', 'Peninsula',
+                            'Scenic Byway', 'Abandoned Town', 'arcipelago', 'Oasis', 'Town/Peninsula', 'Achipelago']:
                 continue
 
-            if 'UNESCO' in category :
+            if 'UNESCO' in category:
                 category = 'World Heritage'
-            elif 'Canyon' in category :
+            elif 'Canyon' in category:
                 category = 'Canyon'
             elif 'Island' in category:
                 category = 'Island'
@@ -671,9 +668,9 @@ def create_pois_csv():
             latitude_sign = latt_long_match.group(1)
             latitude = latt_long_match.group(2)
             if latitude_sign:
-                latitude = latitude_sign+latt_long_match.group(2)
+                latitude = latitude_sign + latt_long_match.group(2)
             longitude = latt_long_match.group(3)
-            print('Lattitude: ' + latitude )
+            print('Lattitude: ' + latitude)
             print('Longitude: ' + longitude)
             sheet['C' + str(row)] = latitude
             sheet['D' + str(row)] = longitude
@@ -777,7 +774,6 @@ def create_pois_csv():
         elif country == "Turks and Caicos":
             country = 'Great Britain'
 
-
         print('Country: ' + country)
         sheet['E' + str(row)] = country
         sheet['E' + str(row)] = country
@@ -797,9 +793,8 @@ def create_pois_csv():
 
 
 if __name__ == '__main__':
-
     pass
-   
+
     generate_csvs()
     create_pois_csv()
 

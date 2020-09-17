@@ -4,10 +4,9 @@ from PIL import Image
 from flask import url_for
 from flask_mail import Message
 from flightsimdiscovery import mail
-from flightsimdiscovery.models import User, Pois, Visited, Favorites
+from flightsimdiscovery.models import Pois, Visited, Favorites
 from flightsimdiscovery.pois.utils import getTickImageBasedOnState
 from flask import current_app
-
 
 
 def send_reset_email(user):
@@ -21,8 +20,8 @@ def send_reset_email(user):
     '''
     mail.send(msg)
 
+
 def send_contact_email(message, email, subject):
-    
     msg = Message('Flight Sim Discovery - ' + subject,
                   sender=email,
                   recipients=["willthisnamedo@gmail.com"])
@@ -46,8 +45,8 @@ def save_picture(form_picture):
 
     return picture_fn
 
-def get_user_pois_dict_inc_favorites_visited(user_id, tick=False):
 
+def get_user_pois_dict_inc_favorites_visited(user_id, tick=False):
     additional_user_pois_data = []
     user_pois = Pois.query.filter_by(user_id=user_id).all()
     user_visited_pois = Visited.query.filter_by(user_id=user_id).all()
@@ -57,9 +56,10 @@ def get_user_pois_dict_inc_favorites_visited(user_id, tick=False):
     user_favorited_poi_id_list = get_pois_id_list(user_favorited_pois)
 
     for poi in user_pois:
-        new_poi_data = {'id': poi.id,'name': poi.name, 'category': poi.category, 'country': poi.country, 'region': poi.region, 'description': poi.description }
+        new_poi_data = {'id': poi.id, 'name': poi.name, 'category': poi.category, 'country': poi.country, 'region': poi.region,
+                        'description': poi.description}
         # add location info for map icon in user pois
-        new_poi_data['location'] = str(poi.latitude) +', ' + str(poi.longitude)
+        new_poi_data['location'] = str(poi.latitude) + ', ' + str(poi.longitude)
         if poi.id in user_visited_poi_id_list:
             if tick:
                 new_poi_data['visited'] = getTickImageBasedOnState(True)
@@ -70,7 +70,7 @@ def get_user_pois_dict_inc_favorites_visited(user_id, tick=False):
                 new_poi_data['visited'] = getTickImageBasedOnState(False)
             else:
                 new_poi_data['visited'] = False
-        
+
         if poi.id in user_favorited_poi_id_list:
             if tick:
                 new_poi_data['favorited'] = getTickImageBasedOnState(True)
@@ -83,11 +83,11 @@ def get_user_pois_dict_inc_favorites_visited(user_id, tick=False):
                 new_poi_data['favorited'] = False
 
         additional_user_pois_data.append(new_poi_data)
-        
+
     return additional_user_pois_data
 
+
 def get_pois_id_list(poi_id_list):
-    
     id_list = []
 
     for poi_id in poi_id_list:

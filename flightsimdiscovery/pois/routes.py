@@ -1,18 +1,17 @@
-from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, session
+from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flightsimdiscovery import db
 from flightsimdiscovery.pois.forms import PoiCreateForm, PoiUpdateForm
 from flightsimdiscovery.models import Pois, User, Ratings
-from flightsimdiscovery.pois.utils import location_exists, get_rating,getTickImageBasedOnState
+from flightsimdiscovery.pois.utils import location_exists, get_rating
 from flask_login import current_user, login_required
 from utilities import get_country_region, continents_by_region
-
 
 pois = Blueprint('pois', __name__)
 anonymous_username = 'anonymous'
 
+
 @pois.route("/poi/new", methods=['GET', 'POST'])
 def new_poi():
-    
     pois = Pois.query.all()
     form = PoiCreateForm()
     # default user_id is anonymous
@@ -48,8 +47,8 @@ def new_poi():
         db.session.commit()
 
         # Update Rating table - defaul rating when first creating a new POI is 4
-        print('Poi ID is: ', poi.id) # This gets the above poi that was just committed.
-        rating = Ratings(user_id=user_id, poi_id= poi.id, rating_score=4)
+        print('Poi ID is: ', poi.id)  # This gets the above poi that was just committed.
+        rating = Ratings(user_id=user_id, poi_id=poi.id, rating_score=4)
         db.session.add(rating)
         db.session.commit()
 
@@ -60,7 +59,6 @@ def new_poi():
 
 @pois.route("/topten_pois/<continent>")
 def topten_pois(continent):
-
     region_pois = []
     poi_ratings = []
     topten_pois = []
@@ -68,26 +66,24 @@ def topten_pois(continent):
 
     # get all pois for the continent
     for region in continents_by_region[continent]:
-
         pois = Pois.query.filter_by(region=region).all()
         region_pois.extend(pois)
 
-     # get poi ratings and order pois by rating hightest to lowest
+    # get poi ratings and order pois by rating hightest to lowest
     for poi in region_pois:
         rating = str(get_rating(poi.id))
         rating_dict = {'poi_id': poi.id, 'rating': rating}
         poi_ratings.append(rating_dict)
-    
-    sorted_poi_ratings = sorted(poi_ratings, key=lambda k: k['rating']) 
+
+    sorted_poi_ratings = sorted(poi_ratings, key=lambda k: k['rating'])
 
     # get the top ten pois and  dictionary that gets posted for map to use
     for poi_dict in sorted_poi_ratings[-10:]:
-        
         poi = Pois.query.get(poi_dict['poi_id'])
 
         data_dic = {}
         data_dic['id'] = poi.id
-        data_dic['location'] = str(poi.latitude) +', ' + str(poi.longitude)
+        data_dic['location'] = str(poi.latitude) + ', ' + str(poi.longitude)
         data_dic['name'] = poi.name
         data_dic['category'] = poi.category
         data_dic['country'] = poi.country
@@ -96,7 +92,7 @@ def topten_pois(continent):
 
         data_table.append(data_dic)
 
-    return render_template('topten_pois.html', pois=data_table, continent= continent)
+    return render_template('topten_pois.html', pois=data_table, continent=continent)
 
 
 @pois.route("/poi/<int:poi_id>/update", methods=['GET', 'POST'])
@@ -110,7 +106,7 @@ def update_poi(poi_id):
 
     form = PoiUpdateForm()
     if form.validate_on_submit():
-        
+
         poi.user_id = current_user.id
         poi.name = form.name.data
         poi.latitude = float(form.latitude.data)

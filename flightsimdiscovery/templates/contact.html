@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-  <!-- bradcam_area  -->
-  <div class="bradcam_area contact_us_bg">
+<!-- bradcam_area  -->
+<div class="bradcam_area contact_us_bg">
     <div class="container">
         <!-- <div class="row">
             <div class="col-xl-12">
@@ -10,34 +10,34 @@
                     <p>Search - Download - Explore</p>
                 </div>
             </div> -->
-        </div>
     </div>
 </div>
 <!--/ bradcam_area  -->
 
-   <!-- ================ contact section start ================= -->
-   <div class="about_story">
+<!-- ================ contact section start ================= -->
+<div class="about_story">
     <div class="container">
         <div class="row my-5">
             <div class="col-12">
                 <h3 class="contact-title">Get in Touch</h3>
             </div>
             <div class="col-lg-8">
-                <form class="form-contact contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
+                <form class="form-contact contact_form" action="" method="post" id="contactForm"
+                      novalidate="novalidate">
                     {{ form.hidden_tag() }}
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
                                 {{ form.message.label(class="form-control-label") }}
                                 {% if form.message.errors %}
-                                    {{ form.message(class="form-control form-control-lg is-invalid") }} 
-                                    <div class="invalid-feedback">
-                                        {% for error in form.message.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
+                                {{ form.message(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.message.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
                                 {% else %}
-                                    {{ form.message(class="form-control form-control-lg", cols="30", rows="9") }}
+                                {{ form.message(class="form-control form-control-lg", cols="30", rows="9") }}
                                 {% endif %}
                             </div>
                         </div>
@@ -45,14 +45,14 @@
                             <div class="form-group">
                                 {{ form.subject.label(class="form-control-label") }}
                                 {% if form.subject.errors %}
-                                    {{ form.subject(class="form-control form-control-lg is-invalid") }}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.subject.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
+                                {{ form.subject(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.subject.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
                                 {% else %}
-                                    {{ form.subject(class="form-control form-control-lg") }}
+                                {{ form.subject(class="form-control form-control-lg") }}
                                 {% endif %}
                             </div>
                         </div>
@@ -60,14 +60,14 @@
                             <div class="form-group">
                                 {{ form.email.label(class="form-control-label") }}
                                 {% if form.email.errors %}
-                                    {{ form.email(class="form-control form-control-lg is-invalid") }}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.email.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
+                                {{ form.email(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.email.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
                                 {% else %}
-                                    {{ form.email(class="form-control form-control-lg") }}
+                                {{ form.email(class="form-control form-control-lg") }}
                                 {% endif %}
                             </div>
                         </div>
@@ -89,9 +89,9 @@
             </div>
         </div>
     </div>
-</section>
-<!-- ================ contact section end ================= -->
-{% endblock content %}
+ <div>
+    <!-- ================ contact section end ================= -->
+    {% endblock content %}
 
 
 

@@ -2,73 +2,73 @@
 
 <!-- slider_area_start -->
 <div class="slider_area">
-  <div class="slider_active owl-carousel">
-    <div class="single_slider d-flex align-items-center slider_bg_1 overlay">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-xl-12 col-md-12">
-            <div class="slider_text text-center">
-              <h3>Australia</h3>
-              <p></p>
-              <a href="#searchTag" class="boxed-btn3" data-value="Australia">Explore Now</a>
+    <div class="slider_active owl-carousel">
+        <div class="single_slider d-flex align-items-center slider_bg_1 overlay">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 col-md-12">
+                        <div class="slider_text text-center">
+                            <h3>Australia</h3>
+                            <p></p>
+                            <a href="#searchTag" class="boxed-btn3" data-value="Australia">Explore Now</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="single_slider d-flex align-items-center slider_bg_2 overlay">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-xl-12 col-md-12">
-            <div class="slider_text text-center">
-              <h3>French Oceania</h3>
-              <p></p>
-              <a href="#searchTag" class="boxed-btn3" data-value="French Oceania">Explore Now</a>
+        <div class="single_slider d-flex align-items-center slider_bg_2 overlay">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 col-md-12">
+                        <div class="slider_text text-center">
+                            <h3>French Oceania</h3>
+                            <p></p>
+                            <a href="#searchTag" class="boxed-btn3" data-value="French Oceania">Explore Now</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="single_slider d-flex align-items-center slider_bg_3 overlay">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-xl-12 col-md-12">
-            <div class="slider_text text-center">
-              <h3>Russian Federation</h3>
-              <p></p>
-              <a href="#searchTag" class="boxed-btn3" data-value="Russian Federation">Explore Now</a>
+        <div class="single_slider d-flex align-items-center slider_bg_3 overlay">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 col-md-12">
+                        <div class="slider_text text-center">
+                            <h3>Russian Federation</h3>
+                            <p></p>
+                            <a href="#searchTag" class="boxed-btn3" data-value="Russian Federation">Explore Now</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="single_slider d-flex align-items-center slider_bg_4 overlay">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-xl-12 col-md-12">
-            <div class="slider_text text-center">
-              <h3>Nepal</h3>
-              <p></p>
-              <a href="#searchTag" class="boxed-btn3" data-value="Nepal">Explore Now</a>
+        <div class="single_slider d-flex align-items-center slider_bg_4 overlay">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 col-md-12">
+                        <div class="slider_text text-center">
+                            <h3>Nepal</h3>
+                            <p></p>
+                            <a href="#searchTag" class="boxed-btn3" data-value="Nepal">Explore Now</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="single_slider d-flex align-items-center slider_bg_6 overlay">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-xl-12 col-md-12">
-            <div class="slider_text text-center">
-              <h3>New Zealand</h3>
-              <p></p>
-              <a href="#searchTag" class="boxed-btn3" data-value="New Zealand">Explore Now</a>
+        <div class="single_slider d-flex align-items-center slider_bg_6 overlay">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 col-md-12">
+                        <div class="slider_text text-center">
+                            <h3>New Zealand</h3>
+                            <p></p>
+                            <a href="#searchTag" class="boxed-btn3" data-value="New Zealand">Explore Now</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <!-- slider_area_end -->
 
@@ -76,106 +76,109 @@
 <div id="searchTag"></div>
 <!-- This is a hidden value for country default that javascript retrieves -->
 <input
-  id="countryDefaultVaule"
-  name="countryDefaultVaule"
-  type="hidden"
-  value="{{search_defaults['Country']}}"
+        id="countryDefaultVaule"
+        name="countryDefaultVaule"
+        type="hidden"
+        value="{{search_defaults['Country']}}"
 />
 
 <div id="where_togo_area" class="where_togo_area">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-3">
-        <div class="form_area">
-          <h3>Where you want explore?</h3>
-        </div>
-      </div>
-      <div class="col-lg-9">
-        <div class="search_wrap">
-          <form id="search_form" class="search_form" method="POST" action="/home#searchTag">
-            <div class="input_field">
-              <select name="selectCategory" id="selectCategory">
-                <option data-display="Category">Category</option>
-                {% for category in categories %} {% if
-                search_defaults['Category'] == category %}
-                <option selected value="{{category}}">{{category}}</option>
-                {% else %}
-                <option value="{{category}}">{{category}}</option>
-                {% endif %} {% endfor %}
-              </select>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-3">
+                <div class="form_area">
+                    <h3>Where you want explore?</h3>
+                </div>
             </div>
-            <div class="input_field">
-              <select name="selectRegion" id="selectRegion">
-                <option data-display="Region">Region</option>
-                {% for region in regions %} {% if search_defaults['Region'] ==
-                region %}
-                <option selected value="{{region}}">{{region}}</option>
-                {% else %}
-                <option value="{{region}}">{{region}}</option>
-                {% endif %} {% endfor %}
-              </select>
-            </div>
-            <div class="input_field">
-              <select name="selectCountry" id="selectCountry">
-                <option data-display="Country">Country</option>
-                {% for country in countries %} {% if search_defaults['Country']
-                == country %}
-                <option selected value="{{country}}">{{country}}</option>
-                {% else %}
-                <option value="{{country}}">{{country}}</option>
-                {% endif %} {% endfor %}
-              </select>
-            </div>
-            <div class="input_field">
-              <select name="selectRating" id="selectRating">
-                <option data-display="Rating">Rating</option>
-                {% if search_defaults['Rating'] == '5' %}
-                <option selected value="5">5 stars</option>
-                {% else %}
-                <option value="5">5 stars</option>
-                {% endif %} {% if search_defaults['Rating'] == '4' %}
-                <option selected value="4">4 stars or higher</option>
-                {% else %}
-                <option value="4">4 stars or higher</option>
-                {% endif %} {% if search_defaults['Rating'] == '3' %}
-                <option selected value="3">3 stars or higher</option>
-                
-                <option value="3">3 stars or higher</option>
-                {% endif %} {% if search_defaults['Rating'] == '2' %}
-                <option selected value="2">2 stars or higher</option>
-                {% else %}
-                <option value="2">2 stars or higher</option>
-                {% endif %}
-              </select>
-            </div>
-            <div class="search_btn">
-              <button name="search_form_submit" class="boxed-btn4" type="submit">
-                Search
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="row align-items-center"></div>
-      <div class="float-right mt-2">
-        <form class="show_only_user_pois_form" method="POST" action="/home#searchTag">
-          <div class="input_field">
-            {% if current_user.username %}         
-              {% if search_defaults['filter_user_pois'] == 'Yes' %}
-                <input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="show_ony_user_pois_check" id="show_ony_user_pois_check" value="Yes" checked >
-              {% else %}
-                <input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="show_ony_user_pois_check" id="show_ony_user_pois_check" value="Yes">
-              {% endif %}
-              <input type="hidden" name="show_ony_user_pois_check" value="No" id="show_ony_user_pois_check ">
-              <label class="form-check-label" for="show_ony_user_pois_check">show only my points of interest</label>
-            {% endif %}
+            <div class="col-lg-9">
+                <div class="search_wrap">
+                    <form id="search_form" class="search_form" method="POST" action="/home#searchTag">
+                        <div class="input_field">
+                            <select name="selectCategory" id="selectCategory">
+                                <option data-display="Category">Category</option>
+                                {% for category in categories %} {% if
+                                search_defaults['Category'] == category %}
+                                <option selected value="{{category}}">{{category}}</option>
+                                {% else %}
+                                <option value="{{category}}">{{category}}</option>
+                                {% endif %} {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input_field">
+                            <select name="selectRegion" id="selectRegion">
+                                <option data-display="Region">Region</option>
+                                {% for region in regions %} {% if search_defaults['Region'] ==
+                                region %}
+                                <option selected value="{{region}}">{{region}}</option>
+                                {% else %}
+                                <option value="{{region}}">{{region}}</option>
+                                {% endif %} {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input_field">
+                            <select name="selectCountry" id="selectCountry">
+                                <option data-display="Country">Country</option>
+                                {% for country in countries %} {% if search_defaults['Country']
+                                == country %}
+                                <option selected value="{{country}}">{{country}}</option>
+                                {% else %}
+                                <option value="{{country}}">{{country}}</option>
+                                {% endif %} {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input_field">
+                            <select name="selectRating" id="selectRating">
+                                <option data-display="Rating">Rating</option>
+                                {% if search_defaults['Rating'] == '5' %}
+                                <option selected value="5">5 stars</option>
+                                {% else %}
+                                <option value="5">5 stars</option>
+                                {% endif %} {% if search_defaults['Rating'] == '4' %}
+                                <option selected value="4">4 stars or higher</option>
+                                {% else %}
+                                <option value="4">4 stars or higher</option>
+                                {% endif %} {% if search_defaults['Rating'] == '3' %}
+                                <option selected value="3">3 stars or higher</option>
 
-            
-          </div>
-        </form>
-      </div>
-  </div>
+                                <option value="3">3 stars or higher</option>
+                                {% endif %} {% if search_defaults['Rating'] == '2' %}
+                                <option selected value="2">2 stars or higher</option>
+                                {% else %}
+                                <option value="2">2 stars or higher</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="search_btn">
+                            <button name="search_form_submit" class="boxed-btn4" type="submit">
+                                Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center"></div>
+        <div class="float-right mt-2">
+            <form class="show_only_user_pois_form" method="POST" action="/home#searchTag">
+                <div class="input_field">
+                    {% if current_user.username %}
+                    {% if search_defaults['filter_user_pois'] == 'Yes' %}
+                    <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
+                           name="show_ony_user_pois_check" id="show_ony_user_pois_check" value="Yes" checked>
+                    {% else %}
+                    <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
+                           name="show_ony_user_pois_check" id="show_ony_user_pois_check" value="Yes">
+                    {% endif %}
+                    <input type="hidden" name="show_ony_user_pois_check" value="No" id="show_ony_user_pois_check ">
+                    <label class="form-check-label" for="show_ony_user_pois_check">show only my points of
+                        interest</label>
+                    {% endif %}
+
+
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <!-- where_togo_area_end  -->
 
@@ -183,18 +186,18 @@
 <!-- <script src="static/js/markerclustererplus.min.js"></script> -->
 <!-- google_map_area_start  -->
 <div id="google_map" class="google_map_area">
-  <div class="">
-    <div class="d-sm-block pb-4">
-      <div
-        id="map"
-        style="
+    <div class="">
+        <div class="d-sm-block pb-4">
+            <div
+                    id="map"
+                    style="
           width: 100%;
           height: 1020px;
           position: relative;
           overflow: hidden;
         "
-      ></div>
-      <script>
+            ></div>
+            <script>
 
         //Create the Google Map
         var map;
@@ -620,14 +623,16 @@
         }
 
 
-      </script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script>
-      <!-- <script src="static/js/markerclusterer.js"></script> -->
+
+            </script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap"
+                    async defer></script>
+            <!-- <script src="static/js/markerclusterer.js"></script> -->
+        </div>
     </div>
-  </div>
 </div>
 <!-- google_map_area_end  -->
-<br />
+<br/>
 <!-- database table_area_start  -->
 <!-- <div class="db_table_area"> -->
 
@@ -637,145 +642,151 @@
 
 <!-- popular_destination_area_start  -->
 <div class="popular_destination_area">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-6">
-        <div class="section_title text-center mb_70">
-          <h3>Popular Destinations</h3>
-          <p>
-            Come and explore the most popular places visited by flight sim users
-          </p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="section_title text-center mb_70">
+                    <h3>Popular Destinations</h3>
+                    <p>
+                        Come and explore the most popular places visited by flight sim users
+                    </p>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="single_destination">
+                    <div class="thumb">
+                        <img src="static/img/destination/Africa.jpg" alt=""/>
+                    </div>
+                    <div class="content">
+                        <p class="d-flex align-items-center">
+                            Africa <a href="/topten_pois/Africa">top 10</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single_destination">
+                    <div class="thumb">
+                        <img src="static/img/destination/Asia.jpg" alt=""/>
+                    </div>
+                    <div class="content">
+                        <p class="d-flex align-items-center">
+                            Asia <a href="/topten_pois/Asia"> top 10</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single_destination">
+                    <div class="thumb">
+                        <img src="static/img/destination/Europe.png" alt=""/>
+                    </div>
+                    <div class="content">
+                        <p class="d-flex align-items-center">
+                            Europe <a href="/topten_pois/Europe"> top 10</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single_destination">
+                    <div class="thumb">
+                        <img src="static/img/destination/South_America.png" alt=""/>
+                    </div>
+                    <div class="content">
+                        <p class="d-flex align-items-center">
+                            South America <a href="/topten_pois/South America"> top 10</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single_destination">
+                    <div class="thumb">
+                        <img src="static/img/destination/North_America.jpg" alt=""/>
+                    </div>
+                    <div class="content">
+                        <p class="d-flex align-items-center">
+                            North America <a href="/topten_pois/North America"> top 10</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single_destination">
+                    <div class="thumb">
+                        <img src="static/img/destination/Oceania.jpg" alt=""/>
+                    </div>
+                    <div class="content">
+                        <p class="d-flex align-items-center">
+                            Oceania<a href="/topten_pois/Oceania"> top 10</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="row">
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="static/img/destination/Africa.jpg" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              Africa <a href="/topten_pois/Africa">top 10</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="static/img/destination/Asia.jpg" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              Asia <a href="/topten_pois/Asia"> top 10</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="static/img/destination/Europe.png" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              Europe <a href="/topten_pois/Europe"> top 10</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="static/img/destination/South_America.png" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              South America <a href="/topten_pois/South America"> top 10</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="static/img/destination/North_America.jpg" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              North America <a href="/topten_pois/North America"> top 10</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="static/img/destination/Oceania.jpg" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              Oceania<a href="/topten_pois/Oceania"> top 10</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 <!-- popular_destination_area_end  -->
 
 <!-- Flight Plan Modal -->
 <div class="Flight_plan_modal">
-  <div class="modal fade" id="Flight_plan_modal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" >
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">My Flight Plan</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+    <div class="modal fade" id="Flight_plan_modal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">My Flight Plan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body flight_plan_modal_body">
+                    <!-- <p>Modal body text goes here.</p> -->
+                </div>
+                <div class="modal-footer">
+                    <button id="fp_save_btn" type="button" class="btn btn-primary" disabled
+                            onclick="saveFlightPlan(document, flightPath_data)">Save Flight Plan
+                    </button>
+                    <button id="fp_delete_btn" type="button" class="btn btn-danger" disabled
+                            onclick="deleteFlightPlan()">Delete Flight Plan
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body flight_plan_modal_body">
-          <!-- <p>Modal body text goes here.</p> -->
-        </div>
-        <div class="modal-footer">
-          <button id="fp_save_btn" type="button" class="btn btn-primary" disabled onclick="saveFlightPlan(document, flightPath_data)">Save Flight Plan</button>
-          <button id="fp_delete_btn" type="button" class="btn btn-danger" disabled onclick="deleteFlightPlan()">Delete Flight Plan</button>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <!-- Delete Modal -->
 <div class="custom_search_pop">
-  <div class="modal fade"  id="deleteModal"tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" >
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">
-            Are you sure you want to delete this point of interest?
-          </h5>
-          <input type="hidden" name="eventId" id="eventId"/>
-          <!-- <span id="poi"></span> -->
-          <button type="button"  class="close" data-dismiss="modal"  aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">
+                        Are you sure you want to delete this point of interest?
+                    </h5>
+                    <input type="hidden" name="eventId" id="eventId"/>
+                    <!-- <span id="poi"></span> -->
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                    <!-- <form action="{{ url_for('pois.delete_poi', poi_id=2) }}" method="POST"> -->
+                    <form id="delete_poi_confirm" action="" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete"/>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
-          <!-- <form action="{{ url_for('pois.delete_poi', poi_id=2) }}" method="POST"> -->
-          <form id="delete_poi_confirm" action="" method="POST">
-            <input class="btn btn-danger" type="submit" value="Delete" />
-          </form>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <script src="https://code.jquery.com/jquery.min.js"></script>
@@ -790,8 +801,8 @@ $(document).on("click", ".open_delete_modal", function () {
     $('#poi').html( eventId );
 });
 
-</script>
 
+</script>
 
 
 {% endblock content %}

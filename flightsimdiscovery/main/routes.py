@@ -1,8 +1,7 @@
-import os
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, session
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from openpyxl import load_workbook
 from flightsimdiscovery import db
-from flightsimdiscovery.models import Pois, Ratings, Favorites, Visited
+from flightsimdiscovery.models import Favorites, Visited
 from flask_login import current_user, login_required
 from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details
 from flightsimdiscovery.pois.utils import *
@@ -11,14 +10,14 @@ from flightsimdiscovery.users.utitls import send_contact_email
 
 main = Blueprint('main', __name__)
 
+
 # TODO add logic to validate poi location based on category
 # TODO add logic to validate name/location when updating poi
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
-@main.route("/<filter_poi_location>", ) 
+@main.route("/<filter_poi_location>", )
 def home(filter_poi_location):
-
     # test logging
     # print(3/0)
     anchor = ''
@@ -28,14 +27,14 @@ def home(filter_poi_location):
     map_data_dict = {}
     map_init = {'zoom': 3, 'lat': 23.6, 'long': 170.9}  # centre of map
 
-    #set specific location if coming from a spcific poi link from another page like top ten
+    # set specific location if coming from a spcific poi link from another page like top ten
     if filter_poi_location:
         location = filter_poi_location.split(", ")
         lat = float(location[0])
         lng = float(location[1])
 
         map_init = {'zoom': 10, 'lat': lat, 'long': lng}  # centre of poi
-        anchor = 'where_togo_area'  
+        anchor = 'where_togo_area'
 
     pois = Pois.query.all()
     # user_pois_list = []
@@ -47,7 +46,6 @@ def home(filter_poi_location):
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating': 'Rating'}
     is_authenticated = False
     user_id = None
-    
 
     if current_user.is_authenticated:
 
@@ -84,13 +82,12 @@ def home(filter_poi_location):
     # check if user has submitted a search or user has updated poi via the infowindow
     if request.method == 'POST':
 
-        anchor = 'where_togo_area' 
+        anchor = 'where_togo_area'
 
         if 'search_form_submit' in request.form:
 
             pois_search_result_list = []
             poi_id_search_result = set()
-            
 
             category = request.form.get('selectCategory').strip()
             region = request.form.get('selectRegion').strip()
@@ -125,7 +122,7 @@ def home(filter_poi_location):
             if rating != 'Rating':
                 pois = filter_pois_by_rating(pois, rating)
 
-            anchor = 'where_togo_area'            
+            anchor = 'where_togo_area'
 
         elif 'ratingOptions' in request.form:
 
@@ -203,7 +200,6 @@ def home(filter_poi_location):
 
         elif 'show_ony_user_pois_check' in request.form:
             filter_user_pois = request.form.get('show_ony_user_pois_check')
-            
 
             if filter_user_pois == 'Yes':
                 print('filtering user pois')
@@ -216,7 +212,6 @@ def home(filter_poi_location):
             else:
                 search_defaults['filter_user_pois'] = 'No'
 
-            
     # create the Point of Interest dictionary that gets posted for map to use
     for poi in pois:
         # print('Poi', poi)
@@ -246,7 +241,8 @@ def home(filter_poi_location):
 
     return render_template("home.html", is_authenticated=is_authenticated, user_visited=user_visited,
                            user_favorites=user_favorites, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
-                           search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(), _anchor=anchor)
+                           search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
+                           _anchor=anchor)
     # return render_template("home.html", pois=data)
 
 
@@ -254,20 +250,20 @@ def home(filter_poi_location):
 def about():
     return render_template("about.html")
 
+
 @main.route("/contact", methods=['GET', 'POST'])
 def contact():
     form = ContactForm()
 
     if form.validate_on_submit():
-        
         message = form.message.data
         email = form.email.data
-        subject = form.subject.data 
+        subject = form.subject.data
 
-        send_contact_email(message,email, subject)
+        send_contact_email(message, email, subject)
 
         flash('Thank you for your message.', 'info')
-        return redirect(url_for('main.home'))     
+        return redirect(url_for('main.home'))
 
     return render_template('contact.html', form=form)
 
@@ -276,7 +272,7 @@ def contact():
 @login_required
 def build_db():
     # open spreadsheet
-    
+
     workbook = load_workbook(filename="flightsimdiscovery\\output\\poi_database.xlsx")
     sheet = workbook.active
     print("######################")

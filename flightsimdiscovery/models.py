@@ -4,9 +4,11 @@ from flightsimdiscovery import db, login_manager
 from flask import current_app
 from flask_login import UserMixin
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -32,6 +34,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
+
 class Pois(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -51,6 +54,7 @@ class Pois(db.Model):
     def __repr__(self):
         return f"Pois('{self.name}', '{self.country}', '{self.category}')"
 
+
 class Ratings(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -61,6 +65,7 @@ class Ratings(db.Model):
     def __repr__(self):
         return f"Ratings('{self.user_id}', '{self.rating_score}')"
 
+
 class Favorites(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -68,6 +73,7 @@ class Favorites(db.Model):
 
     def __repr__(self):
         return f"Favorites('{self.user_id}', '{self.poi_id}')"
+
 
 class Visited(db.Model):
     id = db.Column(db.Integer, primary_key=True)
