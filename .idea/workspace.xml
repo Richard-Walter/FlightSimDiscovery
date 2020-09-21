@@ -3,32 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="18ec903c-65d0-47af-a46f-69bccf0eea94" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/main/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/main/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/flightsimdiscovery/main/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/main/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/pois/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/pois/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/pois/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/pois/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/pois/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/pois/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/about.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/account.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/account.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/contact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/create_poi.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/create_poi.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/errors/403.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/errors/403.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/errors/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/errors/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/errors/500.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/errors/500.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/static/js/flightplan.js" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/static/js/flightplan.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/reset_request.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/reset_request.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/reset_token.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/reset_token.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/topten_pois.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/topten_pois.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/update_poi.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/update_poi.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/user_pois.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/user_pois.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/users/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/users/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/users/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/users/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/users/utitls.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/users/utitls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,7 +15,20 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/utilities.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="424">
+              <caret line="803" column="58" lean-forward="true" selection-start-line="803" selection-start-column="58" selection-end-line="803" selection-end-column="58" />
+              <folding>
+                <element signature="e#24#33#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -201,8 +191,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="0" width="1619" height="1390" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2567995" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2567995" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -431,17 +422,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utilities.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/run.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="23" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utilities.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="424">
+          <caret line="803" column="58" lean-forward="true" selection-start-line="803" selection-start-column="58" selection-end-line="803" selection-end-column="58" />
+          <folding>
+            <element signature="e#24#33#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

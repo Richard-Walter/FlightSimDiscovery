@@ -565,6 +565,16 @@
           $('#fp_delete_btn').attr('disabled', 'disabled');
         }
 
+        function callHello() {
+          const url = 'http://localhost:5000/hello'
+          fetch(url)
+          .then(response => response.json())  
+          .then(json => {
+              console.log(json['jack']);
+              console.log(JSON.stringify(json));
+          })
+        }
+
         function loadFlightPlan(flightPath, map) {
           flightPath.setMap(map);
         }
@@ -589,10 +599,6 @@
 
 
         function styleflightPlanBtn(controlDiv, map, flightPath) {
-
-          console.log(controlDiv);
-          console.log(map);
-          console.log(flightPath);
 
           // Set CSS for the control border.
           const controlUI = document.createElement('div');
@@ -752,6 +758,9 @@
                     </button>
                     <button id="fp_delete_btn" type="button" class="btn btn-danger" disabled
                             onclick="deleteFlightPlan()">Delete Flight Plan
+                    </button>
+                    <button id="fp_delete_btn" type="button" class="btn btn-danger" 
+                      onclick="callHello()">call Hello
                     </button>
                 </div>
             </div>

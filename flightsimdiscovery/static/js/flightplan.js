@@ -2,7 +2,7 @@ var flightPath_data = []
 
 function saveFlightPlan(document, flightPath_data) {
 
-    filename = 'flight_plan.txt';
+    filename = 'flight_plan.pln';
     content = buildFlightPlan(flightPath_data);
    
     const a = document.createElement('a');
@@ -39,7 +39,7 @@ function buildFlightPlan(flightPath_data) {
 
     const header =          '<?xml version="1.0" encoding="UTF-8"?>\n' +
                             '\n'+
-                            '<SimBase.Document Type="AceXML" version="1,0"></SimBase.Document>\n'+
+                            '<SimBase.Document Type="AceXML" version="1,0">\n'+
                             '    <Descr>AceXML Document</Descr>\n'+
                             '    <FlightPlan.FlightPlan>\n';
     const title =           `        <Title>${title_txt}</Title>` + '\n';
@@ -70,7 +70,7 @@ function buildFlightPlan(flightPath_data) {
 
 function buildATCWapoints(flightPath_data, crusing_altitude) {
 
-const ATCWaypointType =          '            <ATCWaypointType>Intersection</ATCWaypointType>\n';
+const ATCWaypointType =          '            <ATCWaypointType>User</ATCWaypointType>\n';
     const ATCWaypoint_close =    '        </ATCWaypoint>\n'
     const ICAO_open =            '            <ICAO>\n'
     const ICAO_close =           '            </ICAO>\n'
