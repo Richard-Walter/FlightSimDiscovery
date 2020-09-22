@@ -380,89 +380,93 @@
               
               var html_content =
                 "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
-                "<a href='https://www.google.com/search?q=" + marker_name + ", "+ category + ", "+ country +"' target='_blank'>" +
+
                   "<div class='gm-style-iw' id='iw-container'>" +
-                    // '<div id="siteNotice" </div>'+
-                      '<div class="iw-poi_header mb-3" style="cursor:pointer">'+
-                      '<h3 id="firstHeading">'+marker_name+'</h3>'+
-                      '<h4 id="categoryHeading" class=" font-italic ">'+category+'</h4>'+
-                    '</div>'+
-                  '</a>' +
-                  '<div id="bodyContent">'+
-                    '<div class="mb-2">'+
-                      '<p class="lead text-center">'+description+'</p>'+
-                    '</div>'+
-                    '<div class="d-flex justify-content-center"">'+
+
+                      "<div class='gm-style-iw' id='iw-container'>" +
+                          '<div class="iw-poi_header mb-3">'+
+                          '<div style="cursor:pointer">'+
+                            "<a href='https://www.google.com/search?q=" + marker_name + ", "+ category + ", "+ country +"' target='_blank'>" +
+                              '<h3 id="firstHeading">'+marker_name+'</h3>'+
+                              '<h4 id="categoryHeading" class=" font-italic ">'+category+'</h4>'+
+                            '</a>' +
+                          '</div>'+  
+                          '<h5 class="font-weight-light">Community rating: '+ rating + '</h5>'+
+                        '</div>'+
+                    '<div id="bodyContent">'+
+                        '<div class="mb-2">'+
+                          '<p class="">'+ description + '</p>'+
+                        '</div>'+
+                        // '<div class="mb-2">'+
+                        //   '<p class="font-weight-light">Average User rating: '+ rating + '</p>'+
+                        // '</div>'+
+                        '<div class="mb-2 pt-1"' + hiddenDetails +'>' +
+                          '<div class="IW_Rating">'+
+                            '<form id="formIWrating" method="POST" action="/home" target="dummyframe">'+
+                            '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
+                              '<div class="poi_rating center-block">'+
+                                '<input id="ratingOptions5" name="ratingOptions" type="radio" value="5" class="radio-btn hide" onclick="this.form.submit()" />'+
+                                '<label for="ratingOptions5" >☆</label>'+
+                                '<input id="ratingOptions4" name="ratingOptions" type="radio" value="4" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                '<label for="ratingOptions4" >☆</label>'+
+                                '<input id="ratingOptions3" name="ratingOptions" type="radio" value="3" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                '<label for="ratingOptions3" >☆</label>'+
+                                '<input id="ratingOptions2" name="ratingOptions" type="radio" value="2" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                '<label for="ratingOptions2" >☆</label>'+
+                                '<input id="ratingOptions1" name="ratingOptions" type="radio" value="1" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                '<label for="ratingOptions1" >☆</label>'+
+                                '<div class="clear"></div>'+     
+                                '<input type="hidden" name="poi_id" value="'+id+'">'+                           
+                              '</div>'+
+                            '</form>'+
+                          '</div>'+
+                        '</div>'+  
+                      '</div>'+ 
                       '<div class="mb-2">'+
-                        '<p class="font-weight-light">Average User rating: '+ rating + '</p>'+
+                        '<p><i class="fas fa-map-marker-alt"style="color:#993426;"></i>  '+ latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-info btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
+                        '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+latitude+', ' + longitude+'">'+
                       '</div>'+
-                      '<div class="mb-2 pt-1"' + hiddenDetails +'>' +
-                        '<div class="IW_Rating">'+
-                          '<form id="formIWrating" method="POST" action="/home" target="dummyframe">'+
-                          '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
-                            '<div class="poi_rating center-block">'+
-                              '<input id="ratingOptions5" name="ratingOptions" type="radio" value="5" class="radio-btn hide" onclick="this.form.submit()" />'+
-                              '<label for="ratingOptions5" >☆</label>'+
-                              '<input id="ratingOptions4" name="ratingOptions" type="radio" value="4" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                              '<label for="ratingOptions4" >☆</label>'+
-                              '<input id="ratingOptions3" name="ratingOptions" type="radio" value="3" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                              '<label for="ratingOptions3" >☆</label>'+
-                              '<input id="ratingOptions2" name="ratingOptions" type="radio" value="2" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                              '<label for="ratingOptions2" >☆</label>'+
-                              '<input id="ratingOptions1" name="ratingOptions" type="radio" value="1" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                              '<label for="ratingOptions1" >☆</label>'+
-                              '<div class="clear"></div>'+     
-                              '<input type="hidden" name="poi_id" value="'+id+'">'+                           
+                      '<div ' + hiddenButtons +'>' +
+                        '<a class="btn btn-info btn-sm mt-1 mb-1" href="/poi/'+id+'/update"><i class="fas fa-edit"></i> Update</a>'+
+                        '<button type="button" class="open_delete_modal btn btn-danger btn-sm m-1" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i class="far fa-trash-alt"></i> Delete</button>'+
+                      '</div>'+
+                      '<div class="d-flex justify-content-center"">'+
+                        '<div>' + hiddenDetails +'>' +
+                          '<form id="formIWfavorite" method="POST" action="/home" target="dummyframe2">'+
+                          '<iframe name="dummyframe2" id="dummyframe2" style="display: none;"></iframe>' +
+                            '<div class="mt-1 mb-1">' +
+                              '<div class="form-check-inline">'+
+                              '<input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="favoriteChecked" value="Yes" id="favoriteChecked "' + favoriteCheck +'>'+
+                              '<input type="hidden" name="favoriteChecked" value="" id="favoriteChecked ">'+
+                              '<label class="form-check-label" for="favoritetCheck">favorite</label>'+
+                              '</div>'+
+                              '<input type="hidden" name="poi_id" value="'+id+'">'+
                             '</div>'+
                           '</form>'+
                         '</div>'+
-                      '</div>'+  
-                    '</div>'+ 
-                    '<div class="mb-2">'+
-                      '<p><i class="fas fa-map-marker-alt"style="color:#993426;"></i>  '+ latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-info btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
-                      '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+latitude+', ' + longitude+'">'+
-                    '</div>'+
-                    '<div ' + hiddenButtons +'>' +
-                      '<a class="btn btn-info btn-sm mt-1 mb-1" href="/poi/'+id+'/update"><i class="fas fa-edit"></i> Update</a>'+
-                      '<button type="button" class="open_delete_modal btn btn-danger btn-sm m-1" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i class="far fa-trash-alt"></i> Delete</button>'+
-                    '</div>'+
-                    '<div class="d-flex justify-content-center"">'+
-                      '<div>' + hiddenDetails +'>' +
-                        '<form id="formIWfavorite" method="POST" action="/home" target="dummyframe2">'+
-                        '<iframe name="dummyframe2" id="dummyframe2" style="display: none;"></iframe>' +
-                          '<div class="mt-1 mb-1">' +
-                            '<div class="form-check-inline">'+
-                            '<input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="favoriteChecked" value="Yes" id="favoriteChecked "' + favoriteCheck +'>'+
-                            '<input type="hidden" name="favoriteChecked" value="" id="favoriteChecked ">'+
-                            '<label class="form-check-label" for="favoritetCheck">favorite</label>'+
+                        '<div class="">' + hiddenDetails +'>' +
+                          '<form id="formIWvisited" method="POST" action="/home" target="dummyframe3">'+
+                          '<iframe name="dummyframe3" id="dummyframe3" style="display: none;"></iframe>' +
+                            '<div class="mt-1 mb-1">' +
+                              '<div class="form-check-inline">'+
+                              '<input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="visitedChecked" value="Yes" id="visitedtCheck "'+ visitedCheck +'>'+
+                              '<input type="hidden" name="visitedChecked" value="" id="visitedChecked ">'+
+                              '<label class="form-check-label" for="visitedtCheck">explored</label>'+
+                              '</div>'+
+                              '<input type="hidden" name="poi_id" value="'+id+'">'+
                             '</div>'+
-                            '<input type="hidden" name="poi_id" value="'+id+'">'+
-                          '</div>'+
-                        '</form>'+
+                          '</form>'+
+                        '</div>'+
                       '</div>'+
-                      '<div class="">' + hiddenDetails +'>' +
-                        '<form id="formIWvisited" method="POST" action="/home" target="dummyframe3">'+
-                        '<iframe name="dummyframe3" id="dummyframe3" style="display: none;"></iframe>' +
-                          '<div class="mt-1 mb-1">' +
-                            '<div class="form-check-inline">'+
-                            '<input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="visitedChecked" value="Yes" id="visitedtCheck "'+ visitedCheck +'>'+
-                            '<input type="hidden" name="visitedChecked" value="" id="visitedChecked ">'+
-                            '<label class="form-check-label" for="visitedtCheck">explored</label>'+
-                            '</div>'+
-                            '<input type="hidden" name="poi_id" value="'+id+'">'+
-                          '</div>'+
-                        '</form>'+
+                    '<div>'+
+                      '<div id="btn_addPoiToFlightPlan" class="my-2 ' + showAddWaypointBtn + '">' +
+                          '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name +'\')">Add to Flight plan</button> '+
+                        '</div>' +
+                      '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
+                        '<button class="btn btn-danger btn-sm mx-2 py-0" onclick="removePoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name + '\')">Remove from Flight plan</button> '+
                       '</div>'+
                     '</div>'+
-                  '<div>'+
-                    '<div id="btn_addPoiToFlightPlan" class="my-2 ' + showAddWaypointBtn + '">' +
-                        '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name +'\')">Add to Flight plan</button> '+
-                      '</div>' +
-                    '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
-                      '<button class="btn btn-danger btn-sm mx-2 py-0" onclick="removePoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name + '\')">Remove from Flight plan</button> '+
-                    '</div>'+
-                  '</div>'+
-                '</div>'
+                  '</div>'
 
 
               infowindow = new google.maps.InfoWindow({
