@@ -124,27 +124,6 @@ def home(filter_poi_location):
 
             anchor = 'where_togo_area'
 
-        elif 'ratingOptions' in request.form:
-
-            #  Stores users POI preferences from submitted form
-            rating_score = request.form.get('ratingOptions')
-            poi_id = request.form.get('poi_id')
-
-            # Update ratings table
-            if rating_score:
-                rating = Ratings.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
-                print('\n\n')
-                print('OLD RATING: ', rating)
-                if rating:  # update rating score
-
-                    rating.rating_score = rating_score
-                else:
-                    rating = Ratings(user_id=user_id, poi_id=poi_id, rating_score=rating_score)
-                    db.session.add(rating)
-                db.session.commit()
-                print('NEW RATING: ', rating)
-
-            # return   # dont wont to reload the page, just store the users settg
 
         elif 'show_ony_user_pois_check' in request.form:
             filter_user_pois = request.form.get('show_ony_user_pois_check')
@@ -327,6 +306,26 @@ def iw_post():
                     print('REMOVING Visited: ', visit)
                     db.session.delete(visit)
                     db.session.commit()
+
+        elif 'ratingOptions' in request.form:
+
+            #  Stores users POI preferences from submitted form
+            rating_score = request.form.get('ratingOptions')
+            poi_id = request.form.get('poi_id')
+
+            # Update ratings table
+            if rating_score:
+                rating = Ratings.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+                print('\n\n')
+                print('OLD RATING: ', rating)
+                if rating:  # update rating score
+
+                    rating.rating_score = rating_score
+                else:
+                    rating = Ratings(user_id=user_id, poi_id=poi_id, rating_score=rating_score)
+                    db.session.add(rating)
+                db.session.commit()
+                print('NEW RATING: ', rating)
 
     return 'Success'    # must leave this here otherwise flask complains nothing returns
 

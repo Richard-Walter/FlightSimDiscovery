@@ -390,15 +390,35 @@
                                 '<h3 id="firstHeading">'+marker_name+'</h3>'+
                                 '<h4 id="categoryHeading" class=" font-italic ">'+category+'</h4>'+
                               '</a>' +
-                            '</div>'+  
-                                              
+                            '</div>'+             
                             '<div>'+  
-                              '<h5 class="font-weight-light">Community rating: '+ rating + '</h5>'+
+                              '<span class="font-weight" style="color: black;">Community rating: '+ rating + '</span>'+
                             '</div>'+ 
+                            '<div class="d-flex justify-content-center"' + hiddenDetails +'>' +
+                              '<div class="IW_Rating">'+
+                                '<form id="formIWrating" method="POST" action="/iw_post" target="dummyframe">'+
+                                '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
+                                  '<div class="poi_rating d-flex justify-content-center">'+
+                                    '<input id="ratingOptions5" name="ratingOptions" type="radio" value="5" class="radio-btn hide" onclick="this.form.submit()" />'+
+                                    '<label for="ratingOptions5" >☆</label>'+
+                                    '<input id="ratingOptions4" name="ratingOptions" type="radio" value="4" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                    '<label for="ratingOptions4" >☆</label>'+
+                                    '<input id="ratingOptions3" name="ratingOptions" type="radio" value="3" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                    '<label for="ratingOptions3" >☆</label>'+
+                                    '<input id="ratingOptions2" name="ratingOptions" type="radio" value="2" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                    '<label for="ratingOptions2" >☆</label>'+
+                                    '<input id="ratingOptions1" name="ratingOptions" type="radio" value="1" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                    '<label for="ratingOptions1" >☆</label>'+
+                                    '<div class="clear"></div>'+     
+                                    '<input type="hidden" name="poi_id" value="'+id+'">'+                           
+                                  '</div>'+
+                                '</form>'+
+                              '</div>'+
+                            '</div>'+
                             '<div class="iw_header_fas_icons "'+ hiddenDetails + '>' +
                                 '<a style="cursor:pointer" onclick="iw_update_favorite(\'' + id + '\')"><i id="iw_icon_fav" class=" ' + favoriteCheck + ' fa-heart fa-fw fa-lg" style="color:#c91010;"></i></a>'+
                                 '<a style="cursor:pointer" onclick="iw_update_visited(\'' + id + '\')"><i id="iw_icon_visited" class="far ' + visitedCheck + ' fa-fw fa-lg" style="color:#000000;"></i></a>'+
-                            '</div>'+
+                            '</div>'+  
                         '</div>'+
                     '<div id="bodyContent">'+
                         '<div class="py-2 iw_copy_latlng">'+
@@ -411,27 +431,27 @@
                         // '<div class="mb-2">'+
                         //   '<p class="font-weight-light">Average User rating: '+ rating + '</p>'+
                         // '</div>'+
-                        '<div class="mb-2 pt-1"' + hiddenDetails +'>' +
-                          '<div class="IW_Rating">'+
-                            '<form id="formIWrating" method="POST" action="/home" target="dummyframe">'+
-                            '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
-                              '<div class="poi_rating center-block">'+
-                                '<input id="ratingOptions5" name="ratingOptions" type="radio" value="5" class="radio-btn hide" onclick="this.form.submit()" />'+
-                                '<label for="ratingOptions5" >☆</label>'+
-                                '<input id="ratingOptions4" name="ratingOptions" type="radio" value="4" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                                '<label for="ratingOptions4" >☆</label>'+
-                                '<input id="ratingOptions3" name="ratingOptions" type="radio" value="3" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                                '<label for="ratingOptions3" >☆</label>'+
-                                '<input id="ratingOptions2" name="ratingOptions" type="radio" value="2" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                                '<label for="ratingOptions2" >☆</label>'+
-                                '<input id="ratingOptions1" name="ratingOptions" type="radio" value="1" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                                '<label for="ratingOptions1" >☆</label>'+
-                                '<div class="clear"></div>'+     
-                                '<input type="hidden" name="poi_id" value="'+id+'">'+                           
-                              '</div>'+
-                            '</form>'+
-                          '</div>'+
-                        '</div>'+  
+                        // '<div class="mb-2 pt-1"' + hiddenDetails +'>' +
+                        //   '<div class="IW_Rating">'+
+                        //     '<form id="formIWrating" method="POST" action="/home" target="dummyframe">'+
+                        //     '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
+                        //       '<div class="poi_rating center-block">'+
+                        //         '<input id="ratingOptions5" name="ratingOptions" type="radio" value="5" class="radio-btn hide" onclick="this.form.submit()" />'+
+                        //         '<label for="ratingOptions5" >☆</label>'+
+                        //         '<input id="ratingOptions4" name="ratingOptions" type="radio" value="4" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                        //         '<label for="ratingOptions4" >☆</label>'+
+                        //         '<input id="ratingOptions3" name="ratingOptions" type="radio" value="3" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                        //         '<label for="ratingOptions3" >☆</label>'+
+                        //         '<input id="ratingOptions2" name="ratingOptions" type="radio" value="2" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                        //         '<label for="ratingOptions2" >☆</label>'+
+                        //         '<input id="ratingOptions1" name="ratingOptions" type="radio" value="1" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                        //         '<label for="ratingOptions1" >☆</label>'+
+                        //         '<div class="clear"></div>'+     
+                        //         '<input type="hidden" name="poi_id" value="'+id+'">'+                           
+                        //       '</div>'+
+                        //     '</form>'+
+                        //   '</div>'+
+                        // '</div>'+  
                       '</div>'+ 
                       // '<div class="mb-2">'+
                       //   '<p><i class="fas fa-map-marker-alt"style="color:#993426;"></i>  '+ latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-info btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+

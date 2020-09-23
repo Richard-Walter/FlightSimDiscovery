@@ -2338,7 +2338,7 @@ h3 {
   padding-left: 50px;
   padding-top: 5px;
   padding-bottom: 5px;
-  background-color: #dfc036;
+  background-color: #458a45;
   color: white;
   /* margin: 1px; */
   border-radius: 2px 2px 0 0; /* In accordance with the rounding of the default infowindow corners. */
@@ -2358,6 +2358,43 @@ h3 {
   left: 0;
   width: 100%;
 }
+
+.poi_rating {
+  width: 90px;
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  text-align: center;
+  position: relative;
+  /* left: 50%; */
+}
+
+.poi_rating > label {
+  float: right;
+  display: inline;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  width: 1.1em;
+  cursor: pointer;
+  color: #000;
+}
+
+.poi_rating > label:hover,
+.poi_rating > label:hover ~ label,
+.poi_rating > input.radio-btn:checked ~ label {
+  color: transparent;
+}
+
+.poi_rating > label:hover:before,
+.poi_rating > label:hover ~ label:before,
+.poi_rating > input.radio-btn:checked ~ label:before,
+.poi_rating > input.radio-btn:checked ~ label:before {
+  content: "\2605";
+  position: absolute;
+  left: 0;
+  color: #FFD700;
+}
+
 
 .updateDeleteIW {
   /* display: none;  */
@@ -2379,41 +2416,6 @@ h3 {
   clear: both;
 }
 
-.poi_rating {
-    width: 90px;
-    unicode-bidi: bidi-override;
-    direction: rtl;
-    text-align: center;
-    position: relative;
-    /* left: 50%; */
-}
-
-.poi_rating > label {
-    float: right;
-    display: inline;
-    padding: 0;
-    margin: 0;
-    position: relative;
-    width: 1.1em;
-    cursor: pointer;
-    color: #000;
-}
-
-.poi_rating > label:hover,
-.poi_rating > label:hover ~ label,
-.poi_rating > input.radio-btn:checked ~ label {
-    color: transparent;
-}
-
-.poi_rating > label:hover:before,
-.poi_rating > label:hover ~ label:before,
-.poi_rating > input.radio-btn:checked ~ label:before,
-.poi_rating > input.radio-btn:checked ~ label:before {
-    content: "\2605";
-    position: absolute;
-    left: 0;
-    color: #FFD700;
-}
 
 
 /* line 1, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_where_to_go.scss */
