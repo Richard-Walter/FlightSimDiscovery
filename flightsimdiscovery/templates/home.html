@@ -392,7 +392,7 @@
                               '</a>' +
                             '</div>'+             
                             '<div>'+  
-                              '<span class="font-weight" style="color: black;">Community rating: '+ rating + '</span>'+
+                              '<span class="iw_rating_text" style="color: black;">Community rating: '+ rating + '</span>'+
                             '</div>'+ 
                             '<div class="d-flex justify-content-center"' + hiddenDetails +'>' +
                               '<div class="IW_Rating">'+
@@ -416,87 +416,32 @@
                               '</div>'+
                             '</div>'+
                             '<div class="iw_header_fas_icons "'+ hiddenDetails + '>' +
-                                '<a style="cursor:pointer" onclick="iw_update_favorite(\'' + id + '\')"><i id="iw_icon_fav" class=" ' + favoriteCheck + ' fa-heart fa-fw fa-lg" style="color:#c91010;"></i></a>'+
-                                '<a style="cursor:pointer" onclick="iw_update_visited(\'' + id + '\')"><i id="iw_icon_visited" class="far ' + visitedCheck + ' fa-fw fa-lg" style="color:#000000;"></i></a>'+
-                            '</div>'+  
+
+                                '<a style="cursor:pointer" onclick="iw_update_visited(\'' + id + '\')"><i id="iw_icon_visited" class="far ' + visitedCheck + ' fa-fw fa-lg" style="color:#1a1a1a;"></i></a>'+
+                                '<a style="cursor:pointer" onclick="iw_update_favorite(\'' + id + '\')"><i id="iw_icon_fav" class=" ' + favoriteCheck + ' fa-heart fa-fw fa-lg" style="color:#9e0808;"></i></a>'+
+                                '</div>'+  
                         '</div>'+
                     '<div id="bodyContent">'+
-                        '<div class="py-2 iw_copy_latlng">'+
-                          '<p><i class="fas fa-map-marker-alt" style="color:#993426;"></i>  '+ latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-info btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
+                        '<div class="my-2 p-1 border border-seconday iw_copy_latlng">'+
+                          '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  '+ latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
                           '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+latitude+', ' + longitude+'">'+
                         '</div>'+
                         '<div class="my-2">'+
-                          '<p class="">'+ description + '</p>'+
+                          '<p class="iw_description">'+ description + '</p>'+
                         '</div>'+
-                        // '<div class="mb-2">'+
-                        //   '<p class="font-weight-light">Average User rating: '+ rating + '</p>'+
-                        // '</div>'+
-                        // '<div class="mb-2 pt-1"' + hiddenDetails +'>' +
-                        //   '<div class="IW_Rating">'+
-                        //     '<form id="formIWrating" method="POST" action="/home" target="dummyframe">'+
-                        //     '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
-                        //       '<div class="poi_rating center-block">'+
-                        //         '<input id="ratingOptions5" name="ratingOptions" type="radio" value="5" class="radio-btn hide" onclick="this.form.submit()" />'+
-                        //         '<label for="ratingOptions5" >☆</label>'+
-                        //         '<input id="ratingOptions4" name="ratingOptions" type="radio" value="4" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                        //         '<label for="ratingOptions4" >☆</label>'+
-                        //         '<input id="ratingOptions3" name="ratingOptions" type="radio" value="3" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                        //         '<label for="ratingOptions3" >☆</label>'+
-                        //         '<input id="ratingOptions2" name="ratingOptions" type="radio" value="2" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                        //         '<label for="ratingOptions2" >☆</label>'+
-                        //         '<input id="ratingOptions1" name="ratingOptions" type="radio" value="1" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                        //         '<label for="ratingOptions1" >☆</label>'+
-                        //         '<div class="clear"></div>'+     
-                        //         '<input type="hidden" name="poi_id" value="'+id+'">'+                           
-                        //       '</div>'+
-                        //     '</form>'+
-                        //   '</div>'+
-                        // '</div>'+  
-                      '</div>'+ 
-                      // '<div class="mb-2">'+
-                      //   '<p><i class="fas fa-map-marker-alt"style="color:#993426;"></i>  '+ latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-info btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
-                      //   '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+latitude+', ' + longitude+'">'+
-                      // '</div>'+
-                      '<div class="d-flex justify-content-center"' + hiddenButtons +'>' +
-                        '<a class="btn btn-info btn-sm mt-1 mb-1" href="/poi/'+id+'/update"><i class="fas fa-edit"></i> Update</a>'+
-                        '<button type="button" class="open_delete_modal btn btn-danger btn-sm m-1" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i class="far fa-trash-alt"></i> Delete</button>'+
+                        '<hr class="my-2"/>' +
+                      '<div>'+
+                        '<div id="btn_addPoiToFlightPlan" class="mt-3 mb-1 ' + showAddWaypointBtn + '">' +
+                            '<button class="btn btn-primary btn-sm mx-2 py-1"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name +'\')">Add to Flight plan</button> '+
+                          '</div>' +
+                        '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
+                          '<button class="btn btn-danger btn-sm mx-2 py-1" onclick="removePoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name + '\')">Remove from Flight plan</button> '+
+                        '</div>'+
                       '</div>'+
-                      // '<div class="d-flex justify-content-center">'+
-                        // '<div ' + hiddenDetails +'>' +
-                        //   '<form id="formIWfavorite" method="POST" action="/home" target="dummyframe2">'+
-                        //   '<iframe name="dummyframe2" id="dummyframe2" style="display: none;"></iframe>' +
-                        //     '<div class="mt-1 mb-1">' +
-                        //       '<div class="form-check-inline">'+
-                        //       '<input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="favoriteChecked" value="Yes" id="favoriteChecked "' + favoriteCheck +'>'+
-                        //       '<input type="hidden" name="favoriteChecked" value="" id="favoriteChecked ">'+
-                        //       '<label class="form-check-label" for="favoritetCheck">favorite</label>'+
-                        //       '</div>'+
-                        //       '<input type="hidden" name="poi_id" value="'+id+'">'+
-                        //     '</div>'+
-                        //   '</form>'+
-                        // '</div>'+
-                        // '<div class=" "' + hiddenDetails +'>' +
-                        //   '<form id="formIWvisited" method="POST" action="/home" target="dummyframe3">'+
-                        //   '<iframe name="dummyframe3" id="dummyframe3" style="display: none;"></iframe>' +
-                        //     '<div class="mt-1 mb-1">' +
-                        //       '<div class="form-check-inline">'+
-                        //       '<input type="checkbox" class="form-check-input" onclick="this.form.submit()" name="visitedChecked" value="Yes" id="visitedtCheck "'+ visitedCheck +'>'+
-                        //       '<input type="hidden" name="visitedChecked" value="" id="visitedChecked ">'+
-                        //       '<label class="form-check-label" for="visitedtCheck">explored</label>'+
-                        //       '</div>'+
-                        //       '<input type="hidden" name="poi_id" value="'+id+'">'+
-                        //     '</div>'+
-                        //   '</form>'+
-                        // '</div>'+
-                    '</div>'+
-                    '<div>'+
-                      '<div id="btn_addPoiToFlightPlan" class="my-2 ' + showAddWaypointBtn + '">' +
-                          '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name +'\')">Add to Flight plan</button> '+
-                        '</div>' +
-                      '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
-                        '<button class="btn btn-danger btn-sm mx-2 py-0" onclick="removePoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name + '\')">Remove from Flight plan</button> '+
-                      '</div>'+
-                    '</div>'+
+                      '<div class="iw_update_delete_fas_icons "'+ hiddenButtons + '>' +
+                        '<a style="cursor:pointer" href="/poi/'+id+'/update"><i id="iw_icon_fav" class="fas fa-edit fa-fw fa-lg" style="color:#5c5b5b;"></i></a>'+
+                        '<a style="cursor:pointer" href="#" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i id="iw_icon_visited" class="far fa-trash-alt fa-fw fa-lg" style="color:#9e0808;"></i></a>'+
+                      '</div>'+  
                   '</div>'
 
 

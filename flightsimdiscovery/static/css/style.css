@@ -2330,6 +2330,13 @@ h3 {
   right: 20px;
 }
 
+.iw_update_delete_fas_icons{
+  margin-left: 10px;
+  position: absolute;
+  bottom: 24px;
+  right: 20px;
+}
+
 #iw-container  .iw-poi_header {
   font-family: "Georgia", "Open Sans", Sans-serif;
   /* font-size: 14px; */
@@ -2345,13 +2352,24 @@ h3 {
 }
 
 .iw_copy_latlng {
-  background-color:  rgb(211, 210, 210);
+  background-color:  rgb(240, 240, 240);
 }
 
 .iw-rating {
   background-color:  rgb(211, 210, 210);
 }
 
+.iw_latlng{
+  font-size: 14px;
+}
+
+.iw_rating_text{
+  font-family: "Rubik", "sans-serif";
+  color: #313131;
+}
+.iw_description{
+  color: #5c5b5b;
+}
 .iw_header_caption {
   position: absolute;
   top: 5%;
