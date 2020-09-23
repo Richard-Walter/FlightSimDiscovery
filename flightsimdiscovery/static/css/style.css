@@ -2323,15 +2323,32 @@ h3 {
 
 }
 
+.iw_header_fas_icons{
+  position: absolute;
+  top: 23px;
+  right: 20px;
+}
+
 #iw-container  .iw-poi_header {
   font-family: "Georgia", "Open Sans", Sans-serif;
   /* font-size: 14px; */
   /* font-weight: 400; */
-  padding: 5px;
+  padding-right: 45px;
+  padding-left: 45px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   background-color: #dfc036;
   color: white;
   /* margin: 1px; */
   border-radius: 2px 2px 0 0; /* In accordance with the rounding of the default infowindow corners. */
+}
+
+.iw_copy_latlng {
+  background-color:  rgb(211, 210, 210);
+}
+
+.iw-rating {
+  background-color:  rgb(211, 210, 210);
 }
 
 .iw_header_caption {
