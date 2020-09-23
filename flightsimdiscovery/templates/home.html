@@ -197,7 +197,7 @@
           overflow: hidden;
         "
             ></div>
-            <script>
+      <script>
 
         //Create the Google Map
         var map;
@@ -313,8 +313,8 @@
               var ratingRadio3 = '';
               var ratingRadio4 = '';
               var ratingRadio5 = '';
-              var favoriteCheck = ''
-              var visitedCheck = '';
+              var favoriteCheck = 'far'
+              var visitedCheck = 'fa-square';
 
               // var showAddWaypointBTN  = 
               //   '<div id="btn_addPoiToFlightPlan" class="my-2">' +
@@ -355,10 +355,10 @@
                 }
 
                 if (user_visited.includes(id)) {
-                  visitedCheck = 'checked';
+                  visitedCheck = 'fa-check-square';
                 }
                 if (user_favorites.includes(id)) {
-                  favoriteCheck = 'checked';
+                  favoriteCheck = 'fas';
                 }
               }
 
@@ -396,8 +396,8 @@
                               '<h5 class="font-weight-light">Community rating: '+ rating + '</h5>'+
                             '</div>'+ 
                             '<div class="iw_header_fas_icons "'+ hiddenDetails + '>' +
-                                '<a style="cursor:pointer" onclick="iw_update_favorite(\''+favoriteCheck+ '\')"><i class="far fa-heart fa-fw fa-lg" style="color:#000000;"></i></a>'+
-                                '<a style="cursor:pointer" onclick="iw_update_visited(\''+visitedCheck+'\')"><i class="far fa-square fa-fw fa-lg" style="color:#000000;"></i></a>'+
+                                '<a style="cursor:pointer" onclick="iw_update_favorite(\'' + id + '\')"><i id="iw_icon_fav" class=" ' + favoriteCheck + ' fa-heart fa-fw fa-lg" style="color:#c91010;"></i></a>'+
+                                '<a style="cursor:pointer" onclick="iw_update_visited(\'' + id + '\')"><i id="iw_icon_visited" class="far ' + visitedCheck + ' fa-fw fa-lg" style="color:#000000;"></i></a>'+
                             '</div>'+
                         '</div>'+
                     '<div id="bodyContent">'+
@@ -505,12 +505,32 @@
 
         }
 
-        function iw_update_favorite(favoriteCheck){
-          alert(favoriteCheck);
+        function iw_update_favorite(poi_id){  
+          
+          var favorite_checked;
+
+          if ($("#iw_icon_fav").hasClass("fas")) {
+            $("#iw_icon_fav").removeClass("fas").addClass("far");
+            favorite_checked  = "";
+          } else {
+            $("#iw_icon_fav").removeClass("far").addClass("fas");
+            favorite_checked  = "Yes";
+          }
+          $.post("/iw_post", {"favoriteChecked": favorite_checked, "poi_id": poi_id})
         }
 
-        function iw_update_visited(visitedCheck){
-          alert(visitedCheck);
+        function iw_update_visited(poi_id){
+
+          var visited_checked;
+
+          if ($("#iw_icon_visited").hasClass("fa-check-square")) {
+            $("#iw_icon_visited").removeClass("fa-check-square").addClass("fa-square");
+            visited_checked = "";
+          } else {
+            $("#iw_icon_visited").removeClass("fa-square").addClass("fa-check-square");
+            visited_checked = "Yes";
+          }
+          $.post("/iw_post", {"visitedChecked": visited_checked, "poi_id": poi_id})
         }
 
         //Add a new point to the FlightPath

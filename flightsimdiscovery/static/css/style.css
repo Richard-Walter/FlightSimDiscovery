@@ -2324,6 +2324,7 @@ h3 {
 }
 
 .iw_header_fas_icons{
+  margin-left: 10px;
   position: absolute;
   top: 23px;
   right: 20px;
@@ -2333,8 +2334,8 @@ h3 {
   font-family: "Georgia", "Open Sans", Sans-serif;
   /* font-size: 14px; */
   /* font-weight: 400; */
-  padding-right: 45px;
-  padding-left: 45px;
+  padding-right: 50px;
+  padding-left: 50px;
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: #dfc036;

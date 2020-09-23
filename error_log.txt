@@ -230,3 +230,33 @@ Traceback (most recent call last):
   File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\main\routes.py", line 199, in home
     pois = filtered_pois
 NameError: name 'filtered_pois' is not defined
+Exception on /iw_post [POST]
+Traceback (most recent call last):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask_login\utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\main\routes.py", line 314, in iw_post
+    favorite = Favorites.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+NameError: name 'user_id' is not defined
+Exception on /iw_post [POST]
+Traceback (most recent call last):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1953, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1968, in finalize_request
+    response = self.make_response(rv)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 2098, in make_response
+    "The view function did not return a valid response. The"
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.

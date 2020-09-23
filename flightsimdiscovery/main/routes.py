@@ -144,58 +144,6 @@ def home(filter_poi_location):
                 db.session.commit()
                 print('NEW RATING: ', rating)
 
-        elif 'favoriteChecked' in request.form:
-
-            #  Stores users POI preferences from submitted form
-            favorited = request.form.get('favoriteChecked')
-            poi_id = request.form.get('poi_id')
-
-            # Add/Update favorites table
-            if favorited:
-                favorite = Favorites.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
-                print('OLD favorite: ', favorite)
-
-                if favorite:  # record already exists do nothing
-                    pass
-                else:
-                    favorite = Favorites(user_id=user_id, poi_id=poi_id)
-                    db.session.add(favorite)
-                    db.session.commit()
-                    print('NEW favorite: ', favorite)
-            else:  # remove record from db if exists
-                favorite = Favorites.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
-
-                if favorite:
-                    print('REMOVING favorite: ', favorite)
-                    db.session.delete(favorite)
-                    db.session.commit()
-
-        elif 'visitedChecked' in request.form:
-
-            #  Stores users POI preferences from submitted form
-            visited = request.form.get('visitedChecked')
-            poi_id = request.form.get('poi_id')
-
-            # Add/Update Visited table
-            if visited:
-                visit = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
-                print('OLD Visited: ', visit)
-
-                if visit:  # record already exists do nothing
-                    pass
-                else:
-                    visit = Visited(user_id=user_id, poi_id=poi_id)
-                    db.session.add(visit)
-                    db.session.commit()
-                    print('NEW Visited: ', visit)
-            else:  # remove record from db if exists
-                visit = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
-
-                if visit:
-                    print('REMOVING Visited: ', visit)
-                    db.session.delete(visit)
-                    db.session.commit()
-
             # return   # dont wont to reload the page, just store the users settg
 
         elif 'show_ony_user_pois_check' in request.form:
@@ -316,6 +264,71 @@ def build_db():
     else:
 
         abort(403)
+
+@main.route('/iw_post', methods=['POST'])
+@login_required
+def iw_post():
+
+    if current_user.is_authenticated:
+
+        is_authenticated = True
+        user_id = current_user.id
+
+    if request.method == 'POST':
+
+        if 'favoriteChecked' in request.form:
+
+            #  Stores users POI preferences from submitted form
+            favorited = request.form.get('favoriteChecked')
+            poi_id = request.form.get('poi_id')
+
+            # Add/Update favorites table
+            if favorited:
+                favorite = Favorites.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+                print('OLD favorite: ', favorite)
+
+                if favorite:  # record already exists do nothing
+                    pass
+                else:
+                    favorite = Favorites(user_id=user_id, poi_id=poi_id)
+                    db.session.add(favorite)
+                    db.session.commit()
+                    print('NEW favorite: ', favorite)
+            else:  # remove record from db if exists
+                favorite = Favorites.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+
+                if favorite:
+                    print('REMOVING favorite: ', favorite)
+                    db.session.delete(favorite)
+                    db.session.commit()
+
+        elif 'visitedChecked' in request.form:
+
+            #  Stores users POI preferences from submitted form
+            visited = request.form.get('visitedChecked')
+            poi_id = request.form.get('poi_id')
+
+            # Add/Update Visited table
+            if visited:
+                visit = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+                print('OLD Visited: ', visit)
+
+                if visit:  # record already exists do nothing
+                    pass
+                else:
+                    visit = Visited(user_id=user_id, poi_id=poi_id)
+                    db.session.add(visit)
+                    db.session.commit()
+                    print('NEW Visited: ', visit)
+            else:  # remove record from db if exists
+                visit = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi_id).first()
+
+                if visit:
+                    print('REMOVING Visited: ', visit)
+                    db.session.delete(visit)
+                    db.session.commit()
+
+    return 'Success'    # must leave this here otherwise flask complains nothing returns
 
 @main.route('/hello', methods=['GET'])
 def hello():
