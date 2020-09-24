@@ -20,7 +20,7 @@ function buildFlightPlan(flightPath_data) {
 
     var content = '';
     const title_txt = 'Custom departure to Custom Arrival';
-    const crusing_altitude = '008500.000';
+    const crusing_altitude = '008500.00';
 
     const departure_id = 'CUSTD';
     const dep_lat = convertDDToDMS(flightPath_data[0]['latLng'][0], "90", 2);
@@ -42,11 +42,11 @@ function buildFlightPlan(flightPath_data) {
 
     //Build the xml nodes and attributes
     var simbase_element = xmlDoc.getElementsByTagName("SimBase.Document");
-    simbase_element[0].setAttribute("version", "1,0");
     simbase_element[0].setAttribute("Type", "AceXML");
+    simbase_element[0].setAttribute("version", "1,0");
 
     var desc_node = xmlDoc.createElement("Descr");
-    desc_node.innerHTML = "AceXML Documen";
+    desc_node.innerHTML = "AceXML Document";
     simbase_element[0].appendChild(desc_node);
 
     var flightplan_node = xmlDoc.createElement("FlightPlan.FlightPlan");
@@ -136,9 +136,13 @@ function buildFlightPlan(flightPath_data) {
     //             DepartureName + DestinationName + app_details + buildATCWapoints(flightPath_data, crusing_altitude) + footer;
 
 
-    console.log(xmlDoc);
+    xmlDoc_string = new XMLSerializer().serializeToString(xmlDoc)
 
-    return xmlDoc;
+    xml_formatted = formatXml(xmlDoc_string);
+    
+    console.log(xml_formatted);
+
+    return xml_formatted;
 }
 
 function buildATCWapoints(xmlDoc, flightplan_node, flightPath_data, crusing_altitude) {
@@ -232,4 +236,35 @@ function convertDDToDMS(
   
       // return formatted values joined by non-breaking space
       return [H+D+'°',M+'′',S+'"'].join('\xA0')
+}
+
+function formatXml(xml) {
+    var formatted = '';
+    var reg = /(>)(<)(\/*)/g;
+    xml = xml.replace(reg, '$1\r\n$2$3');
+    var pad = 0;
+    jQuery.each(xml.split('\r\n'), function(index, node) {
+        var indent = 0;
+        if (node.match( /.+<\/\w[^>]*>$/ )) {
+            indent = 0;
+        } else if (node.match( /^<\/\w/ )) {
+            if (pad != 0) {
+                pad -= 1;
+            }
+        } else if (node.match( /^<\w[^>]*[^\/]>.*$/ )) {
+            indent = 1;
+        } else {
+            indent = 0;
+        }
+
+        var padding = '';
+        for (var i = 0; i < pad; i++) {
+            padding += '  ';
+        }
+
+        formatted += padding + node + '\r\n';
+        pad += indent;
+    });
+
+    return formatted;
 }
