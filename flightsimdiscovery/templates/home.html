@@ -574,11 +574,19 @@
         }
 
         function callHello() {
-          const url = 'http://localhost:5000/hello'
-          fetch(url)
+
+          fetch('http://localhost:5000/hello', {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify({"test":"test"}),
+            cache: "no-cache",
+            headers: new Headers({
+              "content-type": "application/json"
+            })
+          })
           .then(response => response.json())  
           .then(json => {
-              console.log(json['jack']);
+              console.log(json['YWOL']);
               console.log(JSON.stringify(json));
           })
         }

@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
 from openpyxl import load_workbook
 from flightsimdiscovery import db
 from flightsimdiscovery.models import Favorites, Visited
@@ -329,13 +329,17 @@ def iw_post():
 
     return 'Success'    # must leave this here otherwise flask complains nothing returns
 
-@main.route('/hello', methods=['GET'])
+@main.route('/hello', methods=['GET', 'POST'])
 def hello():
     @after_this_request
     def add_header(response):
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
 
-    jsonResp = {'jack': 4098, 'sape': 4139}
-    print(jsonResp)
-    return jsonify(jsonResp)
+    req = request.get_json()
+    print(req)
+
+    json_resp_msg = {'YWOL': 'S34° 48\' 34.37",E149° 43\' 44.19",+002108.00', 'YGLB': 'S34° 33\' 40.18",E150° 47\' 17.22",+000025.00'}
+    res = make_response(jsonify(json_resp_msg), 200)
+    # jsonResp = {'jack': 4098, 'sape': 4139}
+    return res
