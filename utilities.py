@@ -794,29 +794,33 @@ def create_pois_csv():
 
 
 # return closest airport to a latlng value
-def get_nearest_airport(airports, latlng):
+def get_nearest_airport(airports, waypoint):
+
     def distance_between_points(lat1, lon1, lat2, lon2):
         p = 0.017453292519943295
         a = 0.5 - cos((lat2 - lat1) * p) / 2 + cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2
         return 12742 * asin(sqrt(a))
 
-    nearest_airport_data = min(airports, key=lambda p: distance_between_points(latlng['lat'], latlng['lon'], latlng['lat'], latlng['lon']))
-    print('First closest airport: ', nearest_airport_data)
+    print(airports)
 
-    if nearest_airport_data['name'] == 'Name1':
-        altered_airport_list = [item for item in airports if item['name'] != 'Name1']
+    nearest_airport_data = min(airports, key=lambda p: distance_between_points(p['lat'], p['lon'], waypoint['lat'], waypoint['lon']))
+    print('Closest airport: ', nearest_airport_data)
+
+    if nearest_airport_data['Airport_Name'].strip() == waypoint['airport_name'].strip():
+        altered_airport_list = [item for item in airports if item['Airport_Name'].strip() != waypoint['airport_name'].strip()]
         print('Altered: ', altered_airport_list)
-        nearest_airport_data = get_nearest_airport(altered_airport_list, latlng)
+        nearest_airport_data = get_nearest_airport(altered_airport_list, waypoint)
 
     return nearest_airport_data
 
 
 if __name__ == '__main__':
-    tempDataList = [{'name': 'Name1', 'lat': 39.7612992, 'lon': -86.1519681},
-                    {'name': 'Name2', 'lat': 39.762241, 'lon': -86.158436},
-                    {'name': 'Name3', 'lat': 39.7622292, 'lon': -86.1578917}]
+    # pass
+    tempDataList = [{'Airport_Name': 'Name1', 'lat': 39.7612992, 'lon': -86.1519681},
+                    {'Airport_Name': 'Name2', 'lat': 39.762241, 'lon': -86.158436},
+                    {'Airport_Name': 'Name3', 'lat': 39.7622292, 'lon': -86.1578917}]
 
-    point = {'lat': 39.7622290, 'lon': -86.1519750}
+    point = {'airport_name': 'Wollongong','lat': 39.7622290, 'lon': -86.1519750}
 
     print('Original: ', tempDataList)
 

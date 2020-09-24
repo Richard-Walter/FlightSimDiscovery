@@ -1,9 +1,10 @@
+import csv, os
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
 from openpyxl import load_workbook
 from flightsimdiscovery import db
 from flightsimdiscovery.models import Favorites, Visited
 from flask_login import current_user, login_required
-from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details
+from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_nearest_airport
 from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.main.forms import ContactForm
 from flightsimdiscovery.users.utitls import send_contact_email
@@ -331,15 +332,43 @@ def iw_post():
 
 @main.route('/hello', methods=['GET', 'POST'])
 def hello():
+
+    msfs_airport_list = []
+
+    # First lets build a list of MSFS airports from the CSV
+    # path = os.getcwd()
+    csv_filepath = os.path.join("flightsimdiscovery/data", "msfs_airports" + "." + "csv")
+
+    with open(csv_filepath, encoding="utf8") as csv_file:
+
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count == 0:
+                print(f'Column names are {", ".join(row)}')
+                line_count += 1
+            else:
+                airport_data = {'ICAO': row[0], 'Airport_Name': row[1], 'lat': float(row[5]), 'lon': float(row[4]), 'elev': float(row[3])}
+                line_count += 1
+                msfs_airport_list.append(airport_data)
+        
+    # get the list of waypoints from the request
+    waypoint_list = request.get_json()
+    print(waypoint_list)
+
+    first_poi = waypoint_list[0]
+    last_poi =waypoint_list[-1]
+
+    departure_airport = get_nearest_airport(msfs_airport_list, first_poi)
+    destination_airport = get_nearest_airport(msfs_airport_list, last_poi)
+
+    json_resp_msg = {'dep_airport': departure_airport, 'dest_airport': destination_airport}
+    res = make_response(jsonify(json_resp_msg), 200)
+    # jsonResp = {'jack': 4098, 'sape': 4139}
+
     @after_this_request
     def add_header(response):
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
 
-    req = request.get_json()
-    print(req)
-
-    json_resp_msg = {'YWOL': 'S34° 48\' 34.37",E149° 43\' 44.19",+002108.00', 'YGLB': 'S34° 33\' 40.18",E150° 47\' 17.22",+000025.00'}
-    res = make_response(jsonify(json_resp_msg), 200)
-    # jsonResp = {'jack': 4098, 'sape': 4139}
     return res

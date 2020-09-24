@@ -573,12 +573,26 @@
           $('#fp_delete_btn').attr('disabled', 'disabled');
         }
 
-        function callHello() {
+        function createDepDestAirports(flightPath_data) {
+
+          var dep_dest_array = [];
+          
+          for (var i = 0; i < flightPath_data.length; i++) {
+
+            airport_name = flightPath_data[i]['waypoint'];
+            latlng_array = flightPath_data[i]['latLng'];
+            lat = latlng_array[0];
+            lng = latlng_array[1];
+            coordinate = {'airport_name': airport_name, 'lat': lat, 'lon': lng};
+            dep_dest_array.push(coordinate);
+          }
+
+          jsonified_data = JSON.stringify(dep_dest_array);
 
           fetch('http://localhost:5000/hello', {
             method: "POST",
             credentials: "include",
-            body: JSON.stringify({"test":"test"}),
+            body: jsonified_data,
             cache: "no-cache",
             headers: new Headers({
               "content-type": "application/json"
@@ -586,8 +600,10 @@
           })
           .then(response => response.json())  
           .then(json => {
-              console.log(json['YWOL']);
+              
               console.log(JSON.stringify(json));
+              console.log(json['dep_airport']);
+              console.log(json['dest_airport']);
           })
         }
 
@@ -776,7 +792,7 @@
                             onclick="deleteFlightPlan()">Delete Flight Plan
                     </button>
                     <button id="fp_delete_btn" type="button" class="btn btn-danger" 
-                      onclick="callHello()">call Hello
+                      onclick="createDepDestAirports(flightPath_data)">create Dep/Dest Airports
                     </button>
                 </div>
             </div>
