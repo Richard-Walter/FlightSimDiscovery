@@ -6,7 +6,7 @@ function saveFlightPlan(document, flightPath_data) {
     content = buildFlightPlan(flightPath_data);
    
     const a = document.createElement('a');
-    const file = new Blob([content], {type: 'text/plain'});
+    const file = new Blob([content], {type: 'text/xml'});
     
     a.href= URL.createObjectURL(file);
     a.download = filename;
@@ -16,12 +16,11 @@ function saveFlightPlan(document, flightPath_data) {
 
 }
 
-
 function buildFlightPlan(flightPath_data) {
 
     var content = '';
     const title_txt = 'Custom departure to Custom Arrival';
-    const crusing_altitude = '8500.000';
+    const crusing_altitude = '008500.000';
 
     const departure_id = 'CUSTD';
     const dep_lat = convertDDToDMS(flightPath_data[0]['latLng'][0], "90", 2);
@@ -37,49 +36,122 @@ function buildFlightPlan(flightPath_data) {
     const departure_name = `Custom departure`;
     const destination_name = `Custom Arrival`;
 
-    const header =          '<?xml version="1.0" encoding="UTF-8"?>\n' +
-                            '\n'+
-                            '<SimBase.Document Type="AceXML" version="1,0">\n'+
-                            '    <Descr>AceXML Document</Descr>\n'+
-                            '    <FlightPlan.FlightPlan>\n';
-    const title =           `        <Title>${title_txt}</Title>` + '\n';
-    const FPTType =         `        <FPType>VFR</FPType>` + '\n';
-    const CruisingAlt =     `        <CruisingAlt>${crusing_altitude}</CruisingAlt>` + '\n';
-    const DepartureID =     `        <DepartureID>${departure_id}</DepartureID>` + '\n';
-    const DepartureLLA =    `        <DepartureLLA>${departure_lla}</DepartureLLA>` + '\n';
-    const DestinationID =   `        <DestinationID>${destination_id}</DestinationID>` + '\n';
-    const DestinationLLA =  `        <DestinationLLA>${destination_lla}</DestinationLLA>` + '\n';
-    const Descr =           `        <Descr>${description}</Descr>` + '\n';
-    const DepartureName =   `        <DepartureName>${departure_name}</DepartureName>` + '\n';
-    const DestinationName = `        <DestinationName>${destination_name}</DestinationName>` + '\n';
-    const app_details =     '        <AppVersion>\n' +
-                            '            <AppVersionMajor>11</AppVersionMajor>\n' +
-                            '            <AppVersionBuild>282174</AppVersionBuild>\n' +
-                            '        </AppVersion>\n'
-    const footer =          '    </FlightPlan.FlightPlan>\n' +
-                            '</SimBase.Document>\n'
+    // Create the XML document
+    var parser = new DOMParser();
+    var xmlDoc = parser.parseFromString('<?xml version="1.0" encoding="utf-8"?><SimBase.Document></SimBase.Document>', "application/xml");
 
-    content += header + title + FPTType + CruisingAlt + DepartureID + DepartureLLA + DestinationID + DestinationLLA + Descr + 
-                DepartureName + DestinationName + app_details + buildATCWapoints(flightPath_data, crusing_altitude) + footer;
+    //Build the xml nodes and attributes
+    var simbase_element = xmlDoc.getElementsByTagName("SimBase.Document");
+    simbase_element[0].setAttribute("version", "1,0");
+    simbase_element[0].setAttribute("Type", "AceXML");
+
+    var desc_node = xmlDoc.createElement("Descr");
+    desc_node.innerHTML = "AceXML Documen";
+    simbase_element[0].appendChild(desc_node);
+
+    var flightplan_node = xmlDoc.createElement("FlightPlan.FlightPlan");
+    simbase_element[0].appendChild(flightplan_node)
+
+    var title_node = xmlDoc.createElement("Title");
+    title_node.innerHTML = title_txt;
+    flightplan_node.appendChild(title_node);
+
+    var FPType_node = xmlDoc.createElement("FPType");
+    FPType_node.innerHTML = "VFR"
+    flightplan_node.appendChild(FPType_node);
+
+    var RouteType_node = xmlDoc.createElement("RouteType");
+    RouteType_node.innerHTML = "LowAlt"
+    flightplan_node.appendChild(RouteType_node);
+
+    var CruisingAlt_node = xmlDoc.createElement("CruisingAlt");
+    CruisingAlt_node.innerHTML = crusing_altitude;
+    flightplan_node.appendChild(CruisingAlt_node);
+
+    var DepartureID_node = xmlDoc.createElement("DepartureID");
+    DepartureID_node.innerHTML = departure_id;
+    flightplan_node.appendChild(DepartureID_node);
+
+    var DepartureLLA_node = xmlDoc.createElement("DepartureLLA");
+    DepartureLLA_node.innerHTML = departure_lla;
+    flightplan_node.appendChild(DepartureLLA_node);
+
+    var DestinationID_node = xmlDoc.createElement("DestinationID");
+    DestinationID_node.innerHTML = destination_id;
+    flightplan_node.appendChild(DestinationID_node);
+
+    var DestinationLLA_node = xmlDoc.createElement("DestinationLLA");
+    DestinationLLA_node.innerHTML = departure_lla;
+    flightplan_node.appendChild(DestinationLLA_node);
+
+    var Descr_fp_node = xmlDoc.createElement("Descr");
+    Descr_fp_node.innerHTML = description;
+    flightplan_node.appendChild(Descr_fp_node);
+
+    var DepartureName_node = xmlDoc.createElement("DepartureName");
+    DepartureName_node.innerHTML = departure_name;
+    flightplan_node.appendChild(DepartureName_node);
+
+    var DestinationName_node = xmlDoc.createElement("DestinationName");
+    DestinationName_node.innerHTML = destination_name;
+    flightplan_node.appendChild(DestinationName_node);
+
+    var AppVersion_node = xmlDoc.createElement("AppVersion");
+    flightplan_node.appendChild(AppVersion_node);
+
+    var AppVersionMajor_node = xmlDoc.createElement("AppVersionMajor");
+    AppVersionMajor_node.innerHTML = "11";
+    AppVersion_node.appendChild(AppVersionMajor_node);
+
+    var AppVersionBuild_node = xmlDoc.createElement("AppVersionBuild");
+    AppVersionBuild_node.innerHTML = "282174";
+    AppVersion_node.appendChild(AppVersionBuild_node);
+
+    buildATCWapoints(xmlDoc, flightplan_node, flightPath_data, crusing_altitude);
 
 
-    console.log(content);
+    // const header =          '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    //                         '\n'+
+    //                         '<SimBase.Document Type="AceXML" version="1,0">\n'+
+    //                         '    <Descr>AceXML Document</Descr>\n'+
+    //                         '    <FlightPlan.FlightPlan>\n';
+    // const title =           `        <Title>${title_txt}</Title>` + '\n';
+    // const FPTType =         `        <FPType>VFR</FPType>` + '\n';
+    // const CruisingAlt =     `        <CruisingAlt>${crusing_altitude}</CruisingAlt>` + '\n';
+    // const DepartureID =     `        <DepartureID>${departure_id}</DepartureID>` + '\n';
+    // const DepartureLLA =    `        <DepartureLLA>${departure_lla}</DepartureLLA>` + '\n';
+    // const DestinationID =   `        <DestinationID>${destination_id}</DestinationID>` + '\n';
+    // const DestinationLLA =  `        <DestinationLLA>${destination_lla}</DestinationLLA>` + '\n';
+    // const Descr =           `        <Descr>${description}</Descr>` + '\n';
+    // const DepartureName =   `        <DepartureName>${departure_name}</DepartureName>` + '\n';
+    // const DestinationName = `        <DestinationName>${destination_name}</DestinationName>` + '\n';
+    // const app_details =     '        <AppVersion>\n' +
+    //                         '            <AppVersionMajor>11</AppVersionMajor>\n' +
+    //                         '            <AppVersionBuild>282174</AppVersionBuild>\n' +
+    //                         '        </AppVersion>\n'
+    // const footer =          '    </FlightPlan.FlightPlan>\n' +
+    //                         '</SimBase.Document>\n'
 
-    return content;
+    // content += header + title + FPTType + CruisingAlt + DepartureID + DepartureLLA + DestinationID + DestinationLLA + Descr + 
+    //             DepartureName + DestinationName + app_details + buildATCWapoints(flightPath_data, crusing_altitude) + footer;
+
+
+    console.log(xmlDoc);
+
+    return xmlDoc;
 }
 
-function buildATCWapoints(flightPath_data, crusing_altitude) {
+function buildATCWapoints(xmlDoc, flightplan_node, flightPath_data, crusing_altitude) {
 
-const ATCWaypointType =          '            <ATCWaypointType>User</ATCWaypointType>\n';
-    const ATCWaypoint_close =    '        </ATCWaypoint>\n'
-    const ICAO_open =            '            <ICAO>\n'
-    const ICAO_close =           '            </ICAO>\n'
-
-    var atc_content = ''
 
     var name;
     var lat;
     var lng;
+    var ATCWaypoint_node;
+    var ATCWaypointType_node;
+    var WorldPosition_node;
+    var ICAO_node;
+    var ICAOIdent_node;
 
     for (var i = 0; i < flightPath_data.length; i++) {
 
@@ -91,32 +163,36 @@ const ATCWaypointType =          '            <ATCWaypointType>User</ATCWaypoint
             name = flightPath_data[i]['waypoint'];
         }
         
-        // lat = flightPath_data[i]['latLng'][0];
-        // lng = flightPath_data[i]['latLng'][1];
         lat = convertDDToDMS(flightPath_data[i]['latLng'][0], "90", 2);
         lng = convertDDToDMS(flightPath_data[i]['latLng'][1], "180", 2);
+
+        ATCWaypoint_node = xmlDoc.createElement("ATCWaypoint");
+        ATCWaypoint_node.setAttribute("id", `${name}`);
+        flightplan_node.appendChild(ATCWaypoint_node)
+
+        ATCWaypointType_node = xmlDoc.createElement("ATCWaypointType");
+        ATCWaypointType_node.innerHTML = "Intersection";
+        ATCWaypoint_node.appendChild(ATCWaypointType_node);
+
+        WorldPosition_node = xmlDoc.createElement("WorldPosition");
+        WorldPosition_node.innerHTML = `${lat},${lng},+${crusing_altitude}`;
+        ATCWaypoint_node.appendChild(WorldPosition_node);
         
-        
-        atc_content += `        <ATCWaypoint id="${name}">` +'\n';
-        atc_content += ATCWaypointType;
-        atc_content += `            <WorldPosition>${lat},${lng},+${crusing_altitude}</WorldPosition>` +'\n';
         // only build the ICAO section for departure and arrival waypoints
         if ((i == 0) || (i ==flightPath_data.length-1)) {
-            atc_content += ICAO_open;
-            atc_content += `                <ICAOIdent>${name}</ICAOIdent>`+'\n';
-            atc_content += ICAO_close;
-        }
-        atc_content += ATCWaypoint_close;
-    }     
 
-    console.log(atc_content);
-    
-    return atc_content;
+            ICAO_node = xmlDoc.createElement("ICAO");
+            ATCWaypoint_node.appendChild(ICAO_node);
+            
+            ICAOIdent_node = xmlDoc.createElement("ICAOIdent");
+            ICAOIdent_node.innerHTML = `${name}`;
+            ICAO_node.appendChild(ICAOIdent_node);
+        }
+    }     
 }
 
 function buildFlightPlanModalBody(flightPath_data) {
 
-    console.log(flightPath_data);
 
     var body_html = "<p>No flight plan created.  Please add at least two waypoints.<br /><br />  Start creating a flight plan by clicking on a Point of Interest and 'add to Flight Plan'.</p>";
     
