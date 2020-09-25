@@ -339,7 +339,7 @@ def build_flightplan():
     # path = os.getcwd()
     csv_filepath = os.path.join("flightsimdiscovery/data", "msfs_airports" + "." + "csv")
 
-    with open(csv_filepath, encoding="utf8") as csv_file:
+    with open(csv_filepath, encoding="utf-8") as csv_file:
 
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0

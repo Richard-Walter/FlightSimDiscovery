@@ -189,6 +189,7 @@ function buildFlightPlan(flightPath_data, dep_dest_data) {
     xml_formatted = formatXml(xmlDoc_string);
 
     return xml_formatted;
+    // return xml_formatted;
 }
 
 function buildATCWapoints(xmlDoc, flightplan_node, flightPath_data, departure_id, departure_lla, destination_id, destination_lla, crusing_altitude){
@@ -299,7 +300,7 @@ function getDepDestAirports(flightPath_data) {
       body: jsonified_data,
       cache: "no-cache",
       headers: new Headers({
-        "content-type": "application/json"
+        "content-type": "application/json;charset=UTF-8"
       })
     })
     .then(response => response.json())  
@@ -336,7 +337,7 @@ function convertDDToDMS(
       S=a.toFixed(c); // Seconds
   
       // return formatted values joined by non-breaking space
-      return [H+D+'°',M+'′',S+'"'].join('\xA0')
+      return [H+D+'°',M+'\'',S+'"'].join(' ')
 }
 
 function formatXml(xml) {
