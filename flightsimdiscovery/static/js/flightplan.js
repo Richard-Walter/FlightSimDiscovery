@@ -69,21 +69,21 @@ function buildFlightPlan(flightPath_data, dep_dest_data) {
 
     // const departure_id = 'CUSTD';
     const departure_id = dep_data['ICAO'];
+    const departure_name = dep_data['Airport_Name'];
     const dep_lat = convertDDToDMS(dep_data['lat'], "90", 2);
     const dep_lng = convertDDToDMS(dep_data['lon'], "180", 2);
     const dep_elev = dep_data['elev'];
     const departure_lla = dep_lat + ','+ dep_lng + `,+${dep_elev}`;
 
     const destination_id = dest_data['ICAO'];
+    const destination_name = dest_data['Airport_Name'];
     const dest_lat = convertDDToDMS(dest_data['lat'], "90", 2);
     const dest_lng = convertDDToDMS(dest_data['lon'], "180", 2);
     const dest_elev = dest_data['elev'];
     const destination_lla = dest_lat + ','+ dest_lng + `,+${dest_elev}`;
 
-    const title_txt =  `${departure_id} departure to ${destination_id} Arrival`;
-    const description = `${departure_id} departure to ${destination_id} Arrival`;
-    const departure_name = `${departure_id} departure`;
-    const destination_name = `${destination_id} Custom Arrival`;
+    const title_txt =  `${departure_id} to ${destination_id}`;
+    const description = `${departure_name} to ${destination_name}`;
 
     // Create the XML document
     var parser = new DOMParser();
@@ -211,10 +211,11 @@ function buildATCWapoints(xmlDoc, flightplan_node, flightPath_data, departure_id
     // build poi waypoints
     for (var i = 0; i < flightPath_data.length; i++) {
 
-        name = flightPath_data[i]['waypoint'];
+        // name = flightPath_data[i]['waypoint'];
+        name = 'WP' + (i+1).toString();
         lat = convertDDToDMS(flightPath_data[i]['latLng'][0], "90", 2);
         lng = convertDDToDMS(flightPath_data[i]['latLng'][1], "180", 2);
-        waypoint_lla = `${lat},${lng},+${crusing_altitude}`;
+        waypoint_lla = `${lat},${lng},+000000.00`;
         waypoint_type = "User";
         buildNode(name, waypoint_lla, waypoint_type);
 
@@ -240,7 +241,6 @@ function buildATCWapoints(xmlDoc, flightplan_node, flightPath_data, departure_id
         ATCWaypoint_node.appendChild(ATCWaypointType_node);
 
         WorldPosition_node = xmlDoc.createElement("WorldPosition");
-        WorldPosition_node.innerHTML = `${lat},${lng},+${crusing_altitude}`;
         WorldPosition_node.innerHTML = lla;
         ATCWaypoint_node.appendChild(WorldPosition_node);
 
