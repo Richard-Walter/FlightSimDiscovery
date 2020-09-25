@@ -653,12 +653,7 @@
           // open up flight plan modal
           controlUI.addEventListener("click", () => {
 
-            modalBodyHTML = buildFlightPlanModalBody(flightPath_data);
-            $('#Flight_plan_modal').modal('show');
-            $(".flight_plan_modal_body").html(modalBodyHTML);
-            // alert("Deleting flight");
-            // deleteFlightPlan(flightPath);
-            // $( ".Map_Flight_Plan_Btn" ).remove();
+            buildFlightPlanModalBody(flightPath_data);
           });
         }
 
@@ -783,12 +778,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body flight_plan_modal_body">
+                <div id="Flight_plan_modal_body_id" class="modal-body flight_plan_modal_body">
                     <!-- <p>Modal body text goes here.</p> -->
                 </div>
                 <div class="modal-footer">
                     <button id="fp_save_btn" type="button" class="btn btn-primary" disabled
-                            onclick="saveFlightPlan(document, flightPath_data)">Save Flight Plan
+                            onclick="exportFlightPlan(flightPath_data)">Export Flight Plan
                     </button>
                     <button id="fp_delete_btn" type="button" class="btn btn-danger" disabled
                             onclick="deleteFlightPlan()">Delete Flight Plan
