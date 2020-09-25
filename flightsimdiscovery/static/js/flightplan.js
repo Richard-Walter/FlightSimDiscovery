@@ -245,28 +245,26 @@ function buildATCWapoints(
 }
 
 function buildFlightPlanModalBody(flightPath_data) {
-  var body_html;
 
   getDepDestAirports(flightPath_data).then(function (json) {
-    console.log("This is from when building modal");
-    // console.log(json);
+    var body_html;
 
     body_html =
-      "<p>No flight plan created.</p><br><p>Please add at least one waypoint by clicking on a 'Point of Interest' from the map and 'add to Flight Plan'</p>";
-
-    var depature_icao = json["dep_airport"]["ICAO"];
-    var destination_icao = json["dest_airport"]["ICAO"];
+      "<p>No flight plan created.</p><br><p>Please add at least one waypoint.  On the map, click on a 'Point of Interest' and 'add to Flight Plan'</p>";
 
     if (Array.isArray(flightPath_data) && flightPath_data.length > 0) {
+      var depature_icao = json["dep_airport"]["ICAO"];
+      var destination_icao = json["dest_airport"]["ICAO"];
+
       body_html = "<p>";
       body_html += "<p>Departure: " + depature_icao + "</p>";
-      body_html += "<p>Waypoints: ";
+      body_html += "<p class='font-weight-light'>";
       
       for (var i = 0; i < flightPath_data.length; i++) {
-        body_html += flightPath_data[i]["waypoint"] + " -> ";
+        body_html += "&nbsp;&nbsp;-> " + flightPath_data[i]["waypoint"] +"<br>";
       }
 
-      body_html = body_html.substring(0, body_html.length - 4); //remove the last -->
+      // body_html = body_html.substring(0, body_html.length - 4); //remove the last -->
       body_html += "</p>";
       body_html += "<p>Destination: " + destination_icao + "</p>";
 

@@ -332,37 +332,37 @@ def iw_post():
 
 @main.route('/build_flightplan', methods=['GET', 'POST'])
 def build_flightplan():
-
+     
+    json_resp_msg = ""
     msfs_airport_list = []
-
-    # First lets build a list of MSFS airports from the CSV
-    # path = os.getcwd()
-    csv_filepath = os.path.join("flightsimdiscovery/data", "msfs_airports" + "." + "csv")
-
-    with open(csv_filepath, encoding="utf-8") as csv_file:
-
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        line_count = 0
-        for row in csv_reader:
-            if line_count == 0:
-                print(f'Column names are {", ".join(row)}')
-                line_count += 1
-            else:
-                airport_data = {'ICAO': row[0], 'Airport_Name': row[1], 'lat': float(row[5]), 'lon': float(row[4]), 'elev': float(row[3])}
-                line_count += 1
-                msfs_airport_list.append(airport_data)
-        
     # get the list of waypoints from the request
     waypoint_list = request.get_json()
-    print(waypoint_list)
 
-    first_poi = waypoint_list[0]
-    last_poi =waypoint_list[-1]
+    # user has choosen at least one waypoint
+    if waypoint_list:
+        csv_filepath = os.path.join("flightsimdiscovery/data", "msfs_airports" + "." + "csv")
 
-    departure_airport = get_nearest_airport(msfs_airport_list, first_poi)
-    destination_airport = get_nearest_airport(msfs_airport_list, last_poi)
+        with open(csv_filepath, encoding="utf-8") as csv_file:
 
-    json_resp_msg = {'dep_airport': departure_airport, 'dest_airport': destination_airport}
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            line_count = 0
+            for row in csv_reader:
+                if line_count == 0:
+                   
+                    line_count += 1
+                else:
+                    airport_data = {'ICAO': row[0], 'Airport_Name': row[1], 'lat': float(row[5]), 'lon': float(row[4]), 'elev': float(row[3])}
+                    line_count += 1
+                    msfs_airport_list.append(airport_data)
+
+        first_poi = waypoint_list[0]
+        last_poi =waypoint_list[-1]
+
+        departure_airport = get_nearest_airport(msfs_airport_list, first_poi)
+        destination_airport = get_nearest_airport(msfs_airport_list, last_poi)
+
+        json_resp_msg = {'dep_airport': departure_airport, 'dest_airport': destination_airport}
+
     res = make_response(jsonify(json_resp_msg), 200)
 
     @after_this_request
