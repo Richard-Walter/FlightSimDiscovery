@@ -801,8 +801,6 @@ def get_nearest_airport(airports, waypoint):
         a = 0.5 - cos((lat2 - lat1) * p) / 2 + cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2
         return 12742 * asin(sqrt(a))
 
-    print(airports)
-
     nearest_airport_data = min(airports, key=lambda p: distance_between_points(p['lat'], p['lon'], waypoint['lat'], waypoint['lon']))
     print('Closest airport: ', nearest_airport_data)
 

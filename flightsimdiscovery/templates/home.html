@@ -510,7 +510,7 @@
           flightPath_data.push({'latLng': latLng, 'waypoint': waypoint})
 
           //enable modal buttons if valid flight plan
-          if (flightPath_data.length > 1){
+          if (flightPath_data.length > 0){
             $('#fp_save_btn').removeAttr('disabled')
             $('#fp_delete_btn').removeAttr('disabled')
           } 
@@ -551,7 +551,7 @@
           }
 
           //disable modal buttons if not valid flight plan
-          if (flightPath_data.length < 2){
+          if (flightPath_data.length < 1){
             $('#fp_save_btn').attr('disabled', 'disabled');
             $('#fp_delete_btn').attr('disabled', 'disabled');
           } 
@@ -573,39 +573,41 @@
           $('#fp_delete_btn').attr('disabled', 'disabled');
         }
 
-        function createDepDestAirports(flightPath_data) {
+        // function createDepDestAirports(flightPath_data) {
 
-          var dep_dest_array = [];
+        //   var dep_dest_array = [];
           
-          for (var i = 0; i < flightPath_data.length; i++) {
+        //   for (var i = 0; i < flightPath_data.length; i++) {
 
-            airport_name = flightPath_data[i]['waypoint'];
-            latlng_array = flightPath_data[i]['latLng'];
-            lat = latlng_array[0];
-            lng = latlng_array[1];
-            coordinate = {'airport_name': airport_name, 'lat': lat, 'lon': lng};
-            dep_dest_array.push(coordinate);
-          }
+        //     airport_name = flightPath_data[i]['waypoint'];
+        //     latlng_array = flightPath_data[i]['latLng'];
+        //     lat = latlng_array[0];
+        //     lng = latlng_array[1];
+        //     coordinate = {'airport_name': airport_name, 'lat': lat, 'lon': lng};
+        //     dep_dest_array.push(coordinate);
+        //   }
 
-          jsonified_data = JSON.stringify(dep_dest_array);
+        //   jsonified_data = JSON.stringify(dep_dest_array);
 
-          fetch('http://localhost:5000/hello', {
-            method: "POST",
-            credentials: "include",
-            body: jsonified_data,
-            cache: "no-cache",
-            headers: new Headers({
-              "content-type": "application/json"
-            })
-          })
-          .then(response => response.json())  
-          .then(json => {
+        //   fetch('http://localhost:5000/build_flightplan', {
+        //     method: "POST",
+        //     credentials: "include",
+        //     body: jsonified_data,
+        //     cache: "no-cache",
+        //     headers: new Headers({
+        //       "content-type": "application/json"
+        //     })
+        //   })
+        //   .then(response => response.json())  
+        //   .then(json => {
               
-              console.log(JSON.stringify(json));
-              console.log(json['dep_airport']);
-              console.log(json['dest_airport']);
-          })
-        }
+        //       console.log(JSON.stringify(json));
+        //       console.log(json['dep_airport']["ICAO"]);
+        //       console.log(json['dest_airport']["ICAO"]);
+        //       alert(json['dep_airport']["ICAO"]);
+        //       alert(json['dest_airport']["ICAO"]);
+        //   })
+        // }
 
         function loadFlightPlan(flightPath, map) {
           flightPath.setMap(map);
@@ -790,9 +792,6 @@
                     </button>
                     <button id="fp_delete_btn" type="button" class="btn btn-danger" disabled
                             onclick="deleteFlightPlan()">Delete Flight Plan
-                    </button>
-                    <button id="fp_delete_btn" type="button" class="btn btn-danger" 
-                      onclick="createDepDestAirports(flightPath_data)">create Dep/Dest Airports
                     </button>
                 </div>
             </div>

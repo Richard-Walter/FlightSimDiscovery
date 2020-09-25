@@ -2,39 +2,88 @@ var flightPath_data = []
 
 function saveFlightPlan(document, flightPath_data) {
 
-    filename = 'flight_plan.pln';
-    content = buildFlightPlan(flightPath_data);
-   
-    const a = document.createElement('a');
-    const file = new Blob([content], {type: 'text/xml'});
-    
-    a.href= URL.createObjectURL(file);
-    a.download = filename;
-    a.click();
-    
-    URL.revokeObjectURL(a.href);
 
+    filename = 'flight_plan.pln';
+    var dep_dest_array = [];
+    
+    //build flight plan data to send to server so it can determine departure and arrival airports
+    for (var i = 0; i < flightPath_data.length; i++) {
+
+      airport_name = flightPath_data[i]['waypoint'];
+      latlng_array = flightPath_data[i]['latLng'];
+      lat = latlng_array[0];
+      lng = latlng_array[1];
+      coordinate = {'airport_name': airport_name, 'lat': lat, 'lon': lng};
+      dep_dest_array.push(coordinate);
+    }
+
+    jsonified_data = JSON.stringify(dep_dest_array);
+
+    fetch('http://localhost:5000/build_flightplan', {
+      method: "POST",
+      credentials: "include",
+      body: jsonified_data,
+      cache: "no-cache",
+      headers: new Headers({
+        "content-type": "application/json"
+      })
+    })
+    .then(response => response.json())  
+    .then(dep_dest_data => {
+        
+        
+        console.log(JSON.stringify(dep_dest_data));
+        console.log(dep_dest_data['dep_airport']);
+        console.log(dep_dest_data['dest_airport']);       
+
+        //build flight plan now that we have departure and arrival airports
+
+        content = buildFlightPlan(flightPath_data, dep_dest_data);
+   
+        const a = document.createElement('a');
+        const file = new Blob([content], {type: 'text/xml'});
+        
+        a.href= URL.createObjectURL(file);
+        a.download = filename;
+        a.click();
+        
+        URL.revokeObjectURL(a.href);
+
+        var flight_plan_modal = document.getElementById("Flight_plan_modal");
+        flight_plan_modal.classList.remove('show');
+        // flight_plan_modal.setAttribute('aria-hidden', 'true');
+        // flight_plan_modal.setAttribute('style', 'display: none');
+
+    })
 }
 
-function buildFlightPlan(flightPath_data) {
 
-    var content = '';
-    const title_txt = 'Custom departure to Custom Arrival';
+function buildFlightPlan(flightPath_data, dep_dest_data) {
+
+    console.log(dep_dest_data);
+
+    var dep_data = dep_dest_data['dep_airport'];
+    var dest_data = dep_dest_data['dest_airport'];
+
     const crusing_altitude = '008500.00';
 
-    const departure_id = 'CUSTD';
-    const dep_lat = convertDDToDMS(flightPath_data[0]['latLng'][0], "90", 2);
-    const dep_lng = convertDDToDMS(flightPath_data[0]['latLng'][1], "180", 2);
-    const departure_lla = dep_lat + ','+ dep_lng + `,+${crusing_altitude}`;
+    // const departure_id = 'CUSTD';
+    const departure_id = dep_data['ICAO'];
+    const dep_lat = convertDDToDMS(dep_data['lat'], "90", 2);
+    const dep_lng = convertDDToDMS(dep_data['lon'], "180", 2);
+    const dep_elev = dep_data['elev'];
+    const departure_lla = dep_lat + ','+ dep_lng + `,+${dep_elev}`;
 
-    const destination_id = 'CUSTA';
-    const dest_lat = convertDDToDMS(flightPath_data[flightPath_data.length-1]['latLng'][0], "90", 2);
-    const dest_lng = convertDDToDMS(flightPath_data[flightPath_data.length-1]['latLng'][1], "180", 2);
-    const destination_lla = dest_lat + ','+ dest_lng + `,+${crusing_altitude}`;
+    const destination_id = dest_data['ICAO'];
+    const dest_lat = convertDDToDMS(dest_data['lat'], "90", 2);
+    const dest_lng = convertDDToDMS(dest_data['lon'], "180", 2);
+    const dest_elev = dest_data['elev'];
+    const destination_lla = dest_lat + ','+ dest_lng + `,+${dest_elev}`;
 
-    const description = `Custom departure to Custom Arrival`;
-    const departure_name = `Custom departure`;
-    const destination_name = `Custom Arrival`;
+    const title_txt =  `${departure_id} departure to ${destination_id} Arrival`;
+    const description = `${departure_id} departure to ${destination_id} Arrival`;
+    const departure_name = `${departure_id} departure`;
+    const destination_name = `${destination_id} Custom Arrival`;
 
     // Create the XML document
     var parser = new DOMParser();
@@ -81,7 +130,7 @@ function buildFlightPlan(flightPath_data) {
     flightplan_node.appendChild(DestinationID_node);
 
     var DestinationLLA_node = xmlDoc.createElement("DestinationLLA");
-    DestinationLLA_node.innerHTML = departure_lla;
+    DestinationLLA_node.innerHTML = destination_lla;
     flightplan_node.appendChild(DestinationLLA_node);
 
     var Descr_fp_node = xmlDoc.createElement("Descr");
@@ -107,7 +156,7 @@ function buildFlightPlan(flightPath_data) {
     AppVersionBuild_node.innerHTML = "282174";
     AppVersion_node.appendChild(AppVersionBuild_node);
 
-    buildATCWapoints(xmlDoc, flightplan_node, flightPath_data, crusing_altitude);
+    buildATCWapoints(xmlDoc, flightplan_node, flightPath_data, departure_id, departure_lla, destination_id, departure_lla, crusing_altitude);
 
 
     // const header =          '<?xml version="1.0" encoding="UTF-8"?>\n' +
@@ -137,81 +186,133 @@ function buildFlightPlan(flightPath_data) {
 
 
     xmlDoc_string = new XMLSerializer().serializeToString(xmlDoc)
-
     xml_formatted = formatXml(xmlDoc_string);
-    
-    console.log(xml_formatted);
 
     return xml_formatted;
 }
 
-function buildATCWapoints(xmlDoc, flightplan_node, flightPath_data, crusing_altitude) {
+function buildATCWapoints(xmlDoc, flightplan_node, flightPath_data, departure_id, departure_lla, destination_id, destination_lla, crusing_altitude){
 
 
-    var name;
-    var lat;
-    var lng;
     var ATCWaypoint_node;
     var ATCWaypointType_node;
     var WorldPosition_node;
     var ICAO_node;
     var ICAOIdent_node;
 
+    // build departure
+
+    name = departure_id;
+    waypoint_lla = departure_lla;
+    waypoint_type = "Airport";
+    buildNode(name, waypoint_lla, waypoint_type);
+    buildICAO(name);
+
+    // build poi waypoints
     for (var i = 0; i < flightPath_data.length; i++) {
 
-        if (i==0) {
-            name = 'CUSTD';
-        } else if (i ==flightPath_data.length-1) {
-            name = 'CUSTA';
-        } else {
-            name = flightPath_data[i]['waypoint'];
-        }
-        
+        name = flightPath_data[i]['waypoint'];
         lat = convertDDToDMS(flightPath_data[i]['latLng'][0], "90", 2);
         lng = convertDDToDMS(flightPath_data[i]['latLng'][1], "180", 2);
+        waypoint_lla = `${lat},${lng},+${crusing_altitude}`;
+        waypoint_type = "User";
+        buildNode(name, waypoint_lla, waypoint_type);
+
+    }
+
+    // build destination
+
+    name = destination_id;
+
+    waypoint_lla = destination_lla;
+    waypoint_type = "Airport";
+    buildNode(name, waypoint_lla, waypoint_type);
+    buildICAO(name);
+
+    function buildNode(name, lla, waypoint_type) {
 
         ATCWaypoint_node = xmlDoc.createElement("ATCWaypoint");
         ATCWaypoint_node.setAttribute("id", `${name}`);
         flightplan_node.appendChild(ATCWaypoint_node)
 
         ATCWaypointType_node = xmlDoc.createElement("ATCWaypointType");
-        ATCWaypointType_node.innerHTML = "Intersection";
+        ATCWaypointType_node.innerHTML = waypoint_type;
         ATCWaypoint_node.appendChild(ATCWaypointType_node);
 
         WorldPosition_node = xmlDoc.createElement("WorldPosition");
         WorldPosition_node.innerHTML = `${lat},${lng},+${crusing_altitude}`;
+        WorldPosition_node.innerHTML = lla;
         ATCWaypoint_node.appendChild(WorldPosition_node);
-        
-        // only build the ICAO section for departure and arrival waypoints
-        if ((i == 0) || (i ==flightPath_data.length-1)) {
 
-            ICAO_node = xmlDoc.createElement("ICAO");
-            ATCWaypoint_node.appendChild(ICAO_node);
-            
-            ICAOIdent_node = xmlDoc.createElement("ICAOIdent");
-            ICAOIdent_node.innerHTML = `${name}`;
-            ICAO_node.appendChild(ICAOIdent_node);
-        }
-    }     
-}
+    }
+
+    function buildICAO(name) {
+
+        // only build the ICAO section for departure and arrival waypoints
+        ICAO_node = xmlDoc.createElement("ICAO");
+        ATCWaypoint_node.appendChild(ICAO_node);
+        
+        ICAOIdent_node = xmlDoc.createElement("ICAOIdent");
+        ICAOIdent_node.innerHTML = `${name}`;
+        ICAO_node.appendChild(ICAOIdent_node);
+    }
+}     
+
 
 function buildFlightPlanModalBody(flightPath_data) {
 
 
-    var body_html = "<p>No flight plan created.  Please add at least two waypoints.<br /><br />  Start creating a flight plan by clicking on a Point of Interest and 'add to Flight Plan'.</p>";
+    var body_html = "<p>No flight plan created.</p><br><p>Please add at least one waypoint by clicking on a 'Point of Interest' from the map and 'add to Flight Plan'</p>";
     
-    if (Array.isArray(flightPath_data) && flightPath_data.length>1) {
+    if (Array.isArray(flightPath_data) && flightPath_data.length>0) {
         body_html = '<p>We have detected flight plan data</p><br><p>';
         for (var i = 0; i < flightPath_data.length; i++) {
             body_html += flightPath_data[i]['waypoint'] + " --> ";
           }
-        body_html = body_html.substring(0, body_html.length-5);  //remove the -->
+        body_html = body_html.substring(0, body_html.length-5);  //remove the last -->
         body_html += '</p>'
         
     }
         
     return body_html;
 }
+
+function getDepDestAirports(flightPath_data) {
+
+    var dep_dest_array = [];
+    
+    for (var i = 0; i < flightPath_data.length; i++) {
+
+      airport_name = flightPath_data[i]['waypoint'];
+      latlng_array = flightPath_data[i]['latLng'];
+      lat = latlng_array[0];
+      lng = latlng_array[1];
+      coordinate = {'airport_name': airport_name, 'lat': lat, 'lon': lng};
+      dep_dest_array.push(coordinate);
+    }
+
+    jsonified_data = JSON.stringify(dep_dest_array);
+
+    fetch('http://localhost:5000/build_flightplan', {
+      method: "POST",
+      credentials: "include",
+      body: jsonified_data,
+      cache: "no-cache",
+      headers: new Headers({
+        "content-type": "application/json"
+      })
+    })
+    .then(response => response.json())  
+    .then(json => {
+        
+        console.log(JSON.stringify(json));
+        console.log(json['dep_airport']["ICAO"]);
+        console.log(json['dest_airport']["ICAO"]);
+        return json;
+        // alert(json['dep_airport']["ICAO"]);
+        // alert(json['dest_airport']["ICAO"]);
+    })
+  }
 
 
 function convertDDToDMS(

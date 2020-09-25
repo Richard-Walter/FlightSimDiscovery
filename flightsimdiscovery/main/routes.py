@@ -208,7 +208,7 @@ def build_db():
 
     print('Building dadtabase')
 
-    if (current_user.username == 'admin') and (True):
+    if (current_user.username == 'admin') and (False):
 
         # Test Create
         user_id = 1  # admin will create all these
@@ -330,8 +330,8 @@ def iw_post():
 
     return 'Success'    # must leave this here otherwise flask complains nothing returns
 
-@main.route('/hello', methods=['GET', 'POST'])
-def hello():
+@main.route('/build_flightplan', methods=['GET', 'POST'])
+def build_flightplan():
 
     msfs_airport_list = []
 
@@ -364,7 +364,6 @@ def hello():
 
     json_resp_msg = {'dep_airport': departure_airport, 'dest_airport': destination_airport}
     res = make_response(jsonify(json_resp_msg), 200)
-    # jsonResp = {'jack': 4098, 'sape': 4139}
 
     @after_this_request
     def add_header(response):
