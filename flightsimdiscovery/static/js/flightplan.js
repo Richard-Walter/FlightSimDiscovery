@@ -1,84 +1,63 @@
 var flightPath_data = [];
 
+var dep_data;
+var dest_data;
+var departure_id;
+var departure_name;
+var dep_lat;
+var dep_lng;
+var dep_elev;
+var departure_lla;
+
+var destination_id;
+var destination_name;
+var dest_lat;
+var dest_lng;
+var dest_elev;
+var destination_lla;
+
 function exportFlightPlan(flightPath_data) {
+
   filename = "Flight Sim Discovery " + yyyymmdd() + ".pln";
-  var dep_dest_array = [];
 
-  //build flight plan data to send to server so it can determine departure and arrival airports
-  for (var i = 0; i < flightPath_data.length; i++) {
-    airport_name = flightPath_data[i]["waypoint"];
-    latlng_array = flightPath_data[i]["latLng"];
-    lat = latlng_array[0];
-    lng = latlng_array[1];
-    coordinate = { airport_name: airport_name, lat: lat, lon: lng };
-    dep_dest_array.push(coordinate);
-  }
+  content = buildFlightPlan(flightPath_data);
 
-  jsonified_data = JSON.stringify(dep_dest_array);
+  const a = document.createElement("a");
+  const file = new Blob([content], { type: "text/xml" });
 
-  fetch("http://localhost:5000/build_flightplan", {
-    method: "POST",
-    credentials: "include",
-    body: jsonified_data,
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json",
-    }),
-  })
-    .then((response) => response.json())
-    .then((dep_dest_data) => {
-      console.log(JSON.stringify(dep_dest_data));
-      console.log(dep_dest_data["dep_airport"]);
-      console.log(dep_dest_data["dest_airport"]);
+  a.href = URL.createObjectURL(file);
+  a.download = filename;
+  a.click();
 
-      //build flight plan now that we have departure and arrival airports
+  URL.revokeObjectURL(a.href);
 
-      content = buildFlightPlan(flightPath_data, dep_dest_data);
+  $('#Flight_plan_modal').modal('hide');
 
-      const a = document.createElement("a");
-      const file = new Blob([content], { type: "text/xml" });
-
-      a.href = URL.createObjectURL(file);
-      a.download = filename;
-      a.click();
-
-      URL.revokeObjectURL(a.href);
-
-      // $('#Flight_plan_modal').modal('show');
-      // $(".flight_plan_modal_body").html(modalBodyHTML);
-
-      var flight_plan_modal = document.getElementById("Flight_plan_modal");
-      flight_plan_modal.classList.remove("show");
-      // flight_plan_modal.setAttribute('aria-hidden', 'true');
-      // flight_plan_modal.setAttribute('style', 'display: none');
-    })
-    .catch(function (error) {
-      console.log("Fetch error: " + error);
-    });
+  // var flight_plan_modal = document.getElementById("Flight_plan_modal");
+  // flight_plan_modal.classList.remove("show");
 }
 
-function buildFlightPlan(flightPath_data, dep_dest_data) {
-  console.log(dep_dest_data);
-
-  var dep_data = dep_dest_data["dep_airport"];
-  var dest_data = dep_dest_data["dest_airport"];
-
+function buildFlightPlan(flightPath_data) {
+  
   const crusing_altitude = "008500.00";
 
-  // const departure_id = 'CUSTD';
-  const departure_id = dep_data["ICAO"];
-  const departure_name = dep_data["Airport_Name"];
-  const dep_lat = convertDDToDMS(dep_data["lat"], "90", 2);
-  const dep_lng = convertDDToDMS(dep_data["lon"], "180", 2);
-  const dep_elev = dep_data["elev"];
-  const departure_lla = dep_lat + "," + dep_lng + `,+${dep_elev}`;
+  // var dep_data = dep_dest_data["dep_airport"];
+  // var dest_data = dep_dest_data["dest_airport"];
 
-  const destination_id = dest_data["ICAO"];
-  const destination_name = dest_data["Airport_Name"];
-  const dest_lat = convertDDToDMS(dest_data["lat"], "90", 2);
-  const dest_lng = convertDDToDMS(dest_data["lon"], "180", 2);
-  const dest_elev = dest_data["elev"];
-  const destination_lla = dest_lat + "," + dest_lng + `,+${dest_elev}`;
+  // // const departure_id = 'CUSTD';
+  // const departure_id = dep_data["ICAO"];
+  // const departure_name = dep_data["Airport_Name"];
+  // const dep_lat = convertDDToDMS(dep_data["lat"], "90", 2);
+  // const dep_lng = convertDDToDMS(dep_data["lon"], "180", 2);
+  // const dep_elev = dep_data["elev"];
+  // const departure_lla = dep_lat + "," + dep_lng + `,+${dep_elev}`;
+
+  // const destination_id = dest_data["ICAO"];
+  // const destination_name = dest_data["Airport_Name"];
+  // const dest_lat = convertDDToDMS(dest_data["lat"], "90", 2);
+  // const dest_lng = convertDDToDMS(dest_data["lon"], "180", 2);
+  // const dest_elev = dest_data["elev"];
+  // const destination_lla = dest_lat + "," + dest_lng + `,+${dest_elev}`;
 
   const title_txt = `${departure_id} to ${destination_id}`;
   const description = `${departure_name} to ${destination_name}`;
@@ -247,17 +226,33 @@ function buildATCWapoints(
 function buildFlightPlanModalBody(flightPath_data) {
 
   getDepDestAirports(flightPath_data).then(function (json) {
+
     var body_html;
 
     body_html =
       "<p>No flight plan created.</p><br><p>Please add at least one waypoint.  On the map, click on a 'Point of Interest' and 'add to Flight Plan'</p>";
 
     if (Array.isArray(flightPath_data) && flightPath_data.length > 0) {
-      var depature_icao = json["dep_airport"]["ICAO"];
-      var destination_icao = json["dest_airport"]["ICAO"];
+
+      var dep_data = json["dep_airport"];
+      var dest_data = json["dest_airport"];
+
+      departure_id = dep_data["ICAO"];
+      departure_name = dep_data["Airport_Name"];
+      dep_lat = convertDDToDMS(dep_data["lat"], "90", 2);
+      dep_lng = convertDDToDMS(dep_data["lon"], "180", 2);
+      dep_elev = dep_data["elev"];
+      departure_lla = dep_lat + "," + dep_lng + `,+${dep_elev}`;
+
+      destination_id = dest_data["ICAO"];
+      destination_name = dest_data["Airport_Name"];
+      dest_lat = convertDDToDMS(dest_data["lat"], "90", 2);
+      dest_lng = convertDDToDMS(dest_data["lon"], "180", 2);
+      dest_elev = dest_data["elev"];
+      destination_lla = dest_lat + "," + dest_lng + `,+${dest_elev}`;
 
       body_html = "<p>";
-      body_html += "<p>Departure: " + depature_icao + "</p>";
+      body_html += "<p>Departure: " + departure_id + "</p>";
       body_html += "<p class='font-weight-light'>";
       
       for (var i = 0; i < flightPath_data.length; i++) {
@@ -266,7 +261,7 @@ function buildFlightPlanModalBody(flightPath_data) {
 
       // body_html = body_html.substring(0, body_html.length - 4); //remove the last -->
       body_html += "</p>";
-      body_html += "<p>Destination: " + destination_icao + "</p>";
+      body_html += "<p>Destination: " + destination_id + "</p>";
 
     }
     $("#Flight_plan_modal").modal("show");
