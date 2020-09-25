@@ -212,8 +212,8 @@ function buildATCWapoints(xmlDoc, flightplan_node, flightPath_data, departure_id
     // build poi waypoints
     for (var i = 0; i < flightPath_data.length; i++) {
 
-        // name = flightPath_data[i]['waypoint'];
-        name = 'WP' + (i+1).toString();
+        name = flightPath_data[i]['waypoint'].trim();
+        // name = 'WP' + (i+1).toString();
         lat = convertDDToDMS(flightPath_data[i]['latLng'][0], "90", 2);
         lng = convertDDToDMS(flightPath_data[i]['latLng'][1], "180", 2);
         waypoint_lla = `${lat},${lng},+000000.00`;
