@@ -13,6 +13,7 @@ anonymous_username = 'anonymous'
 @pois.route("/poi/new", methods=['GET', 'POST'])
 def new_poi():
     flag_poi = False
+    share_with_community = ""
     pois = Pois.query.all()
     form = PoiCreateForm()
 
@@ -24,6 +25,8 @@ def new_poi():
     else:
         # lets flag any anonymous created pois for review
         flag_poi = True
+        share_with_community = 'style=display:none'   
+
 
     print("User id is:  ", user_id)
 
@@ -59,7 +62,7 @@ def new_poi():
 
         flash('A new point of interest has been created!', 'success')
         return redirect(url_for('main.home', country=poi.country))
-    return render_template('create_poi.html', form=form)
+    return render_template('create_poi.html', form=form, share=share_with_community)
 
 
 @pois.route("/topten_pois/<continent>")

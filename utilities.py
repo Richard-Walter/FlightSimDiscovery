@@ -108,7 +108,7 @@ countries_details = {
     'Eritrea': ['Africa - Eastern', 15.179384, 39.782334],
     'Estonia': ['Europe - Northern', 58.595272, 25.013607],
     'Eswatini': ['Africa - Southern', 9.145, 40.489673],
-    'Ethiopia': ['Africa - Eastern', -51.796253, 39.782334],
+    'Ethiopia': ['Africa - Eastern', 8.899458, 39.844715],
     'Falkland Islands (Malvinas)': ['America - South', 61.892635, -6.911806],
     'Faroe Islands': ['Europe - Northern', -16.578193, 179.414413],
     'Fiji': ['Oceania', 61.92411, 25.748151],
