@@ -1,2 +1,3 @@
 -must be a user called admin
 -must be a user called anonymous
+-rate '5' for 10 POIS in each continent

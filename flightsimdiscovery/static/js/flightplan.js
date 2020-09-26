@@ -230,7 +230,7 @@ function buildFlightPlanModalBody(flightPath_data) {
     var body_html;
 
     body_html =
-      "<p>No flight plan created.</p><br><p>Please add at least one waypoint.  On the map, click on a 'Point of Interest' and 'add to Flight Plan'</p>";
+      "<p>No flight plan created.</p><br><p>Please add at least one waypoint.  On the map, click on a 'Point of Interest' and select 'add to Flight Plan'</p>";
 
     if (Array.isArray(flightPath_data) && flightPath_data.length > 0) {
 

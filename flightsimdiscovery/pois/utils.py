@@ -92,7 +92,7 @@ def location_exists(pois, latitude, longitude, category):
     for poi in pois:
         latitude_diff = abs(float(poi.latitude) - latitude)
         longitude_diff = abs(float(poi.longitude) - longitude)
-        print(latitude_diff, longitude_diff)
+        # print(latitude_diff, longitude_diff)
         if (latitude_diff < location_exists_diff_default) and (longitude_diff < location_exists_diff_default):
             return True
 

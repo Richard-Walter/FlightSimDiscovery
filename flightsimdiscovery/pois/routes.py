@@ -12,13 +12,18 @@ anonymous_username = 'anonymous'
 
 @pois.route("/poi/new", methods=['GET', 'POST'])
 def new_poi():
+    flag_poi = False
     pois = Pois.query.all()
     form = PoiCreateForm()
-    # default user_id is anonymous
-    user_id = User.query.filter_by(username=anonymous_username).first().id  # returns a list  # admin for an anonymous user
+
+    # get anonymous user
+    user_id = User.query.filter_by(username=anonymous_username).first().id  # returns a list 
 
     if current_user.is_authenticated:
         user_id = current_user.id
+    else:
+        # lets flag any anonymous created pois for review
+        flag_poi = True
 
     print("User id is:  ", user_id)
 
@@ -41,7 +46,7 @@ def new_poi():
         poi = Pois(user_id=user_id, name=form.name.data, latitude=float(form.latitude.data), longitude=float(form.longitude.data),
                    region=get_country_region(form.country.data), country=form.country.data, category=form.category.data,
                    description=form.description.data,
-                   nearest_icao_code=form.nearest_airport.data, share=form.share.data)
+                   nearest_icao_code=form.nearest_airport.data, share=form.share.data, flag=flag_poi)
 
         db.session.add(poi)
         db.session.commit()
