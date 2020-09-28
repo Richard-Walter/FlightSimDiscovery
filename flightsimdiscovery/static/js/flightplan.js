@@ -19,8 +19,8 @@ var destination_lla;
 function exportFlightPlan(flightPath_data) {
 
   filename = "Flight Sim Discovery " + yyyymmdd() + ".pln";
-
-  content = buildFlightPlan(flightPath_data);
+  cruise_altitude = $("#cruise_altitude_value").val();
+  content = buildFlightPlan(flightPath_data, cruise_altitude);
 
   const a = document.createElement("a");
   const file = new Blob([content], { type: "text/xml" });
@@ -37,27 +37,8 @@ function exportFlightPlan(flightPath_data) {
   // flight_plan_modal.classList.remove("show");
 }
 
-function buildFlightPlan(flightPath_data) {
+function buildFlightPlan(flightPath_data, cruise_altitude) {
   
-  const crusing_altitude = "008500.00";
-
-  // var dep_data = dep_dest_data["dep_airport"];
-  // var dest_data = dep_dest_data["dest_airport"];
-
-  // // const departure_id = 'CUSTD';
-  // const departure_id = dep_data["ICAO"];
-  // const departure_name = dep_data["Airport_Name"];
-  // const dep_lat = convertDDToDMS(dep_data["lat"], "90", 2);
-  // const dep_lng = convertDDToDMS(dep_data["lon"], "180", 2);
-  // const dep_elev = dep_data["elev"];
-  // const departure_lla = dep_lat + "," + dep_lng + `,+${dep_elev}`;
-
-  // const destination_id = dest_data["ICAO"];
-  // const destination_name = dest_data["Airport_Name"];
-  // const dest_lat = convertDDToDMS(dest_data["lat"], "90", 2);
-  // const dest_lng = convertDDToDMS(dest_data["lon"], "180", 2);
-  // const dest_elev = dest_data["elev"];
-  // const destination_lla = dest_lat + "," + dest_lng + `,+${dest_elev}`;
 
   const title_txt = `${departure_id} to ${destination_id}`;
   const description = `${departure_name} to ${destination_name}`;
@@ -94,7 +75,7 @@ function buildFlightPlan(flightPath_data) {
   flightplan_node.appendChild(RouteType_node);
 
   var CruisingAlt_node = xmlDoc.createElement("CruisingAlt");
-  CruisingAlt_node.innerHTML = crusing_altitude;
+  CruisingAlt_node.innerHTML = cruise_altitude;
   flightplan_node.appendChild(CruisingAlt_node);
 
   var DepartureID_node = xmlDoc.createElement("DepartureID");
@@ -144,7 +125,7 @@ function buildFlightPlan(flightPath_data) {
     departure_lla,
     destination_id,
     departure_lla,
-    crusing_altitude
+    cruise_altitude
   );
 
   xmlDoc_string = new XMLSerializer().serializeToString(xmlDoc);
@@ -162,7 +143,7 @@ function buildATCWapoints(
   departure_lla,
   destination_id,
   destination_lla,
-  crusing_altitude
+  cruise_altitude
 ) {
   var ATCWaypoint_node;
   var ATCWaypointType_node;
@@ -251,7 +232,13 @@ function buildFlightPlanModalBody(flightPath_data) {
       dest_elev = dest_data["elev"];
       destination_lla = dest_lat + "," + dest_lng + `,+${dest_elev}`;
 
-      body_html = "<p>";
+
+      body_html = `<div class="range-slider">
+                    <p>Cruise Alitude (ft):</p>
+                    <p><input id="cruise_altitude_value" class="range-slider__range" type="range" value="5000" min="1000" max="10000" step="500">
+                    <span id="cruise_altitude_value" class="mx-1 mb-1 range-slider__value">0</span></p>
+                  </div>`
+      // body_html = "<p>";
       body_html += "<p>Departure: " + departure_id + "</p>";
       body_html += "<p class='font-weight-light'>";
       
@@ -262,6 +249,29 @@ function buildFlightPlanModalBody(flightPath_data) {
       // body_html = body_html.substring(0, body_html.length - 4); //remove the last -->
       body_html += "</p>";
       body_html += "<p>Destination: " + destination_id + "</p>";
+      body_html += `<script>
+                        
+      // flight planner cruise alititude slider
+      var rangeSlider = function(){
+        var slider = $('.range-slider'),
+            range = $('.range-slider__range'),
+            value = $('.range-slider__value');
+          
+        slider.each(function(){
+      
+          value.each(function(){
+            var value = $(this).prev().attr('value');
+            $(this).html(value);
+          });
+      
+          range.on('input', function(){
+            $(this).next(value).html(this.value);
+          });
+        });
+      };
+      
+      rangeSlider();
+      </script>`
 
     }
     $("#Flight_plan_modal").modal("show");

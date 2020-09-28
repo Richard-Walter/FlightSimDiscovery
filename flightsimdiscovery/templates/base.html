@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <title>Flight Sim Discovery</title>
-    <meta name="description" content=""/>
+    <meta name="description" content="Search, Download, and Explore with Flight Sim Discovery.  Find interesting places to fly and discovery, export a flight plan and load up your favorite flight simulator such as Microsoft Flight Simulator. Rate, save, like and create new points of interest."/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='/css/animate.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='/css/slick.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='/css/slicknav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/scss/cruise_altitude_slider.scss') }}">
 
 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
@@ -243,6 +244,7 @@
 
         <script src="{{ url_for('static', filename='/js/mail-script.js') }}"></script>
         <script src="{{ url_for('static', filename='/js/main.js') }}"></script>
+        <!-- <script src="{{ url_for('static', filename='/js/bootstrap-slider.min.js') }}"></script> -->
         \
         <!-- <script>
           $("#datepicker").datepicker({

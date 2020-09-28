@@ -308,6 +308,7 @@ dots:false,
   }
 });
 
+
 });
 
 //------- Mailchimp js --------//  
@@ -340,10 +341,8 @@ mailChimp();
         // prise slider 
         
 
-
-
-
-
-
-
 })(jQuery);	
+
+
+
+
