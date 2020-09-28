@@ -48,57 +48,6 @@
 
         <!-- header-start -->
         <header>
-            <!-- <div class="header-area ">
-              <div id="sticky-header" class="main-header-area">
-                  <div class="container-fluid">
-                      <div class="header_bottom_border">
-                          <div class="row align-items-center">
-                              <div class="col-xl-4 col-lg-4">
-                                  <div class="logo">
-                                    <a class="navbar-brand " href="{{ url_for('main.home') }}">
-                                      <img src="{{ url_for('static', filename='/img/logo.png') }}">
-                                    </a>
-                                  </div>
-                              </div>
-                              <div class="col-xl-4 col-lg-4">
-                                  <div class="main-menu ml-5 d-none d-lg-block">
-                                      <nav>
-                                        <ul id="navigation">
-                                          <li><a href="{{ url_for('pois.new_poi') }}">Create POI</a></li>
-                                          <li><a href="{{ url_for('main.about') }}">About</a></li>
-                                          <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
-                                        </ul>
-                                      </nav>
-                                  </div>
-                              </div>
-                              <div class="col-xl-4 col-lg-4 d-none d-lg-block">
-                                  <div class="social_wrap d-flex align-items-center justify-content-end">
-                                    {% if current_user.is_authenticated %}
-                                      <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Account</a>
-                                      <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Logout</a>
-                                    {% else %}
-                                      <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>
-                                      <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Register</a>
-                                    {% endif %}
-                                  </div>
-                              </div>
-                              </div>
-                              <div class="seach_icon">
-                                  <a data-toggle="modal" data-target="#exampleModalCenter" href="#">
-                                      <i class="fas fa-donate"></i>
-                                      <i class="fas fa-donate"></i>
-                                  </a>
-                              </div>
-                              <div class="col-12">
-                                  <div class="mobile_menu d-block d-lg-none"></div>
-                              </div>
-                          </div>
-                      </div>
-
-                  </div>
-              </div>
-          </div> -->
-
             <nav class="navbar navbar-expand-lg ">
                 <a class="navbar-brand mr-5" href="{{ url_for('main.home') }}">
                     <img src="{{ url_for('static', filename='/img/logo.png') }}">
@@ -136,7 +85,8 @@
                     </div>
                     <div class="main-menu">
                         <!-- <button type="button" class="btn btn-danger mx-2" data-toggle="modal" data-target="#donateModal" > <i class="fas fa-donate"></i></button> -->
-                        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3GQKFCMYM859N&source=url"
+                        <!-- <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3GQKFCMYM859N&source=url" -->
+                        <a href="https://www.buymeacoffee.com/FSDiscovery"
                            class="btn btn-danger mx-2" role="button" aria-disabled="true">Donate</a>
                     </div>
                 </div>
@@ -245,7 +195,7 @@
         <script src="{{ url_for('static', filename='/js/mail-script.js') }}"></script>
         <script src="{{ url_for('static', filename='/js/main.js') }}"></script>
         <!-- <script src="{{ url_for('static', filename='/js/bootstrap-slider.min.js') }}"></script> -->
-        \
+        
         <!-- <script>
           $("#datepicker").datepicker({
             iconsLibrary: "fontawesome",

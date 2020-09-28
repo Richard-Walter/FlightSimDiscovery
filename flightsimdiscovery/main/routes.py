@@ -176,7 +176,8 @@ def home(filter_poi_location):
 
 @main.route("/about")
 def about():
-    return render_template("about.html")
+    pois = Pois.query.all()
+    return render_template("about.html", number_pois=len(pois))
 
 
 @main.route("/contact", methods=['GET', 'POST'])
