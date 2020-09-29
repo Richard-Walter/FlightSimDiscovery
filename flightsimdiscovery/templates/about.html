@@ -1,9 +1,8 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <!-- bradcam_area  -->
 <div class="bradcam_area about_us_bg">
-    <div class="container">
-        <!-- <div class="row">
+  <div class="container">
+    <!-- <div class="row">
             <div class="col-xl-12">
                 <div class="bradcam_text text-center">
                     <h3>About Us</h3>
@@ -11,63 +10,67 @@
                 </div>
             </div>
         </div> -->
-    </div>
+  </div>
 </div>
 <!--/ bradcam_area  -->
 <div class="about_story mt-5">
-    <div class="container">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="story_heading">
+          <h3>What is Flight Sim Discovery</h3>
+        </div>
         <div class="row">
-            <div class="col-lg-12">
-                <div class="story_heading">
-                    <h3>What is Flight Sim Discovery</h3>
+          <div class="col-lg-11 offset-lg-1">
+            <div class="story_info">
+              <div class="row">
+                <div class="col-lg-11">
+                  <p>
+                    Flight Sim Discovery is a web application that allows you to
+                    find amazing places to explore in the world of Microsoft
+                    Flight Simulator and others.
+                  </p>
+                  <p>
+                    Consulting represents success at realizing the company is
+                    going in the wrong direction. The only time the company
+                    fails is when it is not possible to do a turnaround anymore.
+                    We help companies pivot into more profitable directions
+                    where they can expand and grow. It is inevitable that
+                    companies will end up making a few mistakes; we help them
+                    correct these mistakes.
+                  </p>
                 </div>
-                <div class="row">
-                    <div class="col-lg-11 offset-lg-1">
-                        <div class="story_info">
-                            <div class="row">
-                                <div class="col-lg-11">
-                                    <p>Consulting represents success at realizing the company is going in the wrong
-                                        direction. The only time the company fails is when it is not possible to do a
-                                        turnaround anymore. We help companies pivot into more profitable directions
-                                        where they can expand and grow. It is inevitable that companies will end up
-                                        making a few mistakes; we help them correct these mistakes.</p>
-                                    <p>Consulting represents success at realizing the company is going in the wrong
-                                        direction. The only time the company fails is when it is not possible to do a
-                                        turnaround anymore. We help companies pivot into more profitable directions
-                                        where they can expand and grow. It is inevitable that companies will end up
-                                        making a few mistakes; we help them correct these mistakes.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="story_thumb">
-                            <div class="row">
-                                <div class="col-lg-5 col-md-6">
-                                    <div class="thumb padd_1">
-                                        <img src="img/about/1.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="thumb">
-                                        <img src="img/about/2.png" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="counter_wrap">
-                            <div class="row">
-                                <div class="col align-self-center">
-                                    <div class="single_counter text-center">
-                                        <h3 class="counter">{{number_pois}}</h3>
-                                        <p>Places to explore</p>
-                                    </div>
-                                </div>
-                                <!-- <div class="col-lg-4 col-md-4">
+              </div>
+            </div>
+            <!-- <div class="story_thumb">
+              <div class="row">
+                <div class="col-lg-5 col-md-6">
+                  <div class="thumb padd_1">
+                    <img src="img/about/1.png" alt="" />
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <div class="thumb">
+                    <img src="img/about/2.png" alt="" />
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <div class="counter_wrap">
+              <div class="row">
+                <div class="col align-self-center">
+                  <div class="single_counter text-center">
+                    <h3 class="counter">{{number_pois}}</h3>
+                    <p>Places to explore</p>
+                  </div>
+                </div>
+                <!-- <div class="col-lg-4 col-md-4">
                                     <div class="single_counter text-center">
                                         <h3 class="counter">378</h3>
                                         <p>Places to explore</p>
                                     </div>
                                 </div> -->
-                                <!-- <div class="col-lg-4 col-md-4">
+                <!-- <div class="col-lg-4 col-md-4">
                                     <div class="single_counter text-center">
                                         <h3 class="counter">30</h3>
                                         <p>Yearly tour arrange</p>
@@ -79,6 +82,73 @@
                                         <p>Happy Clients</p>
                                     </div>
                                 </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="video_area video_bg overlay">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="video_wrap text-center">
+          <h3>Find out more</h3>
+          <div class="video_icon">
+            <a
+              class="popup-video video_play_button"
+              href="https://www.youtube.com/watch?v=f59dDEk57i0"
+            >
+              <i class="fa fa-play"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- inspirational quotes  -->
+<div class="testimonial_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="testmonial_active owl-carousel">
+                    <div class="single_carousel">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="single_testmonial text-center">
+                                    <p>“We were meant to explore this earth like children do, unhindered by fear, propelled by curiosity and a sense of discovery.”</p>
+                                    <div class="testmonial_author">
+                                        <h3>- Laurel Bleadon Maffei</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single_carousel">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="single_testmonial text-center">
+
+                                    <p>“I haven't been everywhere, but its on my list.”</p>
+                                    <div class="testmonial_author">
+                                        <h3>- Susan Sontag</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single_carousel">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="single_testmonial text-center">
+                                    <p>“If we were meant to stay in one place we’d have roots instead of feet.”</p>
+                                    <div class="testmonial_author">
+                                        <h3>- Rachel Wolchin</h3>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -87,20 +157,5 @@
         </div>
     </div>
 </div>
-<div class="video_area video_bg overlay">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="video_wrap text-center">
-                    <h3>Find out more</h3>
-                    <div class="video_icon">
-                        <a class="popup-video video_play_button" href="https://www.youtube.com/watch?v=f59dDEk57i0">
-                            <i class="fa fa-play"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- /inspirational quotes  -->
 {% endblock content %}

@@ -1572,7 +1572,7 @@ h3 {
 
 /* line 23, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_about.scss */
 .about_story .story_info {
-  margin-bottom: 52px;
+  margin-bottom: 30px;
 }
 
 /* line 25, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_about.scss */
@@ -2402,6 +2402,13 @@ h3 {
   left: 0;
   width: 100%;
 }
+
+.add_poi_iw_body{
+  font-size: 14px;
+  font-family: "Rubik", "sans-serif";
+  color: #5c5b5b;
+}
+
 
 .poi_rating {
   width: 90px;

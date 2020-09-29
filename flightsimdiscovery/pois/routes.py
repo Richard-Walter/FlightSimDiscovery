@@ -10,12 +10,15 @@ pois = Blueprint('pois', __name__)
 anonymous_username = 'anonymous'
 
 
-@pois.route("/poi/new", methods=['GET', 'POST'])
-def new_poi():
+@pois.route("/poi/new", defaults={'iw_add_poi_location': None}, methods=['GET', 'POST'])
+@pois.route("/poi/new/<iw_add_poi_location>", methods=['GET', 'POST'])
+def new_poi(iw_add_poi_location):
     flag_poi = False
     share_with_community = ""
     pois = Pois.query.all()
     form = PoiCreateForm()
+    lat = ""
+    lng = ""
 
     # get anonymous user
     user_id = User.query.filter_by(username=anonymous_username).first().id  # returns a list 
@@ -27,8 +30,13 @@ def new_poi():
         flag_poi = True
         share_with_community = 'style=display:none'   
 
-
-    print("User id is:  ", user_id)
+    # populate lattiude and longitude if coming from Infowindow
+    if iw_add_poi_location:
+        location = iw_add_poi_location.split(", ")
+        lat = location[0]
+        lng = location[1]
+        form.latitude.data = lat
+        form.longitude.data = lng
 
     if form.validate_on_submit():
 
@@ -62,6 +70,7 @@ def new_poi():
 
         flash('A new point of interest has been created!', 'success')
         return redirect(url_for('main.home', country=poi.country))
+
     return render_template('create_poi.html', form=form, share=share_with_community)
 
 
@@ -127,7 +136,7 @@ def update_poi(poi_id):
         poi.share = form.share.data
         # poi.rating = 5
         db.session.commit()
-        flash('Your post has been updated!', 'success')
+        flash('Your point of interest has been updated!', 'success')
         return redirect(url_for('main.home'))
     elif request.method == 'GET':
         form.name.data = poi.name
@@ -151,5 +160,5 @@ def delete_poi(poi_id):
             abort(403)
     db.session.delete(poi)
     db.session.commit()
-    flash('Your post has been deleted!', 'success')
+    flash('Your point of interest has been deleted!', 'success')
     return redirect(url_for('main.home'))
