@@ -468,8 +468,8 @@
                         '</div>'+
                       '</div>'+
                       '<div class="iw_update_delete_fas_icons "'+ hiddenButtons + '>' +
-                        '<a style="cursor:pointer" href="/poi/'+id+'/update"><i id="iw_icon_fav" class="fas fa-edit fa-fw fa-lg" style="color:#5c5b5b;"></i></a>'+
-                        '<a style="cursor:pointer" href="#" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i id="iw_icon_visited" class="far fa-trash-alt fa-fw fa-lg" style="color:#9e0808;"></i></a>'+
+                        '<a style="cursor:pointer" href="/poi/'+id+'/update"><i id="iw_update_poi" class="fas fa-edit fa-fw fa-lg" style="color:#5c5b5b;"></i></a>'+
+                        '<a class="iw_delete_poi" style="cursor:pointer" href="#" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i id="iw_image_delete_poi" class="far fa-trash-alt fa-fw fa-lg" style="color:#9e0808;"></i></a>'+
                       '</div>'+  
                   '</div>'
 
@@ -855,7 +855,7 @@
 
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
-$(document).on("click", ".open_delete_modal", function () {
+$(document).on("click", ".iw_delete_poi", function () {
     
     var eventId = $(this).data('id');
     var form_action = '/poi/' + eventId + '/delete'
