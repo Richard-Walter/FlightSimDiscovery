@@ -1560,7 +1560,7 @@ h3 {
   font-size: 38px;
   font-weight: 400;
   color: #040E27;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 @media (max-width: 767px) {
@@ -3491,9 +3491,18 @@ h3 {
 /*=================== contact form start ====================*/
 /* line 45, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_contact.scss */
 .contact-title {
-  font-size: 27px;
-  font-weight: 600;
-  margin-bottom: 20px;
+  font-size: 38px;
+  font-weight: 400;
+  color: #040E27;
+  margin-bottom: 40px;
+}
+
+.new_poi_header{
+  font-size: 38px;
+  font-weight: 400;
+  color: #040E27;
+  margin-bottom: 40px;
+
 }
 
 /* line 53, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_contact.scss */

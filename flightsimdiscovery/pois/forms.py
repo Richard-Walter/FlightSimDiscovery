@@ -12,7 +12,7 @@ class PoiCreateForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     latitude = StringField('Latitude (decimal degrees)', validators=[DataRequired(), Length(min=2, max=18)])
     longitude = StringField('Longitude (decimal degrees)', validators=[DataRequired(), Length(min=2, max=18)])
-    nearest_airport = StringField('Nearest Airpot (ICAO)', validators=[Length(min=0, max=4)])
+    nearest_airport = StringField('Nearest Airpot (ICAO) (optional)', validators=[Length(min=0, max=4)])
     share = BooleanField('Share with the community', default="checked")
     submit = SubmitField('Create')
 
@@ -39,7 +39,7 @@ class PoiUpdateForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     latitude = StringField('Latitude (decimal degrees) ', validators=[DataRequired(), Length(min=2, max=18)])
     longitude = StringField('Longitude (decimal degrees)', validators=[DataRequired(), Length(min=2, max=18)])
-    nearest_airport = StringField('Nearest Airpot (ICAO)', validators=[Length(min=0, max=4)])
+    nearest_airport = StringField('Nearest Airpot (ICAO) (optional)', validators=[Length(min=0, max=4)])
     share = BooleanField('Share with the community')
     submit = SubmitField('Update')
 
