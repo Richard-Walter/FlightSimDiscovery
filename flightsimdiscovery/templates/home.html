@@ -472,10 +472,10 @@
                         '<hr class="my-2"/>' +
                       '<div>'+
                         '<div id="btn_addPoiToFlightPlan" class="mt-3 mb-1 ' + showAddWaypointBtn + '">' +
-                            '<button class="btn btn-primary btn-sm mx-2 py-1"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name +'\')">Add to Flight plan</button> '+
+                            `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + latitude + `, ` + longitude +  `, "` + marker_name.replace("'", "&#39") +`")'>Add to Flight plan</button> `+
                           '</div>' +
                         '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
-                          '<button class="btn btn-danger btn-sm mx-2 py-1" onclick="removePoiToFlightPlan(' + latitude + ', ' + longitude +  ', \'' + marker_name + '\')">Remove from Flight plan</button> '+
+                          "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + latitude + ", " + longitude +  ", \"" + marker_name.replace("'", "&#39") + "\")'>Remove from Flight plan</button> "+
                         '</div>'+
                       '</div>'+
                       '<div class="iw_update_delete_fas_icons "'+ hiddenButtons + '>' +

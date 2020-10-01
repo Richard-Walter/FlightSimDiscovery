@@ -26,9 +26,9 @@ $('#account_poi_datatable').DataTable( {
   
   'columnDefs': [
    
-    { className: 'text-center', targets: [1,2,4,5,6,7] },
+    { className: 'text-center', targets: [1,2,4,5,6,7,8] },
    ],
-  "scrollY":        "800px",
+  // "scrollY":        "800px",
   "scrollCollapse": true,
   "paging":         false
   // "pagingType": "full_numbers"

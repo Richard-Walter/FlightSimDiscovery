@@ -70,9 +70,9 @@ function buildFlightPlan(flightPath_data, cruise_altitude) {
   FPType_node.innerHTML = "VFR";
   flightplan_node.appendChild(FPType_node);
 
-  var RouteType_node = xmlDoc.createElement("RouteType");
-  RouteType_node.innerHTML = "LowAlt";
-  flightplan_node.appendChild(RouteType_node);
+  // var RouteType_node = xmlDoc.createElement("RouteType");
+  // RouteType_node.innerHTML = "LowAlt";
+  // flightplan_node.appendChild(RouteType_node);
 
   var CruisingAlt_node = xmlDoc.createElement("CruisingAlt");
   CruisingAlt_node.innerHTML = cruise_altitude;
