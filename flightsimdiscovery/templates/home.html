@@ -457,8 +457,8 @@
                             '</div>'+
                             '<div class="iw_header_fas_icons "'+ hiddenDetails + '>' +
 
-                                '<a style="cursor:pointer" onclick="iw_update_visited(\'' + id + '\')"><i id="iw_icon_visited" class="far ' + visitedCheck + ' fa-fw fa-lg" style="color:#1a1a1a;"></i></a>'+
-                                '<a style="cursor:pointer" onclick="iw_update_favorite(\'' + id + '\')"><i id="iw_icon_fav" class=" ' + favoriteCheck + ' fa-heart fa-fw fa-lg" style="color:#9e0808;"></i></a>'+
+                                '<a style="cursor:pointer" onclick="iw_update_visited(\'' + id + '\')"><i id="iw_icon_visited" class="far ' + visitedCheck + ' fa-fw fa-lg" title="visited" style="color:#1a1a1a;"></i></a>'+
+                                '<a style="cursor:pointer" onclick="iw_update_favorite(\'' + id + '\')"><i id="iw_icon_fav" class=" ' + favoriteCheck + ' fa-heart fa-fw fa-lg" title="favorite" style="color:#9e0808;"></i></a>'+
                                 '</div>'+  
                         '</div>'+
                     '<div id="bodyContent">'+
@@ -479,8 +479,8 @@
                         '</div>'+
                       '</div>'+
                       '<div class="iw_update_delete_fas_icons "'+ hiddenButtons + '>' +
-                        '<a style="cursor:pointer" href="/poi/'+id+'/update"><i id="iw_update_poi" class="fas fa-edit fa-fw fa-lg" style="color:#5c5b5b;"></i></a>'+
-                        '<a class="iw_delete_poi" style="cursor:pointer" href="#" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i id="iw_image_delete_poi" class="far fa-trash-alt fa-fw fa-lg" style="color:#9e0808;"></i></a>'+
+                        '<a style="cursor:pointer" href="/poi/'+id+'/update"><i id="iw_update_poi" class="fas fa-edit fa-fw fa-lg" title="update" style="color:#5c5b5b;"></i></a>'+
+                        '<a class="iw_delete_poi" style="cursor:pointer" href="#" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i id="iw_image_delete_poi" class="far fa-trash-alt fa-fw fa-lg" title="delete" style="color:#9e0808;"></i></a>'+
                       '</div>'+  
                   '</div>'
 
@@ -656,7 +656,7 @@
 
           // open up flight plan modal
           controlUI.addEventListener("click", () => {
-
+            
             buildFlightPlanModalBody(flightPath_data);
           });
         }
@@ -720,7 +720,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="single_destination">
                     <div class="thumb">
-                        <img src="static/img/destination/Europe.png" alt=""/>
+                        <img src="static/img/destination/Europe.jpg" alt=""/>
                     </div>
                     <div class="content">
                         <p class="d-flex align-items-center">
