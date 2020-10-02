@@ -48,8 +48,11 @@ def save_picture(form_picture):
 
 def get_user_pois_dict_inc_favorites_visited(user_id, tick=False):
     additional_user_pois_data = []
+    user_pois = None
+
     user = User.query.filter_by(id=user_id).first()
     user_pois = Pois.query.filter_by(user_id=user_id).all()
+
     user_visited_pois = Visited.query.filter_by(user_id=user_id).all()
     user_visited_poi_id_list = get_pois_id_list(user_visited_pois)
 

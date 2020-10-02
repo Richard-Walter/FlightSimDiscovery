@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flightsimdiscovery import db, bcrypt
 from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
-from flightsimdiscovery.models import User
+from flightsimdiscovery.models import User, Pois
 from flask_login import login_user, current_user, logout_user, login_required
 from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited
 
@@ -85,12 +85,19 @@ def user_pois():
 @users.route("/all_pois")
 @login_required
 def all_pois():
-
+    all_pois_data = []
     if (current_user.username == 'admin'):
         
-        user_pois_with_additional_data = get_user_pois_dict_inc_favorites_visited(current_user.id, True)
+        all_pois = Pois.query.all()
 
-        return render_template('all_pois.html', user_pois=user_pois_with_additional_data)
+        for poi in all_pois:
+            user = User.query.filter_by(id=poi.user_id).first()
+            
+            poi_data = {'username': user.username, 'id': poi.id, 'name': poi.name, 'date_posted': poi.date_posted, 'category': poi.category,
+                             'country': poi.country, 'region': poi.region,'description': poi.description, 'flag': poi.flag}   
+            all_pois_data.append(poi_data)       
+
+        return render_template('all_pois.html', all_pois=all_pois_data)
     else:
         return render_template('errors/403.html'), 403
 

@@ -38,7 +38,7 @@ $('#all_pois_datatable').DataTable( {
   
   'columnDefs': [
    
-    { className: 'text-center', targets: [1,3,4,5,6,7,8,9] },
+    { className: 'text-center', targets: [3,4,6,7,8,9] },
    ],
   // "scrollY":        "800px",
   "scrollCollapse": true,
