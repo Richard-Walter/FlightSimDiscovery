@@ -212,7 +212,9 @@ def build_db():
     if (current_user.username == 'admin') and (False):
 
         # Test Create
-        user_id = 1  # admin will create all these
+        # user_id = 1  # admin will create all these
+        user = User.query.filter_by(username=current_user.username)
+        user_id = user.id
 
         for count, row in enumerate(sheet.rows, start=1):
             print(count)

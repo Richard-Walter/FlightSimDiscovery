@@ -82,6 +82,18 @@ def user_pois():
 
     return render_template('user_pois.html', user_pois=user_pois_with_additional_data)
 
+@users.route("/all_pois")
+@login_required
+def all_pois():
+
+    if (current_user.username == 'admin'):
+        
+        user_pois_with_additional_data = get_user_pois_dict_inc_favorites_visited(current_user.id, True)
+
+        return render_template('all_pois.html', user_pois=user_pois_with_additional_data)
+    else:
+        return render_template('errors/403.html'), 403
+
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():

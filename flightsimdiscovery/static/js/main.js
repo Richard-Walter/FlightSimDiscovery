@@ -34,6 +34,18 @@ $('#account_poi_datatable').DataTable( {
   // "pagingType": "full_numbers"
 } );
 
+$('#all_pois_datatable').DataTable( {
+  
+  'columnDefs': [
+   
+    { className: 'text-center', targets: [1,3,4,5,6,7,8,9] },
+   ],
+  // "scrollY":        "800px",
+  "scrollCollapse": true,
+  "paging":         false
+  // "pagingType": "full_numbers"
+} );
+
 $('#topten_pois_datatable').DataTable( {
 
   

@@ -4,7 +4,7 @@ from PIL import Image
 from flask import url_for
 from flask_mail import Message
 from flightsimdiscovery import mail
-from flightsimdiscovery.models import Pois, Visited, Favorites
+from flightsimdiscovery.models import Pois, Visited, Favorites, User
 from flightsimdiscovery.pois.utils import getTickImageBasedOnState
 from flask import current_app
 
@@ -48,6 +48,7 @@ def save_picture(form_picture):
 
 def get_user_pois_dict_inc_favorites_visited(user_id, tick=False):
     additional_user_pois_data = []
+    user = User.query.filter_by(id=user_id).first()
     user_pois = Pois.query.filter_by(user_id=user_id).all()
     user_visited_pois = Visited.query.filter_by(user_id=user_id).all()
     user_visited_poi_id_list = get_pois_id_list(user_visited_pois)
@@ -56,8 +57,8 @@ def get_user_pois_dict_inc_favorites_visited(user_id, tick=False):
     user_favorited_poi_id_list = get_pois_id_list(user_favorited_pois)
 
     for poi in user_pois:
-        new_poi_data = {'id': poi.id, 'name': poi.name, 'category': poi.category, 'country': poi.country, 'region': poi.region,
-                        'description': poi.description}
+        new_poi_data = {'username': user.username, 'id': poi.id, 'name': poi.name, 'date_posted': poi.date_posted, 'category': poi.category, 'country': poi.country, 'region': poi.region,
+                        'description': poi.description, 'flag': poi.flag}
         # add location info for map icon in user pois
         new_poi_data['location'] = str(poi.latitude) + ', ' + str(poi.longitude)
         if poi.id in user_visited_poi_id_list:
