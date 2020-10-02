@@ -1,0 +1,40 @@
+Exception on /export_fp_post [POST]
+Traceback (most recent call last):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask_login\utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\main\routes.py", line 393, in export_fp_post
+    fp_pois = json.loads(fp_pois_json)
+NameError: name 'json' is not defined
+Exception on /export_fp_post [POST]
+Traceback (most recent call last):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask_login\utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\main\routes.py", line 393, in export_fp_post
+    print(fp_pois_json[0])
+  File "C:\Users\rjwal_000\AppData\Local\Programs\Python\Python37-32\lib\json\__init__.py", line 341, in loads
+    raise TypeError(f'the JSON object must be str, bytes or bytearray, '
+TypeError: the JSON object must be str, bytes or bytearray, not list

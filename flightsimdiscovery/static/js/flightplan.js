@@ -18,6 +18,8 @@ var destination_lla;
 
 function exportFlightPlan(flightPath_data) {
 
+  var fp_pois = [];
+
   filename = "Flight Sim Discovery " + yyyymmdd() + ".pln";
   cruise_altitude = $("#cruise_altitude_value").val();
   content = buildFlightPlan(flightPath_data, cruise_altitude);
@@ -33,8 +35,26 @@ function exportFlightPlan(flightPath_data) {
 
   $('#Flight_plan_modal').modal('hide');
 
-  // var flight_plan_modal = document.getElementById("Flight_plan_modal");
-  // flight_plan_modal.classList.remove("show");
+  //mark any POI in exported flight plan as visited
+  for (var i = 0; i < flightPath_data.length; i++) {
+    waypoint = flightPath_data[i]['waypoint'];
+    fp_pois.push(waypoint);
+  }
+  console.log(fp_pois);
+
+  // $.post("/export_fp_post", {"fp_pois": JSON.stringify(fp_pois)})
+  $.ajax({ 
+    url: '/export_fp_post', 
+    type: 'POST', 
+    data: JSON.stringify(fp_pois),
+    contentType: "application/json",
+    success: function(response) {
+      // console.log(response);
+    },
+    error: function(error) {
+        console.log(error);
+    }
+  })
 }
 
 function buildFlightPlan(flightPath_data, cruise_altitude) {

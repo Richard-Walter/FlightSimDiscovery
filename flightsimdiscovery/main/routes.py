@@ -1,4 +1,4 @@
-import csv, os
+import csv, os, json
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
 from openpyxl import load_workbook
 from flightsimdiscovery import db
@@ -331,6 +331,7 @@ def iw_post():
 
     return 'Success'    # must leave this here otherwise flask complains nothing returns
 
+
 @main.route('/build_flightplan', methods=['GET', 'POST'])
 def build_flightplan():
      
@@ -372,3 +373,40 @@ def build_flightplan():
         return response
 
     return res
+
+
+@main.route('/export_fp_post', methods=['POST'])
+@login_required
+def export_fp_post():
+
+    print("reveived expoted flight plan POIS")
+
+    if current_user.is_authenticated:
+
+        is_authenticated = True
+        user_id = current_user.id
+
+        if request.method == 'POST':
+
+            #  Stores users POI preferences from submitted form
+            fp_pois = request.get_json()
+            # print(fp_pois[0])
+            # fp_pois = json.loads(fp_pois_json)
+
+            # Add/Update Visited table
+            for fp_poi in fp_pois:
+                poi = Pois.query.filter_by(name=fp_poi).first()
+
+                if poi:
+                    
+                    # check if already visisted
+                    visited = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi.id).first()
+
+                    if not visited:
+                        
+                        visit = Visited(user_id=user_id, poi_id=poi.id)
+                        db.session.add(visit)
+                        db.session.commit()
+                        # print('NEW Visited: ', visit)
+
+    return 'Success'    # must leave this here otherwise flask complains nothing returns
