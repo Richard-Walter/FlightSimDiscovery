@@ -226,7 +226,8 @@ def build_db():
 
             poi = Pois(
                 user_id=user_id,
-                name=row[0].value, latitude=float(row[2].value),
+                name=row[0].value,
+                 latitude=float(row[2].value),
                 longitude=float(row[3].value),
                 region=get_country_region(row[4].value),
                 country=row[4].value, category=row[1].value,
