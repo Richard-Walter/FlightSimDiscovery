@@ -1,4 +1,5 @@
 from flightsimdiscovery import create_app
+from flightsimdiscovery import db
 
 app = create_app()
 

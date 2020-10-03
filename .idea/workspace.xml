@@ -3,9 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="18ec903c-65d0-47af-a46f-69bccf0eea94" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/main/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/main/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/static/js/flightplan.js" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/static/js/flightplan.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/error_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error_log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/output/Countries_dict.txt" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/output/Countries_dict.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/output/JS_Regions_dict.txt" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/output/JS_Regions_dict.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/site - Copy.db" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/site - Copy.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flightsimdiscovery/site.db" beforeDir="false" afterPath="$PROJECT_DIR$/flightsimdiscovery/site.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,14 +17,25 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utilities.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="803" column="58" lean-forward="true" selection-start-line="803" selection-start-column="58" selection-end-line="803" selection-end-column="58" />
+            <state relative-caret-position="540">
+              <caret line="821" column="22" lean-forward="true" selection-start-line="821" selection-start-column="22" selection-end-line="821" selection-end-column="22" />
               <folding>
                 <element signature="e#24#33#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/flightsimdiscovery/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -45,8 +58,8 @@
       <find>RegistrationForm</find>
       <find>C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery</find>
       <find>url_for(</find>
-      <find>app</find>
       <find>app.</find>
+      <find>app</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -108,6 +121,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -124,7 +138,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -193,7 +206,7 @@
     <frame x="-6" y="0" width="1619" height="1390" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2567995" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2567995" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -216,13 +229,6 @@
     <entry file="file://$PROJECT_DIR$/flightsimdiscovery/forms.py" />
     <entry file="file://$PROJECT_DIR$/flightsimdiscovery/routes.py" />
     <entry file="file://$PROJECT_DIR$/flightsimdiscovery/templates/poi.html" />
-    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="21" column="31" lean-forward="true" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/flightsimdiscovery/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="370">
@@ -429,10 +435,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/flightsimdiscovery/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/utilities.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="803" column="58" lean-forward="true" selection-start-line="803" selection-start-column="58" selection-end-line="803" selection-end-column="58" />
+        <state relative-caret-position="540">
+          <caret line="821" column="22" lean-forward="true" selection-start-line="821" selection-start-column="22" selection-end-line="821" selection-end-column="22" />
           <folding>
             <element signature="e#24#33#0" expanded="true" />
           </folding>

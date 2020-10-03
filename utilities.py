@@ -2,9 +2,12 @@
 import re
 import csv
 import os
+from flask import Flask
 from openpyxl import Workbook
 import codecs
 from math import cos, asin, sqrt
+from flightsimdiscovery import db
+from flightsimdiscovery.config import Config
 
 # validate latitude and longitude constants
 lat_pattern = re.compile(r"^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$")
@@ -115,7 +118,7 @@ countries_details = {
     'Finland': ['Europe - Northern', 46.227638, 2.213749],
     'France': ['Europe - Western', 3.933889, -53.125782],
     'French Guiana': ['America - South', -17.679742, -149.406843],
-    'French Oceania': ['Oceania', -49.280366, 69.348557],
+    'French Polynesia': ['Oceania', -17.455157, -149.607942],
     'French Southern Territories': ['Africa - Eastern', -0.803689, 11.609444],
     'Gabon': ['Africa - Middle', 13.443182, -15.310139],
     'Gambia': ['Africa - Western', 31.354676, 34.308825],
@@ -291,7 +294,7 @@ countries_by_region = {
     'Europe - Southern': ['Albania', 'Andorra', 'Bosnia and Herzegovina', 'Croatia', 'Gibraltar', 'Greece', 'Italy', 'Kosovo', 'Malta', 'Montenegro',
                           'North Macedonia', 'Portugal', 'San Marino', 'Serbia', 'Slovenia', 'Spain'],
     'Africa - Northern': ['Algeria', 'Egypt', 'Libya', 'Morocco', 'Sudan', 'Tunisia', 'Western Sahara'],
-    'Oceania': ['American Samoa', 'Australia', 'Christmas Island', 'Cocos (Keeling) Islands', 'Cook Islands', 'Fiji', 'French Oceania', 'Guam',
+    'Oceania': ['American Samoa', 'Australia', 'Christmas Island', 'Cocos (Keeling) Islands', 'Cook Islands', 'Fiji', 'French Polynesia', 'Guam',
                 'Kiribati', 'Marshall Islands', 'Nauru', 'New Caledonia', 'New Zealand', 'Niue', 'Norfolk Island', 'Northern Mariana Islands',
                 'Oceania (Federated States of)', 'Palau', 'Papua New Guinea', 'Pitcairn', 'Samoa', 'Solomon Islands', 'Tokelau', 'Tonga', 'Tuvalu',
                 'Vanuatu', 'Wallis and Futuna'],
@@ -335,18 +338,18 @@ continents_by_region = {
 }
 
 categoryList = [
-    "Airport (famous)",
+    "Airport (Bush Strip)",
+    "Airport (famous/Interesting)",
     "Beach",
-    "Bush Strip",
     "Canyon",
     "City/town",
     "Desert",
-    "Geological Landmark (other)",
-    "Historical Landmark",
     "Interesting",
     "Island",
+    "Landmark - Geological Other"
+    "Landmark - Historical"
+    "Landmark - Man-Made"
     "Lake",
-    "Man Made Landmark",
     "Megacity",
     "Mountain",
     "National Park",
@@ -760,8 +763,6 @@ def create_pois_csv():
             country = 'Norway'
         elif country == "Macau":
             country = 'Macao'
-        elif country == "French Polynesia":
-            country = 'Macao'
         elif country == "St. Helena":
             country = 'Great Britain'
         elif country == "Tristan da Cunha":
@@ -812,18 +813,32 @@ def get_nearest_airport(airports, waypoint):
     return nearest_airport_data
 
 
+
+
 if __name__ == '__main__':
     # pass
-    tempDataList = [{'Airport_Name': 'Name1', 'lat': 39.7612992, 'lon': -86.1519681},
-                    {'Airport_Name': 'Name2', 'lat': 39.762241, 'lon': -86.158436},
-                    {'Airport_Name': 'Name3', 'lat': 39.7622292, 'lon': -86.1578917}]
+    print("working")
+    app = create_app(env)
+    ctx = app.app_context()
+    ctx.push()
 
-    point = {'airport_name': 'Wollongong','lat': 39.7622290, 'lon': -86.1519750}
+    # your code here
 
-    print('Original: ', tempDataList)
+    ctx.pop()
+    # create empty database
 
-    closest_airport = get_nearest_airport(tempDataList, point)
-    print('Next Closest airport: ', closest_airport)
+
+
+    # tempDataList = [{'Airport_Name': 'Name1', 'lat': 39.7612992, 'lon': -86.1519681},
+    #                 {'Airport_Name': 'Name2', 'lat': 39.762241, 'lon': -86.158436},
+    #                 {'Airport_Name': 'Name3', 'lat': 39.7622292, 'lon': -86.1578917}]
+    #
+    # point = {'airport_name': 'Wollongong','lat': 39.7622290, 'lon': -86.1519750}
+    #
+    # print('Original: ', tempDataList)
+    #
+    # closest_airport = get_nearest_airport(tempDataList, point)
+    # print('Next Closest airport: ', closest_airport)
 
     # generate_csvs()
     # create_pois_csv()

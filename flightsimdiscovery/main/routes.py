@@ -2,7 +2,7 @@ import csv, os, json
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
 from openpyxl import load_workbook
 from flightsimdiscovery import db
-from flightsimdiscovery.models import Favorites, Visited
+from flightsimdiscovery.models import Favorites, Visited, User
 from flask_login import current_user, login_required
 from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_nearest_airport
 from flightsimdiscovery.pois.utils import *
@@ -213,8 +213,7 @@ def build_db():
 
         # Test Create
         # user_id = 1  # admin will create all these
-        user = User.query.filter_by(username=current_user.username)
-        user_id = user.id
+        user_id = current_user.id
 
         for count, row in enumerate(sheet.rows, start=1):
             print(count)
@@ -226,7 +225,7 @@ def build_db():
 
             poi = Pois(
                 user_id=user_id,
-                name=row[0].value,
+                name=row[0].value.strip(),
                  latitude=float(row[2].value),
                 longitude=float(row[3].value),
                 region=get_country_region(row[4].value),
@@ -248,6 +247,13 @@ def build_db():
     else:
 
         abort(403)
+
+# @main.route("/create_db")
+# def create_db():
+#     print("Creating new database")
+#     db.create_all()
+
+#     return "success"
 
 @main.route('/iw_post', methods=['POST'])
 @login_required
