@@ -17,8 +17,12 @@ if(menu.length){
 //Update Country Select values
 $("a.boxed-btn3").click(function(){
 
-  var country = $(this).parent().find("h3").text();
+  // var country = $(this).parent().find("h3").text();
+  var country = $(this).parent().find("a").attr("data-value"); 
   $("#selectCountry").val(country)
+  // $('#search_form').submit();
+  $("#search_form_submit_btn").click()
+
 });
 
 
