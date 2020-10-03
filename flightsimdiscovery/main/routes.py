@@ -116,10 +116,10 @@ def home(filter_poi_location):
             # Create refined pois list based on search criteria
             if category != 'Category':
                 pois = filter_pois_by_category(pois, category)
-            if region != 'Region':
-                pois = filter_pois_by_region(pois, region)
-            if country != 'Country':
-                pois = filter_pois_by_country(pois, country)
+            # if region != 'Region':
+            #     pois = filter_pois_by_region(pois, region)
+            # if country != 'Country':
+            #     pois = filter_pois_by_country(pois, country)
             if rating != 'Rating':
                 pois = filter_pois_by_rating(pois, rating)
 
