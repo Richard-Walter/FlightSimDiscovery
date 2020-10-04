@@ -7,24 +7,26 @@ from flightsimdiscovery import mail
 from flightsimdiscovery.models import Pois, Visited, Favorites, User
 from flightsimdiscovery.pois.utils import getTickImageBasedOnState
 from flask import current_app
+from flightsimdiscovery.config import Config
 
 
 def send_reset_email(user):
     token = user.get_reset_token()
     msg = Message('Password Reset Request',
-                  sender='noreply@demo.com',
+                  sender='noreply@flightsimdiscovery.com',
                   recipients=[user.email])
     msg.body = f'''To reset your password, visit the following link:\n
-    {url_for('reset_token', token=token, _external=True)}
+    {url_for('users.reset_token', token=token, _external=True)}
     \n\nIf you did not make this request then simply ignore this email and no changes will be made.
     '''
     mail.send(msg)
 
 
 def send_contact_email(message, email, subject):
+    print(Config.MAIL_USERNAME)
     msg = Message('Flight Sim Discovery - ' + subject,
                   sender=email,
-                  recipients=["willthisnamedo@gmail.com"])
+                  recipients=[Config.MAIL_USERNAME])
     msg.body = message
     mail.send(msg)
 

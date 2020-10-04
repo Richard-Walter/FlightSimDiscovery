@@ -1,0 +1,128 @@
+[2020-10-04 04:04:09 +0000] [11460] [INFO] Starting gunicorn 20.0.4
+[2020-10-04 04:04:09 +0000] [11460] [INFO] Listening at: http://127.0.0.1:8000 (11460)
+[2020-10-04 04:04:09 +0000] [11460] [INFO] Using worker: sync
+[2020-10-04 04:04:09 +0000] [11463] [INFO] Booting worker with pid: 11463
+[2020-10-04 04:04:09 +0000] [11464] [INFO] Booting worker with pid: 11464
+[2020-10-04 04:04:09 +0000] [11465] [INFO] Booting worker with pid: 11465
+/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask_sqlalchemy/__init__.py:833: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  warnings.warn(FSADeprecationWarning(
+[2020-10-04 04:10:44,122] ERROR in app: Exception on /reset_password [POST]
+Traceback (most recent call last):
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/rjwalter/FlightSimDiscovery/flightsimdiscovery/users/routes.py", line 112, in reset_request
+    send_reset_email(user)
+  File "/home/rjwalter/FlightSimDiscovery/flightsimdiscovery/users/utitls.py", line 18, in send_reset_email
+    {url_for('reset_token', token=token, _external=True)}
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 2216, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/helpers.py", line 357, in url_for
+    rv = url_adapter.build(
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2179, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'reset_token' with values ['token']. Did you mean 'users.reset_token' instead?
+/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask_sqlalchemy/__init__.py:833: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  warnings.warn(FSADeprecationWarning(
+[2020-10-04 04:11:40,535] ERROR in app: Exception on /reset_password [POST]
+Traceback (most recent call last):
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/rjwalter/FlightSimDiscovery/flightsimdiscovery/users/routes.py", line 112, in reset_request
+    send_reset_email(user)
+  File "/home/rjwalter/FlightSimDiscovery/flightsimdiscovery/users/utitls.py", line 18, in send_reset_email
+    {url_for('reset_token', token=token, _external=True)}
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 2216, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/helpers.py", line 357, in url_for
+    rv = url_adapter.build(
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2179, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'reset_token' with values ['token']. Did you mean 'users.reset_token' instead?
+[2020-10-04 04:23:06,352] ERROR in app: Exception on /reset_password [POST]
+Traceback (most recent call last):
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/rjwalter/FlightSimDiscovery/flightsimdiscovery/users/routes.py", line 112, in reset_request
+    send_reset_email(user)
+  File "/home/rjwalter/FlightSimDiscovery/flightsimdiscovery/users/utitls.py", line 18, in send_reset_email
+    {url_for('users.reset_token', token=token, _external=True)}
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 2216, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/helpers.py", line 357, in url_for
+    rv = url_adapter.build(
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2179, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'reset_token' with values ['token']. Did you mean 'users.reset_token' instead?
+/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask_sqlalchemy/__init__.py:833: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  warnings.warn(FSADeprecationWarning(
+[2020-10-04 04:23:59,362] ERROR in app: Exception on /reset_password [POST]
+Traceback (most recent call last):
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/rjwalter/FlightSimDiscovery/flightsimdiscovery/users/routes.py", line 112, in reset_request
+    send_reset_email(user)
+  File "/home/rjwalter/FlightSimDiscovery/flightsimdiscovery/users/utitls.py", line 18, in send_reset_email
+    {url_for('users.reset_token', token=token, _external=True)}
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/app.py", line 2216, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/flask/helpers.py", line 357, in url_for
+    rv = url_adapter.build(
+  File "/home/rjwalter/FlightSimDiscovery/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2179, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'reset_token' with values ['token']. Did you mean 'users.reset_token' instead?

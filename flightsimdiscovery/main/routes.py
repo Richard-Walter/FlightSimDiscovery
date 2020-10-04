@@ -197,56 +197,56 @@ def contact():
     return render_template('contact.html', form=form)
 
 
-@main.route("/build_db")
-@login_required
-def build_db():
-    # open spreadsheet
+# @main.route("/build_db")
+# @login_required
+# def build_db():
+#     # open spreadsheet
 
-    workbook = load_workbook(filename="flightsimdiscovery\\output\\poi_database.xlsx")
-    sheet = workbook.active
-    print("######################")
-    print(sheet.cell(row=10, column=3).value)
+#     workbook = load_workbook(filename="flightsimdiscovery\\output\\poi_database.xlsx")
+#     sheet = workbook.active
+#     print("######################")
+#     print(sheet.cell(row=10, column=3).value)
 
-    print('Building dadtabase')
+#     print('Building dadtabase')
 
-    if (current_user.username == 'admin') and (False):
+#     if (current_user.username == 'admin') and (False):
 
-        # Test Create
-        # user_id = 1  # admin will create all these
-        user_id = current_user.id
+#         # Test Create
+#         # user_id = 1  # admin will create all these
+#         user_id = current_user.id
 
-        for count, row in enumerate(sheet.rows, start=1):
-            print(count)
-            if count == 1:
-                continue  # dont include header
+#         for count, row in enumerate(sheet.rows, start=1):
+#             print(count)
+#             if count == 1:
+#                 continue  # dont include header
 
-            if row[0].value == "":
-                break  # no more data in spreadhseet
+#             if row[0].value == "":
+#                 break  # no more data in spreadhseet
 
-            poi = Pois(
-                user_id=user_id,
-                name=row[0].value.strip(),
-                 latitude=float(row[2].value),
-                longitude=float(row[3].value),
-                region=get_country_region(row[4].value),
-                country=row[4].value, category=row[1].value,
-                description=row[6].value
-            )
+#             poi = Pois(
+#                 user_id=user_id,
+#                 name=row[0].value.strip(),
+#                  latitude=float(row[2].value),
+#                 longitude=float(row[3].value),
+#                 region=get_country_region(row[4].value),
+#                 country=row[4].value, category=row[1].value,
+#                 description=row[6].value
+#             )
 
-            db.session.add(poi)
-            db.session.commit()
+#             db.session.add(poi)
+#             db.session.commit()
 
-            # Update Rating table
-            # print('Poi ID is: ', poi.id) # This gets the above poi that was just committed.
-            rating = Ratings(user_id=user_id, poi_id=poi.id, rating_score=4)
-            db.session.add(rating)
-            db.session.commit()
+#             # Update Rating table
+#             # print('Poi ID is: ', poi.id) # This gets the above poi that was just committed.
+#             rating = Ratings(user_id=user_id, poi_id=poi.id, rating_score=4)
+#             db.session.add(rating)
+#             db.session.commit()
 
-        flash('Database has been built', 'success')
-        return redirect(url_for('main.home'))
-    else:
+#         flash('Database has been built', 'success')
+#         return redirect(url_for('main.home'))
+#     else:
 
-        abort(403)
+#         abort(403)
 
 # @main.route("/create_db")
 # def create_db():

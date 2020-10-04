@@ -315,7 +315,7 @@ async function getDepDestAirports(flightPath_data) {
 
   jsonified_data = JSON.stringify(dep_dest_array);
 
-  let response = await fetch("http://localhost:5000/build_flightplan", {
+  let response = await fetch("/build_flightplan", {
     method: "POST",
     credentials: "include",
     body: jsonified_data,

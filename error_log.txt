@@ -1,0 +1,31 @@
+Exception on /contact [POST]
+Traceback (most recent call last):
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\main\routes.py", line 192, in contact
+    send_contact_email(message, email, subject)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\flightsimdiscovery\users\utitls.py", line 31, in send_contact_email
+    mail.send(msg)
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask_mail.py", line 491, in send
+    with self.connect() as connection:
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask_mail.py", line 144, in __enter__
+    self.host = self.configure_host()
+  File "C:\Users\rjwal_000\Downloads\Programming\My Projects\Flight Sim Discovery\venv\lib\site-packages\flask_mail.py", line 165, in configure_host
+    host.login(self.mail.username, self.mail.password)
+  File "C:\Users\rjwal_000\AppData\Local\Programs\Python\Python37-32\lib\smtplib.py", line 730, in login
+    raise last_exception
+  File "C:\Users\rjwal_000\AppData\Local\Programs\Python\Python37-32\lib\smtplib.py", line 721, in login
+    initial_response_ok=initial_response_ok)
+  File "C:\Users\rjwal_000\AppData\Local\Programs\Python\Python37-32\lib\smtplib.py", line 642, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepted. Learn more at\n5.7.8  https://support.google.com/mail/?p=BadCredentials k14sm2826021pfu.163 - gsmtp')
