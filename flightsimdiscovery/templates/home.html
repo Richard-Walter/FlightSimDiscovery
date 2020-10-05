@@ -94,7 +94,7 @@
                 <div class="search_wrap">
                     <form id="search_form" class="search_form" method="POST" action="/home#searchTag">
                         <div class="input_field">
-                            <select name="selectCategory" id="selectCategory">
+                            <select class="search_select" name="selectCategory" id="selectCategory" data-size="5">
                                 <option data-display="Category">Category</option>
                                 {% for category in categories %} {% if
                                 search_defaults['Category'] == category %}
@@ -105,7 +105,7 @@
                             </select>
                         </div>
                         <div class="input_field">
-                            <select name="selectRegion" id="selectRegion">
+                            <select class="search_select" name="selectRegion" id="selectRegion">
                                 <option data-display="Region">Region</option>
                                 {% for region in regions %} {% if search_defaults['Region'] ==
                                 region %}
@@ -116,7 +116,7 @@
                             </select>
                         </div>
                         <div class="input_field">
-                            <select name="selectCountry" id="selectCountry">
+                            <select class="search_select" name="selectCountry" id="selectCountry">
                                 <option data-display="Country">Country</option>
                                 {% for country in countries %} {% if search_defaults['Country']
                                 == country %}
@@ -127,7 +127,7 @@
                             </select>
                         </div>
                         <div class="input_field">
-                            <select name="selectRating" id="selectRating">
+                            <select class="search_select" name="selectRating" id="selectRating">
                                 <option data-display="Rating">Rating</option>
                                 {% if search_defaults['Rating'] == '5' %}
                                 <option selected value="5">5 stars</option>

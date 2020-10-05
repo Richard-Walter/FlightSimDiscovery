@@ -346,9 +346,9 @@ categoryList = [
     "Desert",
     "Interesting",
     "Island",
-    "Landmark - Geological Other"
-    "Landmark - Historical"
-    "Landmark - Man-Made"
+    "Landmark - Geological Other",
+    "Landmark - Historical",
+    "Landmark - Man-Made",
     "Lake",
     "Megacity",
     "Mountain",
