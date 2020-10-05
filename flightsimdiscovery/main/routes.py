@@ -159,13 +159,18 @@ def home(filter_poi_location):
 
         map_data.append(data_dic)
 
-    # check to see if a new poi has been created.  If so we will zoom to the country level
+    # check to see if a new poi has been created.  If so we will zoom in close to the newly created poi
     country = request.args.get('country', None)
+    new_poi_lat = request.args.get('latitude', None)
+    new_poi_long = request.args.get('longitude', None)
     if country is not None:
-        map_init['zoom'] = 6  # default country zoom
-        map_init['lat'] = countries_details[country][1]
-        map_init['long'] = countries_details[country][2]
-        anchor = 'google_map'
+        map_init['zoom'] = 10
+        map_init['lat'] = new_poi_lat
+        map_init['long'] = new_poi_long
+        # map_init['zoom'] = 6
+        # map_init['lat'] = countries_details[country][1]
+        # map_init['long'] = countries_details[country][2]
+        anchor = 'where_togo_area'
 
     return render_template("home.html", is_authenticated=is_authenticated, user_visited=user_visited,
                            user_favorites=user_favorites, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
