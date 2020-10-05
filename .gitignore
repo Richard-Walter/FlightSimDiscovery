@@ -3,3 +3,4 @@ venv/
 .idea
 .pylintrc 
 __pychache__
+site.db
