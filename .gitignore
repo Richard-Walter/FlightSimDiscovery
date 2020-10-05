@@ -4,3 +4,4 @@ venv/
 .pylintrc 
 __pychache__
 site.db
+config.py
