@@ -186,10 +186,10 @@ def contact():
 
     if form.validate_on_submit():
         message = form.message.data
-        email = form.email.data
+        from_email = form.email.data
         subject = form.subject.data
 
-        send_contact_email(message, email, subject)
+        send_contact_email(message, from_email, subject)
 
         flash('Thank you for your message.', 'info')
         return redirect(url_for('main.home'))

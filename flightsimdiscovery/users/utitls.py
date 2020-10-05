@@ -22,10 +22,11 @@ def send_reset_email(user):
     mail.send(msg)
 
 
-def send_contact_email(message, email, subject):
-    print(Config.MAIL_USERNAME)
-    msg = Message('Flight Sim Discovery - ' + subject,
-                  sender=email,
+def send_contact_email(message, from_email, subject):
+    print("recipient", Config.MAIL_USERNAME)
+    print("from", from_email)
+    msg = Message('Flight Sim Discovery - ' + from_email + ' : ' + subject,
+                  sender=("User", from_email),
                   recipients=[Config.MAIL_USERNAME])
     msg.body = message
     mail.send(msg)
