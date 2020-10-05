@@ -197,7 +197,7 @@ countries_details = {
     'Nepal': ['Asia - Southern', 28.394857, 84.124008],
     'Netherlands': ['Europe - Western', 52.132633, 5.291266],
     'New Caledonia': ['Oceania', 12.226079, -69.060087],
-    'New Zealand': ['Oceania', -20.904305, 165.618042],
+    'New Zealand': ['Oceania', -42.323230, 172.862215],
     'Nicaragua': ['America - Central', -40.900557, 174.885971],
     'Niger': ['Africa - Western', 12.865416, -85.207229],
     'Nigeria': ['Africa - Western', 17.607789, 8.081666],
