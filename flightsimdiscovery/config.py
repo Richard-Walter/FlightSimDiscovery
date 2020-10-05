@@ -14,6 +14,7 @@ class Config:
     MAIL_USERNAME = config.get('EMAIL_USER')
     MAIL_PASSWORD = config.get('EMAIL_PASS')
 
+
 # class Config:
 #     SECRET_KEY = os.environ.get('FSDISCOVERY_SK')
 #     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
