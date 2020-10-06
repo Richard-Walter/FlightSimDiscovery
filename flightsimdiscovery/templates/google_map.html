@@ -1,0 +1,486 @@
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/geojson/0.5.0/geojson.min.js"></script>
+<div id="google_map" class="google_map_area">
+  <div class="">
+      <div class="d-sm-block pb-4">
+          <div
+                  id="map"
+                  style="
+        width: 100%;
+        height: 1020px;
+        position: relative;
+        overflow: hidden;
+      "
+          ></div>
+    <script>
+
+      //Create the Google Map
+      var map;
+      var flightPath;
+      var flightPath_data = []
+      var is_authenticated='{{is_authenticated}}';
+      var markerCluster;
+      var markerCollection;
+      var clusterMarkers = [];
+
+
+      // Parse the posted data into a GeoJSon format required by Google Maps
+      var poi_data_array = [];
+      var poi_data = {};
+
+      // let user_pois_list = [];
+      var gm_key = '{{gm_key}}';
+      var map_zoom = {{map_init['zoom']}};
+      var map_center_lat = {{map_init['lat']}};
+      var map_center_long = {{map_init['long']}};
+
+      //create the infowindow data dictionary
+      infowindow_dict = {}
+      var pois_array = {{pois|tojson}};
+      var user_pois = {{user_pois_json|tojson}};
+      var user_ratings_dict = {{user_ratings|tojson}};
+      var user_favorites = {{user_favorites|tojson}};
+      var user_visited = {{user_visited|tojson}};
+
+      pois_array.forEach(function (poi, index) {
+        infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating};
+      });
+
+      //Update Country Select values
+      function copy_latLon() {
+
+        var textBox = document.getElementById("poi_lat_long");
+        textToClipboard(textBox.value);
+        $("#copylatlong").html('Copied');
+
+      };
+
+      function textToClipboard (latlong) {
+        var dummy = document.createElement("textarea");
+        document.body.appendChild(dummy);
+        dummy.value = latlong;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+        // alert("Copied the text: " + dummy.value);
+      }
+
+      function initMap() {
+          map = new google.maps.Map(document.getElementById("map"), {
+          zoom: map_zoom,
+          center: {lat: map_center_lat, lng: map_center_long},
+          fullscreenControl: false,
+          // mapTypeControl: true,
+          mapTypeId: google.maps.MapTypeId.TERRAIN,
+          mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+            mapTypeIds: ["roadmap", "terrain"]
+          },
+          mapTypeControl: true,
+        });
+
+        const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
+        markerCollection = map.data.addGeoJson(dataGeoJSON);
+
+        //Allow user to create a flight plan
+        flightPath = new google.maps.Polyline({
+          geodesic: true,
+          strokeColor: '#cf4ddb',
+          strokeOpacity: 0.5,
+          strokeWeight: 5
+        });
+
+        loadFlightPlan(flightPath, map);
+
+        //info window to add new poi
+        var currentMark;
+        addpoi_infowindow = new google.maps.InfoWindow;
+        map.addListener('rightclick', function(event) {
+        // map.setCenter(event.latLng);
+        // map.setZoom(14);
+        currentMark = new google.maps.Marker({map: map, }),
+        currentMark.setPosition(event.latLng);
+        var lat = event.latLng.lat().toFixed(6);
+        var lng = event.latLng.lng().toFixed(6);
+        var add_poi_location = lat + ', ' + lng;
+
+
+        var add_poi_iw_html_content =
+              "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+                "<div class='gm-style-iw' id='iw-container'>" +
+                  // "<div class='add_poi_iw_body'>"+
+                  //   "Latitude: " + lat + "<br>" + "Longitude: " + lng +
+                  // "</div>" +
+                  '<div class="my-2 p-1 border border-seconday iw_copy_latlng">'+
+                        '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  '+ lat + ', ' + lng + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
+                        '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+lat+', ' + lng+'">'+
+                      '</div>'+
+                  '<div id="btn_add_new_poi_iw" class="mt-3 mb-1 ">' +
+                    // '<a href="/poi/new" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Primary link</a>'+
+                    '<a href="/poi/new/'+ add_poi_location + '" class="btn btn-primary btn-sm btn-block" role="button" aria-pressed="true">Create POI at this location</a>'+
+  
+                  '</div>' +
+                '</div>'
+
+
+        addpoi_infowindow.setContent(add_poi_iw_html_content);
+        addpoi_infowindow.open(map, currentMark);
+      });
+
+      google.maps.event.addListener(addpoi_infowindow,'closeclick',function(){
+        currentMark.setMap(null); //removes the marker
+        
+      });
+        
+
+        for (var i = 0, length = markerCollection.length;i < length;i++ ) {
+          
+          let feature = markerCollection[i];
+          let marker = new google.maps.Marker({
+              position: feature.getGeometry().get(),
+              title: feature.getProperty('name'),
+              icon: feature.getProperty("icon"),
+              map: map,
+          });
+
+          clusterMarkers.push(marker);
+          map.data.remove(feature);
+
+          //Info Window on Poi
+          marker.addListener("click", function (event) {
+
+            var marker_name = marker.title;
+            var id = infowindow_dict[marker_name]['id'];
+            var latitude = infowindow_dict[marker_name]['latitude'];
+            var longitude = infowindow_dict[marker_name]['longitude'];
+            var category = infowindow_dict[marker_name]['category'];
+            var country = infowindow_dict[marker_name]['country'];
+            var description = infowindow_dict[marker_name]['description'];
+            var rating = infowindow_dict[marker_name]['rating'];
+            var hiddenButtons = 'style="display: none"';
+            var hiddenDetails = 'style="display: none"';
+            var showAddWaypointBtn = 'd-none';
+            var showRemoveWaypointBtn = 'd-none';
+            
+            // var hiddenRatings = '';
+            var ratingRadio1 = '';
+            var ratingRadio2 = '';
+            var ratingRadio3 = '';
+            var ratingRadio4 = '';
+            var ratingRadio5 = '';
+            var favoriteCheck = 'far'
+            var visitedCheck = 'fa-square';
+
+            // var showAddWaypointBTN  = 
+            //   '<div id="btn_addPoiToFlightPlan" class="my-2">' +
+            //     '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude + ')">Add to Flight plan</button> '+
+            //   '</div>'
+
+
+            if (is_authenticated=='True') {
+              console.log("USER IS AUTHENTICATED.  POI ID IS: "+ id);
+              console.log("POI NAME IS: " + marker_name);
+              hiddenDetails ='';
+
+
+              // if (user_pois_list.includes(parseInt(id))) {
+              // user_poi_infowindow_dict =  infowindow_user_dict[id]
+              if (user_pois.includes(id)) {
+                console.log("SHOWING DETAILS FOR THIS POI: "+ marker_name);
+                hiddenButtons ='';
+              }
+
+              user_poi_rating = user_ratings_dict[id]
+              
+              //  Hide star rating if already rated??
+              // if (user_poi_rating) {
+              //   hiddenRatings = 'style="display: none"';
+              // }
+
+              if (user_poi_rating ==1) {
+                ratingRadio1 = 'checked';
+              } else if (user_poi_rating ==2){
+                ratingRadio2 = 'checked';
+              } else if (user_poi_rating ==3){
+                ratingRadio3 = 'checked';
+              } else if (user_poi_rating ==4){
+                ratingRadio4 = 'checked';
+              } else if (user_poi_rating ==5){
+                ratingRadio5 = 'checked';
+              }
+
+              if (user_visited.includes(id)) {
+                visitedCheck = 'fa-check-square';
+              }
+              if (user_favorites.includes(id)) {
+                favoriteCheck = 'fas';
+              }
+            }
+
+            //show or hide add/remove waypoint buttons
+            if (hasWaypointBeenAdded(flightPath, latitude, longitude )) {
+
+              showRemoveWaypointBtn = '';
+              // $("#btn_addPoiToFlightPlan").addClass("d-none");
+              // $("#btn_removePoiToFlightPlan").removeClass("d-none");
+              // console.log("waypoint has been added before")
+              } else {
+
+              showAddWaypointBtn = '';
+              // $("#btn_removePoiToFlightPlan").addClass("d-none");
+              // $("#btn_addPoiToFlightPlan").removeClass("d-none");
+              // console.log("waypoint has NOT been added ")
+            }
+            
+            
+            var html_content =
+              "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+
+                "<div class='gm-style-iw' id='iw-container'>" +
+
+                    "<div class='gm-style-iw' id='iw-container'>" +
+                        '<div class="iw-poi_header">'+
+                          '<div style="cursor:pointer">'+
+                            "<a href='https://www.google.com/search?q=" + marker_name + ", "+ category + ", "+ country +"' target='_blank'>" +
+                              '<h3 id="firstHeading">'+marker_name+'</h3>'+
+                              '<h4 id="categoryHeading" class=" font-italic ">'+category+'</h4>'+
+                            '</a>' +
+                          '</div>'+             
+                          '<div>'+  
+                            '<span class="iw_rating_text" style="color: black;">Community rating: '+ rating + '</span>'+
+                          '</div>'+ 
+                          '<div class="d-flex justify-content-center"' + hiddenDetails +'>' +
+                            '<div class="IW_Rating">'+
+                              '<form id="formIWrating" method="POST" action="/iw_post" target="dummyframe">'+
+                              '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
+                                '<div class="poi_rating d-flex justify-content-center">'+
+                                  '<input id="ratingOptions5" name="ratingOptions" type="radio" value="5" class="radio-btn hide" onclick="this.form.submit()" />'+
+                                  '<label for="ratingOptions5" >☆</label>'+
+                                  '<input id="ratingOptions4" name="ratingOptions" type="radio" value="4" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                  '<label for="ratingOptions4" >☆</label>'+
+                                  '<input id="ratingOptions3" name="ratingOptions" type="radio" value="3" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                  '<label for="ratingOptions3" >☆</label>'+
+                                  '<input id="ratingOptions2" name="ratingOptions" type="radio" value="2" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                  '<label for="ratingOptions2" >☆</label>'+
+                                  '<input id="ratingOptions1" name="ratingOptions" type="radio" value="1" class="radio-btn hide" onclick="this.form.submit()"/>'+
+                                  '<label for="ratingOptions1" >☆</label>'+
+                                  '<div class="clear"></div>'+     
+                                  '<input type="hidden" name="poi_id" value="'+id+'">'+                           
+                                '</div>'+
+                              '</form>'+
+                            '</div>'+
+                          '</div>'+
+                          '<div class="iw_header_fas_icons "'+ hiddenDetails + '>' +
+
+                              '<a style="cursor:pointer" onclick="iw_update_visited(\'' + id + '\')"><i id="iw_icon_visited" class="far ' + visitedCheck + ' fa-fw fa-lg" title="visited" style="color:#1a1a1a;"></i></a>'+
+                              '<a style="cursor:pointer" onclick="iw_update_favorite(\'' + id + '\')"><i id="iw_icon_fav" class=" ' + favoriteCheck + ' fa-heart fa-fw fa-lg" title="favorite" style="color:#9e0808;"></i></a>'+
+                              '</div>'+  
+                      '</div>'+
+                  '<div id="bodyContent">'+
+                      '<div class="my-2 p-1 border border-seconday iw_copy_latlng">'+
+                        '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  '+ latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
+                        '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+latitude+', ' + longitude+'">'+
+                      '</div>'+
+                      '<div class="my-2">'+
+                        '<p class="iw_description">'+ description + '</p>'+
+                      '</div>'+
+                      '<hr class="my-2"/>' +
+                    '<div>'+
+                      '<div id="btn_addPoiToFlightPlan" class="mt-3 mb-1 ' + showAddWaypointBtn + '">' +
+                          `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + latitude + `, ` + longitude +  `, "` + marker_name.replace("'", "&#39") +`")'>Add to Flight plan</button> `+
+                        '</div>' +
+                      '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
+                        "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + latitude + ", " + longitude +  ", \"" + marker_name.replace("'", "&#39") + "\")'>Remove from Flight plan</button> "+
+                      '</div>'+
+                    '</div>'+
+                    '<div class="iw_update_delete_fas_icons "'+ hiddenButtons + '>' +
+                      '<a style="cursor:pointer" href="/poi/'+id+'/update"><i id="iw_update_poi" class="fas fa-edit fa-fw fa-lg" title="update" style="color:#5c5b5b;"></i></a>'+
+                      '<a class="iw_delete_poi" style="cursor:pointer" href="#" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i id="iw_image_delete_poi" class="far fa-trash-alt fa-fw fa-lg" title="delete" style="color:#9e0808;"></i></a>'+
+                    '</div>'+  
+                '</div>'
+
+
+            infowindow = new google.maps.InfoWindow({
+              content: html_content,
+
+            });
+
+            infowindow.open(map, marker);
+          
+            google.maps.event.addListener(map, "click", function () {
+              infowindow.close();
+            });            
+          });
+
+        }
+
+        // Marker Clustering
+        markerCluster = new MarkerClusterer(map, clusterMarkers,
+        { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
+        //Create custon flight plan control
+        const flightPlanDiv = document.createElement("div");
+        styleflightPlanBtn(flightPlanDiv, map, flightPath);
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(flightPlanDiv);
+
+      }
+
+      function iw_update_favorite(poi_id){  
+        
+        var favorite_checked;
+
+        if ($("#iw_icon_fav").hasClass("fas")) {
+          $("#iw_icon_fav").removeClass("fas").addClass("far");
+          favorite_checked  = "";
+        } else {
+          $("#iw_icon_fav").removeClass("far").addClass("fas");
+          favorite_checked  = "Yes";
+        }
+        $.post("/iw_post", {"favoriteChecked": favorite_checked, "poi_id": poi_id})
+      }
+
+      function iw_update_visited(poi_id){
+
+        var visited_checked;
+
+        if ($("#iw_icon_visited").hasClass("fa-check-square")) {
+          $("#iw_icon_visited").removeClass("fa-check-square").addClass("fa-square");
+          visited_checked = "";
+        } else {
+          $("#iw_icon_visited").removeClass("fa-square").addClass("fa-check-square");
+          visited_checked = "Yes";
+        }
+        $.post("/iw_post", {"visitedChecked": visited_checked, "poi_id": poi_id})
+      }
+
+      //Add a new point to the FlightPath
+      function addPoiToFlightPlan(latitude, longitude, waypoint) {
+        const path = flightPath.getPath();
+        var latLng = [latitude, longitude]
+
+        // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
+        path.push(new google.maps.LatLng(latLng[0], latLng[1]));
+
+        // We also need to add additional data to flightPath_data so we can create a flight plan
+        flightPath_data.push({'latLng': latLng, 'waypoint': waypoint})
+
+        //enable modal buttons if valid flight plan
+        if (flightPath_data.length > 0){
+          $('#fp_save_btn').removeAttr('disabled')
+          $('#fp_delete_btn').removeAttr('disabled')
+        } 
+
+        //hide the add button and display the remove button
+        $("#btn_addPoiToFlightPlan").addClass("d-none");
+        $("#btn_removePoiToFlightPlan").removeClass("d-none");
+
+        infowindow.close()
+
+
+        // Add a new marker at the new plotted point on the polyline.
+        // new google.maps.Marker({
+        //   position: event.latLng,
+        //   title: "#" + path.getLength(),
+        //   map: map
+        // });
+      }
+
+      function removePoiToFlightPlan(latitude, longitude, waypoint) {
+        const path = flightPath.getPath();  
+        var flightpath_array = path.getArray()
+        
+        for (let i = 0; i < flightpath_array.length; i++) {
+          
+          // if ((flightpath_array[i].lat() == latitude) && (flightpath_array[i].lat()  == longitude)) {
+          if (flightpath_array[i].lat() == latitude) {
+            if (flightpath_array[i].lng()  == longitude) {
+              path.removeAt(i);
+              // We also need to remove additional data to flightPath_data so we can create a flight plan
+              // flightPath_data.removeAt(i);
+              flightPath_data.splice(i, 1);
+              // delete flightPath_data[i];     //indexs wont change with this method
+              break;
+
+            }
+          }  
+        }
+
+        //disable modal buttons if not valid flight plan
+        if (flightPath_data.length < 1){
+          $('#fp_save_btn').attr('disabled', 'disabled');
+          $('#fp_delete_btn').attr('disabled', 'disabled');
+        } 
+
+        //hide the remove button and display the add button
+        $( "#btn_removePoiToFlightPlan" ).addClass("d-none");
+        $("#btn_addPoiToFlightPlan").removeClass("d-none");
+
+        infowindow.close()
+
+      }
+
+      function deleteFlightPlan() {
+        // flightPath.setMap(null);
+        flightPath.getPath().clear()
+        flightPath_data = [];
+        $("#Flight_plan_modal").modal('hide');
+        $('#fp_save_btn').attr('disabled', 'disabled');
+        $('#fp_delete_btn').attr('disabled', 'disabled');
+      }
+
+      function loadFlightPlan(flightPath, map) {
+        flightPath.setMap(map);
+      }
+
+      function hasWaypointBeenAdded(flightPath, latitude, longitude ) {
+
+        const path = flightPath.getPath();  
+        var flightpath_array = path.getArray()
+
+        for (let i = 0; i < flightpath_array.length; i++) {
+          
+          // if ((flightpath_array[i].lat() == latitude) && (flightpath_array[i].lat()  == longitude)) {
+          if (flightpath_array[i].lat() == latitude) {
+            if (flightpath_array[i].lng()  == longitude) {
+
+              return true;
+            }
+          }          
+        }
+        return false;  
+      }
+
+
+      function styleflightPlanBtn(controlDiv, map, flightPath) {
+
+        // Set CSS for the control border.
+        const controlUI = document.createElement('div');
+        controlUI.classList = "Map_Flight_Plan_Btn btn btn-success"
+        controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+        controlUI.style.cursor = "pointer";
+        controlUI.style.margin = "15px";
+        controlUI.style.textAlign = "center";
+        controlUI.title = "Flight Plan";
+        controlDiv.appendChild(controlUI);
+        
+        // Set CSS for the control interior.
+        const controlText = document.createElement("div");
+        controlText.classList = "Map_Flight_Plan_Text"
+        controlText.innerHTML = "Flight Plan";
+        controlUI.appendChild(controlText);
+
+        // open up flight plan modal
+        controlUI.addEventListener("click", () => {
+          
+          buildFlightPlanModalBody(flightPath_data);
+        });
+      }
+          </script>
+          <!--DEVELOPMENT-->
+          <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script> -->
+          <script src="https://maps.googleapis.com/maps/api/js?key={{gm_key}}&amp;callback=initMap" async defer></script>
+          
+      </div>
+  </div>
+</div>
+{% endblock content %}
