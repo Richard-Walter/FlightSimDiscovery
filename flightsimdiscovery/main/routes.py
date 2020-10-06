@@ -8,6 +8,7 @@ from utilities import get_country_region, get_country_list, get_region_list, get
 from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.main.forms import ContactForm
 from flightsimdiscovery.users.utitls import send_contact_email
+from flightsimdiscovery.config import Config
 
 main = Blueprint('main', __name__)
 
@@ -24,6 +25,7 @@ def home(filter_poi_location):
     anchor = ''
 
     # variables required for google maps to display data
+    gm_key = Config.GM_KEY
     map_data = []
     map_data_dict = {}
     map_init = {'zoom': 3, 'lat': 23.6, 'long': 170.9}  # centre of map
@@ -172,7 +174,7 @@ def home(filter_poi_location):
         # map_init['long'] = countries_details[country][2]
         anchor = 'where_togo_area'
 
-    return render_template("home.html", is_authenticated=is_authenticated, user_visited=user_visited,
+    return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, user_visited=user_visited,
                            user_favorites=user_favorites, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
                            search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
                            _anchor=anchor)

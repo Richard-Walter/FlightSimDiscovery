@@ -214,7 +214,7 @@
         var poi_data = {};
 
         // let user_pois_list = [];
-
+        var gm_key = '{{gm_key}}';
         var map_zoom = {{map_init['zoom']}};
         var map_center_lat = {{map_init['lat']}};
         var map_center_long = {{map_init['long']}};
@@ -662,7 +662,9 @@
         }
             </script>
             <!--DEVELOPMENT-->
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script>
+            <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script> -->
+            <script src="https://maps.googleapis.com/maps/api/js?key={{gm_key}}&amp;callback=initMap" async defer></script>
+            
         </div>
     </div>
 </div>
