@@ -70,13 +70,13 @@
           zoom: map_zoom,
           center: {lat: map_center_lat, lng: map_center_long},
           fullscreenControl: false,
-          // mapTypeControl: true,
+          mapTypeControl: true,
           mapTypeId: google.maps.MapTypeId.TERRAIN,
           mapTypeControlOptions: {
             style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
             mapTypeIds: ["roadmap", "terrain"]
           },
-          mapTypeControl: true,
+          
         });
 
         const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
