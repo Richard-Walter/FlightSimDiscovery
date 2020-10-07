@@ -201,6 +201,15 @@ def contact():
         flash('Thank you for your message.', 'info')
         return redirect(url_for('main.home'))
 
+    else:
+        
+        if current_user.is_authenticated:
+
+            # Create a list of Users POIS for the google map info window to use
+            user_id = current_user.id
+            user = User.query.filter_by(id=user_id).first()  #
+            form.email.data = user.email
+
     return render_template('contact.html', form=form)
 
 

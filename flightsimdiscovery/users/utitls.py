@@ -29,7 +29,7 @@ def send_contact_email(message, from_email, subject):
                   sender=from_email,
                   recipients=[Config.MAIL_USERNAME])
     # msg.html = '<p><strong>REPLY: </strong> ' + from_email + '</p><br><p><strong>USER MESSAGE:</strong> </p><br><p>' + message + '</p>'
-    msg.html = '<a href="mailto:' + from_email  + '?subject=' + subject + '"><strong>Reply to feedback</strong></a><br><p><strong>USER MESSAGE:</strong> </p><p>' + message + '</p>'
+    msg.html = '<a href="mailto:' + from_email  + '?subject=' + subject + '&body=' + message + '"><strong>Reply to feedback</strong></a><br><p><strong>USER MESSAGE:</strong> </p><p>' + message + '</p>'
     mail.send(msg)
 
 
