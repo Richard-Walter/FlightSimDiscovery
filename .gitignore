@@ -4,3 +4,5 @@ venv/
 .pylintrc 
 __pychache__
 config.py
+error_log.txt
+flightsimdiscovery.err.log
