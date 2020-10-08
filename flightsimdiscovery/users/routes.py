@@ -89,11 +89,10 @@ def all_pois():
     if (current_user.username == 'admin'):
         
         all_pois = Pois.query.all()
-
         for poi in all_pois:
             user = User.query.filter_by(id=poi.user_id).first()
-            
-            poi_data = {'username': user.username, 'id': poi.id, 'name': poi.name, 'date_posted': poi.date_posted, 'category': poi.category,
+            data_location = str(poi.latitude) + ', ' + str(poi.longitude)
+            poi_data = {'username': user.username, 'id': poi.id, 'location': data_location, 'name': poi.name, 'date_posted': poi.date_posted, 'category': poi.category,
                              'country': poi.country, 'region': poi.region,'description': poi.description, 'flag': poi.flag}   
             all_pois_data.append(poi_data)       
 
