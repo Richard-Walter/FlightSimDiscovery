@@ -339,29 +339,28 @@ continents_by_region = {
 
 categoryList = [
     "Airport (Bush Strip)",
-    "Airport (famous/Interesting)",
+    "Airport (Famous/Interesting)",
     "Beach",
     "Canyon",
-    "City/town",
-    "Desert",
-    "Interesting",
-    "Island",
-    "Landmark - Geological Other",
-    "Landmark - Historical",
-    "Landmark - Man-Made",
-    "Lake",
+    "City/Town",
     "Megacity",
+    "Desert",
+    "Island",
+    "Lake",
     "Mountain",
     "National Park",
     "Reef",
     "Region",
     "River",
     "Seaport",
-    "Special Interest",
     "Valley",
     "Volcano",
     "Waterfall",
     "World Heritage",
+    "Landmark: Historical",
+    "Landmark: Man-Made",
+    "Landmark: Geological (Other)",
+    "Special Interest",
     "Other",
 ]
 
@@ -606,7 +605,7 @@ def create_pois_csv():
             elif 'National Park' in category:
                 category = 'National Park'
             elif 'Historical Landmark' in category:
-                category = 'Historical Landmark'
+                category = 'Landmark: Historical'
             elif 'Lakes' in category:
                 category = 'Lake'
             elif 'Megacity/Capital' in category:
@@ -628,17 +627,17 @@ def create_pois_csv():
             elif 'Waterfalls' in category:
                 category = 'Waterfall'
             elif 'Landmark' in category:
-                category = 'Geological Landmark (other)'
+                category = 'Landmark: Geological (Other)'
             elif 'Salt Flat' in category:
-                category = 'Geological Landmark (other)'
+                category = 'Landmark: Geological (Other)'
             elif 'Archipelago' in category:
-                category = 'Geological Landmark (other)'
+                category = 'Landmark: Geological (Other)'
             elif 'Atoll' in category:
-                category = 'Geological Landmark (other)'
+                category = 'Landmark: Geological (Other)'
             elif 'Bay' in category:
-                category = 'Geological Landmark (other)'
+                category = 'Landmark: Geological (Other)'
             elif 'Dam' in category:
-                category = 'Man Made Landmarks'
+                category = 'Landmark: Man-Made'
             elif 'Capital' in category:
                 category = 'Capital City'
 
@@ -817,17 +816,8 @@ def get_nearest_airport(airports, waypoint):
 
 if __name__ == '__main__':
     # pass
-    print("working")
-    app = create_app(env)
-    ctx = app.app_context()
-    ctx.push()
 
-    # your code here
-
-    ctx.pop()
     # create empty database
-
-
 
     # tempDataList = [{'Airport_Name': 'Name1', 'lat': 39.7612992, 'lon': -86.1519681},
     #                 {'Airport_Name': 'Name2', 'lat': 39.762241, 'lon': -86.158436},
@@ -841,7 +831,7 @@ if __name__ == '__main__':
     # print('Next Closest airport: ', closest_airport)
 
     # generate_csvs()
-    # create_pois_csv()
+    create_pois_csv()
 
     # test get_country_region
     # print(get_country_region('Australia'))
