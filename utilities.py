@@ -815,7 +815,7 @@ def get_nearest_airport(airports, waypoint):
 
 
 if __name__ == '__main__':
-    # pass
+    pass
 
     # create empty database
 
@@ -831,7 +831,7 @@ if __name__ == '__main__':
     # print('Next Closest airport: ', closest_airport)
 
     # generate_csvs()
-    create_pois_csv()
+    # create_pois_csv()
 
     # test get_country_region
     # print(get_country_region('Australia'))
