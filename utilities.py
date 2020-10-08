@@ -10,8 +10,8 @@ from flightsimdiscovery import db
 from flightsimdiscovery.config import Config
 
 # validate latitude and longitude constants
-lat_pattern = re.compile(r"^(\+|-)?(?:90(?:(?:\.0{1,10})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,10})?))$")
-long_pattern = re.compile(r"^(\+|-)?(?:180(?:(?:\.0{1,10})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,10})?))$")
+lat_pattern = re.compile(r"^(\+|-)?(?:90(?:(?:\.0{1,18})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,18})?))$")
+long_pattern = re.compile(r"^(\+|-)?(?:180(?:(?:\.0{1,18})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,18})?))$")
 poi_start_pattern_compile = re.compile(r'\[{3}(\+|-)?\d\d')
 poi_pattern = r'\[{3}.+"31FD54F7\w+\\"'
 lat_long_pattern = r'\[{3}(\+|-)?(\d{1,3}\.\d+),((\+|-)?\d{1,3}\.\d+)]'

@@ -142,6 +142,7 @@ def update_poi(poi_id):
         form.name.data = poi.name
         form.latitude.data = poi.latitude
         form.longitude.data = poi.longitude
+        form.category.data = poi.category
         form.country.data = poi.country
         form.description.data = poi.description
         form.nearest_airport.data = poi.nearest_icao_code
