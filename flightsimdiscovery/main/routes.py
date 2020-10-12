@@ -106,7 +106,7 @@ def home(filter_poi_location):
             # Creat the map intit variables
             if country != 'Country':
 
-                map_init['zoom'] = 6  # default country zoom
+                map_init['zoom'] = 5  # default country zoom
                 map_init['lat'] = countries_details[country][1]
                 map_init['long'] = countries_details[country][2]
 
