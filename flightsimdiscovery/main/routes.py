@@ -1,4 +1,5 @@
 import csv, os, json
+import xml.etree.ElementTree as ET
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
 from openpyxl import load_workbook
 from flightsimdiscovery import db
@@ -9,6 +10,7 @@ from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.main.forms import ContactForm
 from flightsimdiscovery.users.utitls import send_contact_email
 from flightsimdiscovery.config import Config
+
 
 main = Blueprint('main', __name__)
 
@@ -435,3 +437,83 @@ def export_fp_post():
                         # print('NEW Visited: ', visit)
 
     return 'Success'    # must leave this here otherwise flask complains nothing returns
+
+
+
+@main.route("/confirm_update_db")
+@login_required
+def confirm_update_db():
+
+    if (current_user.username == 'admin') and (False):
+
+        return render_template('confirm_update_db.html', form=form)
+    
+    else:
+        abort(403)
+
+
+@main.route("/update_db/<confirmation>")
+@login_required
+def update_db(confirmation):
+
+
+    if (current_user.username == 'admin') and (confirmation == "True"):
+
+        user_id = current_user.id # admin will create all these
+        name = ''
+        latitude = ''
+        longitude = ''
+        country = ''
+        category = ''
+        description = ''
+
+        # Parse the update db xml file
+        tree = ET.parse("flightsimdiscovery\\input\\database\\Microsoft Flight Simulator Map.xml")
+        folders= tree.findall('.//Folder')
+
+        for folder in folders:
+            if folder.attrib['Name'] == 'Points of Interest':
+                description = 'MSFS Point of Interest'
+                category = 'Landmark: Man-Made'
+
+            elif folder.attrib['Name'] == '3D cities':
+                description = 'MSFS Photogrammery City'
+                category = 'City/Town'
+            elif folder.attrib['Name'] == 'Airports Standard':
+                description = 'MSFS Enhanced Airport'
+                category = 'Airport (Famous/Interesting)'
+            for placemark in folder:
+                for elem in placemark:
+                    if elem.tag == 'name':
+                        name =  elem.text
+                    elif elem.tag == 'Point':
+                        for coordinates in elem:
+                            coordinates_list = coordinates.text.strip().split(",")
+                            latitude = float(coordinates_list[0])
+                            longitude = float(coordinates_list[1])
+                            print(latitude, longitude)
+
+
+        #     poi = Pois(
+        #         user_id=user_id,
+        #         name=row[0].value.strip(),
+        #         latitude=float(row[2].value),
+        #         longitude=float(row[3].value),
+        #         region=get_country_region(row[4].value),
+        #         country=row[4].value, category=row[1].value,
+        #         description=row[6].value
+        #     )
+
+        #     db.session.add(poi)
+        #     db.session.commit()
+
+        #     # Update Rating table with default rating of 4
+        #     rating = Ratings(user_id=user_id, poi_id=poi.id, rating_score=4)
+        #     db.session.add(rating)
+        #     db.session.commit()
+
+        flash('Database has been updated', 'success')
+        return redirect(url_for('main.home'))
+    else:
+
+        abort(403)
