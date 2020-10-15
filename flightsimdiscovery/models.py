@@ -38,7 +38,7 @@ class User(db.Model, UserMixin):
 class Pois(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    name = db.Column(db.String(50), unique=True, nullable=False)
+    name = db.Column(db.String(50), unique=False, nullable=False)
     latitude = db.Column(db.FLOAT, unique=False, nullable=False)
     longitude = db.Column(db.FLOAT, unique=False, nullable=False)
     region = db.Column(db.String(20), unique=False, nullable=False)

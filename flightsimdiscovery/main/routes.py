@@ -10,6 +10,7 @@ from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.main.forms import ContactForm
 from flightsimdiscovery.users.utitls import send_contact_email
 from flightsimdiscovery.config import Config
+from utilities import get_location_details
 
 
 main = Blueprint('main', __name__)
@@ -30,7 +31,7 @@ def home(filter_poi_location):
     gm_key = Config.GM_KEY
     map_data = []
     map_data_dict = {}
-    map_init = {'zoom': 3, 'lat': 23.6, 'long': 170.9}  # centre of map
+    map_init = {'zoom': 3, 'lat': 37.02, 'long': 4.54}  # centre of map
 
     # set specific location if coming from a spcific poi link from another page like top ten
     if filter_poi_location:
@@ -456,6 +457,7 @@ def confirm_update_db():
 @login_required
 def update_db(confirmation):
 
+    pois = Pois.query.all()
 
     if (current_user.username == 'admin') and (confirmation == "True"):
 
@@ -466,6 +468,11 @@ def update_db(confirmation):
         country = ''
         category = ''
         description = ''
+        country_set = set()
+        countries_not_found = []
+        regions_not_found = []
+        poi_name_exists_list = []
+        poi_location_exists_list = []
 
         # Parse the update db xml file
         tree = ET.parse("flightsimdiscovery\\input\\database\\Microsoft Flight Simulator Map.xml")
@@ -476,7 +483,7 @@ def update_db(confirmation):
                 description = 'MSFS Point of Interest'
                 category = 'Landmark: Man-Made'
 
-            elif folder.attrib['Name'] == '3D cities':
+            elif folder.attrib['Name'] == 'Photogrammery Cities':
                 description = 'MSFS Photogrammery City'
                 category = 'City/Town'
             elif folder.attrib['Name'] == 'Airports Standard':
@@ -486,32 +493,80 @@ def update_db(confirmation):
                 for elem in placemark:
                     if elem.tag == 'name':
                         name =  elem.text
+
                     elif elem.tag == 'Point':
-                        for coordinates in elem:
-                            coordinates_list = coordinates.text.strip().split(",")
-                            latitude = float(coordinates_list[0])
-                            longitude = float(coordinates_list[1])
-                            print(latitude, longitude)
+                        cordinate_tag = elem[0].text
+                        coordinates_list = cordinate_tag.strip().split(",")
+                        longitude = float(coordinates_list[0])
+                        latitude = float(coordinates_list[1])
+                        location_details = get_location_details(latitude, longitude)
+                        city = location_details.get('city', "")
+                        country = location_details.get('country', "")
+                        state = location_details.get('state', "")
+                        county = location_details.get('county', "")
+                        if country:
+                            country_set.add(country)
+                            region = get_country_region(country.strip())
+                            if not region:
+                                regions_not_found.append(country)
+                                break
+                        else:
+                            countries_not_found.append(name + ", " + str(latitude) + ", " + str(longitude))
+                            break
+                        
+                        if category == "City/Town":
+                            if county:
+                                name += ", " + county
+                            if state:
+                                name += ", " + state
+                        else:
+                            if city:
+                                name += ", " + city
+                            elif county:
+                                name += ", " + county
+                            elif state:
+                                name += ", " + state
 
+                        # check if name exists
+                        poi_name_exists_boolean = poi_name_exists(name)
+                        if poi_name_exists_boolean:
+                            print("*** POI NAME EXISTS: ", name)
+                            poi_name_exists_list.append(name)
+                            break
 
-        #     poi = Pois(
-        #         user_id=user_id,
-        #         name=row[0].value.strip(),
-        #         latitude=float(row[2].value),
-        #         longitude=float(row[3].value),
-        #         region=get_country_region(row[4].value),
-        #         country=row[4].value, category=row[1].value,
-        #         description=row[6].value
-        #     )
+                        # check if location exists
+                        poi_location_exists = location_exists(pois, latitude,longitude, category)
+                        if poi_location_exists:
+                            print("*** POI LOCATION EXISTS: ", name)
+                            poi_location_exists_list.append(name)
+                            break
+                        
+                        print(name, country)
 
-        #     db.session.add(poi)
-        #     db.session.commit()
+                        # create the poi
+                        poi = Pois(
+                            user_id=user_id,
+                            name=name.strip(),
+                            latitude=latitude,
+                            longitude=longitude,
+                            region=region,
+                            country=country,
+                            category=category,
+                            description=description
+                        )
 
-        #     # Update Rating table with default rating of 4
-        #     rating = Ratings(user_id=user_id, poi_id=poi.id, rating_score=4)
-        #     db.session.add(rating)
-        #     db.session.commit()
+                        db.session.add(poi)
+                        db.session.commit()
 
+                        # Update Rating table with default rating of 4
+                        rating = Ratings(user_id=user_id, poi_id=poi.id, rating_score=4)
+                        db.session.add(rating)
+                        db.session.commit()
+
+        print(countries_not_found)
+        print(poi_name_exists_list)
+        print(poi_location_exists_list)
+    
         flash('Database has been updated', 'success')
         return redirect(url_for('main.home'))
     else:

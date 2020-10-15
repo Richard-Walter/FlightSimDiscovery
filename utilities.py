@@ -7,7 +7,7 @@ from openpyxl import Workbook
 import codecs
 from math import cos, asin, sqrt
 from flightsimdiscovery import db
-from flightsimdiscovery.config import Config
+from geopy.geocoders import Nominatim
 
 # validate latitude and longitude constants
 lat_pattern = re.compile(r"^(\+|-)?(?:90(?:(?:\.0{1,18})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,18})?))$")
@@ -116,6 +116,7 @@ countries_details = {
     'Faroe Islands': ['Europe - Northern', -16.578193, 179.414413],
     'Fiji': ['Oceania', 61.92411, 25.748151],
     'Finland': ['Europe - Northern', 46.227638, 2.213749],
+    'Federated States of Micronesia': ['Oceania', 6.738442, 158.011519],
     'France': ['Europe - Western', 3.933889, -53.125782],
     'French Guiana': ['America - South', -17.679742, -149.406843],
     'French Polynesia': ['Oceania', -17.455157, -149.607942],
@@ -297,7 +298,7 @@ countries_by_region = {
     'Oceania': ['American Samoa', 'Australia', 'Christmas Island', 'Cocos (Keeling) Islands', 'Cook Islands', 'Fiji', 'French Polynesia', 'Guam',
                 'Kiribati', 'Marshall Islands', 'Nauru', 'New Caledonia', 'New Zealand', 'Niue', 'Norfolk Island', 'Northern Mariana Islands',
                 'Oceania (Federated States of)', 'Palau', 'Papua New Guinea', 'Pitcairn', 'Samoa', 'Solomon Islands', 'Tokelau', 'Tonga', 'Tuvalu',
-                'Vanuatu', 'Wallis and Futuna'],
+                'Vanuatu', 'Wallis and Futuna', 'Federated States of Micronesia'],
     'Africa - Middle': ['Angola', 'Cameroon', 'Central African Republic', 'Chad', 'Congo', 'Congo, Democratic Republic of the', 'Equatorial Guinea',
                         'Gabon', 'Sao Tome and Principe'],
     'Caribbean': ['Anguilla', 'Antigua and Barbuda', 'Aruba', 'Bahamas', 'Barbados', 'British Virgin Islands', 'Cayman Islands', 'Cuba', 'Dominica',
@@ -812,7 +813,101 @@ def get_nearest_airport(airports, waypoint):
     return nearest_airport_data
 
 
+def get_location_details(latitude, longitude):
+    location_details = {}
+    country = ''
+    geolocator = Nominatim(user_agent="FS Discovery")
+    # location = geolocator.reverse("52.509669, 13.376294")
+    lat_lng_str = str(latitude) +', ' + str(longitude)
 
+    try:
+        location = geolocator.reverse(lat_lng_str, language='en')
+        address = location.raw['address']
+        county = address.get('county', "")
+        city = address.get('city', "")
+        state = address.get('state', "")
+        country = address.get('country', "")
+        country = nominatim_lookup_country(country)
+
+        location_details['city'] = city
+        location_details['county'] = county
+        location_details['state'] = state
+        location_details['country'] = country
+
+    except Exception:
+        pass    # any errors from api ignore
+    return location_details
+
+def nominatim_lookup_country(input_country):
+
+    country = input_country.strip()
+
+    if country == 'Brunei Darussalam':
+        country = "Brunei"
+    elif country == 'Comores':
+        country = "Comoros"
+    elif country == 'Democratic Republic of the Congo (Congo-Kinshasa, former Zaire)':
+        country = "Congo, Democratic Republic of the"
+    elif country == "Côte d'Ivoire":
+        country = "Côte dIvoire"
+    elif country == 'Czech Republic':
+        country = "Czechia"
+    elif country == 'eSwatini':
+        country = "Eswatini"
+    elif country == 'Falkland Islands':
+        country = "Falkland Islands (Malvinas)"
+    elif country == 'French Southern and Antarctic Lands':
+        country = " French Southern Territories"
+    elif country == 'The Gambia':
+        country = "Gambia"
+    elif country == 'United Kingdom':
+        country = "Great Britain"
+    elif country == 'Guinea Bissau':
+        country = "Guinea-Bissau"
+    elif country == 'Hong Kong (SAR of China)':
+        country = "Hong Kong"
+    elif country == 'Macao (SAR of China)':
+        country = "Macaos"
+    elif country == 'The Netherlands':
+        country = "Netherlands"
+    elif country == 'Palestinian Territory':
+        country = " Palestine"
+    elif country == 'Russia':
+        country = "Russian Federation"
+    elif country == 'Reunion':
+        country = "Réunion"
+    elif country == 'Saint-Barthélemy':
+        country = "Saint Barthélemy"
+    elif country == 'São Tomé and Príncipe':
+        country = "Sao Tome and Principe"
+    elif country == 'Sénégal':
+        country = "Senegal"
+    elif country == 'South Georgia and the South Sandwich Islands':
+        country = "South Georgia"
+    elif country == 'United States Virgin Islands':
+        country = "U.S. Virgin Islands"
+    elif country == 'Aland Islands':
+        country = "Finland"
+    elif country == 'Bouvet Island':
+        country = "Norway"
+    elif country == 'Caribbean Netherlands':
+        country = "Netherlands"
+    elif country == 'City of the Vatican':
+        country = "Italy"
+    elif country == 'Curaçao':
+        country = "Netherlands"
+    elif country == 'Saint Martin (Dutch part)':
+        country = "Netherlands"
+    elif country == 'Saint Martin (French part)':
+        country = "France"
+    elif country == 'United States Minor Outlying Islands':
+        country = "United States of America"
+    elif country == 'Swaziland':
+        country = "Eswatini"
+    elif country == 'Oceania (Federated States of)':
+        country = "Federated States of Micronesia"
+
+    return country
 
 if __name__ == '__main__':
     pass

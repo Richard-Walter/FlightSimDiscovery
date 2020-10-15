@@ -8,6 +8,17 @@ normal_marker = '/static/img/marker/normal-marker.png'
 
 location_exists_diff_default = 0.005
 
+location_exists_cateogry_diff = {
+
+    'default': 0.005,
+    'region': 0.1,
+    'Landmark: Man-Made':  0.0005,
+    'City/Town':  0.01,
+    'Megacity/Town':  0.05,
+    'National Park':  0.09,
+    'Reef':  0.09,
+    'River':  0.09
+}
 
 def get_rating(poi_id):
     rating = 4  # default if error occurs during division
@@ -87,13 +98,20 @@ def validate_poi_name(name):
 
     return True
 
+def poi_name_exists(name):
+    pois = Pois.query.filter_by(name=name).first()
+    if pois:
+            return True
+    return False
 
 def location_exists(pois, latitude, longitude, category):
+    pois = Pois.query.all()
+    location_tolerance = location_exists_cateogry_diff.get(category, location_exists_cateogry_diff['default'])
     for poi in pois:
         latitude_diff = abs(float(poi.latitude) - latitude)
         longitude_diff = abs(float(poi.longitude) - longitude)
         # print(latitude_diff, longitude_diff)
-        if (latitude_diff < location_exists_diff_default) and (longitude_diff < location_exists_diff_default):
+        if (latitude_diff < location_tolerance) and (longitude_diff < location_tolerance):
             return True
 
     return False
