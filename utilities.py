@@ -817,7 +817,6 @@ def get_location_details(latitude, longitude):
     location_details = {}
     country = ''
     geolocator = Nominatim(user_agent="FS Discovery")
-    # location = geolocator.reverse("52.509669, 13.376294")
     lat_lng_str = str(latitude) +', ' + str(longitude)
 
     try:

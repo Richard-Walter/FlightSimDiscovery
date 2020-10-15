@@ -16,7 +16,6 @@ from utilities import get_location_details
 main = Blueprint('main', __name__)
 
 
-# TODO add logic to validate poi location based on category
 # TODO add logic to validate name/location when updating poi
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
@@ -466,7 +465,8 @@ def update_db(confirmation):
         latitude = ''
         longitude = ''
         country = ''
-        category = ''
+        # category = ''
+        category = 'Japan'
         description = ''
         country_set = set()
         countries_not_found = []
@@ -475,7 +475,7 @@ def update_db(confirmation):
         poi_location_exists_list = []
 
         # Parse the update db xml file
-        tree = ET.parse("flightsimdiscovery\\input\\database\\Microsoft Flight Simulator Map.xml")
+        tree = ET.parse("flightsimdiscovery\\input\\database\\Japan Update.xml")
         folders= tree.findall('.//Folder')
 
         for folder in folders:
@@ -503,7 +503,7 @@ def update_db(confirmation):
                         city = location_details.get('city', "")
                         country = location_details.get('country', "")
                         state = location_details.get('state', "")
-                        county = location_details.get('county', "")
+                        county = location_details.get('county', "")   # commented out for country specific msfs updates
                         if country:
                             country_set.add(country)
                             region = get_country_region(country.strip())
