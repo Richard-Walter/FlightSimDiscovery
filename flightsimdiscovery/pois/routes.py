@@ -4,7 +4,7 @@ from flightsimdiscovery.pois.forms import PoiCreateForm, PoiUpdateForm
 from flightsimdiscovery.models import Pois, User, Ratings
 from flightsimdiscovery.pois.utils import location_exists, get_rating
 from flask_login import current_user, login_required
-from utilities import get_country_region, continents_by_region
+from utilities import get_country_region, continents_by_region, get_location_details
 
 pois = Blueprint('pois', __name__)
 anonymous_username = 'anonymous'
@@ -19,6 +19,8 @@ def new_poi(iw_add_poi_location):
     form = PoiCreateForm()
     lat = ""
     lng = ""
+    country = ""
+    region = ""
 
     # get anonymous user
     user_id = User.query.filter_by(username=anonymous_username).first().id  # returns a list 
@@ -35,8 +37,12 @@ def new_poi(iw_add_poi_location):
         location = iw_add_poi_location.split(", ")
         lat = location[0]
         lng = location[1]
+        location_details = get_location_details(float(lat), float(lng))
+        country = location_details.get('country', "")
+        print('getting country details', country)
         form.latitude.data = lat
         form.longitude.data = lng
+        form.country.data = country
 
     if form.validate_on_submit():
 

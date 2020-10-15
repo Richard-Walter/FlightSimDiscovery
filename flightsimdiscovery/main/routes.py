@@ -466,6 +466,7 @@ def update_db(confirmation):
         longitude = ''
         country = ''
         # category = ''
+        #  CHANGED THIS
         category = 'Japan'
         description = ''
         country_set = set()
