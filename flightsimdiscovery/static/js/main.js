@@ -25,12 +25,44 @@ $("a.boxed-btn3").click(function(){
 
 });
 
+//Tab data table
+$('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
+  $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust().responsive.recalc();
+} );
 
 $('#account_poi_datatable').DataTable( {
   
+   responsive: true,
   'columnDefs': [
    
-    { className: 'text-center', targets: [1,2,4,5,6,7,8] },
+    { className: 'text-center', targets: [1,2,4,5,6, 7] },
+   ],
+  // "scrollY":        "800px",
+  "scrollCollapse": true,
+  "paging":         false
+  
+  // "pagingType": "full_numbers"
+} );
+
+$('#account_favorite_datatable').DataTable( {
+
+  responsive: true,
+  'columnDefs': [
+   
+    { className: 'text-center', targets: [1,2,4] },
+   ],
+  // "scrollY":        "800px",
+  "scrollCollapse": true,
+  "paging":         false
+  // "pagingType": "full_numbers"
+} );
+
+$('#account_visited_datatable').DataTable( {
+
+  responsive: true,
+  'columnDefs': [
+   
+    { className: 'text-center', targets: [1,2,4] },
    ],
   // "scrollY":        "800px",
   "scrollCollapse": true,

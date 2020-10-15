@@ -102,3 +102,37 @@ def get_pois_id_list(poi_id_list):
         id_list.append(poi_id.poi_id)
 
     return id_list
+
+def get_user_favorited_pois(user_id):
+
+    additional_user_pois_data = []
+
+    user_favorited_pois = Favorites.query.filter_by(user_id=user_id).all()
+    user_favorited_poi_id_list = get_pois_id_list(user_favorited_pois)
+
+    for poi_id in user_favorited_poi_id_list:
+        poi = Pois.query.filter_by(id=poi_id).first()
+        poi_data = {'id': poi.id, 'name': poi.name,'category': poi.category, 'country': poi.country, 'description': poi.description}
+        # add location info for map icon in user pois
+        poi_data['location'] = str(poi.latitude) + ', ' + str(poi.longitude)
+
+        additional_user_pois_data.append(poi_data)
+
+    return additional_user_pois_data
+
+def get_user_visited_pois(user_id):
+
+    additional_user_pois_data = []
+
+    user_visited_pois = Visited.query.filter_by(user_id=user_id).all()
+    user_visited_poi_id_list = get_pois_id_list(user_visited_pois)
+
+    for poi_id in user_visited_poi_id_list:
+        poi = Pois.query.filter_by(id=poi_id).first()
+        poi_data = {'id': poi.id, 'name': poi.name, 'date_posted': poi.date_posted, 'category': poi.category, 'country': poi.country, 'description': poi.description}
+        # add location info for map icon in user pois
+        poi_data['location'] = str(poi.latitude) + ', ' + str(poi.longitude)
+
+        additional_user_pois_data.append(poi_data)
+
+    return additional_user_pois_data

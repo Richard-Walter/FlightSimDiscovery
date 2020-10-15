@@ -19,7 +19,7 @@
     <div class="topten_pois_section my-5">
         <div class="db_table_area">
             <legend id=topten_title class="border-bottom mb-5">Top Ten Points of Interest</legend>
-            <table id="topten_pois_datatable" class="stripe">
+            <table id="topten_pois_datatable" class="stripe row-border">
                 <thead class="">
                 <tr>
                     <th scope="col">Name</th>
@@ -39,7 +39,7 @@
                     <td>{{poi.country}}</td>
                     <td>{{poi.description}}</td>
                     <td>{{poi.rating}}</td>
-                    <td><a href="/{{poi.location}}" class="btn btn-primary" onclick="this.form.submit()" role="button"
+                    <td><a href="/{{poi.location}}#searchTag" class="btn btn-primary" onclick="this.form.submit()" role="button"
                            aria-disabled="true"><i class="fas fa-globe-americas"></i></a></td>
                     <td><a href="https://www.google.com/search?q={{poi.name}}, {{poi.category}}, {{poi.country}}"
                            target="_blank" class="btn btn-success" role="button" aria-disabled="true"><i
