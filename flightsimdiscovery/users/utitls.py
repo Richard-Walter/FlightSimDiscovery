@@ -90,6 +90,10 @@ def get_user_pois_dict_inc_favorites_visited(user_id, tick=False):
             else:
                 new_poi_data['favorited'] = False
 
+        if poi.share:
+            if tick:
+                new_poi_data['share'] = getTickImageBasedOnState(True)
+
         additional_user_pois_data.append(new_poi_data)
 
     return additional_user_pois_data
