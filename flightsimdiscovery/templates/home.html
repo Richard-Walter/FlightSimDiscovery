@@ -174,14 +174,22 @@
                     <label class="form-check-label" for="show_ony_user_pois_check">show only my points of
                         interest</label>
                     {% endif %}
-
-
                 </div>
             </form>
         </div>
     </div>
 </div>
+{% if pois %}
+<div id=no_search_results_message m-0 style="background-color: #f5ea53ef; display: none;">
+    <h4 class="text-center alert m-0">No points of interest found.  Search again.</h4>
+</div>
+{% else %}
+<div id=no_search_results_message m-0 style="background-color: #f5ea53ef; display: block;">
+    <h4 class="text-center alert m-0">No points of interest found.  Search again.</h4>
+</div>
+{% endif %}
 <!-- where_togo_area_end  -->
+
 
 <!-- google_map_area_start  -->
 {% include 'google_map.html' %}

@@ -127,7 +127,14 @@ def home(filter_poi_location):
             if rating != 'Rating':
                 pois = filter_pois_by_rating(pois, rating)
 
-            anchor = 'where_togo_area'
+            # if pois:
+
+            #     anchor = 'where_togo_area'
+
+            # else:   # search returned no results
+            #     # flash('No Points of Interest found - Search Again', 'warning')
+            #     return redirect(url_for('main.home'))
+
 
 
         elif 'show_ony_user_pois_check' in request.form:
