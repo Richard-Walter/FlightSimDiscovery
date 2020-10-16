@@ -10,9 +10,9 @@ class PoiCreateForm(FlaskForm):
     country = SelectField('Country', choices=get_country_list(), validators=[DataRequired()])
     category = SelectField('Category', choices=get_category_list(), validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
-    latitude = StringField('Latitude (decimal degrees)', validators=[DataRequired(), Length(min=2, max=18)])
-    longitude = StringField('Longitude (decimal degrees)', validators=[DataRequired(), Length(min=2, max=18)])
-    nearest_airport = StringField('Nearest Airpot (ICAO) (optional)', validators=[Length(min=0, max=4)])
+    latitude = StringField('Latitude (decimal degrees) e.g. -34.407279', validators=[DataRequired(), Length(min=2, max=18)])
+    longitude = StringField('Longitude (decimal degrees) e.g. 150.676888', validators=[DataRequired(), Length(min=2, max=18)])
+    nearest_airport = StringField('Nearest Airpot (ICAO) (optional) e.g. KLAX', validators=[Length(min=0, max=4)])
     share = BooleanField('Share with the community', default="checked")
     submit = SubmitField('Create')
 
