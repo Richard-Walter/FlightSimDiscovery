@@ -318,7 +318,9 @@
 
         // Marker Clustering
         markerCluster = new MarkerClusterer(map, clusterMarkers,
-        { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+          { maxZoom: 10,
+            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+          });
 
         //Create custon flight plan control
         const flightPlanDiv = document.createElement("div");
