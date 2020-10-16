@@ -181,6 +181,14 @@ function buildATCWapoints(
 
   // build poi waypoints
   for (var i = 0; i < flightPath_data.length; i++) {
+
+    //first and last POIs if airport then skip as they will be dpe and dest airports
+    if ((i==0) || (i==(flightPath_data.length-1))) {
+      if(flightPath_data[i]["category"].includes("Airport")){
+        continue;
+      }
+    }
+
     name = flightPath_data[i]["waypoint"].trim();
     // name = 'WP' + (i+1).toString();
     lat = convertDDToDMS(flightPath_data[i]["latLng"][0], "90", 2);
