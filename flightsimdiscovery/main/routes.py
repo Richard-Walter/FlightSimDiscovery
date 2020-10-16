@@ -50,11 +50,15 @@ def home(filter_poi_location):
     user_visited = []
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating': 'Rating'}
     is_authenticated = False
+    is_admin = False
     user_id = None
 
     if current_user.is_authenticated:
 
         is_authenticated = True
+
+        if (current_user.username == 'admin'):
+            is_admin = True
 
         # Create a list of Users POIS for the google map info window to use
         user_id = current_user.id
@@ -183,7 +187,7 @@ def home(filter_poi_location):
         # map_init['long'] = countries_details[country][2]
         anchor = 'where_togo_area'
 
-    return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, user_visited=user_visited,
+    return render_template("home.html", is_authenticated=is_authenticated,  is_admin=is_admin, gm_key=gm_key, user_visited=user_visited,
                            user_favorites=user_favorites, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
                            search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
                            _anchor=anchor)
@@ -580,3 +584,8 @@ def update_db(confirmation):
     else:
 
         abort(403)
+
+@main.route("/admin")
+def admin():
+   
+    return render_template("admin.html")
