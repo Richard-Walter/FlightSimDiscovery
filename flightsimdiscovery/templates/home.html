@@ -179,13 +179,10 @@
         </div>
     </div>
 </div>
-{% if pois %}
-<div id=no_search_results_message m-0 style="background-color: #f5ea53ef; display: none;">
-    <h4 class="text-center alert m-0">No points of interest found.  Search again.</h4>
-</div>
+{% if pois_found %}
 {% else %}
 <div id=no_search_results_message m-0 style="background-color: #f5ea53ef; display: block;">
-    <h4 class="text-center alert m-0">No points of interest found.  Search again.</h4>
+    <h4 class="text-center alert m-0">No points of interest found matching your search criteria.</h4>
 </div>
 {% endif %}
 <!-- where_togo_area_end  -->

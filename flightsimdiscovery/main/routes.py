@@ -1,5 +1,6 @@
 import csv, os, json
 import xml.etree.ElementTree as ET
+from copy import deepcopy
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
 from openpyxl import load_workbook
 from flightsimdiscovery import db
@@ -18,6 +19,7 @@ main = Blueprint('main', __name__)
 
 # TODO add logic to validate name/location when updating poi
 # TODO validate name on create POI form prior to user hitting Create button
+# TODO add country default zoom level so returning search by country is set to correct zoom
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
@@ -43,6 +45,9 @@ def home(filter_poi_location):
         anchor = 'where_togo_area'
 
     pois = Pois.query.all()
+    filtered_pois = None
+    search_category_selected = False
+    pois_found = True
     # user_pois_list = []
     user_pois_dict = {}
     user_pois_list = []
@@ -113,7 +118,7 @@ def home(filter_poi_location):
             # Creat the map intit variables
             if country != 'Country':
 
-                map_init['zoom'] = 5  # default country zoom
+                map_init['zoom'] = 6  # default country zoom
                 map_init['lat'] = countries_details[country][1]
                 map_init['long'] = countries_details[country][2]
 
@@ -125,21 +130,32 @@ def home(filter_poi_location):
             # Create refined pois list based on search criteria
             if category != 'Category':
                 pois = filter_pois_by_category(pois, category)
-            # if region != 'Region':
-            #     pois = filter_pois_by_region(pois, region)
-            # if country != 'Country':
-            #     pois = filter_pois_by_country(pois, country)
+                filtered_pois = pois
+                search_category_selected = True
+                
             if rating != 'Rating':
                 pois = filter_pois_by_rating(pois, rating)
+                filtered_pois = pois
+                search_category_selected = True
+            if region != 'Region':
+                # pois = filter_pois_by_region(pois, region)
+                filtered_pois = pois
+                filtered_pois = filter_pois_by_region(filtered_pois, region)
+                search_category_selected = True
+            if country != 'Country':
+                # pois = filter_pois_by_country(pois, country)
+                if filtered_pois is None:
+                    filtered_pois = pois
 
-            # if pois:
+                filtered_pois = filter_pois_by_country(filtered_pois, country)
+                search_category_selected = True
 
-            #     anchor = 'where_togo_area'
-
-            # else:   # search returned no results
-            #     # flash('No Points of Interest found - Search Again', 'warning')
-            #     return redirect(url_for('main.home'))
-
+            if filtered_pois:
+                anchor = 'where_togo_area'
+            elif search_category_selected:   # search returned no results
+                # flash('No Points of Interest found - Search Again', 'warning')
+                pois_found = False
+                # return redirect(url_for('main.home'))
 
 
         elif 'show_ony_user_pois_check' in request.form:
@@ -180,7 +196,7 @@ def home(filter_poi_location):
     new_poi_lat = request.args.get('latitude', None)
     new_poi_long = request.args.get('longitude', None)
     if country is not None:
-        map_init['zoom'] = 10
+        map_init['zoom'] = 8
         map_init['lat'] = new_poi_lat
         map_init['long'] = new_poi_long
         # map_init['zoom'] = 6
@@ -188,12 +204,11 @@ def home(filter_poi_location):
         # map_init['long'] = countries_details[country][2]
         anchor = 'where_togo_area'
 
-    return render_template("home.html", is_authenticated=is_authenticated,  is_admin=is_admin, gm_key=gm_key, user_visited=user_visited,
+    return render_template("home.html", is_authenticated=is_authenticated,  is_admin=is_admin, gm_key=gm_key, pois_found=pois_found, user_visited=user_visited,
                            user_favorites=user_favorites, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
                            search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
                            _anchor=anchor)
     # return render_template("home.html", pois=data)
-
 
 @main.route("/about")
 def about():

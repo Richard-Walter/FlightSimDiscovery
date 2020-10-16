@@ -39,7 +39,7 @@ region_details = {
     'Europe - Eastern': [50, 30, 5],
     'Europe - Northern': [59.155256, 16.123697, 6],
     'Europe - Southern': [45.160168, 15.1362, 6],
-    'Europe - Western': [52.261223, 11.669846, 5],
+    'Europe - Western': [52.261223, 11.669846, 6],
     'Oceania': [-22.696926, 161.591196, 5],
 }
 

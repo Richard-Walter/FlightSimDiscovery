@@ -17,7 +17,7 @@ var region_country = {
     "Pakistan",
     "Sri Lanka",
   ],
-  "Europe - Southern ": [
+  "Europe - Southern": [
     "Albania",
     "Andorra",
     "Bosnia and Herzegovina",
