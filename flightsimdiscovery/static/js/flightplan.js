@@ -263,7 +263,14 @@ function buildFlightPlanModalBody(flightPath_data) {
       body_html += "<p class='font-weight-light'>";
       
       for (var i = 0; i < flightPath_data.length; i++) {
-        body_html += "&nbsp;&nbsp;-> " + flightPath_data[i]["waypoint"] +"<br>";
+
+        //first and last POIs if airport then skip as they will be dpe and dest airports
+        if ((i==0) || (i==(flightPath_data.length-1))) {
+          if(flightPath_data[i]["category"].includes("Airport")){
+            continue;
+          }
+        }
+          body_html += "&nbsp;&nbsp;-> " + flightPath_data[i]["waypoint"] +"<br>";
       }
 
       // body_html = body_html.substring(0, body_html.length - 4); //remove the last -->

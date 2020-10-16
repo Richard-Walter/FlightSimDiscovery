@@ -295,7 +295,7 @@
                       '<hr class="my-2"/>' +
                     '<div>'+
                       '<div id="btn_addPoiToFlightPlan" class="mt-3 mb-1 ' + showAddWaypointBtn + '">' +
-                          `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + latitude + `, ` + longitude +  `, "` + marker_name.replace("'", "&#39") +`")'>Add to Flight plan</button> `+
+                          `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + latitude + `, ` + longitude +  `, "` + marker_name.replace("'", "&#39") + `", "` + category + `")'>Add to Flight plan</button> `+
                         '</div>' +
                       '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
                         "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + latitude + ", " + longitude +  ", \"" + marker_name.replace("'", "&#39") + "\")'>Remove from Flight plan</button> "+
@@ -364,7 +364,7 @@
       }
 
       //Add a new point to the FlightPath
-      function addPoiToFlightPlan(latitude, longitude, waypoint) {
+      function addPoiToFlightPlan(latitude, longitude, waypoint, category) {
         const path = flightPath.getPath();
         var latLng = [latitude, longitude]
 
@@ -372,7 +372,7 @@
         path.push(new google.maps.LatLng(latLng[0], latLng[1]));
 
         // We also need to add additional data to flightPath_data so we can create a flight plan
-        flightPath_data.push({'latLng': latLng, 'waypoint': waypoint})
+        flightPath_data.push({'latLng': latLng, 'waypoint': waypoint, 'category': category})
 
         //enable modal buttons if valid flight plan
         if (flightPath_data.length > 0){
