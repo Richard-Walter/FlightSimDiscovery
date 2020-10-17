@@ -21,6 +21,7 @@ main = Blueprint('main', __name__)
 # TODO validate name on create POI form prior to user hitting Create button
 # TODO add country default zoom level so returning search by country is set to correct zoom
 # TODO export flight plan in xplane format
+# TODO add ability for User with account to flag POIS with reason
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])

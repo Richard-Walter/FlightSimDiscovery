@@ -298,7 +298,7 @@
                           `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + latitude + `, ` + longitude +  `, "` + marker_name.replace("'", "&#39") + `", "` + category + `")'>Add to Flight plan</button> `+
                         '</div>' +
                       '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
-                        "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + latitude + ", " + longitude +  ", \"" + marker_name.replace("'", "&#39") + "\")'>Remove from Flight plan</button> "+
+                        "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + latitude + ", " + longitude +  ", \"" + marker_name.replace("'", "&#39") + "\")'>Remove from plan</button> "+
                       '</div>'+
                     '</div>'+
                     '<div class="iw_update_delete_fas_icons "'+ hiddenButtons + '>' +
@@ -338,6 +338,11 @@
         styleInfoBtn(infoDiv, map);
         map.controls[google.maps.ControlPosition.TOP_CENTER].push(infoDiv);
 
+        //Create lengend toogle button
+        const legendDiv = document.createElement("div");
+        styleLegendBtn(legendDiv, map);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(legendDiv);
+        
       }
 
       function iw_update_favorite(poi_id){  
@@ -495,9 +500,9 @@
 
         // Set CSS for the control border.
         const controlUI = document.createElement('div');
-        controlUI.classList = "Map_Info_Plan_Btn btn btn-info active"
-        controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-        controlUI.style.cursor = "";
+        controlUI.classList = "Map_Info_Plan_Btn btn-sm btn-light active"
+        // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+        controlUI.style.cursor = "default";
         controlUI.style.margin = "15px";
         controlUI.style.textAlign = "center";
         controlUI.title = "Right-click on map to create POI";
@@ -505,11 +510,34 @@
 
         // Set CSS for the control interior.
         const controlText = document.createElement("div");
-        controlText.classList = "Map_Flight_Plan_Text"
         controlText.innerHTML = "Right-click on map to create POI";
         controlUI.appendChild(controlText);
         }
 
+        function styleLegendBtn(controlDiv, map) {
+
+          // Set CSS for the control border.
+          const controlUI = document.createElement('div');
+          controlUI.classList = "Map_Flight_Plan_Btn btn btn-success"
+          controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+          controlUI.style.cursor = "pointer";
+          controlUI.style.margin = "15px";
+          controlUI.style.textAlign = "center";
+          controlUI.title = "View Legend";
+          controlDiv.appendChild(controlUI);
+
+          // Set CSS for the control interior.
+          const controlText = document.createElement("div");
+  
+          controlText.innerHTML = "View Legend";
+          controlUI.appendChild(controlText);
+
+          // open up flight plan modal
+          controlUI.addEventListener("click", () => {
+            
+            buildFlightPlanModalBody(flightPath_data);
+          });
+        }
 
 
           </script>

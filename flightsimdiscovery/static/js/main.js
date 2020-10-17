@@ -13,6 +13,16 @@ if(menu.length){
 	});
 };
 
+$(document).on("click", ".iw_delete_poi", function () {
+    
+  var eventId = $(this).data('id');
+  var form_action = '/poi/' + eventId + '/delete'+'?page=home'
+  console.log(form_action)
+  $("#delete_poi_confirm").attr('action', form_action);
+  console.log(eventId);
+  $('#poi').html( eventId );
+});
+
 //Update Country Select values
 $("a.boxed-btn3").click(function(){
 
@@ -23,6 +33,15 @@ $("a.boxed-btn3").click(function(){
   $("#search_form_submit_btn").click()
 
 });
+
+// //close delete confirm modal after deletion
+// $('#delete_poi_confirm_btn').click(function(){
+  
+//   $('#deleteModal').modal('hide');
+//   $(window).scrollTop(0);
+  
+
+// });
 
 //Tab data table
 $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
