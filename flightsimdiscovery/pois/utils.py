@@ -1,8 +1,11 @@
 from flightsimdiscovery.models import Ratings, Pois
 
 favorite_marker = '/static/img/marker/favorite-marker.png'
+favorite_marker_airport = '/static/img/marker/favorite-marker_airport.png'
 visited_marker = '/static/img/marker/visited-marker.png'
+visited_marker_airport = '/static/img/marker/visited-marker_airport.png'
 user_marker = '/static/img/marker/user-marker.png'
+user_marker_airport = '/static/img/marker/user-marker_airport.png'
 airport_marker = '/static/img/marker/airport-marker.png'
 normal_marker = '/static/img/marker/normal-marker.png'
 
@@ -78,14 +81,30 @@ def filter_pois_by_rating(pois, rating):
 
 
 def get_marker_icon(poi, user_favorites, user_visited, user_pois):
-    if poi.id in user_visited:
-        return visited_marker
-    elif ('Airport' in poi.category) or ('Bush Strip' in poi.category):
-        return airport_marker
+
+    is_airport = False
+
+    if ('Airport' in poi.category) or ('Bush Strip' in poi.category):
+        is_airport = True
+    
+    if poi.id in user_pois:
+        if is_airport:
+            return user_marker_airport
+        else:
+            return user_marker
+    elif poi.id in user_visited:
+        if is_airport:
+            return visited_marker_airport
+        else:
+            return visited_marker
     elif poi.id in user_favorites:
-        return favorite_marker
-    elif poi.id in user_pois:
-        return user_marker
+        if is_airport:
+            return favorite_marker_airport
+        else:
+            return favorite_marker
+    elif is_airport:
+        return airport_marker
+
     else:
         return normal_marker
 
