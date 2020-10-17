@@ -173,6 +173,7 @@ def delete_poi(poi_id):
 
     if category == 'user_pois':
         return redirect(url_for('users.user_pois'))
+    elif category == 'home':
+        return redirect(url_for('main.home'))
     else:
-        # return redirect(url_for('main.home'))
-        return 'Success'
+        return redirect(url_for('main.home'))

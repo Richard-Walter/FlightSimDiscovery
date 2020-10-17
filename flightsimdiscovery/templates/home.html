@@ -401,7 +401,7 @@
 $(document).on("click", ".iw_delete_poi", function () {
     
     var eventId = $(this).data('id');
-    var form_action = '/poi/' + eventId + '/delete'
+    var form_action = '/poi/' + eventId + '/delete'+'?page=home'
     console.log(form_action)
     $("#delete_poi_confirm").attr('action', form_action);
     console.log(eventId);
