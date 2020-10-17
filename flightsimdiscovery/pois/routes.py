@@ -160,7 +160,9 @@ def update_poi(poi_id):
 @pois.route("/poi/<int:poi_id>/delete", methods=['POST'])
 @login_required
 def delete_poi(poi_id):
-    print('delete post poi_id is ', poi_id)
+    
+    category = request.args.get('page')
+
     poi = Pois.query.get_or_404(poi_id)
     if (current_user.username != 'admin'):
         if (poi.user_id != current_user.id):
@@ -168,4 +170,9 @@ def delete_poi(poi_id):
     db.session.delete(poi)
     db.session.commit()
     flash('Your point of interest has been deleted!', 'success')
-    return redirect(url_for('main.home'))
+
+    if category == 'user_pois':
+        return redirect(url_for('users.user_pois'))
+    else:
+        # return redirect(url_for('main.home'))
+        return 'Success'
