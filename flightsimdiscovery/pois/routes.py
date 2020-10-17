@@ -75,7 +75,7 @@ def new_poi(iw_add_poi_location):
         db.session.commit()
 
         flash('A new point of interest has been created!', 'success')
-        return redirect(url_for('main.home', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
+        return redirect(url_for('main.home', _anchor='where_togo_area', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
 
     return render_template('create_poi.html', form=form, share=share_with_community)
 
