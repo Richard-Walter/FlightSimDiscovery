@@ -339,10 +339,15 @@
         map.controls[google.maps.ControlPosition.TOP_CENTER].push(infoDiv);
 
         //Create lengend toogle button
-        const legendDiv = document.createElement("div");
-        styleLegendBtn(legendDiv, map);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(legendDiv);
+        const legendBtnDiv = document.createElement("div");
+        styleLegendBtn(legendBtnDiv, map);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(legendBtnDiv);
+
         
+        //Create lengend toogle button
+        const legendDiv = document.createElement("div");
+        styleLegend(legendDiv, map);
+        map.controls[google.maps.ControlPosition.LEFT].push(legendDiv);
       }
 
       function iw_update_favorite(poi_id){  
@@ -535,8 +540,48 @@
           // open up flight plan modal
           controlUI.addEventListener("click", () => {
             
-            buildFlightPlanModalBody(flightPath_data);
+            showLegend();
           });
+        }
+
+        function styleLegend(controlDiv, map) {
+
+          var favorite_marker = '/static/img/marker/favorite-marker_sm.png'
+          var favorite_marker_airport = '/static/img/marker/favorite-marker_airport_sm.png'
+          var visited_marker = '/static/img/marker/visited-marker_sm.png'
+          var visited_marker_airport = '/static/img/marker/visited-marker_airport_sm.png'
+          var user_marker = '/static/img/marker/user-marker_sm.png'
+          var user_marker_airport = '/static/img/marker/user-marker_airport_sm.png'
+          var airport_marker = '/static/img/marker/airport-marker_sm.png'
+          var normal_marker = '/static/img/marker/normal-marker_sm.png'
+
+          // Set CSS for the control border.
+          legend_details = 
+                          '<div class="my-1"><img src="' + normal_marker + '"> ' + 'Point of Interest' + '</div>' +
+                          '<div class="my-1"><img src="' + airport_marker + '"> ' + 'Airport' + '</div>' +
+                          '<div class="my-1"><img src="' + user_marker + '"> ' + 'User Created POI' + '</div>' +                          
+                          '<div class="my-1"><img src="' + visited_marker + '"> ' + 'Visited POI' + '</div>' +
+                          '<div class="my-1"><img src="' + favorite_marker + '"> ' + 'Favorited'+ '</div>' +
+                          '<div class="my-1"><img src="' + user_marker_airport + '"> ' + 'User Created Airport' + '</div>' +
+                          '<div class="my-1"><img src="' + visited_marker_airport + '"> ' + 'Visited Airport' + '</div>' +
+                          '<div class="my-1"><img src="' + favorite_marker_airport + '"> ' + 'Favorited Airport' + '</div>';
+                          
+                 
+
+          const controlUI = document.createElement('div');
+          controlUI.classList = "Map_Legend"
+          // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+          controlUI.style.margin = "15px";
+          controlUI.style.textAlign = "left";
+          controlUI.title = "Legend";
+          controlDiv.appendChild(controlUI);
+
+          // Set CSS for the control interior.
+          const controlText = document.createElement("div");
+          controlText.classList = "Map_Legend_details d-flex flex-column justify-content-start"
+          controlText.innerHTML = legend_details;
+          controlUI.appendChild(controlText);
+
         }
 
 
