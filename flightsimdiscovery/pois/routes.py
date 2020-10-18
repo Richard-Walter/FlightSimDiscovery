@@ -12,6 +12,7 @@ anonymous_username = 'anonymous'
 
 @pois.route("/poi/new", defaults={'iw_add_poi_location': None}, methods=['GET', 'POST'])
 @pois.route("/poi/new/<iw_add_poi_location>", methods=['GET', 'POST'])
+@login_required
 def new_poi(iw_add_poi_location):
     flag_poi = False
     share_with_community = ""

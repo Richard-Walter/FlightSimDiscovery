@@ -23,6 +23,7 @@ main = Blueprint('main', __name__)
 # TODO export flight plan in xplane format
 # TODO add ability for User with account to flag POIS with reason
 # TODO disable country in create new POI form if POI created froma right-click on the map
+# TODO add search for town and zoom in to create POI of interest
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
