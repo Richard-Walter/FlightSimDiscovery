@@ -2391,6 +2391,14 @@ h3 {
   right: 20px;
 }
 
+.iw_flag_icon{
+  margin-right: 10px;
+  position: absolute;
+  bottom: 24px;
+  left: 15px;
+
+}
+
 #iw-container  .iw-poi_header {
   font-family: "Georgia", "Open Sans", Sans-serif;
   /* font-size: 14px; */
