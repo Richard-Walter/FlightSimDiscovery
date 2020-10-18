@@ -73,9 +73,10 @@
           streetViewControl: false,
           zoomControl: true,
           mapTypeControl: true,
-          mapTypeId: google.maps.MapTypeId.DEFAULT,
+          mapTypeId: google.maps.MapTypeId.terrain,
           mapTypeControlOptions: {
             style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+            position: google.maps.ControlPosition.LEFT_BOTTOM,
             mapTypeIds: ["roadmap", "terrain", "satellite"]
           },
           
