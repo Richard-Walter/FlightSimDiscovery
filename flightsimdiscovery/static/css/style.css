@@ -35,6 +35,12 @@
   vertical-align: left;
 }
 
+@media (max-width: 767px) {
+  .Map_Info_Plan_Btn {
+    display: none;
+  }
+}
+
 /* Normal desktop :1200px. */
 /* Normal desktop :992px. */
 /* Tablet desktop :768px. */
