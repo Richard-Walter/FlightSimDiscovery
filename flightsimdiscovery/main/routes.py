@@ -159,6 +159,7 @@ def home(filter_poi_location):
             elif search_category_selected:   # search returned no results
                 # flash('No Points of Interest found - Search Again', 'warning')
                 pois_found = False
+                map_init['zoom'] = 3
                 # return redirect(url_for('main.home'))
 
 

@@ -94,13 +94,16 @@
                 </div>
             </nav>
         </header>
-        <main role="main" class="container">
+        <div id="no_serach_results" class="alert alert-danger text-center" role="alert">
+            This web application is currently in testing - all created data will be deleted
+        </div>
+        <main role="main">
             <div class="row">
                 <div class="col-md-12">
                     {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                     {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
+                    <div class="alert alert-{{ category }} text-center">
                         {{ message }}
                     </div>
                     {% endfor %}
@@ -109,9 +112,7 @@
                 </div>
             </div>
         </main>
-        <div style="background-color: #f19f8ad3;">
-        <h4 class="text-center alert">This web application is currently in testing - all created data may be lost</h4>
-        </div>
+
         <!-- header-end -->
         {% block content %}{% endblock %}
         <!-- footer-start -->

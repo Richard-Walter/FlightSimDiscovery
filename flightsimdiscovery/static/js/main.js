@@ -4,6 +4,13 @@
 
 $(document).ready(function(){
 
+  var search_returned_results = $('#searchResults').val();
+
+  if (search_returned_results == 'False') {
+    $("#search_results_flash").show();
+    setTimeout(function() { $("#search_results_flash").hide(); }, 10000);
+  }
+
 // mobile_menu
 var menu = $('ul#navigation');
 if(menu.length){
@@ -13,6 +20,7 @@ if(menu.length){
 		openedSymbol:'-'
 	});
 };
+
 
 $(document).on("click", ".iw_delete_poi", function () {
     

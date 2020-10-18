@@ -76,12 +76,8 @@
 <!-- where_togo_area_start  -->
 <div id="searchTag"></div>
 <!-- This is a hidden value for country default that javascript retrieves -->
-<input
-        id="countryDefaultVaule"
-        name="countryDefaultVaule"
-        type="hidden"
-        value="{{search_defaults['Country']}}"
-/>
+<input id="countryDefaultVaule" name="countryDefaultVaule"  type="hidden" value="{{search_defaults['Country']}}"/>
+<input id="searchResults" name="searchResults"  type="hidden" value="{{pois_found}}"/>
 
 <div id="where_togo_area" class="where_togo_area">
     <div class="container">
@@ -179,14 +175,21 @@
         </div>
     </div>
 </div>
-{% if pois_found %}
-{% else %}
-<div id=no_search_results_message m-0 style="background-color: #f5ea53ef; display: block;">
-    <h4 class="text-center alert m-0">No points of interest found matching your search criteria.</h4>
-</div>
-{% endif %}
+
 <!-- where_togo_area_end  -->
 
+<!-- no search result flash start-->
+<div id="search_results_flash" class="alert alert-info text-center my-0"  style="display: none;" role="alert">
+    {% if search_defaults['Country'] != 'Country' %}
+        No POIs found in {{search_defaults['Country']}} based on this search criteria.  Showing POIs from all countries that match your criteria
+    {% elif search_defaults['Region'] != 'Region' %}
+        No POIs found in {{search_defaults['Region']}} based on this search criteria.  Showing POIs from all countries that match your criteria
+    {% else %}
+        No POIs found that match your search criteria.
+    {% endif %}
+</div>
+
+<!-- no search result flash end-->
 
 <!-- google_map_area_start  -->
 {% include 'google_map.html' %}
