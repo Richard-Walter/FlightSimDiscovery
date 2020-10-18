@@ -523,7 +523,7 @@
 
           // Set CSS for the control border.
           const controlUI = document.createElement('div');
-          controlUI.classList = "Map_Flight_Plan_Btn btn btn-dark"
+          controlUI.classList = "Map_Legend_Btn btn btn-dark"
           controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
           controlUI.style.cursor = "pointer";
           controlUI.style.margin = "15px";
@@ -540,17 +540,17 @@
           // show legend
           controlUI.addEventListener("click", () => {
 
-            button_text = $(".Map_Flight_Plan_Btn").text();
+            button_text = $(".Map_Legend_Btn").text();
             console.log(button_text);
 
-            if (button_text == 'Hide LegendHide Legend') {
+            if (button_text == 'Hide Legend') {
               $(".Map_Legend").hide();
-              $(".Map_Flight_Plan_Btn").text('Show Legend');
+              $(".Map_Legend_Btn").text('Show Legend');
 
             } else {
 
               $(".Map_Legend").show();
-              $(".Map_Flight_Plan_Btn").text('Hide Legend');
+              $(".Map_Legend_Btn").text('Hide Legend');
             }
           });
         }
