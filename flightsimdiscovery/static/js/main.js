@@ -41,8 +41,8 @@ $(document).on("click", ".iw_delete_poi", function () {
 //Update Country Select values
 $("a.boxed-btn3").click(function(){
 
-  // var country = $(this).parent().find("h3").text();
-  var country = $(this).parent().find("a").attr("data-value"); 
+  // var country = $(this).parent().find("a").attr("data-value"); 
+  var country = $(this).attr("data-value"); 
   $("#selectCountry").val(country)
   // $('#search_form').submit();
   $("#search_form_submit_btn").click()

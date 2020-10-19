@@ -13,7 +13,6 @@ from flightsimdiscovery.users.utitls import send_contact_email
 from flightsimdiscovery.config import Config
 from utilities import get_location_details
 
-
 main = Blueprint('main', __name__)
 
 
@@ -202,7 +201,7 @@ def home(filter_poi_location):
     new_poi_lat = request.args.get('latitude', None)
     new_poi_long = request.args.get('longitude', None)
     pois_created = request.args.get('pois_created', None)
-    
+
     if country is not None:
         map_init['zoom'] = 8
         map_init['lat'] = new_poi_lat
@@ -610,6 +609,13 @@ def update_db(confirmation):
         abort(403)
 
 @main.route("/admin")
+@login_required
 def admin():
+
+    if (current_user.username == 'admin'):
+
+        return render_template('admin.html')
+    
+    else:
+        abort(403)
    
-    return render_template("admin.html")
