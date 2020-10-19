@@ -97,21 +97,21 @@
         <div id="no_serach_results" class="alert alert-danger text-center" role="alert">
             This web application is currently in testing - all created data will be deleted
         </div>
-        <main role="main"class="container">
+        <!-- <main role="main"class="container">
             <div class="row">
-                <div class="col-md-12">
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                    {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} text-center">
-                        {{ message }}
-                    </div>
-                    {% endfor %}
-                    {% endif %}
-                    {% endwith %}
-                </div>
+                <div class="col-md-12"> -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} text-center">
+                {{ message }}
             </div>
-        </main>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+                <!-- </div>
+            </div>
+        </main> -->
 
         <!-- header-end -->
         {% block content %}{% endblock %}
