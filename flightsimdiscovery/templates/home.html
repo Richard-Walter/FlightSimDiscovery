@@ -78,6 +78,7 @@
 <!-- This is a hidden value for country default that javascript retrieves -->
 <input id="countryDefaultVaule" name="countryDefaultVaule"  type="hidden" value="{{search_defaults['Country']}}"/>
 <input id="searchResults" name="searchResults"  type="hidden" value="{{pois_found}}"/>
+<input id="poiCreated" name="searchResults"  type="hidden" value="{{pois_created}}"/>
 
 <div id="where_togo_area" class="where_togo_area">
     <div class="container">
@@ -187,6 +188,15 @@
     {% else %}
         No POIs found that match your search criteria.
     {% endif %}
+</div>
+
+<!-- no search result flash end-->
+
+<!-- no search result flash start-->
+<div id="poi_created_flash" class="alert alert-success text-center my-0"  style="display: none;" role="alert">
+    
+    A new point of interest has been created!
+
 </div>
 
 <!-- no search result flash end-->

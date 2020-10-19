@@ -52,6 +52,7 @@ def home(filter_poi_location):
     filtered_pois = None
     search_category_selected = False
     pois_found = True
+    pois_created = False
     # user_pois_list = []
     user_pois_dict = {}
     user_pois_list = []
@@ -200,6 +201,8 @@ def home(filter_poi_location):
     country = request.args.get('country', None)
     new_poi_lat = request.args.get('latitude', None)
     new_poi_long = request.args.get('longitude', None)
+    pois_created = request.args.get('pois_created', None)
+    
     if country is not None:
         map_init['zoom'] = 8
         map_init['lat'] = new_poi_lat
@@ -209,7 +212,7 @@ def home(filter_poi_location):
         # map_init['long'] = countries_details[country][2]
         anchor = 'where_togo_area'
 
-    return render_template("home.html", is_authenticated=is_authenticated,  is_admin=is_admin, gm_key=gm_key, pois_found=pois_found, user_visited=user_visited,
+    return render_template("home.html", is_authenticated=is_authenticated,  is_admin=is_admin, gm_key=gm_key, pois_created=pois_created, pois_found=pois_found, user_visited=user_visited,
                            user_favorites=user_favorites, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
                            search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
                            _anchor=anchor)
