@@ -13,6 +13,13 @@
   justify-content: start;
 }
 
+.new_poi_msg{
+
+  font-family: "Rubik", sans-serif;
+  color: #5393f3c7;
+  font-size: 13px;
+}
+
 .Map_Legend {
   font-family: Arial, sans-serif;
   background: #e6e6e6ef;

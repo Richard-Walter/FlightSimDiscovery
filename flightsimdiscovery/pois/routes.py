@@ -43,7 +43,8 @@ def new_poi(iw_add_poi_location):
         print('getting country details', country)
         form.latitude.data = lat
         form.longitude.data = lng
-        form.country.data = country
+        if country:
+            form.country.data = country
         # form.country(disabled=True)
 
     if form.validate_on_submit():
