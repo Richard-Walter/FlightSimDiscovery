@@ -70,14 +70,20 @@
                         <!-- <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a> -->
                         
                         <li class="nav-item dropdown">
+                            {% if current_user.username == 'admin' %}
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" data-toggle="dropdown">Admin Panel</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="{{ url_for('admin.all_pois') }}">All POI's</a>
+                                    <a class="dropdown-item" href="{{ url_for('admin.flagged_pois') }}">Flagged POI's</a>
+                                    <a class="dropdown-item" href="{{ url_for('admin.update_database') }}">Update Database</a>
+                                </div>
+                            {% else %}
                             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" data-toggle="dropdown">Account</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                {% if is_admin %}
-                                <a class="dropdown-item" href="{{ url_for('main.admin') }}">Admin Panel</a>
-                                {% endif %}
                                 <a class="dropdown-item" href="{{ url_for('users.user_pois') }}">My Points of Interest</a>
                                 <a class="dropdown-item" href="{{ url_for('users.account') }}">Update Account</a>
                             </div>
+                            {% endif %}
                         </li>
                         <a class="nav-item nav-link mr-2" href="{{ url_for('users.logout') }}">Logout</a>
                         {% else %}

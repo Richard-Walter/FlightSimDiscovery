@@ -83,24 +83,6 @@ def user_pois():
     visited_pois = get_user_visited_pois(current_user.id)
     return render_template('user_pois.html', user_pois=user_pois_with_additional_data, favorite_pois=favorite_pois, visited_pois=visited_pois)
 
-@users.route("/all_pois")
-@login_required
-def all_pois():
-    all_pois_data = []
-    if (current_user.username == 'admin'):
-        
-        all_pois = Pois.query.all()
-        for poi in all_pois:
-            user = User.query.filter_by(id=poi.user_id).first()
-            data_location = str(poi.latitude) + ', ' + str(poi.longitude)
-            poi_data = {'username': user.username, 'id': poi.id, 'location': data_location, 'name': poi.name, 'date_posted': poi.date_posted, 'category': poi.category,
-                             'country': poi.country, 'region': poi.region,'description': poi.description, 'flag': poi.flag}   
-            all_pois_data.append(poi_data)       
-
-        return render_template('all_pois.html', all_pois=all_pois_data)
-    else:
-        return render_template('errors/403.html'), 403
-
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():

@@ -53,10 +53,13 @@ def create_app(config_class=Config):
     from flightsimdiscovery.users.routes import users
     from flightsimdiscovery.pois.routes import pois
     from flightsimdiscovery.main.routes import main
+    from flightsimdiscovery.admin.routes import admin
     from flightsimdiscovery.errors.handlers import errors
+
     app.register_blueprint(users)
     app.register_blueprint(pois)
     app.register_blueprint(main)
+    app.register_blueprint(admin)
     app.register_blueprint(errors)
 
     return app
