@@ -1,7 +1,8 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flightsimdiscovery import db
-from flightsimdiscovery.models import User, Pois
+from flightsimdiscovery.models import User, Pois, Visited, Favorites, Ratings
 from flask_login import login_user, current_user, logout_user, login_required
+from flightsimdiscovery.admin.forms import UpdateDatabaseForm, MigrateDatabaseForm, RunScriptForm
 
 admin = Blueprint('admin', __name__)
 
@@ -9,9 +10,9 @@ admin = Blueprint('admin', __name__)
 @admin.route("/flagged_pois", methods=['GET'])
 @login_required
 def flagged_pois():
-    if current_user.is_authenticated and (current_user.username == 'admin'):
 
-        return render_template('admin.html')
+    if current_user.is_authenticated and (current_user.username == 'admin'):
+        return render_template('flagged_pois.html')
     
     else:
         abort(403)
@@ -19,9 +20,75 @@ def flagged_pois():
 @admin.route("/update_database", methods=['GET', 'POST'])
 @login_required
 def update_database():
+
+    form = UpdateDatabaseForm()
+
     if current_user.is_authenticated and (current_user.username == 'admin'):
 
-        return render_template('admin.html')
+        if form.validate_on_submit():
+            # current_user.username = form.username.dat
+
+            flash('Database has been updated!', 'success')
+        
+            return redirect(url_for('main.home'))
+
+        elif request.method == 'GET':
+            # form.username.data = current_user.username
+
+            return render_template('update_database.html', form=form)
+    
+    else:
+        abort(403)
+
+@admin.route("/migrate_database", methods=['GET', 'POST'])
+@login_required
+def migrate_database():
+
+    form = MigrateDatabaseForm()
+
+    if current_user.is_authenticated and (current_user.username == 'admin'):
+
+        if form.validate_on_submit():
+            # current_user.username = form.username.dat
+            flash('Database has been migrated!', 'success')
+            return redirect(url_for('main.home'))
+
+        elif request.method == 'GET':
+            # form.username.data = current_user.username
+
+            return render_template('migrate_database.html', form=form)
+    
+    else:
+        abort(403)
+
+@admin.route("/run_script", methods=['GET', 'POST'])
+@login_required
+def run_script():
+    form = RunScriptForm()
+
+    if current_user.is_authenticated and (current_user.username == 'admin'):
+
+        if form.validate_on_submit():
+            # current_user.username = form.username.dat
+
+            flash('Script has been run!', 'success')
+            return redirect(url_for('main.home'))
+
+        elif request.method == 'GET':
+            # form.username.data = current_user.username
+
+
+            return render_template('run_script.html', form=form)
+    
+    else:
+        abort(403)
+
+@admin.route("/user_details", methods=['GET', 'POST'])
+@login_required
+def user_details():
+    if current_user.is_authenticated and (current_user.username == 'admin'):
+
+        return render_template('user_details.html')
     
     else:
         abort(403)

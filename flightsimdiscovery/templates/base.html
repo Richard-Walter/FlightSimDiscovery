@@ -75,7 +75,10 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" href="{{ url_for('admin.all_pois') }}">All POI's</a>
                                     <a class="dropdown-item" href="{{ url_for('admin.flagged_pois') }}">Flagged POI's</a>
+                                    <a class="dropdown-item" href="{{ url_for('admin.user_details') }}">User Details</a>
                                     <a class="dropdown-item" href="{{ url_for('admin.update_database') }}">Update Database</a>
+                                    <a class="dropdown-item" href="{{ url_for('admin.migrate_database') }}">Migrate Database</a>
+                                    <a class="dropdown-item" href="{{ url_for('admin.run_script') }}">Run Script</a>
                                 </div>
                             {% else %}
                             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" data-toggle="dropdown">Account</a>
