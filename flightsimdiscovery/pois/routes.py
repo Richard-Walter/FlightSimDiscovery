@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flightsimdiscovery import db
 from flightsimdiscovery.pois.forms import PoiCreateForm, PoiUpdateForm
-from flightsimdiscovery.models import Pois, User, Ratings
+from flightsimdiscovery.models import Pois, User, Ratings, Flagged
 from flightsimdiscovery.pois.utils import location_exists, get_rating
 from flask_login import current_user, login_required
 from utilities import get_country_region, continents_by_region, get_location_details
@@ -180,3 +180,28 @@ def delete_poi(poi_id):
         return redirect(url_for('main.home'))
     else:
         return redirect(url_for('main.home'))
+
+@pois.route("/poi/<int:poi_id>/flag", methods=['POST'])
+@login_required
+def flag_poi(poi_id):
+    
+    category = request.args.get('page')
+    # reason = 
+
+
+    if current_user.is_authenticated:
+            
+        flagged = Flagged(user_id=current_user.id, poi_id=poi_id, reason=reason)
+        db.session.add(user)
+        flash('Your point of interest has been deleted!', 'success')
+
+        if category == 'user_pois':
+            return redirect(url_for('users.user_pois'))
+        elif category == 'home':
+            return redirect(url_for('main.home'))
+        else:
+            return redirect(url_for('main.home'))
+    else:
+        #  need to be logged in to flag a poi
+        abort(403)
+
