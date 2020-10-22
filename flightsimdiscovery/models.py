@@ -82,3 +82,12 @@ class Visited(db.Model):
 
     def __repr__(self):
         return f"Visited('{self.user_id}', '{self.poi_id}')"
+
+class Flagged(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    poi_id = db.Column(db.Integer, db.ForeignKey('pois.id'), nullable=False)
+    reason = db.Column(db.Text, nullable=False)
+
+    def __repr__(self):
+        return f"Flagged('{self.user_id}', '{self.poi_id}', '{self.reason}')"

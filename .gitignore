@@ -3,3 +3,4 @@ venv/
 .idea
 .pylintrc 
 **/__pycache__
+migrations/
