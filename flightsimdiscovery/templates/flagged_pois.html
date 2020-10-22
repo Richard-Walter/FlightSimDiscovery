@@ -9,9 +9,11 @@
                 <thead class="">
                 <tr>
                     <th scope="col">User</th>
-                    <th scope="col">POI</th>
-                    <th scope="col">Date</th>
+                    <th scope="col">POI ID</th>
+                    <th scope="col">POI Name</th>
+                    <th scope="col">Flagged Date</th>
                     <th scope="col">Reason</th>              
+                    <th scope="col">Map</th>              
                     <th scope="col">Remove Flag</th>
                     <th scope="col">Update</th>
                     <th scope="col">Delete</th>
@@ -22,11 +24,14 @@
                 {% for flagged_poi_data in flagged_pois_data %}
                 <tr>
                     <td>{{flagged_poi_data.user_id}}</td>
+                    <td>{{flagged_poi_data.poi_id}}</td>
                     <td>{{flagged_poi_data.name}}</td>
                     <td>{{flagged_poi_data.date_posted}}</td>
                     <td>{{flagged_poi_data.reason}}</td>
+                    <td><a href="/{{flagged_poi_data.location}}#searchTag" class="btn btn-primary" onclick="this.form.submit()" role="button"
+                        aria-disabled="true"><i class="fas fa-globe-americas"></i></a></td>
                     <td>
-                        <a style="cursor:pointer" href="/delete_flagged_poi/{{flagged_poi_data.poi_id}}">
+                        <a style="cursor:pointer" href="/poi/delete_flagged_poi/{{flagged_poi_data.poi_id}}">
                             <i class="fas fa-minus-circle fa-2x" title='remove flag' style="color:#f3d10d;"></i></button>
                     </td>
                     <td><a href="/poi/{{flagged_poi_data.poi_id}}/update" class="btn btn-info" role="button" aria-disabled="true"><i

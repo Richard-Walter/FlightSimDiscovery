@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flightsimdiscovery import db
 from flightsimdiscovery.pois.forms import PoiCreateForm, PoiUpdateForm
-from flightsimdiscovery.models import Pois, User, Ratings, Flagged
+from flightsimdiscovery.models import Pois, User, Ratings, Flagged, Visited, Favorites
 from flightsimdiscovery.pois.utils import location_exists, get_rating
 from flask_login import current_user, login_required
 from utilities import get_country_region, continents_by_region, get_location_details
@@ -164,13 +164,30 @@ def update_poi(poi_id):
 @login_required
 def delete_poi(poi_id):
     
-    category = request.args.get('page')
+    # *** WHEN WE DELETE A POI, WE HAVE DELETE THE CORRESPONDING POI OUT OF THE OTHER TABLES  ****
 
+    category = request.args.get('page')
     poi = Pois.query.get_or_404(poi_id)
+    flagged_poi = Flagged.query.filter_by(poi_id=poi_id).first()
+
+    # visited and favorite can contain multuple records for the one poi_id
+    visited_poi_list = Visited.query.filter_by(poi_id=poi_id).all()
+    favorited_pois_list = Favorites.query.filter_by(poi_id=poi_id).all()
+    ratings_poi_list = Ratings.query.filter_by(poi_id=poi_id).all()
+
     if (current_user.username != 'admin'):
         if (poi.user_id != current_user.id):
             abort(403)
     db.session.delete(poi)
+    db.session.delete(flagged_poi)
+
+    for visited_poi in visited_poi_list:
+        db.session.delete(visited_poi)
+    for favorited_pois in favorited_pois_list:
+        db.session.delete(favorited_pois)
+    for ratings_poi in ratings_poi_list:
+        db.session.delete(ratings_poi)
+
     db.session.commit()
     flash('Your point of interest has been deleted!', 'success')
 
@@ -189,6 +206,7 @@ def flag_poi():
     reason = request.form.get('reason')
     from_page = request.form.get('page')
     poi_id = request.form.get('poi_id')
+
 
     if current_user.is_authenticated:
 
@@ -212,13 +230,13 @@ def flag_poi():
         #  need to be logged in to flag a poi
         abort(403)
 
-@pois.route("/delete_flagged_poi/<poi_id>", methods=['POST'])
+@pois.route("/poi/delete_flagged_poi/<poi_id>", methods=['GET', 'POST'])
 @login_required
 def delete_flagged_poi(poi_id):
 
     if current_user.is_authenticated and (current_user.username == 'admin'):
 
-        poi = Flagged.query.filter_by(poi_id=poi_id).all()
+        poi = Flagged.query.filter_by(poi_id=poi_id).first()
         db.session.delete(poi)
         db.session.commit()
 

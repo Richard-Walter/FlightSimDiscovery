@@ -142,7 +142,7 @@ $('#all_pois_datatable').DataTable( {
   
   'columnDefs': [
    
-    { className: 'text-center', targets: [3,4,6,7,8,9] },
+    { className: 'text-center', targets: [1,4,7,8,9, 10] },
    ],
   // "scrollY":        "800px",
   "scrollCollapse": true,
@@ -154,7 +154,7 @@ $('#flagged_pois_datatable').DataTable( {
   
   'columnDefs': [
    
-    { className: 'text-center', targets: [0, 4, 5,6] },
+    { className: 'text-center', targets: [0, 1, 5,6, 7] },
    ],
   // "scrollY":        "800px",
   "scrollCollapse": true,
