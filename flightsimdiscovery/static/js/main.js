@@ -150,6 +150,18 @@ $('#all_pois_datatable').DataTable( {
   // "pagingType": "full_numbers"
 } );
 
+$('#flagged_pois_datatable').DataTable( {
+  
+  'columnDefs': [
+   
+    { className: 'text-center', targets: [0, 4, 5,6] },
+   ],
+  // "scrollY":        "800px",
+  "scrollCollapse": true,
+  "paging":         false
+  // "pagingType": "full_numbers"
+} );
+
 $('#topten_pois_datatable').DataTable( {
 
   

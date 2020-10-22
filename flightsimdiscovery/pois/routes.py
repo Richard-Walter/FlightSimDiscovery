@@ -212,3 +212,17 @@ def flag_poi():
         #  need to be logged in to flag a poi
         abort(403)
 
+@pois.route("/delete_flagged_poi/<poi_id>", methods=['POST'])
+@login_required
+def delete_flagged_poi(poi_id):
+
+    if current_user.is_authenticated and (current_user.username == 'admin'):
+
+        poi = Flagged.query.filter_by(poi_id=poi_id).all()
+        db.session.delete(poi)
+        db.session.commit()
+
+        return redirect(url_for('admin.flagged_pois'))
+    
+    else:
+        abort(403)

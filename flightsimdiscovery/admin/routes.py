@@ -12,7 +12,18 @@ admin = Blueprint('admin', __name__)
 def flagged_pois():
 
     if current_user.is_authenticated and (current_user.username == 'admin'):
-        return render_template('flagged_pois.html')
+
+        flagged_pois_data = []
+        flagged_pois = Flagged.query.all()
+        
+        for flagged_poi in flagged_pois:
+
+            poi = Pois.query.filter_by(id=flagged_poi.poi_id).first()
+
+            flagged_poi_data = {'user_id': flagged_poi.user_id, 'poi_id': poi.id, 'name': poi.name, 'date_posted': poi.date_posted,'reason': flagged_poi.reason}  
+            flagged_pois_data.append(flagged_poi_data) 
+        
+        return render_template('flagged_pois.html', flagged_pois_data=flagged_pois_data)
     
     else:
         abort(403)
