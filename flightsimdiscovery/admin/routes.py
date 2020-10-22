@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flightsimdiscovery import db
-from flightsimdiscovery.models import User, Pois, Visited, Favorites, Ratings
+from flightsimdiscovery.models import User, Pois, Visited, Favorites, Ratings, Flagged
 from flask_login import login_user, current_user, logout_user, login_required
 from flightsimdiscovery.admin.forms import UpdateDatabaseForm, MigrateDatabaseForm, RunScriptForm
 
@@ -101,11 +101,18 @@ def all_pois():
     if current_user.is_authenticated and (current_user.username == 'admin'):
         
         all_pois = Pois.query.all()
+        flagged_pois = Flagged.query.all()
+        flagged_pois_id_list = [flagged_poi.poi_id for flagged_poi in flagged_pois]
         for poi in all_pois:
+            # check if poi has been flagged from the Flag table
+            poi_flagged = False
+            if poi.id in flagged_pois_id_list:
+                poi_flagged = True
+
             user = User.query.filter_by(id=poi.user_id).first()
             data_location = str(poi.latitude) + ', ' + str(poi.longitude)
             poi_data = {'username': user.username, 'id': poi.id, 'location': data_location, 'name': poi.name, 'date_posted': poi.date_posted, 'category': poi.category,
-                             'country': poi.country, 'region': poi.region,'description': poi.description, 'flag': poi.flag}   
+                             'country': poi.country, 'region': poi.region,'description': poi.description, 'flag': poi_flagged}   
             all_pois_data.append(poi_data)       
 
         return render_template('all_pois.html', all_pois=all_pois_data)
