@@ -201,6 +201,15 @@
 
 <!-- no search result flash end -->
 
+<!-- POI flagged flash start-->
+<div id="poi_flagged_flash" class="alert alert-info text-center my-0"  style="display: none;" role="alert">
+    
+    Thanks for your feedback.  This POI has been flagged for review
+
+</div>
+
+<!-- no search result flash end -->
+
 <!-- google_map_area_start  -->
 {% include 'google_map.html' %}
 <!-- google_map_area_end  -->
@@ -427,7 +436,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" id="flaggedModalFormReasonTextArea" rows="3" placeholder="Reason" required></textarea>
+                    <textarea class="form-control" id="flaggedModalFormReasonTextArea" rows="3" value="" placeholder="Reason" required></textarea>
                     <!-- <label data-error="wrong" data-success="right" for="flagFormReason">Reason</label> -->
                     <div class="invalid-feedback">
                         Please enter a reason.
@@ -447,32 +456,38 @@
 
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
-$(document).on("click", ".iw_delete_poi", function () {
-    
-    var eventId = $(this).data('id');
-    var form_action = '/poi/' + eventId + '/delete'+'?page=home'
-    console.log(form_action)
-    $("#delete_poi_confirm").attr('action', form_action);
-    console.log(eventId);
-    $('#poi').html( eventId );
-});
+    $(document).on("click", ".iw_delete_poi", function () {
+        
+        var eventId = $(this).data('id');
+        var form_action = '/poi/' + eventId + '/delete'+'?page=home'
+        console.log(form_action)
+        $("#delete_poi_confirm").attr('action', form_action);
+        console.log(eventId);
+        $('#poi').html( eventId );
+    });
 
-//handle for flagging a POI
-$( "#flag_poi_confirm_btn" ).click(function() {
-    $('#flagReasonModal').modal('hide')
-    $("#iw_flagged_poi_icon").removeClass("far").addClass("fas");
-    $('#iw_flagged_poi_icon').prop('title', 'POI has been reported');
-    
-});
+    //handle for flagging a POI
+    $( "#flag_poi_confirm_btn" ).click(function() {
+        var poi_id = $('.iw_delete_poi').data('id');
+        var message = $('#flaggedModalFormReasonTextArea').val();
+        $('#flaggedModalFormReasonTextArea').val("");
+        $('#flagReasonModal').modal('hide')
+        $("#iw_flagged_poi_icon").removeClass("far").addClass("fas");
+        $('#iw_flagged_poi_icon').prop('title', 'POI has been reported');
+        $.post("/flag_poi", {"reason": message, "poi_id": poi_id, "page":'home'})
+        flash_poi_flagged();
+        $('html, body').animate({
+            scrollTop: $("#poi_flagged_flash").offset().top
+        }, 500);
+        $(this).find('form').trigger('reset');
+    });
 
-// $(document).on("click", ".iw_flagged_poi", function () {
-    
-//     var eventId = $(this).data('id');
-//     var form_action = '/poi/' + eventId + '/flag'+'?page=home'
-//     console.log(form_action)
-//     $("#flag_poi_confirm").attr('action', form_action);
-//     // $('#poi').html( eventId );
-// });
+    function flash_poi_flagged() {
+
+    $("#poi_flagged_flash").show();
+    setTimeout(function() { $("#poi_flagged_flash").hide(); }, 10000);
+    }
+
 
 </script>
 

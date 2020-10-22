@@ -17,6 +17,7 @@ $(document).ready(function(){
     $("#poi_created_flash").show();
     setTimeout(function() { $("#poi_created_flash").hide(); }, 10000);
   }
+  
 
 // mobile_menu
 var menu = $('ul#navigation');

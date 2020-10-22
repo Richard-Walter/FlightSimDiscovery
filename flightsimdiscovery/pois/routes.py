@@ -181,26 +181,35 @@ def delete_poi(poi_id):
     else:
         return redirect(url_for('main.home'))
 
-@pois.route("/poi/<int:poi_id>/flag", methods=['POST'])
+@pois.route("/flag_poi", methods=['POST'])
 @login_required
-def flag_poi(poi_id):
+def flag_poi():
     
-    category = request.args.get('page')
-    # reason = 
-
+ 
+    reason = request.form.get('reason')
+    from_page = request.form.get('page')
+    poi_id = request.form.get('poi_id')
 
     if current_user.is_authenticated:
+
+        flagged_pois = poi = Flagged.query.all()
+
+        for flagged_poi in flagged_pois:
+            if int(poi_id) == flagged_poi.poi_id:
+                return 'Success'
             
         flagged = Flagged(user_id=current_user.id, poi_id=poi_id, reason=reason)
-        db.session.add(user)
-        flash('Your point of interest has been deleted!', 'success')
+        db.session.add(flagged)
+        db.session.commit()
 
-        if category == 'user_pois':
+        flash('Point of interest has been flagged!', 'success')
+
+        if from_page == 'user_pois':
             return redirect(url_for('users.user_pois'))
-        elif category == 'home':
-            return redirect(url_for('main.home'))
+        elif from_page == 'home':
+            return 'Success'
         else:
-            return redirect(url_for('main.home'))
+            return 'Success'
     else:
         #  need to be logged in to flag a poi
         abort(403)

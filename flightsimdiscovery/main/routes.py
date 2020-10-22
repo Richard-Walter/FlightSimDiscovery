@@ -4,7 +4,7 @@ from copy import deepcopy
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
 from openpyxl import load_workbook
 from flightsimdiscovery import db
-from flightsimdiscovery.models import Favorites, Visited, User
+from flightsimdiscovery.models import Favorites, Visited, User, Flagged
 from flask_login import current_user, login_required
 from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_nearest_airport
 from flightsimdiscovery.pois.utils import *
@@ -58,6 +58,7 @@ def home(filter_poi_location):
     user_ratings = {}
     user_favorites = []
     user_visited = []
+    flagged_pois_list = []
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating': 'Rating'}
     is_authenticated = False
     user_id = None
@@ -96,6 +97,11 @@ def home(filter_poi_location):
         user_visited_query = Visited.query.filter_by(user_id=user_id).all()  # returns a list
         for visit in user_visited_query:
             user_visited.append(visit.poi_id)
+
+         #  flagged pois
+        flagged_pois_query = Flagged.query.all()  # returns a list
+        for flagged_poi in flagged_pois_query:
+            flagged_pois_list.append(flagged_poi.poi_id)
 
     # check if user has submitted a search or user has updated poi via the infowindow
     if request.method == 'POST':
@@ -211,7 +217,7 @@ def home(filter_poi_location):
         anchor = 'where_togo_area'
 
     return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, pois_created=pois_created, pois_found=pois_found, user_visited=user_visited,
-                           user_favorites=user_favorites, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
+                           user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
                            search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
                            _anchor=anchor)
     # return render_template("home.html", pois=data)

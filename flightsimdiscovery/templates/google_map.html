@@ -41,6 +41,8 @@
       var user_ratings_dict = {{user_ratings|tojson}};
       var user_favorites = {{user_favorites|tojson}};
       var user_visited = {{user_visited|tojson}};
+      var flagged_pois = {{flagged_pois|tojson}};
+
 
       pois_array.forEach(function (poi, index) {
         infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating};
@@ -168,6 +170,7 @@
             var rating = infowindow_dict[marker_name]['rating'];
             var hiddenButtons = 'style="display: none"';
             var hiddenDetails = 'style="display: none"';
+            var flagIconDisplay = 'style="display: none"';
             var showAddWaypointBtn = 'd-none';
             var showRemoveWaypointBtn = 'd-none';
             
@@ -191,6 +194,7 @@
               console.log("USER IS AUTHENTICATED.  POI ID IS: "+ id);
               console.log("POI NAME IS: " + marker_name);
               hiddenDetails ='';
+              
 
 
               // if (user_pois_list.includes(parseInt(id))) {
@@ -222,8 +226,13 @@
               if (user_visited.includes(id)) {
                 visitedCheck = 'fa-check-square';
               }
+
               if (user_favorites.includes(id)) {
                 favoriteCheck = 'fas';
+              }
+
+              if ((!flagged_pois.includes(id)) && (is_authenticated=='True')){
+                flagIconDisplay = '';
               }
             }
 
@@ -307,7 +316,7 @@
                       '<a style="cursor:pointer" href="/poi/'+id+'/update"><i id="iw_update_poi" class="fas fa-edit fa-fw fa-lg" title="update" style="color:#5c5b5b;"></i></a>'+
                       '<a class="iw_delete_poi" style="cursor:pointer" href="#" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i id="iw_image_delete_poi" class="far fa-trash-alt fa-fw fa-lg" title="delete" style="color:#9e0808;"></i></a>'+
                     '</div>'+  
-                    '<div class="iw_flag_icon">' +
+                    '<div class="iw_flag_icon"' + flagIconDisplay + '>' +
                       '<a style="cursor:pointer" href="#" data-id="'+ id +'" data-toggle="modal" data-target="#flagReasonModal"><i id="iw_flagged_poi_icon" class="far fa-flag fa-fw fa-lg" title="Report POI" style="color:#f7c539;"></i></a>'+
                     '</div>'+  
                 '</div>'
@@ -383,19 +392,6 @@
         $.post("/iw_post", {"visitedChecked": visited_checked, "poi_id": poi_id})
       }
 
-      function iw_update_flagged(poi_id){
-
-        var flagged_checked;
-
-        if ($("#iw_flagged_poi").hasClass("fas")) {
-          $("#iw_flagged_poi").removeClass("fas").addClass("far");
-          flagged_checked = "";
-        } else {
-          $("#iw_flagged_poi").removeClass("far").addClass("fas");
-          flagged_checked = "Yes";
-        }
-        // $.post("/iw_post", {"visitedChecked": visited_checked, "poi_id": poi_id})
-        }
 
       //Add a new point to the FlightPath
       function addPoiToFlightPlan(latitude, longitude, waypoint, category) {
