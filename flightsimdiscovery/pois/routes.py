@@ -196,13 +196,11 @@ def flag_poi():
 
         for flagged_poi in flagged_pois:
             if int(poi_id) == flagged_poi.poi_id:
-                return 'Success'
+                return 'Success'    # already flagged
             
         flagged = Flagged(user_id=current_user.id, poi_id=poi_id, reason=reason)
         db.session.add(flagged)
         db.session.commit()
-
-        flash('Point of interest has been flagged!', 'success')
 
         if from_page == 'user_pois':
             return redirect(url_for('users.user_pois'))

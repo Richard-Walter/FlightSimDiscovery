@@ -30,14 +30,48 @@ if(menu.length){
 };
 
 $(document).on("click", ".iw_delete_poi", function () {
-    
+        
   var eventId = $(this).data('id');
   var form_action = '/poi/' + eventId + '/delete'+'?page=home'
-  console.log(form_action)
+
   $("#delete_poi_confirm").attr('action', form_action);
-  console.log(eventId);
+  // console.log(eventId);
   $('#poi').html( eventId );
 });
+
+//handle for flagging a POI
+$( "#flag_poi_confirm_btn" ).click(function() {
+
+  var poi_id = $('.iw_delete_poi').data('id');
+  var message = $('#flaggedModalFormReasonTextArea').val();
+
+  if (message.length < 1) {
+      $("#flag_poi_modal_form").addClass('was-validated');
+  } else{
+      // $('#flaggedModalFormReasonTextArea').val("");
+      $('#flagReasonModal').modal('hide')
+      $("#iw_flagged_poi_icon").removeClass("far").addClass("fas");
+      $('#iw_flagged_poi_icon').prop('title', 'POI has been reported');
+      $.post("/flag_poi", {"reason": message, "poi_id": poi_id, "page":'home'})
+      flash_poi_flagged();
+      $('html, body').animate({
+          scrollTop: $("#poi_flagged_flash").offset().top
+      }, 500);
+      $(this).find('form').trigger('reset');
+  }
+});
+
+$('#flagReasonModal' ).on('hidden.bs.modal', function() {
+
+  $("#flag_poi_modal_form").removeClass('was-validated')
+  $('#flaggedModalFormReasonTextArea').val("");
+})
+
+function flash_poi_flagged() {
+
+$("#poi_flagged_flash").show();
+setTimeout(function() { $("#poi_flagged_flash").hide(); }, 10000);
+}
 
 //Update Country Select values
 $("a.boxed-btn3").click(function(){
