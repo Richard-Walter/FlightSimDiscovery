@@ -88,6 +88,7 @@ class Flagged(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     poi_id = db.Column(db.Integer, db.ForeignKey('pois.id'), nullable=False)
     reason = db.Column(db.Text, nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
 
     def __repr__(self):
         return f"Flagged('{self.user_id}', '{self.poi_id}', '{self.reason}')"
