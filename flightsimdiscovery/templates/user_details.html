@@ -5,49 +5,30 @@
     <div class="user_pois_section my-5">
         <div class="db_table_area">
             <legend class="border-bottom mb-5">User Details</legend>
-            <table id="all_pois_datatable" class="stripe row-border">
+            <table id="all_users_datatable" class="stripe row-border">
                 <thead class="">
                 <tr>
-                    <th scope="col">User</th>
-                    <th scope="col">POI</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Country</th>
-                    <!-- <th scope="col">Region</th> -->
-                    <th scope="col">Description</th>
-                    <!-- <th scope="col">shared</th> -->
-                    <!-- <th scope="col">Visited</th>
-                    <th scope="col">Favorited</th> -->
-                    <th scope="col">Map</th>
-                    <th scope="col">Update</th>
-                    <th scope="col">Delete</th>
-                    <th scope="col">Flagged</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">No. of POIs</th>
+                    <th scope="col">No. of Rated</th>
+                    <th scope="col">No. of Flagged</th>
+                    <!-- <th scope="col">Delete</th> -->
+
                 </tr>
                 </thead>
                 <tbody>
-                {% for poi in all_pois %}
+                {% for user in users %}
                 <tr>
-                    <td>{{poi.username}}</td>
-                    <td>{{poi.name}}</td>
-                    <td>{{poi.date_posted}}</td>
-                    <td>{{poi.category}}</td>
-                    <td>{{poi.country}}</td>
-                    <!-- <td>{{poi.region}}</td> -->
-                    <td>{{poi.description}}</td>
-                    <!-- <td>{{poi.share}}</td> -->
-                    <!-- <td><i class="{{poi.visited}}"></i></td>
-                    <td><i class="{{poi.favorited}}"></i></td> -->
-                    <td><a href="/{{poi.location}}#searchTag" class="btn btn-primary" onclick="this.form.submit()" role="button"
-                           aria-disabled="true"><i class="fas fa-globe-americas"></i></a></td>
-                    <!-- <td><a href="/poi/{{poi.id}}/update">update</a></td> -->
-                    <td><a href="/poi/{{poi.id}}/update" class="btn btn-info" role="button" aria-disabled="true"><i
-                            class="fas fa-edit"></i></a></td>
-                    <!-- <td><button type="button" class="btn btn-info" data-id="{{poi.id}}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-edit"></i></button></td> -->
-                    <td>
-                        <button type="button" class="open_delete_modal btn btn-danger" data-id="{{poi.id}}"
-                                data-toggle="modal" data-target="#deleteModal"><i class="far fa-trash-alt"></i></button>
-                    </td>
-                    <td>{{poi.flag}}</td>
+                    <td>{{user.id}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.number_pois}}</td>
+                    <td>{{user.number_rated}}</td>
+                    <td>{{user.number_flagged}}</td>
+                    <!-- <td>
+                        <button type="button" class="open_delete_users_modal btn btn-danger" data-id="{{user.id}}"
+                                data-toggle="modal" data-target="#deleteUserModal"><i class="far fa-trash-alt"></i></button>
+                    </td> -->
                 </tr>
                 {% endfor %}
                 </tbody>

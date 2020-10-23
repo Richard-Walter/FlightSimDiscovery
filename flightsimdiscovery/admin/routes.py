@@ -58,27 +58,6 @@ def update_database():
     else:
         abort(403)
 
-@admin.route("/migrate_database", methods=['GET', 'POST'])
-@login_required
-def migrate_database():
-
-    form = MigrateDatabaseForm()
-
-    if current_user.is_authenticated and (current_user.username == 'admin'):
-
-        if form.validate_on_submit():
-            # current_user.username = form.username.dat
-            flash('Database has been migrated!', 'success')
-            return redirect(url_for('main.home'))
-
-        elif request.method == 'GET':
-            # form.username.data = current_user.username
-
-            return render_template('migrate_database.html', form=form)
-    
-    else:
-        abort(403)
-
 @admin.route("/run_script", methods=['GET', 'POST'])
 @login_required
 def run_script():
@@ -106,7 +85,39 @@ def run_script():
 def user_details():
     if current_user.is_authenticated and (current_user.username == 'admin'):
 
-        return render_template('user_details.html')
+        users_data = []
+        users = User.query.all()
+        
+
+        for user in users:
+
+            user_details = {}
+
+            users_pois = Pois.query.filter_by(user_id=user.id).all()
+            no_of_user_pois = 0
+            if users_pois:
+                no_of_user_pois = len(users_pois)
+
+            users_rating = Ratings.query.filter_by(user_id=user.id).all()
+            no_of_user_ratings = 0
+            if users_rating:
+                no_of_user_ratings = len(users_pois)
+
+            users_flagged = Flagged.query.filter_by(user_id=user.id).all()
+            no_of_user_flagged = 0
+            if users_flagged:
+                no_of_user_flagged = len(users_pois)
+
+            user_details['id'] = user.id
+            user_details['username'] = user.username
+            user_details['number_pois'] = no_of_user_pois
+            user_details['number_rated'] = no_of_user_ratings
+            user_details['number_flagged'] = no_of_user_flagged
+
+            users_data.append(user_details)
+
+
+        return render_template('user_details.html', users=users_data)
     
     else:
         abort(403)

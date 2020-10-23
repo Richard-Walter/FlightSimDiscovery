@@ -163,6 +163,18 @@ $('#all_pois_datatable').DataTable( {
   // "pagingType": "full_numbers"
 } );
 
+$('#all_users_datatable').DataTable( {
+  
+  'columnDefs': [
+   
+    { className: 'text-center', targets: [0,2,3,4] },
+   ],
+  // "scrollY":        "800px",
+  "scrollCollapse": true,
+  "paging":         false
+  // "pagingType": "full_numbers"
+} );
+
 $('#flagged_pois_datatable').DataTable( {
   
   'columnDefs': [
