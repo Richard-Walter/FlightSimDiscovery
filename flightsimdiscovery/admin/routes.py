@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request, Blueprint
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from flightsimdiscovery import db
 from flightsimdiscovery.models import User, Pois, Visited, Favorites, Ratings, Flagged
 from flask_login import login_user, current_user, logout_user, login_required
@@ -101,12 +101,12 @@ def user_details():
             users_rating = Ratings.query.filter_by(user_id=user.id).all()
             no_of_user_ratings = 0
             if users_rating:
-                no_of_user_ratings = len(users_pois)
+                no_of_user_ratings = len(users_rating)
 
             users_flagged = Flagged.query.filter_by(user_id=user.id).all()
             no_of_user_flagged = 0
             if users_flagged:
-                no_of_user_flagged = len(users_pois)
+                no_of_user_flagged = len(users_flagged)
 
             user_details['id'] = user.id
             user_details['username'] = user.username

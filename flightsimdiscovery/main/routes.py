@@ -495,20 +495,30 @@ def confirm_update_db():
 
 @main.route("/update_db/<confirmation>")
 @login_required
-def update_db(confirmation):
+def update_db(password):
 
     pois = Pois.query.all()
 
-    if (current_user.username == 'admin') and (confirmation == "True"):
+    if (current_user.username == 'admin') and (password == "ginny"):
+
+
+
+
+
+
+        #  ****** CHANGED THIS  *********
+        category = 'Japan'
+
+
+
+
+
 
         user_id = current_user.id # admin will create all these
         name = ''
         latitude = ''
         longitude = ''
         country = ''
-        # category = ''
-        #  CHANGED THIS
-        category = 'Japan'
         description = ''
         country_set = set()
         countries_not_found = []

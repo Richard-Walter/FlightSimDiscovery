@@ -21,7 +21,7 @@
                 {% for user in users %}
                 <tr>
                     <td>{{user.id}}</td>
-                    <td>{{user.username}}</td>
+                    <td><a href="/user_pois/{{user.id}}" class="text-primary" role="button" aria-disabled="true">{{user.username}}</a></td>
                     <td>{{user.number_pois}}</td>
                     <td>{{user.number_rated}}</td>
                     <td>{{user.number_flagged}}</td>

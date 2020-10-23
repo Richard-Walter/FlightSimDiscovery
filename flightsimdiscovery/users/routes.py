@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request, Blueprint
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from flightsimdiscovery import db, bcrypt
 from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flightsimdiscovery.models import User, Pois
@@ -73,12 +73,19 @@ def account():
     return render_template('account.html', image_file=image_file, form=form)
 
 
-@users.route("/user_pois")
+@users.route("/user_pois", defaults={'user_id': None})
+@users.route("/user_pois/<user_id>")
 @login_required
-def user_pois():
-    print(current_user.id)
+def user_pois(user_id):
 
-    user_pois_with_additional_data = get_user_pois_dict_inc_favorites_visited(current_user.id, True)
+    if user_id:
+        if (current_user.username != 'admin'):
+            if (user_id != str(current_user.id)):
+                abort(403)
+    else:
+        user_id = current_user.id
+        
+    user_pois_with_additional_data = get_user_pois_dict_inc_favorites_visited(user_id, True)
     favorite_pois = get_user_favorited_pois(current_user.id)
     visited_pois = get_user_visited_pois(current_user.id)
     flagged_pois = get_user_flagged_pois(current_user.id)
