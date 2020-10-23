@@ -179,7 +179,8 @@ def delete_poi(poi_id):
         if (poi.user_id != current_user.id):
             abort(403)
     db.session.delete(poi)
-    db.session.delete(flagged_poi)
+    if flagged_poi:
+        db.session.delete(flagged_poi)
 
     for visited_poi in visited_poi_list:
         db.session.delete(visited_poi)
