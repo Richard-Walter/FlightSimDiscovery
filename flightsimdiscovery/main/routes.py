@@ -29,6 +29,7 @@ main = Blueprint('main', __name__)
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/<filter_poi_location>", )
 def home(filter_poi_location):
+
     # test logging
     # print(3/0)
     anchor = ''

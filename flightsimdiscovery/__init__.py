@@ -6,7 +6,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flightsimdiscovery.config import Config
 from logging import FileHandler, WARNING
-
+from flightsimdiscovery.config import support_dir
 
 # app = Flask(__name__)
 # # PUT THIS IN IN A ENVIRON VARIABLE DONE DIFFERENTLY ON WINDOWS AND LINUX
@@ -42,7 +42,8 @@ def create_app(config_class=Config):
     app = Flask(__name__)
 
     # set up logging
-    file_handler = FileHandler('error_log.txt')
+    error_log_file_path  = str(support_dir) + '//error_log.txt'
+    file_handler = FileHandler(error_log_file_path)
     file_handler.setLevel(WARNING)
     app.logger.addHandler(file_handler)
 
