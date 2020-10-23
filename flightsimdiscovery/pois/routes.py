@@ -234,13 +234,22 @@ def flag_poi():
 @login_required
 def delete_flagged_poi(poi_id):
 
-    if current_user.is_authenticated and (current_user.username == 'admin'):
+    category = request.args.get('page')
 
-        poi = Flagged.query.filter_by(poi_id=poi_id).first()
-        db.session.delete(poi)
-        db.session.commit()
+    flagged_poi = Flagged.query.filter_by(poi_id=poi_id).first()
 
+    if (current_user.username != 'admin'):
+
+        if (flagged_poi.user_id != current_user.id):
+            abort(403)
+
+    db.session.delete(flagged_poi)
+    db.session.commit()
+
+    if category == 'user_pois':
+        return redirect(url_for('users.user_pois'))
+    elif category == 'flagged_pois':
         return redirect(url_for('admin.flagged_pois'))
-    
     else:
-        abort(403)
+        return redirect(url_for('main.home'))
+

@@ -4,7 +4,7 @@ from PIL import Image
 from flask import url_for
 from flask_mail import Message
 from flightsimdiscovery import mail
-from flightsimdiscovery.models import Pois, Visited, Favorites, User
+from flightsimdiscovery.models import Pois, Visited, Favorites, User, Flagged
 from flightsimdiscovery.pois.utils import getTickImageBasedOnState
 from flask import current_app
 from flightsimdiscovery.config import Config
@@ -134,6 +134,23 @@ def get_user_visited_pois(user_id):
     for poi_id in user_visited_poi_id_list:
         poi = Pois.query.filter_by(id=poi_id).first()
         poi_data = {'id': poi.id, 'name': poi.name, 'date_posted': poi.date_posted, 'category': poi.category, 'country': poi.country, 'description': poi.description}
+        # add location info for map icon in user pois
+        poi_data['location'] = str(poi.latitude) + ', ' + str(poi.longitude)
+
+        additional_user_pois_data.append(poi_data)
+
+    return additional_user_pois_data
+
+
+def get_user_flagged_pois(user_id):
+
+    additional_user_pois_data = []
+
+    user_flagged_pois = Flagged.query.filter_by(user_id=user_id).all()
+
+    for user_flagged_poi in user_flagged_pois:
+        poi = Pois.query.filter_by(id=user_flagged_poi.poi_id).first()
+        poi_data = {'id': poi.id, 'name': poi.name, 'reason': user_flagged_poi.reason}
         # add location info for map icon in user pois
         poi_data['location'] = str(poi.latitude) + ', ' + str(poi.longitude)
 

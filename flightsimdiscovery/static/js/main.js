@@ -138,6 +138,19 @@ $('#account_visited_datatable').DataTable( {
   // "pagingType": "full_numbers"
 } );
 
+$('#account_flagged_datatable').DataTable( {
+
+  responsive: true,
+  'columnDefs': [
+   
+    { className: 'text-center', targets: [2,3] },
+   ],
+  // "scrollY":        "800px",
+  "scrollCollapse": true,
+  "paging":         false
+  // "pagingType": "full_numbers"
+} );
+
 $('#all_pois_datatable').DataTable( {
   
   'columnDefs': [

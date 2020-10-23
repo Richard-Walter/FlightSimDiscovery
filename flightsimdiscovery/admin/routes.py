@@ -6,7 +6,6 @@ from flightsimdiscovery.admin.forms import UpdateDatabaseForm, MigrateDatabaseFo
 
 admin = Blueprint('admin', __name__)
 
-
 @admin.route("/flagged_pois", methods=['GET'])
 @login_required
 def flagged_pois():
