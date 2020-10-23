@@ -167,7 +167,7 @@ $('#flagged_pois_datatable').DataTable( {
   
   'columnDefs': [
    
-    { className: 'text-center', targets: [0, 1, 5,6, 7] },
+    { className: 'text-center', targets: [1, 5,6, 7,8] },
    ],
   // "scrollY":        "800px",
   "scrollCollapse": true,

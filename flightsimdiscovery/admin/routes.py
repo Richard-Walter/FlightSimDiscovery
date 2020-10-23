@@ -14,12 +14,11 @@ def flagged_pois():
 
         flagged_pois_data = []
         flagged_pois = Flagged.query.all()
-
-        
         
         for flagged_poi in flagged_pois:
 
             poi = Pois.query.filter_by(id=flagged_poi.poi_id).first()
+            user = User.query.filter_by(id=flagged_poi.user_id).first()
             data_location = str(poi.latitude) + ', ' + str(poi.longitude)
             date_flagged = flagged_poi.date_posted
 
@@ -28,7 +27,7 @@ def flagged_pois():
             else:
                 date_flagged = date_flagged.strftime("%Y-%m-%d %H:%M:%S")
 
-            flagged_poi_data = {'user_id': flagged_poi.user_id, 'poi_id': poi.id, 'name': poi.name, 'date_posted': date_flagged,'reason': flagged_poi.reason, 'location': data_location}  
+            flagged_poi_data = {'user_id': flagged_poi.user_id, 'username': user.username, 'poi_id': poi.id, 'name': poi.name, 'date_posted': date_flagged,'reason': flagged_poi.reason, 'location': data_location}  
             flagged_pois_data.append(flagged_poi_data) 
         
         return render_template('flagged_pois.html', flagged_pois_data=flagged_pois_data)
