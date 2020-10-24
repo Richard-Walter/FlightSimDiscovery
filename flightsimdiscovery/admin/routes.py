@@ -2,7 +2,8 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint,
 from flightsimdiscovery import db
 from flightsimdiscovery.models import User, Pois, Visited, Favorites, Ratings, Flagged
 from flask_login import login_user, current_user, logout_user, login_required
-from flightsimdiscovery.admin.forms import UpdateDatabaseForm, MigrateDatabaseForm, RunScriptForm
+from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm
+from flightsimdiscovery.admin.utilities import get_xml_db_update_list
 
 admin = Blueprint('admin', __name__)
 
@@ -40,6 +41,8 @@ def flagged_pois():
 def update_database():
 
     form = UpdateDatabaseForm()
+
+    get_xml_db_update_list()
 
     if current_user.is_authenticated and (current_user.username == 'admin'):
 
@@ -148,4 +151,61 @@ def all_pois():
     else:
         return render_template('errors/403.html'), 403
 
+# @admin.route("/build_db")
+# @login_required
+# def build_db():
+#     # open spreadsheet
+
+#     workbook = load_workbook(filename="flightsimdiscovery\\output\\poi_database.xlsx")
+#     sheet = workbook.active
+#     print("######################")
+#     print(sheet.cell(row=10, column=3).value)
+
+#     print('Building dadtabase')
+
+#     if (current_user.username == 'admin') and (False):
+
+#         # Test Create
+#         # user_id = 1  # admin will create all these
+#         user_id = current_user.id
+
+#         for count, row in enumerate(sheet.rows, start=1):
+#             print(count)
+#             if count == 1:
+#                 continue  # dont include header
+
+#             if row[0].value == "":
+#                 break  # no more data in spreadhseet
+
+#             poi = Pois(
+#                 user_id=user_id,
+#                 name=row[0].value.strip(),
+#                  latitude=float(row[2].value),
+#                 longitude=float(row[3].value),
+#                 region=get_country_region(row[4].value),
+#                 country=row[4].value, category=row[1].value,
+#                 description=row[6].value
+#             )
+
+#             db.session.add(poi)
+#             db.session.commit()
+
+#             # Update Rating table
+#             # print('Poi ID is: ', poi.id) # This gets the above poi that was just committed.
+#             rating = Ratings(user_id=user_id, poi_id=poi.id, rating_score=4)
+#             db.session.add(rating)
+#             db.session.commit()
+
+#         flash('Database has been built', 'success')
+#         return redirect(url_for('main.home'))
+#     else:
+
+#         abort(403)
+
+# @admin.route("/create_db")
+# def create_db():
+#     print("Creating new database")
+#     db.create_all()
+
+#     return "success"
 

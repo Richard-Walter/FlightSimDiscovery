@@ -29,21 +29,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            {{ form.database_backedup.label(class="form-control-label") }}
-                            {% if form.database_backedup.errors %}
-                            {{ form.database_backedup(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.database_backedup.errors %}
-                                <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                            {% else %}
-                            {{ form.database_backedup(class="form-control form-control-lg", cols="30", rows="9") }}
-                            {% endif %}
-                        </div>
-                    </div>
+
                     <div class="col-12">
                         <div class="form-group">
                             {{ form.password.label(class="form-control-label") }}
