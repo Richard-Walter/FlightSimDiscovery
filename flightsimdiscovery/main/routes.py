@@ -18,7 +18,6 @@ main = Blueprint('main', __name__)
 
 # TODO add logic to validate name/location when updating poi
 # TODO validate name on create POI form prior to user hitting Create button
-# TODO add country default zoom level so returning search by country is set to correct zoom
 # TODO export flight plan in xplane format
 # TODO add search for town and zoom in to create POI of interest
 # TODO if you like, flag or visit - infowindow wont show wehn re-opening infowindow.  Needs to re-fresh page
@@ -128,8 +127,15 @@ def home(filter_poi_location):
 
             # Creat the map intit variables
             if country != 'Country':
+                
+                large_country_list = ['Russian Federation', 'Canada', 'United States of America', 'China', 'Brazil', 'Australia','India', 'Argentina', 'Kazakhstan', 'Algeria', 'Greenland', 'Saudi Arabia', 'Mexico', 'Congo, Democratic Republic of the']
+                
+                if country in large_country_list:
 
-                map_init['zoom'] = 6  # default country zoom
+                    map_init['zoom'] = 5
+                else:
+                    map_init['zoom'] = 7 # default country zoom
+                
                 map_init['lat'] = countries_details[country][1]
                 map_init['long'] = countries_details[country][2]
 
