@@ -24,6 +24,8 @@ main = Blueprint('main', __name__)
 # TODO disable country in create new POI form if POI created froma right-click on the map
 # TODO add search for town and zoom in to create POI of interest
 # TODO if you like, flag or visit - infowindow wont show wehn re-opening infowindow.  Needs to re-fresh page
+# TODO user star rating wont default
+
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
