@@ -24,12 +24,12 @@ class UpdateDatabaseForm(FlaskForm):
 
 class RunScriptForm(FlaskForm):
 
-    name = SelectField('Name', choices=get_xml_db_update_list())
+    name = StringField('Name', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Run Script')
 
     def validate_password(self, password):
-        if password != 'ginny':
+        if password.data != 'ginny':
 
             raise ValidationError('Incorrect password')
 

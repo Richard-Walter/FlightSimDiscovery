@@ -76,18 +76,28 @@ def run_script():
 
     if current_user.is_authenticated and (current_user.username == 'admin'):
 
-        if form.validate_on_submit():
-            # current_user.username = form.username.dat
-
-            flash('Script has been run!', 'success')
-            return redirect(url_for('main.home'))
-
-        elif request.method == 'GET':
-            # form.username.data = current_user.username
-
+        if request.method == 'GET':
 
             return render_template('run_script.html', form=form)
-    
+
+        elif request.method == 'POST':
+        
+            if form.validate_on_submit():
+
+                # backup_db()
+                script_name = form.name.data
+
+                flash(script_name + ' script has been run!', 'success')
+            
+                return redirect(url_for('main.home'))
+
+            else:
+                return render_template('run_script.html', form=form)
+
+        else:
+
+            abort(403)
+
     else:
         abort(403)
 

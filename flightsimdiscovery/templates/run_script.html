@@ -2,15 +2,15 @@
 
 <div class="about_story">
     <div id="no_serach_results" class="alert alert-danger text-center" role="alert">
-        *** BACK UP DATABASE BEFORE MIGRATION ****
+        *** BACK UP DATABASE BEFORE UPDATING ****
     </div>
   <div class="container">
       <div class="row my-5">
           <div class="col-12">
               <h3 class="contact-title">Run Script</h3>
           </div>
-          <div class="col-lg-12">
-              <form class="form-contact contact_form" action="" method="post" id="contactForm"
+          <div class="col-lg-6">
+              <form class="form-run_script" action="" method="post" id="run_scriptForm"
                     novalidate="novalidate">
                   {{ form.hidden_tag() }}
                   <div class="row">
@@ -25,22 +25,7 @@
                                 {% endfor %}
                             </div>
                             {% else %}
-                            {{ form.name(class="form-control form-control-lg", cols="30", rows="9") }}
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            {{ form.database_backedup.label(class="form-control-label") }}
-                            {% if form.database_backedup.errors %}
-                            {{ form.database_backedup(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.database_backedup.errors %}
-                                <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                            {% else %}
-                            {{ form.database_backedup(class="form-control form-control-lg", cols="30", rows="9") }}
+                            {{ form.name(class="form-control form-control-lg") }}
                             {% endif %}
                         </div>
                     </div>
