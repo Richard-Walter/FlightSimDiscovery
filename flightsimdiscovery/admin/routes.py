@@ -1,9 +1,9 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
-from flightsimdiscovery import db
-from flightsimdiscovery.models import User, Pois, Visited, Favorites, Ratings, Flagged
-from flask_login import login_user, current_user, logout_user, login_required
+from flightsimdiscovery.models import User, Pois, Ratings, Flagged
+from flask_login import current_user, login_required
 from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm
-from flightsimdiscovery.admin.utilities import get_xml_db_update_list
+from flightsimdiscovery.admin.utilities import update_db, backup_db
+
 
 admin = Blueprint('admin', __name__)
 
@@ -42,22 +42,30 @@ def update_database():
 
     form = UpdateDatabaseForm()
 
-    get_xml_db_update_list()
-
     if current_user.is_authenticated and (current_user.username == 'admin'):
 
-        if form.validate_on_submit():
-            # current_user.username = form.username.dat
-
-            flash('Database has been updated!', 'success')
-        
-            return redirect(url_for('main.home'))
-
-        elif request.method == 'GET':
-            # form.username.data = current_user.username
+        if request.method == 'GET':
 
             return render_template('update_database.html', form=form)
-    
+
+        elif request.method == 'POST':
+        
+            if form.validate_on_submit():
+                # current_user.username = form.username.dat
+                backup_db()
+                update_db(form.name.data, form.country.data)
+
+                flash('Database has been updated!', 'success')
+            
+                return redirect(url_for('main.home'))
+
+            else:
+                return render_template('update_database.html', form=form)
+
+        else:
+
+            abort(403)
+
     else:
         abort(403)
 

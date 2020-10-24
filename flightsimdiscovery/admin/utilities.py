@@ -1,39 +1,34 @@
-import csv, os, json
+import os, shutil, datetime
 import xml.etree.ElementTree as ET
-from copy import deepcopy
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
-from openpyxl import load_workbook
+from flask import  abort
 from flightsimdiscovery import db
-from flightsimdiscovery.models import Favorites, Visited, User, Flagged
-from flask_login import current_user, login_required
-from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_nearest_airport
+from flask_login import current_user
+from utilities import get_country_region
 from flightsimdiscovery.pois.utils import *
-from flightsimdiscovery.main.forms import ContactForm
-from flightsimdiscovery.users.utitls import send_contact_email
-from flightsimdiscovery.config import Config, basedir
+from flightsimdiscovery.config import basedir, support_dir
 from utilities import get_location_details
 
 def get_xml_db_update_list():
 
-    file_path_dict = {}
+    file_path_list = []
 
     xml_files = [os.path.abspath(x) for x in os.listdir(os.path.join(basedir, "input\database_updates"))]
     for xml_file in xml_files:
-        file_name = os.path.basename(xml_file)
-        file_path_dict[os.path.basename(file_name)] = xml_file
+        file_path_list.append(os.path.basename(xml_file))
+        # file_name = os.path.basename(xml_file)
+        # file_path_dict[os.path.basename(file_name)] = xml_file
 
-    print(file_path_dict)
+    return file_path_list
 
-    return file_path_dict
-
-def update_db(password):
+def update_db(file_name, country):
 
     pois = Pois.query.all()
 
-    if (current_user.username == 'admin'):
+    full_path = "flightsimdiscovery\\input\\database_updates\\" + file_name
 
-        #  ****** CHANGED THIS  *********
-        category = 'Japan'
+    print(os.getcwd())
+
+    if (current_user.username == 'admin'):
 
 
 
@@ -41,7 +36,7 @@ def update_db(password):
         name = ''
         latitude = ''
         longitude = ''
-        country = ''
+        # country = ''  # change this if not country specific update
         description = ''
         country_set = set()
         countries_not_found = []
@@ -50,7 +45,8 @@ def update_db(password):
         poi_location_exists_list = []
 
         # Parse the update db xml file
-        tree = ET.parse("flightsimdiscovery\\input\\database\\Japan Update.xml")
+        tree = ET.parse("flightsimdiscovery\\input\\database_updates\\Japan Update.xml")
+        # tree = ET.parse(full_path)
         folders= tree.findall('.//Folder')
 
         for folder in folders:
@@ -76,9 +72,9 @@ def update_db(password):
                         latitude = float(coordinates_list[1])
                         location_details = get_location_details(latitude, longitude)
                         city = location_details.get('city', "")
-                        country = location_details.get('country', "")
+                        # country = location_details.get('country', "")         #uncomment this for generic import
                         state = location_details.get('state', "")
-                        county = location_details.get('county', "")   # commented out for country specific msfs updates
+                        county = location_details.get('county', "")
                         if country:
                             country_set.add(country)
                             region = get_country_region(country.strip())
@@ -131,13 +127,28 @@ def update_db(password):
                         )
 
                         db.session.add(poi)
-                        db.session.commit()
+                       
 
                         # Update Rating table with default rating of 4
                         rating = Ratings(user_id=user_id, poi_id=poi.id, rating_score=4)
                         db.session.add(rating)
-                        db.session.commit()
+
+        db.session.commit()
 
     else:
 
         abort(403)
+
+def backup_db():
+
+    now = str(datetime.datetime.now())[:19]
+    now = now.replace(":","_")
+
+    backup_dir = os.path.join(support_dir, "Database Backups")
+
+    # src_dir="C:\\Users\\Asus\\Desktop\\Versand Verwaltung\\fsdiscovery.db"
+    src_dir=os.path.join(support_dir, "fsdiscovery.db")
+
+    # dst_dir="C:\\Users\\Asus\\Desktop\\Versand Verwaltung\\fsdiscovery_"+str(now)+".bd"
+    dst_dir=os.path.join(backup_dir, "fsdiscovery_"+str(now)+".db")
+    shutil.copy(src_dir,dst_dir)
