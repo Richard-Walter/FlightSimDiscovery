@@ -39,9 +39,9 @@
       var pois_array = {{pois|tojson}};
       var user_pois = {{user_pois_json|tojson}};
       var user_ratings_dict = {{user_ratings|tojson}};
-      var user_favorites = {{user_favorites|tojson}};
-      var user_visited = {{user_visited|tojson}};
-      var flagged_pois = {{flagged_pois|tojson}};
+      var user_favorites = new Set({{user_favorites|tojson}});
+      var user_visited = new Set({{user_visited|tojson}});
+      var flagged_pois = new Set({{flagged_pois|tojson}});
 
 
       pois_array.forEach(function (poi, index) {
@@ -227,17 +227,23 @@
                 ratingRadio5 = 'checked';
               }
 
-              if (user_visited.includes(id)) {
+              if (user_visited.has(id)) {
                 visitedCheck = 'fa-check-square';
+                
+              } else {
+                visitedCheck = 'fa-square';
               }
 
-              if (user_favorites.includes(id)) {
+              if ((user_favorites.has(id))) {
                 favoriteCheck = 'fas';
+                
+              } else {
+                favoriteCheck = 'far';
               }
 
-              if ((!flagged_pois.includes(id)) && (is_authenticated=='True')){
+              if ((!flagged_pois.has(id)) && (is_authenticated=='True')){
                 flagIconDisplay = '';
-              }
+              } 
             }
 
             //show or hide add/remove waypoint buttons
@@ -375,9 +381,14 @@
         if ($("#iw_icon_fav").hasClass("fas")) {
           $("#iw_icon_fav").removeClass("fas").addClass("far");
           favorite_checked  = "";
+          user_favorites.delete(parseInt(poi_id));
+
+          // session_favorited.delete(poi_id);
         } else {
           $("#iw_icon_fav").removeClass("far").addClass("fas");
           favorite_checked  = "Yes";
+          user_favorites.add(parseInt(poi_id))
+          // session_favorited.add(poi_id);
         }
         $.post("/iw_post", {"favoriteChecked": favorite_checked, "poi_id": poi_id})
       }
@@ -389,9 +400,11 @@
         if ($("#iw_icon_visited").hasClass("fa-check-square")) {
           $("#iw_icon_visited").removeClass("fa-check-square").addClass("fa-square");
           visited_checked = "";
+          user_visited.delete(parseInt(poi_id));
         } else {
           $("#iw_icon_visited").removeClass("fa-square").addClass("fa-check-square");
           visited_checked = "Yes";
+          user_visited.add(parseInt(poi_id))
         }
         $.post("/iw_post", {"visitedChecked": visited_checked, "poi_id": poi_id})
       }

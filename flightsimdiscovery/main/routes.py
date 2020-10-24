@@ -20,7 +20,6 @@ main = Blueprint('main', __name__)
 # TODO validate name on create POI form prior to user hitting Create button
 # TODO export flight plan in xplane format
 # TODO add search for town and zoom in to create POI of interest
-# TODO if you like, flag or visit - infowindow wont show wehn re-opening infowindow.  Needs to re-fresh page
 # TODO user star rating wont default
 # TODO list of POIS whos lat/lng doesnt return a validate country
 
