@@ -20,8 +20,6 @@ main = Blueprint('main', __name__)
 # TODO validate name on create POI form prior to user hitting Create button
 # TODO add country default zoom level so returning search by country is set to correct zoom
 # TODO export flight plan in xplane format
-# TODO add ability for User with account to flag POIS with reason
-# TODO disable country in create new POI form if POI created froma right-click on the map
 # TODO add search for town and zoom in to create POI of interest
 # TODO if you like, flag or visit - infowindow wont show wehn re-opening infowindow.  Needs to re-fresh page
 # TODO user star rating wont default

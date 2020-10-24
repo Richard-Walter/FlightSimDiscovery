@@ -7,7 +7,7 @@ from flightsimdiscovery.pois.utils import validate_poi_name
 
 class PoiCreateForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    country = SelectField('Country', choices=get_country_list(), validators=[DataRequired()])
+    country = SelectField('Country', choices=get_country_list(), render_kw={'disabled': False}, validators=[DataRequired()])
     category = SelectField('Category', choices=get_category_list(), validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     latitude = StringField('Latitude (decimal degrees) e.g. -34.407279', validators=[DataRequired(), Length(min=2, max=18)])
