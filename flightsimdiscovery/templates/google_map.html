@@ -57,6 +57,11 @@
 
       };
 
+      //this function used so flagged icon is displayed correctly with a refresh
+      function add_flagged_poi_to_list(poi_id) {
+        flagged_pois.add(poi_id);
+      };
+
       function textToClipboard (latlong) {
         var dummy = document.createElement("textarea");
         document.body.appendChild(dummy);

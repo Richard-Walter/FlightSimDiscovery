@@ -15,14 +15,12 @@ from utilities import get_location_details
 
 main = Blueprint('main', __name__)
 
-
-# TODO add logic to validate name/location when updating poi
+# TODO validate name when creating new poi without refresh
 # TODO validate name on create POI form prior to user hitting Create button
+# TODO add logic to validate name/location when updating poi
 # TODO export flight plan in xplane format
 # TODO add search for town and zoom in to create POI of interest
 # TODO user star rating wont default
-# TODO list of POIS whos lat/lng doesnt return a validate country
-
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])

@@ -29,6 +29,11 @@ if(menu.length){
 	});
 };
 
+//check if name exists when creating new poi
+$(".form_new_poi #name").blur(function(){
+  
+});
+
 $(document).on("click", ".iw_delete_poi", function () {
         
   var eventId = $(this).data('id');
@@ -54,6 +59,7 @@ $( "#flag_poi_confirm_btn" ).click(function() {
       $('#iw_flagged_poi_icon').prop('title', 'POI has been reported');
       $.post("/flag_poi", {"reason": message, "poi_id": poi_id, "page":'home'})
       flash_poi_flagged();
+      add_flagged_poi_to_list(poi_id);
       $('html, body').animate({
           scrollTop: $("#poi_flagged_flash").offset().top
       }, 500);
