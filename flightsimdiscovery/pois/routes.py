@@ -45,7 +45,8 @@ def new_poi(iw_add_poi_location):
         form.longitude.data = lng
         if country:
             form.country.data = country
-        form.country.render_kw = {'disabled': True}
+            form.country.render_kw = {'disabled': True}
+        
         form.latitude.render_kw = {'disabled': True}
         form.longitude.render_kw = {'disabled': True}
 

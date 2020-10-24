@@ -22,6 +22,7 @@ main = Blueprint('main', __name__)
 # TODO add search for town and zoom in to create POI of interest
 # TODO if you like, flag or visit - infowindow wont show wehn re-opening infowindow.  Needs to re-fresh page
 # TODO user star rating wont default
+# TODO list of POIS whos lat/lng doesnt return a validate country
 
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
