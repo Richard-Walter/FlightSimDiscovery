@@ -12,7 +12,7 @@ def get_xml_db_update_list():
 
     file_path_list = []
 
-    xml_files = [os.path.abspath(x) for x in os.listdir(os.path.join(basedir, "input\database_updates"))]
+    xml_files = [os.path.abspath(x) for x in os.listdir(os.path.join(basedir, "input/database_updates"))]
     for xml_file in xml_files:
         file_path_list.append(os.path.basename(xml_file))
         # file_name = os.path.basename(xml_file)
@@ -24,19 +24,21 @@ def update_db(file_name, country):
 
     pois = Pois.query.all()
 
-    full_path = "flightsimdiscovery\\input\\database_updates\\" + file_name
+    full_path = "flightsimdiscovery/input/database_updates/" + file_name
 
     print(os.getcwd())
 
     if (current_user.username == 'admin'):
 
-
-
         user_id = current_user.id # admin will create all these POIS
         name = ''
         latitude = ''
         longitude = ''
+
+
         # country = ''  # change this if not country specific update
+
+
         description = ''
         country_set = set()
         countries_not_found = []
