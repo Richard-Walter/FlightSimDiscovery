@@ -86,9 +86,9 @@ def user_pois(user_id):
         user_id = current_user.id
         
     user_pois_with_additional_data = get_user_pois_dict_inc_favorites_visited(user_id, True)
-    favorite_pois = get_user_favorited_pois(current_user.id)
-    visited_pois = get_user_visited_pois(current_user.id)
-    flagged_pois = get_user_flagged_pois(current_user.id)
+    favorite_pois = get_user_favorited_pois(user_id)
+    visited_pois = get_user_visited_pois(user_id)
+    flagged_pois = get_user_flagged_pois(user_id)
     return render_template('user_pois.html', user_pois=user_pois_with_additional_data, favorite_pois=favorite_pois, visited_pois=visited_pois, flagged_pois=flagged_pois)
 
 

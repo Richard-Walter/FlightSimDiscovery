@@ -16,11 +16,13 @@ from utilities import get_location_details
 main = Blueprint('main', __name__)
 
 # TODO validate name when creating new poi without refresh
+# TODO cancel button on Create new poi https://stackoverflow.com/questions/38782349/button-as-a-cancel-redirects-to-previous-page
 # TODO validate name on create POI form prior to user hitting Create button
 # TODO add logic to validate name/location when updating poi
 # TODO export flight plan in xplane format
 # TODO add search for town and zoom in to create POI of interest
 # TODO user star rating wont default
+# TODO save flight plan across session
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
