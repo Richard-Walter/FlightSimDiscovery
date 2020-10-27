@@ -79,6 +79,7 @@
 <input id="countryDefaultVaule" name="countryDefaultVaule"  type="hidden" value="{{search_defaults['Country']}}"/>
 <input id="searchResults" name="searchResults"  type="hidden" value="{{pois_found}}"/>
 <input id="poiCreated" name="searchResults"  type="hidden" value="{{pois_created}}"/>
+<input id="poiUpdated" name="searchResults"  type="hidden" value="{{pois_updated}}"/>
 
 <div id="where_togo_area" class="where_togo_area">
     <div class="container">
@@ -192,14 +193,19 @@
 
 <!-- no search result flash end-->
 
-<!-- no search result flash start-->
+<!-- POI CREATED flash start-->
 <div id="poi_created_flash" class="alert alert-success text-center my-0"  style="display: none;" role="alert">
     
     A new point of interest has been created!
 
 </div>
 
-<!-- no search result flash end -->
+<!-- POI UPDATED flash start-->
+<div id="poi_updated_flash" class="alert alert-success text-center my-0"  style="display: none;" role="alert">
+    
+    Your point of interest has been updated!
+
+</div>
 
 <!-- POI flagged flash start-->
 <div id="poi_flagged_flash" class="alert alert-info text-center my-0"  style="display: none;" role="alert">

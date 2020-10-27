@@ -16,13 +16,12 @@ from utilities import get_location_details
 main = Blueprint('main', __name__)
 
 # TODO validate name when creating new poi without refresh
-# TODO cancel button on Create new poi https://stackoverflow.com/questions/38782349/button-as-a-cancel-redirects-to-previous-page
 # TODO validate name on create POI form prior to user hitting Create button
-# TODO add logic to validate name/location when updating poi
 # TODO export flight plan in xplane format
 # TODO add search for town and zoom in to create POI of interest
 # TODO user star rating wont default
 # TODO save flight plan across session
+
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
@@ -53,6 +52,7 @@ def home(filter_poi_location):
     search_category_selected = False
     pois_found = True
     pois_created = False
+    pois_updated = False
     # user_pois_list = []
     user_pois_dict = {}
     user_pois_list = []
@@ -209,11 +209,12 @@ def home(filter_poi_location):
 
         map_data.append(data_dic)
 
-    # check to see if a new poi has been created.  If so we will zoom in close to the newly created poi
+    # check to see if a new poi has been created or updated.  If so we will zoom in close to the newly created poi
     country = request.args.get('country', None)
     new_poi_lat = request.args.get('latitude', None)
     new_poi_long = request.args.get('longitude', None)
     pois_created = request.args.get('pois_created', None)
+    pois_updated = request.args.get('pois_updated', None)
 
     if country is not None:
         map_init['zoom'] = 8
@@ -224,7 +225,7 @@ def home(filter_poi_location):
         # map_init['long'] = countries_details[country][2]
         anchor = 'where_togo_area'
 
-    return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, pois_created=pois_created, pois_found=pois_found, user_visited=user_visited,
+    return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
                            user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
                            search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
                            _anchor=anchor)

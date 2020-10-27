@@ -148,8 +148,11 @@ def update_poi(poi_id):
         poi.share = form.share.data
         # poi.rating = 5
         db.session.commit()
-        flash('Your point of interest has been updated!', 'success')
-        return redirect(url_for('main.home'))
+        # flash('Your point of interest has been updated!', 'success')
+        # return redirect(url_for('main.home'))
+                # flash('A new point of interest has been created!', 'success')
+        return redirect(url_for('main.home', _anchor='where_togo_area', pois_updated='True', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
+
     elif request.method == 'GET':
         form.name.data = poi.name
         form.latitude.data = poi.latitude

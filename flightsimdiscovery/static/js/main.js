@@ -17,6 +17,13 @@ $(document).ready(function(){
     $("#poi_created_flash").show();
     setTimeout(function() { $("#poi_created_flash").hide(); }, 10000);
   }
+
+  var poi_updated = $('#poiUpdated').val();
+
+  if (poi_updated == 'True') {
+    $("#poi_updated_flash").show();
+    setTimeout(function() { $("#poi_updated_flash").hide(); }, 10000);
+  }
   
 
 // mobile_menu
