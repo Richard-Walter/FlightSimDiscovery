@@ -191,7 +191,7 @@ $('#all_users_datatable').DataTable( {
   
   'columnDefs': [
    
-    { className: 'text-center', targets: [0,2,3,4] },
+    { className: 'text-center', targets: [0,2,3,4,5,6] },
    ],
   // "scrollY":        "800px",
   "scrollCollapse": true,

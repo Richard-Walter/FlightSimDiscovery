@@ -1,5 +1,5 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
-from flightsimdiscovery.models import User, Pois, Ratings, Flagged
+from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites
 from flask_login import current_user, login_required
 from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm
 from flightsimdiscovery.admin.utilities import update_db, backup_db
@@ -119,6 +119,16 @@ def user_details():
             if users_pois:
                 no_of_user_pois = len(users_pois)
 
+            users_favorited = Favorites.query.filter_by(user_id=user.id).all()
+            no_of_user_favorites = 0
+            if users_favorited:
+                no_of_user_favorites = len(users_favorited)
+
+            users_visited = Visited.query.filter_by(user_id=user.id).all()
+            no_of_user_visited = 0
+            if users_visited:
+                no_of_user_visited = len(users_visited)
+
             users_rating = Ratings.query.filter_by(user_id=user.id).all()
             no_of_user_ratings = 0
             if users_rating:
@@ -132,13 +142,15 @@ def user_details():
             user_details['id'] = user.id
             user_details['username'] = user.username
             user_details['number_pois'] = no_of_user_pois
+            user_details['number_favorited'] = no_of_user_favorites
+            user_details['number_visited'] = no_of_user_visited
             user_details['number_rated'] = no_of_user_ratings
             user_details['number_flagged'] = no_of_user_flagged
 
             users_data.append(user_details)
 
 
-        return render_template('user_details.html', users=users_data)
+        return render_template('user_details.html', users_data=users_data)
     
     else:
         abort(403)

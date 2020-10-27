@@ -11,22 +11,26 @@
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">No. of POIs</th>
-                    <th scope="col">No. of Rated</th>
-                    <th scope="col">No. of Flagged</th>
+                    <th scope="col">No. Favorited</th>
+                    <th scope="col">No. Visited</th>
+                    <th scope="col">No. Rated</th>
+                    <th scope="col">No. Flagged</th>
                     <!-- <th scope="col">Delete</th> -->
 
                 </tr>
                 </thead>
                 <tbody>
-                {% for user in users %}
+                {% for user_data in users_data %}
                 <tr>
-                    <td>{{user.id}}</td>
-                    <td><a href="/user_pois/{{user.id}}" class="text-primary" role="button" aria-disabled="true">{{user.username}}</a></td>
-                    <td>{{user.number_pois}}</td>
-                    <td>{{user.number_rated}}</td>
-                    <td>{{user.number_flagged}}</td>
+                    <td>{{user_data.id}}</td>
+                    <td><a href="/user_pois/{{user_data.id}}" class="text-primary" role="button" aria-disabled="true">{{user_data.username}}</a></td>
+                    <td>{{user_data.number_pois}}</td>
+                    <td>{{user_data.number_favorited}}</td>
+                    <td>{{user_data.number_visited}}</td>
+                    <td>{{user_data.number_rated}}</td>
+                    <td>{{user_data.number_flagged}}</td>
                     <!-- <td>
-                        <button type="button" class="open_delete_users_modal btn btn-danger" data-id="{{user.id}}"
+                        <button type="button" class="open_delete_users_modal btn btn-danger" data-id="{{user_data.id}}"
                                 data-toggle="modal" data-target="#deleteUserModal"><i class="far fa-trash-alt"></i></button>
                     </td> -->
                 </tr>
