@@ -18,7 +18,6 @@
                     <th scope="col">Map</th>
                     <th scope="col">Update</th>
                     <th scope="col">Delete</th>
-                    <th scope="col">Flagged</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,7 +41,6 @@
                         <button type="button" class="open_delete_modal btn btn-danger" data-id="{{poi.id}}"
                                 data-toggle="modal" data-target="#deleteModal"><i class="far fa-trash-alt"></i></button>
                     </td>
-                    <td>{{poi.flag}}</td>
                 </tr>
                 {% endfor %}
                 </tbody>

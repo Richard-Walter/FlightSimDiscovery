@@ -179,7 +179,7 @@ $('#all_pois_datatable').DataTable( {
   
   'columnDefs': [
    
-    { className: 'text-center', targets: [1,4,7,8,9, 10] },
+    { className: 'text-center', targets: [1,4,7,8,9] },
    ],
   // "scrollY":        "800px",
   "scrollCollapse": true,
