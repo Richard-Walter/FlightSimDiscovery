@@ -237,11 +237,11 @@ def flag_poi():
         #  need to be logged in to flag a poi
         abort(403)
 
-@pois.route("/poi/delete_flagged_poi/<poi_id>", methods=['GET', 'POST'])
+@pois.route("/poi/delete_flagged_poi/<poi_id>", methods=['GET'])
 @login_required
 def delete_flagged_poi(poi_id):
 
-    category = request.args.get('page')
+    page = request.args.get('page')
 
     flagged_poi = Flagged.query.filter_by(poi_id=poi_id).first()
 
@@ -253,10 +253,54 @@ def delete_flagged_poi(poi_id):
     db.session.delete(flagged_poi)
     db.session.commit()
 
-    if category == 'user_pois':
+    if page == 'user_pois':
         return redirect(url_for('users.user_pois'))
-    elif category == 'flagged_pois':
+    elif page == 'flagged_pois':
         return redirect(url_for('admin.flagged_pois'))
+    else:
+        return redirect(url_for('main.home'))
+
+@pois.route("/poi/remove_favorited_poi/<poi_id>", methods=['GET'])
+@login_required
+def remove_favorited_poi(poi_id):
+
+    page = request.args.get('page')
+
+    favorited_poi = Favorites.query.filter_by(poi_id=poi_id).first()
+
+    if (current_user.username != 'admin'):
+
+        if (favorited_poi.user_id != current_user.id):
+            abort(403)
+
+    db.session.delete(favorited_poi)
+    db.session.commit()
+
+    if page == 'user_pois':
+        return redirect(url_for('users.user_pois'))
+    else:
+        return redirect(url_for('main.home'))
+
+
+
+@pois.route("/poi/remove_visited_poi/<poi_id>", methods=['GET'])
+@login_required
+def remove_visited_poi(poi_id):
+
+    page = request.args.get('page')
+
+    visited_poi = Visited.query.filter_by(poi_id=poi_id).first()
+
+    if (current_user.username != 'admin'):
+
+        if (visited_poi.user_id != current_user.id):
+            abort(403)
+
+    db.session.delete(visited_poi)
+    db.session.commit()
+
+    if page == 'user_pois':
+        return redirect(url_for('users.user_pois'))
     else:
         return redirect(url_for('main.home'))
 

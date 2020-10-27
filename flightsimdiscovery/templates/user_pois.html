@@ -20,7 +20,7 @@
         <div class="db_table_area">
             <!-- <legend class="border-bottom mb-5">My Points of Interest</legend> -->
                 <div>
-                    <ul class="nav nav-tabs mb-4" role="tablist">
+                    <ul class="nav nav-tabs mb-4"  id="user_pois_tabs" role="tablist">
                         <li class="nav-item">
                           <a class="nav-link active" data-toggle="tab" href="#tab-account_poi_datatable">My Created POIs</a>
                         </li>
@@ -55,7 +55,7 @@
                                     <th scope="col">Description</th>
                                     <th scope="col">shared</th>
                                     <!-- <th scope="col">Visited</th> -->
-                                    <th scope="col">Favorited</th>
+                                    <!-- <th scope="col">Favorited</th> -->
                                     <th scope="col">Map</th>
                                     <th scope="col">Update</th>
                                     <th scope="col">Delete</th>
@@ -71,7 +71,7 @@
                                     <td>{{poi.description}}</td>
                                     <td><i class="{{poi.share}}"></i></td>
                                     <!-- <td><i class="{{poi.visited}}"></i></td> -->
-                                    <td><i class="{{poi.favorited}}"></i></td>
+                                    <!-- <td><i class="{{poi.favorited}}"></i></td> -->
                                     <td><a href="/{{poi.location}}#searchTag" class="btn btn-primary" onclick="this.form.submit()" role="button"
                                         aria-disabled="true"><i class="fas fa-globe-americas"></i></a></td>
                                     <!-- <td><a href="/poi/{{poi.id}}/update">update</a></td> -->
@@ -97,6 +97,7 @@
                                     <th scope="col">Country</th>
                                     <th scope="col">Description</th>
                                     <th scope="col">Map</th>
+                                    <th scope="col">Remove Favorited</th>
 
                                 </tr>
                                 </thead>
@@ -108,7 +109,12 @@
                                     <td>{{poi.country}}</td>
                                     <td>{{poi.description}}</td>
                                     <td><a href="/{{poi.location}}#searchTag" class="btn btn-primary" onclick="this.form.submit()" role="button"
-                                        aria-disabled="true"><i class="fas fa-globe-americas"></i></a></td>
+                                        aria-disabled="true"><i class="fas fa-globe-americas"></i></a>
+                                    </td>
+                                    <td>
+                                        <a style="cursor:pointer" href="/poi/remove_favorited_poi/{{poi.id}}?page=user_pois">
+                                            <i class="fas fa-minus-circle fa-2x" title='remove flag' style="color:#f3d10d;"></i></button>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>
@@ -129,6 +135,7 @@
 
                                     <th scope="col">Description</th>
                                     <th scope="col">Map</th>
+                                    <th scope="col">Remove Visited</th>
 
                                 </tr>
                                 </thead>
@@ -140,7 +147,12 @@
                                     <td>{{poi.country}}</td>
                                     <td>{{poi.description}}</td>
                                     <td><a href="/{{poi.location}}#searchTag" class="btn btn-primary" onclick="this.form.submit()" role="button"
-                                        aria-disabled="true"><i class="fas fa-globe-americas"></i></a></td>
+                                        aria-disabled="true"><i class="fas fa-globe-americas"></i></a>
+                                    </td>
+                                    <td>
+                                        <a style="cursor:pointer" href="/poi/remove_visited_poi/{{poi.id}}?page=user_pois">
+                                            <i class="fas fa-minus-circle fa-2x" title='remove flag' style="color:#f3d10d;"></i></button>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>
@@ -153,7 +165,7 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Reason</th>
                                     <th scope="col">Map</th>
-                                    <th scope="col">Remove flag</th>
+                                    <th scope="col">Remove flagged</th>
                                 </tr>
                                 </thead>
                                 <tbody>

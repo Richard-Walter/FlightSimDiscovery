@@ -4,6 +4,17 @@
 
 $(document).ready(function(){
 
+
+  //  go to user detail tab that the user was last on upon refresh
+  $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+    localStorage.setItem('activeTab', $(e.target).attr('href'));
+  });
+  var activeTab = localStorage.getItem('activeTab');
+  if(activeTab){
+      $('#user_pois_tabs a[href="' + activeTab + '"]').tab('show');
+  }
+
+
   var search_returned_results = $('#searchResults').val();
 
   if (search_returned_results == 'False') {
@@ -116,7 +127,7 @@ $('#account_poi_datatable').DataTable( {
    responsive: true,
   'columnDefs': [
    
-    { className: 'text-center', targets: [1,2,4,5,6, 7,8] },
+    { className: 'text-center', targets: [1,2,4,5,6, 7] },
    ],
   // "scrollY":        "800px",
   "scrollCollapse": true,
@@ -130,7 +141,7 @@ $('#account_favorite_datatable').DataTable( {
   responsive: true,
   'columnDefs': [
    
-    { className: 'text-center', targets: [1,2,4] },
+    { className: 'text-center', targets: [1,2,4, 5] },
    ],
   // "scrollY":        "800px",
   "scrollCollapse": true,
@@ -143,7 +154,7 @@ $('#account_visited_datatable').DataTable( {
   responsive: true,
   'columnDefs': [
    
-    { className: 'text-center', targets: [1,2,4] },
+    { className: 'text-center', targets: [1,2,4, 5] },
    ],
   // "scrollY":        "800px",
   "scrollCollapse": true,
