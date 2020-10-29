@@ -1,0 +1,241 @@
+{% extends "base.html" %} {% block content %}
+<!-- bradcam_area  -->
+<div class="bradcam_area about_us_bg">
+  <div class="container">
+  </div>
+</div>
+<!--/ bradcam_area  -->
+<div class="faq mt-3">
+  <div class="container">
+    <div class="faq_title my-5">
+      <h3>Frequently Asked Questions</h3>
+    </div>
+
+    <!-- NEW SECTION START-->
+    <div class="faq_group mb-4" id="accordion">
+        <div class="faqSectionHeader">General</div>
+        <!-- NEW CARD START-->
+        <div class="card">
+            <div class="card-header " style="cursor: pointer;" class="" data-toggle="collapse" data-target="#G2">
+                
+                <h5 class="mb-0">
+                    What is Flight Sim Discovery?
+                </h5>
+                <!-- <i class="fas fa-angle-down rotate-icon" style="margin-right:10px;"></i> -->
+                
+            </div>
+        
+            <div id="G2" class="collapse"  data-parent="#accordion">
+                <div class="card-body">
+                Flight Sim Discovery is a free, community-based web application that allows you to find points of interest (POI's) to visit and explore in the world of flight simulation.
+                </div>
+            </div>
+            </div>
+            <!-- NEW CARD END -->  
+        <!-- NEW CARD START-->
+        <div class="card">
+          <div class="card-header " style="cursor: pointer;" class="" data-toggle="collapse" data-target="#G1">
+           
+              <h5 class="mb-0">
+                What is a POI?
+              </h5>
+              <!-- <i class="faq_arrow fas fa-angle-down rotate-icon" style="margin-right:10px;"></i> -->
+            
+          </div>
+      
+          <div id="G1" class="collapse"  data-parent="#accordion">
+            <div class="card-body">
+              POI is an acronym for "Point of Interest".  A POI is a place in the world that you can visit and explore in your flight simulator, or the real world!
+            </div>
+          </div>
+        </div>
+        <!-- NEW CARD END -->
+
+    </div>
+    <!-- NEW SECTION END-->
+
+    <!-- NEW SECTION START-->
+    <div class="faq_group mb-4" id="accordion">
+        <div class="faqSectionHeader">Points of Interest (POI)</div>
+        <!-- NEW CARD START-->
+        <div class="card">
+          <div class="card-header " style="cursor: pointer;" class="" data-toggle="collapse" data-target="#POI1">
+           
+              <h5 class="mb-0">
+                How do I report an issue with a POI?
+              </h5>
+              <!-- <i class="faq_arrow fas fa-angle-down rotate-icon" style="margin-right:10px;"></i> -->
+            
+          </div>
+      
+          <div id="POI1" class="collapse"  data-parent="#accordion">
+            <div class="card-body">
+              You need to be logged in to report a POI.  Click on the POI you want to report.  If it hasn't been reported before, a yellow flag icon will appear at the bottom
+              left of the POI information window.  Click this icon, enter a reason and submit.  The administrator will review all reported POIs.
+            </div>
+          </div>
+        </div>
+        <!-- NEW CARD END -->
+        <!-- NEW CARD START-->
+        <div class="card">
+            <div class="card-header " style="cursor: pointer;" class="" data-toggle="collapse" data-target="#POI2">
+             
+                <h5 class="mb-0">
+                   How do I create a POI?
+                </h5>
+                <!-- <i class="fas fa-angle-down rotate-icon" style="margin-right:10px;"></i> -->
+              
+            </div>
+        
+            <div id="POI2" class="collapse"  data-parent="#accordion">
+              <div class="card-body">
+                <p> You need to be logged in to create a POI.  The easiest way is to 'right-click' at the exact location on the map, and click 'create POI at this location' button.
+                    If you already have coordinates of a POI, you can create a POI from the navigation bar and enter in the coordinates. 
+                </p>
+
+              </div>
+            </div>
+        </div>
+        <!-- NEW CARD END -->  
+            <!-- NEW CARD START-->
+            <div class="card">
+                <div class="card-header " style="cursor: pointer;" class="" data-toggle="collapse" data-target="#POI5">
+                    
+                    <h5 class="mb-0">
+                        How do I find and edit POI's that Ive created?
+                    </h5>
+                    <!-- <i class="fas fa-angle-down rotate-icon" style="margin-right:10px;"></i> -->
+                    
+                </div>
+            
+                <div id="POI5" class="collapse"  data-parent="#accordion">
+                    <div class="card-body">
+                    POIs that you have created are represented by a black user icon on the map.  Click on your POI then the update icon in the botton-right corner of the POI information window.  Alternatively, you can go to Account -> 'My Points of Interest'
+                    </div>
+                </div>
+            </div>
+        <!-- NEW CARD END --> 
+        <!-- NEW CARD START-->
+        <div class="card">
+        <div class="card-header " style="cursor: pointer;" class="" data-toggle="collapse" data-target="#POI3">
+            
+            <h5 class="mb-0">
+                How do I mark a POI as 'visited'?
+            </h5>
+            <!-- <i class="fas fa-angle-down rotate-icon" style="margin-right:10px;"></i> -->
+            
+        </div>
+    
+        <div id="POI3" class="collapse"  data-parent="#accordion">
+            <div class="card-body">
+            You need to be logged in to do this.  On the map, click on the POI.  In the top-right corner of the POI information window, click on the black box icon to mark the POI as 'visited'.
+            Please note that POIs are automatically marked as 'visited' for your convenience whenever you export a flight plan.
+              You can see which POIs you have visited in  Account -> 'My Points of Interest'
+            </div>
+        </div>
+        </div>
+        <!-- NEW CARD END --> 
+        <!-- NEW CARD START-->
+        <div class="card">
+            <div class="card-header " style="cursor: pointer;" class="" data-toggle="collapse" data-target="#POI4">
+                
+                <h5 class="mb-0">
+                    How do I mark a POI as a 'favorite' so I can explore it later?
+                </h5>
+                <!-- <i class="fas fa-angle-down rotate-icon" style="margin-right:10px;"></i> -->
+                
+            </div>
+        
+            <div id="POI4" class="collapse"  data-parent="#accordion">
+                <div class="card-body">
+                You need to be logged in to do this.  On the map, click on the POI.  In the top-right corner of the POI information window, click on the red heart icon to mark the POI as a favorite.
+                You can see which POIs you have favorited in Account -> 'My Points of Interest'
+
+                </div>
+            </div>
+        </div>
+        <!-- NEW CARD END --> 
+    </div>
+    <!-- NEW SECTION END-->
+
+
+    <!-- NEW SECTION START-->
+    <div class="faq_group mb-4" id="accordion">
+        <div class="faqSectionHeader">Search</div>
+        <!-- NEW CARD START-->
+        <div class="card">
+          <div class="card-header " style="cursor: pointer;" class="" data-toggle="collapse" data-target="#S1">
+           
+              <h5 class="mb-0">
+                How come when I search for a particular country, it includes POI's from other countries as well?
+              </h5>
+              <!-- <i class="faq_arrow fas fa-angle-down rotate-icon" style="margin-right:10px;"></i> -->
+            
+          </div>
+      
+          <div id="S1" class="collapse" aria-labelledby="heading1" data-parent="#accordion">
+            <div class="card-body">
+              This is intentional because in most cases you want to see POIs from surrounding countries as well.
+              Searching by country just affects the location and zoom level on a map, making it easier to find POI's for that country.  The same applies for searching by region.
+              
+            </div>
+          </div>
+        </div>
+        <!-- NEW CARD END -->
+        <!-- NEW CARD START-->
+        <div class="card">
+            <div class="card-header " style="cursor: pointer;" class="" data-toggle="collapse" data-target="#S2">
+             
+                <h5 class="mb-0">
+                  After a search, how can I go back and see the map of the whole world?
+                </h5>
+                <!-- <i class="fas fa-angle-down rotate-icon" style="margin-right:10px;"></i> -->
+              
+            </div>
+        
+            <div id="S2" class="collapse" aria-labelledby="heading1" data-parent="#accordion">
+              <div class="card-body">
+                Easiest way is using the scroll wheel on the mouse to zoom the map out.
+                You can also change the country search to 'Country' and search again, click on the 'Flight Sim Discovery' logo at the top-left corner of the page.
+              </div>
+            </div>
+          </div>
+          <!-- NEW CARD END -->  
+    </div>
+    <!-- NEW SECTION END-->
+
+    <!-- NEW SECTION START-->
+    <div class="faq_group mb-4" id="accordion">
+        <div class="faqSectionHeader">Flight Plan</div>
+        <!-- NEW CARD START-->
+        <div class="card">
+          <div class="card-header " style="cursor: pointer;" class="" data-toggle="collapse" data-target="#FP1">
+           
+              <h5 class="mb-0">
+                I created a flight plan, but I couldn't enter the departure and arrival airports?
+              </h5>
+              <!-- <i class="faq_arrow fas fa-angle-down rotate-icon" style="margin-right:10px;"></i> -->
+            
+          </div>
+      
+          <div id="FP1" class="collapse" aria-labelledby="heading1" data-parent="#accordion">
+            <div class="card-body">
+              The departure and arrival airports are determined automatically based on the proximity to the first and last POI.
+              This was done to make exploring places as easy and quick as possible.  If you wish, you can edit the flight plan within your flight simulator, or use
+              many of the free 3rd party fligh planning tools available, such as <a href="https://albar965.github.io/littlenavmap.html" class="text-info" target="_blank">Little Navmap</a>
+            </div>
+          </div>
+        </div>
+        <!-- NEW CARD END -->
+        
+    </div>
+    <!-- NEW SECTION END-->
+
+
+
+  </div>
+</div>
+
+<div style="height:200px; width:100%; clear:both;"></div>
+
+{% endblock content %}

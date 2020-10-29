@@ -14,6 +14,19 @@
   justify-content: start;
 }
 
+.faqSectionHeader {
+  font-size: 26px;
+  margin: 10px;
+}
+
+
+.card-header.collapsed {
+  
+}
+.card-header:not(.collapsed) {
+  
+}
+
 .new_poi_msg{
 
   font-family: "Rubik", sans-serif;
@@ -1568,6 +1581,14 @@ h3 {
 /* line 105, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_slider.scss */
 .property_bg {
   background-image: url(../img/banner/property.png);
+}
+
+
+.faq_title h3 {
+  font-size: 38px;
+  font-weight: 400;
+  color: #040E27;
+  margin-bottom: 40px;
 }
 
 /* line 1, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_about.scss */

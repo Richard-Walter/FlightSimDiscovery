@@ -15,12 +15,11 @@ from utilities import get_location_details
 
 main = Blueprint('main', __name__)
 
-# TODO validate name when creating new poi without refresh
 # TODO validate name on create POI form prior to user hitting Create button
 # TODO export flight plan in xplane format
 # TODO add search for town and zoom in to create POI of interest
 # TODO user star rating wont default
-# TODO save flight plan across session
+# TODO save flight plan across session see html5 session storage
 
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
@@ -235,6 +234,11 @@ def home(filter_poi_location):
 def about():
     pois = Pois.query.all()
     return render_template("about.html", number_pois=len(pois))
+
+@main.route("/faq")
+def faq():
+
+    return render_template("faq.html")
 
 
 @main.route("/contact", methods=['GET', 'POST'])
