@@ -179,11 +179,12 @@ $('#all_pois_datatable').DataTable( {
   
   'columnDefs': [
    
-    { className: 'text-center', targets: [1,4,7,8,9] },
+    { className: 'text-center', targets: [1,2, 4, 5, 7,8,9] },
    ],
   // "scrollY":        "800px",
   "scrollCollapse": true,
-  "paging":         false
+  "paging":         false,
+  "order": [[ 0, "desc" ]]
   // "pagingType": "full_numbers"
 } );
 
