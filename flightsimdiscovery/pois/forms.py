@@ -42,7 +42,7 @@ class PoiUpdateForm(FlaskForm):
     latitude = StringField('Latitude (decimal degrees) ', render_kw={'disabled': True})
     # longitude = StringField('Longitude (decimal degrees)',render_kw={'disabled': True},  validators=[DataRequired(), Length(min=2, max=18)])
     longitude = StringField('Longitude (decimal degrees)',render_kw={'disabled': True})
-    nearest_airport = StringField('Nearest Airpot (ICAO) (optional)', validators=[Length(min=0, max=4)])
+    # nearest_airport = StringField('Nearest Airpot (ICAO) (optional)', validators=[Length(min=0, max=4)])
     share = BooleanField('Share with the community')
     submit = SubmitField('Update')
 

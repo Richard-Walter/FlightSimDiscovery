@@ -99,19 +99,6 @@
                     {{ form.longitude(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-                <div class="form-group">
-                    {{ form.nearest_airport.label(class="form-control-label") }}
-                    {% if form.nearest_airport.errors %}
-                    {{ form.nearest_airport(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.nearest_airport.errors %}
-                        <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    {{ form.nearest_airport(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
                 <div class="form-check">
                     {{ form.share(class="form-check-input") }}
                     {{ form.share.label(class="form-check-label") }}

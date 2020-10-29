@@ -145,7 +145,7 @@ def update_poi(poi_id):
         poi.name = form.name.data
         poi.category = form.category.data
         poi.description = form.description.data
-        poi.nearest_icao_code = form.nearest_airport.data
+        # poi.nearest_icao_code = form.nearest_airport.data
         poi.share = form.share.data
 
         if not validate_updated_poi_name(pois, form.name.data, poi):
@@ -157,7 +157,7 @@ def update_poi(poi_id):
             form.latitude.data = poi.latitude
             form.longitude.data = poi.longitude
             form.description.data = form.description.data
-            form.nearest_airport.data = form.nearest_airport.data
+            # form.nearest_airport.data = form.nearest_airport.data
             form.share.data = form.share.data
 
             flash(flash_error_msg, 'danger')
@@ -174,7 +174,7 @@ def update_poi(poi_id):
         form.category.data = poi.category
         form.country.data = poi.country
         form.description.data = poi.description
-        form.nearest_airport.data = poi.nearest_icao_code
+        # form.nearest_airport.data = poi.nearest_icao_code
         form.share.data = poi.share
 
     return render_template('update_poi.html', form=form)
