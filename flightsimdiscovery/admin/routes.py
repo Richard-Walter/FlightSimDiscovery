@@ -2,6 +2,7 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint,
 from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites
 from flask_login import current_user, login_required
 from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm
+from utilities import get_country_list
 from flightsimdiscovery.admin.utilities import update_db, backup_db
 
 
@@ -84,14 +85,30 @@ def run_script():
         
             if form.validate_on_submit():
 
-                # backup_db()
-                script_name = form.name.data
+                # SCRIPT DETAILS GOES HERE
 
-                flash(script_name + ' script has been run!', 'success')
+                # check which countries have no pois
+                full_country_list = set(get_country_list())
+                db_country_list = set()
+                
+                all_pois = Pois.query.all()
+
+                for poi in all_pois:
+                   
+                    db_country_list.add(poi.country)
+
+                
+                countries_not_in_db = list(full_country_list - db_country_list)
+                for country in countries_not_in_db:
+                    print(country)
+
+
+                flash('Script has run succesfully!', 'success')
             
-                return redirect(url_for('main.home'))
+                return render_template('run_script.html', form=form)
 
             else:
+                flash('ERROR running the script!', 'danger')
                 return render_template('run_script.html', form=form)
 
         else:

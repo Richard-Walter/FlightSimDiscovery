@@ -24,7 +24,6 @@ class UpdateDatabaseForm(FlaskForm):
 
 class RunScriptForm(FlaskForm):
 
-    name = StringField('Name', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Run Script')
 
