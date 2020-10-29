@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request, abort, Blu
 from flightsimdiscovery import db
 from flightsimdiscovery.pois.forms import PoiCreateForm, PoiUpdateForm
 from flightsimdiscovery.models import Pois, User, Ratings, Flagged, Visited, Favorites
-from flightsimdiscovery.pois.utils import location_exists, get_rating
+from flightsimdiscovery.pois.utils import location_exists, get_rating, validate_updated_poi_name
 from flask_login import current_user, login_required
 from utilities import get_country_region, continents_by_region, get_location_details
 
@@ -54,7 +54,7 @@ def new_poi(iw_add_poi_location):
 
         # check location has not already been used by another poi
         if location_exists(pois, float(form.latitude.data), float(form.longitude.data), form.category.data):
-            new_form = PoiUpdateForm()
+            new_form = PoiCreateForm()
             new_form.name.data = form.name.data
             new_form.country.data = form.country.data
             new_form.description.data = form.description.data
@@ -127,6 +127,7 @@ def topten_pois(continent):
 @pois.route("/poi/<int:poi_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_poi(poi_id):
+    pois = Pois.query.all()
     poi = Pois.query.get_or_404(poi_id)
     print('current poi ID is ', poi.id)
     print(current_user.username)
@@ -134,23 +135,36 @@ def update_poi(poi_id):
         abort(403)
 
     form = PoiUpdateForm()
+
     if form.validate_on_submit():
 
+        flash_error_msg = ''
+
         poi.user_id = current_user.id
+        original_name = poi.name
         poi.name = form.name.data
-        poi.latitude = float(form.latitude.data)
-        poi.longitude = float(form.longitude.data)
-        poi.region = get_country_region(form.country.data)
-        poi.country = form.country.data
         poi.category = form.category.data
         poi.description = form.description.data
         poi.nearest_icao_code = form.nearest_airport.data
         poi.share = form.share.data
-        # poi.rating = 5
+
+        if not validate_updated_poi_name(pois, form.name.data, poi):
+            flash_error_msg = "A point of interest already exists with the name - " + form.name.data
+
+        if flash_error_msg:
+            form.name.data = original_name
+            form.country.data = poi.country
+            form.latitude.data = poi.latitude
+            form.longitude.data = poi.longitude
+            form.description.data = form.description.data
+            form.nearest_airport.data = form.nearest_airport.data
+            form.share.data = form.share.data
+
+            flash(flash_error_msg, 'danger')
+            return render_template('update_poi.html', form=form)
+        
         db.session.commit()
-        # flash('Your point of interest has been updated!', 'success')
-        # return redirect(url_for('main.home'))
-                # flash('A new point of interest has been created!', 'success')
+
         return redirect(url_for('main.home', _anchor='where_togo_area', pois_updated='True', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
 
     elif request.method == 'GET':

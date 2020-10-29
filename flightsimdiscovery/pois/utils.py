@@ -39,7 +39,7 @@ def get_rating(poi_id):
         print('ERROR occured getting rating.  Problably dividing by zero because no rating for the poi exists.  POI is :  ' + str(poi_id))
 
     return rating
-
+ 
 
 def filter_pois_by_category(pois, category):
     filtered_pois = []
@@ -113,6 +113,15 @@ def validate_poi_name(name):
     pois = Pois.query.all()
     for poi in pois:
         if poi.name.strip() == name.strip():
+            return False
+
+    return True
+
+def validate_updated_poi_name(pois, updated_name, updating_poi):
+    for poi in pois:
+        if poi.id == updating_poi.id:
+            continue
+        elif poi.name.strip() == updated_name.strip():
             return False
 
     return True
