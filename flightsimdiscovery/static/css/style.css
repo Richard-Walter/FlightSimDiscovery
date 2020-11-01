@@ -14,6 +14,34 @@
   justify-content: start;
 }
 
+.autocomplete {
+  position: relative;
+  /* display: inline-block; */
+}
+
+.autocomplete-items {
+  position: absolute;
+  
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 300px;
+  overflow: auto;
+}
+.autocomplete-items div {
+  /* font-size: 13px; */
+
+  cursor: not-allowed;
+  padding: 10px;
+  background-color: rgb(247, 244, 244);
+  border-bottom: 1px solid #d4d4d4;
+  border-left: 1px solid #d4d4d4;
+  border-right: 1px solid #d4d4d4;
+}
+
 .faqSectionHeader {
   font-size: 26px;
   margin: 10px;

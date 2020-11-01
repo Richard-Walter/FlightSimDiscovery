@@ -131,40 +131,6 @@
         </form>
     </div>
 </div>
-
-<style>
-
-.autocomplete {
-    position: relative;
-    /* display: inline-block; */
-}
-
-.autocomplete-items {
-    position: absolute;
-    
-    border-bottom: none;
-    border-top: none;
-    z-index: 99;
-    top: 100%;
-    left: 0;
-    right: 0;
-    height: 300px;
-    overflow: auto;
-}
-.autocomplete-items div {
-    /* font-size: 13px; */
-
-    cursor: not-allowed;
-    padding: 10px;
-    background-color: #fff;
-    border-bottom: 1px solid #d4d4d4;
-    border-left: 1px solid #d4d4d4;
-    border-right: 1px solid #d4d4d4;
-
-
-}
-
- </style>
  
  <script>
     function autocomplete(searchEle, arr) {
@@ -184,13 +150,28 @@
           divCreate.setAttribute("class", "autocomplete-items");
           this.parentNode.appendChild(divCreate);
           b = document.createElement("DIV");
-          b.innerHTML = "<strong>" + "PLEASE CHOOSE A POI NAME NOT  LITSTED BELOW" + "</strong>";
-          divCreate.appendChild(b);
+          heading_created = false;
+        //   b.innerHTML = "<strong>" + "PLEASE CHOOSE A POI NAME NOT  LITSTED BELOW" + "</strong>";
+        //   divCreate.appendChild(b);
           for (i = 0; i <arr.length; i++) {
-             if ( arr[i].substr(0, fieldVal.length).toUpperCase() == fieldVal.toUpperCase() ) {
+              
+            //  if ( arr[i].substr(0, fieldVal.length).toUpperCase() == fieldVal.toUpperCase() ) {
+             if ( arr[i].toUpperCase().includes(fieldVal.toUpperCase())) {      
+
+                if (!heading_created) {
+                    divCreate.appendChild(b);
+                    b.innerHTML = "<strong>" + "PLEASE ADD A POI  NOT LISTED BELOW:" + "</strong>";
+                    b.setAttribute("id", "autocomplete_header");
+                    heading_created = true;
+                }
+                
                 b = document.createElement("DIV");
-                b.innerHTML = "<strong>" + arr[i].substr(0, fieldVal.length) + "</strong>";
-                b.innerHTML += arr[i].substr(fieldVal.length);
+                // b.innerHTML = "<strong>" + arr[i].substr(0, fieldVal.length) + "</strong>";
+                match_index = arr[i].toUpperCase().search(fieldVal.toUpperCase());
+                b.innerHTML += arr[i].substring(0, match_index);
+                strong_text = arr[i].substring(match_index, match_index+fieldVal.length) 
+                b.innerHTML += "<strong>" + strong_text + "</strong>";
+                b.innerHTML += arr[i].substr(match_index+fieldVal.length, arr[i].length);
                 b.innerHTML += "<input disabled type='hidden' value='" + arr[i] + "'>";
                 divCreate.appendChild(b);
              }
