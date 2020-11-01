@@ -16,7 +16,9 @@
 <div class="section_top_area"></div>
 <div class="container">
     <div class="form_new_poi">
-        <form method="POST" action="" enctype="multipart/form-data">
+        
+
+        <form method="POST" autocomplete="off" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <fieldset class="form-group mt-5">
                 
@@ -24,7 +26,8 @@
                 <div class="new_poi_msg mb-4 ">
                     *Create a new POI that you think might be interesting to the community.  Private POI's can be created by unchecking 'Share with the community' at the bottom of this form 
                 </div>
-                <div class="form-group">
+                <div class="form-group autocomplete">
+                    
                     {{ form.name.label(class="form-control-label") }}
 
                     {% if form.name.errors %}
@@ -38,6 +41,7 @@
                     {{ form.name(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+
                 <div class="form-group">
                     {{ form.country.label(class="form-control-label") }}
                     {% if form.country.errors %}
@@ -127,4 +131,120 @@
         </form>
     </div>
 </div>
+
+<style>
+
+.autocomplete {
+    position: relative;
+    /* display: inline-block; */
+}
+
+.autocomplete-items {
+    position: absolute;
+    
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 300px;
+    overflow: auto;
+}
+.autocomplete-items div {
+    /* font-size: 13px; */
+
+    cursor: not-allowed;
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+    border-left: 1px solid #d4d4d4;
+    border-right: 1px solid #d4d4d4;
+
+
+}
+
+ </style>
+ 
+ <script>
+    function autocomplete(searchEle, arr) {
+       var currentFocus;
+       searchEle.addEventListener("input", function(e) {
+          var divCreate,
+          b,
+          i,
+          fieldVal = this.value;
+          closeAllLists();
+          if (!fieldVal) {
+             return false;
+          }
+          currentFocus = -1;
+          divCreate = document.createElement("DIV");
+          divCreate.setAttribute("id", this.id + "autocomplete-list");
+          divCreate.setAttribute("class", "autocomplete-items");
+          this.parentNode.appendChild(divCreate);
+          b = document.createElement("DIV");
+          b.innerHTML = "<strong>" + "PLEASE CHOOSE A POI NAME NOT  LITSTED BELOW" + "</strong>";
+          divCreate.appendChild(b);
+          for (i = 0; i <arr.length; i++) {
+             if ( arr[i].substr(0, fieldVal.length).toUpperCase() == fieldVal.toUpperCase() ) {
+                b = document.createElement("DIV");
+                b.innerHTML = "<strong>" + arr[i].substr(0, fieldVal.length) + "</strong>";
+                b.innerHTML += arr[i].substr(fieldVal.length);
+                b.innerHTML += "<input disabled type='hidden' value='" + arr[i] + "'>";
+                divCreate.appendChild(b);
+             }
+          }
+       });
+       searchEle.addEventListener("keydown", function(e) {
+          var autocompleteList = document.getElementById(
+             this.id + "autocomplete-list"
+          );
+          if (autocompleteList)
+             autocompleteList = autocompleteList.getElementsByTagName("div");
+          if (e.keyCode == 40) {
+             currentFocus++;
+             addActive(autocompleteList);
+          }
+          else if (e.keyCode == 38) {
+             //up
+             currentFocus--;
+             addActive(autocompleteList);
+          }
+          else if (e.keyCode == 13) {
+             e.preventDefault();
+             if (currentFocus > -1) {
+                if (autocompleteList) autocompleteList[currentFocus].click();
+             }
+          }
+       });
+       function addActive(autocompleteList) {
+          if (!autocompleteList) return false;
+             removeActive(autocompleteList);
+          if (currentFocus >= autocompleteList.length) currentFocus = 0;
+          if (currentFocus < 0) currentFocus = autocompleteList.length - 1;
+          autocompleteList[currentFocus].classList.add("autocomplete-active");
+       }
+       function removeActive(autocompleteList) {
+          for (var i = 0; i < autocompleteList.length; i++) {
+             autocompleteList[i].classList.remove("autocomplete-active");
+          }
+       }
+       function closeAllLists(elmnt) {
+          var autocompleteList = document.getElementsByClassName(
+             "autocomplete-items"
+          );
+          for (var i = 0; i < autocompleteList.length; i++) {
+             if (elmnt != autocompleteList[i] && elmnt != searchEle) {
+                autocompleteList[i].parentNode.removeChild(autocompleteList[i]);
+             }
+          }
+       }
+       document.addEventListener("click", function(e) {
+          closeAllLists(e.target);
+       });
+    }
+    var poi_names = {{db_poi_names|tojson}};
+    autocomplete(document.getElementById("name"), poi_names);
+ </script>
 {% endblock content %}

@@ -1,3 +1,4 @@
+import json
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flightsimdiscovery import db
 from flightsimdiscovery.pois.forms import PoiCreateForm, PoiUpdateForm
@@ -17,9 +18,11 @@ def new_poi(iw_add_poi_location):
     flag_poi = False
     share_with_community = ""
     pois = Pois.query.all()
+    poi_names = [poi.name for poi in pois]
     form = PoiCreateForm()
     lat = ""
     lng = ""
+
     country = ""
     region = ""
 
@@ -83,7 +86,7 @@ def new_poi(iw_add_poi_location):
         # flash('A new point of interest has been created!', 'success')
         return redirect(url_for('main.home', _anchor='where_togo_area', pois_created='True', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
 
-    return render_template('create_poi.html', form=form, share=share_with_community)
+    return render_template('create_poi.html', form=form, db_poi_names=poi_names, share=share_with_community)
 
 
 @pois.route("/topten_pois/<continent>")

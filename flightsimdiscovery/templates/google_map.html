@@ -16,6 +16,7 @@
 
       //Create the Google Map
       var map;
+      var infowindow;
       var flightPath;
       var flightPath_data = []
       var is_authenticated='{{is_authenticated}}';
@@ -169,6 +170,12 @@
 
           //Info Window on Poi
           marker.addListener("click", function (event) {
+
+            //close the current info window if exists
+            if (infowindow) {
+              infowindow.close();
+            }
+            
 
             var marker_name = marker.title;
             var id = infowindow_dict[marker_name]['id'];
