@@ -171,6 +171,7 @@ def update_poi(poi_id):
         return redirect(url_for('main.home', _anchor='where_togo_area', pois_updated='True', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
 
     elif request.method == 'GET':
+        form.poi_name.data = poi.name
         form.name.data = poi.name
         form.latitude.data = poi.latitude
         form.longitude.data = poi.longitude

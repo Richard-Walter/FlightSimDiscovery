@@ -112,7 +112,7 @@ def get_marker_icon(poi, user_favorites, user_visited, user_pois):
 def validate_poi_name(name):
     pois = Pois.query.all()
     for poi in pois:
-        if poi.name.strip() == name.strip():
+        if poi.name.strip().upper() == name.strip().upper():
             return False
 
     return True
