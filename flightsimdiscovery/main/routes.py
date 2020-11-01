@@ -15,7 +15,6 @@ from utilities import get_location_details
 
 main = Blueprint('main', __name__)
 
-# TODO validate name on create POI form prior to user hitting Create button
 # TODO export flight plan in xplane format
 # TODO add search for town and zoom in to create POI of interest
 # TODO user star rating wont default
