@@ -4,6 +4,7 @@ from flask_login import current_user, login_required
 from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm
 from utilities import get_country_list
 from flightsimdiscovery.admin.utilities import update_db, backup_db
+from flightsimdiscovery import db
 
 
 admin = Blueprint('admin', __name__)
@@ -87,20 +88,33 @@ def run_script():
 
                 # SCRIPT DETAILS GOES HERE
 
-                # check which countries have no pois
-                full_country_list = set(get_country_list())
-                db_country_list = set()
-                
-                all_pois = Pois.query.all()
+                all_ratings = Ratings.query.all()
 
-                for poi in all_pois:
+                for rating in all_ratings:
+
+                    poi = Pois.query.get(rating.poi_id)
+
+                    if not poi:
+                        print('deleting rating with POI ID = ', rating.poi_id )
+                        db.session.delete(rating)
+                        
+                
+                db.session.commit()
+
+                # # check which countries have no pois
+                # full_country_list = set(get_country_list())
+                # db_country_list = set()
+                
+                # all_pois = Pois.query.all()
+
+                # for poi in all_pois:
                    
-                    db_country_list.add(poi.country)
+                #     db_country_list.add(poi.country)
 
                 
-                countries_not_in_db = list(full_country_list - db_country_list)
-                for country in countries_not_in_db:
-                    print(country)
+                # countries_not_in_db = list(full_country_list - db_country_list)
+                # for country in countries_not_in_db:
+                #     print(country)
 
 
                 flash('Script has run succesfully!', 'success')
