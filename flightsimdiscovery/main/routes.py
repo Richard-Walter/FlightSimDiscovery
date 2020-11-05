@@ -19,6 +19,7 @@ main = Blueprint('main', __name__)
 # TODO add search for town and zoom in to create POI of interest
 # TODO user star rating wont default
 # TODO save flight plan across session see html5 session storage
+# TODO save flight plan -LET USER TYPE IN FILENAME
 
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])

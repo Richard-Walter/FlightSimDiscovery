@@ -35,27 +35,27 @@ class PoiCreateForm(FlaskForm):
 class PoiUpdateForm(FlaskForm):
     poi_name = HiddenField("Name")
     name = StringField('Name', validators=[DataRequired()])
-    # country = SelectField('Country', choices=get_country_list(), render_kw={'disabled': True}, validators=[DataRequired()])
-    country = StringField('Country', render_kw={'disabled': True})
+    country = SelectField('Country', choices=get_country_list(), render_kw={'disabled': False}, validators=[DataRequired()])
+    # country = StringField('Country', render_kw={'disabled': False})
     category = SelectField('Category', choices=get_category_list(), validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
-    # latitude = StringField('Latitude (decimal degrees) ', render_kw={'disabled': True}, validators=[DataRequired(), Length(min=2, max=18)])
-    latitude = StringField('Latitude (decimal degrees) ', render_kw={'disabled': True})
-    # longitude = StringField('Longitude (decimal degrees)',render_kw={'disabled': True},  validators=[DataRequired(), Length(min=2, max=18)])
-    longitude = StringField('Longitude (decimal degrees)',render_kw={'disabled': True})
+    latitude = StringField('Latitude (decimal degrees) ', render_kw={'disabled': False}, validators=[DataRequired(), Length(min=2, max=18)])
+    # latitude = StringField('Latitude (decimal degrees) ', render_kw={'disabled': False})
+    longitude = StringField('Longitude (decimal degrees)',render_kw={'disabled': False},  validators=[DataRequired(), Length(min=2, max=18)])
+    # longitude = StringField('Longitude (decimal degrees)',render_kw={'disabled': False})
     # nearest_airport = StringField('Nearest Airpot (ICAO) (optional)', validators=[Length(min=0, max=4)])
     share = BooleanField('Share with the community')
     submit = SubmitField('Update')
 
-    # def validate_latitude(self, latitude):
+    def validate_latitude(self, latitude):
 
-    #     if not validate_lat(str(latitude.data)):
-    #         raise ValidationError('Please enter a valid latitude (-90 and +90) in degrees decimal.  e.g.-34.407279')
+        if not validate_lat(str(latitude.data)):
+            raise ValidationError('Please enter a valid latitude (-90 and +90) in degrees decimal.  e.g.-34.407279')
 
-    # def validate_longitude(self, longitude):
+    def validate_longitude(self, longitude):
 
-    #     if not validate_long(str(longitude.data)):
-    #         raise ValidationError('Please enter a valid longitude (-180 and +180) in degrees decimal   e.g. 150.676888')
+        if not validate_long(str(longitude.data)):
+            raise ValidationError('Please enter a valid longitude (-180 and +180) in degrees decimal   e.g. 150.676888')
 
     def validate_name(self, name):
 

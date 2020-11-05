@@ -132,7 +132,7 @@ def poi_name_exists(name):
             return True
     return False
 
-def location_exists(pois, latitude, longitude, category):
+def location_exists(pois, latitude, longitude, category, updating_poi=None):
     pois = Pois.query.all()
     location_tolerance = location_exists_cateogry_diff.get(category, location_exists_cateogry_diff['default'])
     for poi in pois:
@@ -140,7 +140,13 @@ def location_exists(pois, latitude, longitude, category):
         longitude_diff = abs(float(poi.longitude) - longitude)
         # print(latitude_diff, longitude_diff)
         if (latitude_diff < location_tolerance) and (longitude_diff < location_tolerance):
-            return True
+            if updating_poi:
+                if poi.id == updating_poi.id:
+                    return False    # User can update POI without changing location
+                else:
+                    return True
+            else:
+                return True
 
     return False
 

@@ -67,6 +67,12 @@ def new_poi(iw_add_poi_location):
             flash('A point of interest already exists at this location', 'danger')
             return render_template('create_poi.html', form=new_form, legend='New Poi')
 
+        # determine country from user coordinates not from the country they input in the form
+        location_details = get_location_details(float(form.latitude.data), float(form.longitude.data))
+        country = location_details.get('country', "")
+        if country:
+            form.country.data = country
+
         # Update POIS table
         print('##### SHARE VALUE: ', form.share.data)
         poi = Pois(user_id=user_id, name=form.name.data, latitude=float(form.latitude.data), longitude=float(form.longitude.data),
@@ -143,32 +149,36 @@ def update_poi(poi_id):
 
         flash_error_msg = ''
 
-        poi.user_id = current_user.id
-        original_name = poi.name
-        poi.name = form.name.data
-        poi.category = form.category.data
-        poi.description = form.description.data
-        # poi.nearest_icao_code = form.nearest_airport.data
-        poi.share = form.share.data
-
         if not validate_updated_poi_name(pois, form.name.data, poi):
             flash_error_msg = "A point of interest already exists with the name - " + form.name.data
+            
+        elif location_exists(pois, float(form.latitude.data), float(form.longitude.data), form.category.data, poi):
+            flash_error_msg = "A point of interest already exists at this location"
 
         if flash_error_msg:
-            form.name.data = original_name
-            form.country.data = poi.country
-            form.latitude.data = poi.latitude
-            form.longitude.data = poi.longitude
-            form.description.data = form.description.data
-            # form.nearest_airport.data = form.nearest_airport.data
-            form.share.data = form.share.data
-
+            
             flash(flash_error_msg, 'danger')
             return render_template('update_poi.html', form=form)
-        
-        db.session.commit()
 
-        return redirect(url_for('main.home', _anchor='where_togo_area', pois_updated='True', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
+        else:
+            # determine country from user coordinates not from the country they input in the form
+            location_details = get_location_details(float(form.latitude.data), float(form.longitude.data))
+            country = location_details.get('country', "")
+            if country:
+                poi.country = country
+            else:
+                poi.country = form.country.data  # incase lookup failed fall back to user entry
+
+            poi.user_id = current_user.id
+            poi.name = form.name.data
+            poi.category = form.category.data
+            poi.description = form.description.data        
+            poi.latitude = form.latitude.data        
+            poi.longitude = form.longitude.data        
+            poi.share = form.share.data        
+            db.session.commit()
+
+            return redirect(url_for('main.home', _anchor='where_togo_area', pois_updated='True', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
 
     elif request.method == 'GET':
         form.poi_name.data = poi.name
