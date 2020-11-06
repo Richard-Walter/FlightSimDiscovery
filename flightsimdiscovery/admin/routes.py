@@ -87,19 +87,20 @@ def run_script():
             if form.validate_on_submit():
 
                 # SCRIPT DETAILS GOES HERE
+                
+                # # Update rating table
+                # all_ratings = Ratings.query.all()
 
-                all_ratings = Ratings.query.all()
+                # for rating in all_ratings:
 
-                for rating in all_ratings:
+                #     poi = Pois.query.get(rating.poi_id)
 
-                    poi = Pois.query.get(rating.poi_id)
-
-                    if not poi:
-                        print('deleting rating with POI ID = ', rating.poi_id )
-                        db.session.delete(rating)
+                #     if not poi:
+                #         print('deleting rating with POI ID = ', rating.poi_id )
+                #         db.session.delete(rating)
                         
                 
-                db.session.commit()
+                # db.session.commit()
 
                 # # check which countries have no pois
                 # full_country_list = set(get_country_list())
