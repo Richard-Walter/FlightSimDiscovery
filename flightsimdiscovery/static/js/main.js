@@ -36,6 +36,7 @@ $(document).ready(function(){
     setTimeout(function() { $("#poi_updated_flash").hide(); }, 10000);
   }
   
+  autocomplete(document.getElementById("poi_search_field_input"));
 
 // mobile_menu
 var menu = $('ul#navigation');

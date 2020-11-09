@@ -48,6 +48,7 @@ def home(filter_poi_location):
         anchor = 'where_togo_area'
 
     pois = Pois.query.all()
+    poi_names = [poi.name for poi in pois]
     filtered_pois = None
     search_category_selected = False
     pois_found = True
@@ -225,7 +226,7 @@ def home(filter_poi_location):
         # map_init['long'] = countries_details[country][2]
         anchor = 'where_togo_area'
 
-    return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
+    return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
                            user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
                            search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
                            _anchor=anchor)
