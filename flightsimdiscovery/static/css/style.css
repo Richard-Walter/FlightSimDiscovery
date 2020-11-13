@@ -5125,9 +5125,14 @@ h6 {
 }
 
 
-.range-slider {
+/* .range-slider {
   width: 80%;
 }
+
+.export-filename{
+  width: 80%;
+} */
+
 .range-slider__range {
   -webkit-appearance: none;
   width: calc(100% - (73px));

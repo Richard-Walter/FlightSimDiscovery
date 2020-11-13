@@ -16,10 +16,10 @@ from utilities import get_location_details
 main = Blueprint('main', __name__)
 
 # TODO add tours to each POI see eamil from Tobias
+# TODO add scolling tip window with x ?
 # TODO allow users to upload photo of location
 # TODO export flight plan in xplane format
 # TODO save flight plan across session see html5 session storage
-# TODO save flight plan -LET USER TYPE IN FILENAME
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])

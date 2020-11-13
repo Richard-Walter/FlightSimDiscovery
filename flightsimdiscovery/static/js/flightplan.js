@@ -1,4 +1,5 @@
 var flightPath_data = [];
+var flightplan_filename = "";
 
 var dep_data;
 var dest_data;
@@ -19,8 +20,9 @@ var destination_lla;
 function exportFlightPlan(flightPath_data) {
 
   var fp_pois = [];
+  flightplan_filename = $("#export-filename-input").val();
 
-  filename = "Flight Sim Discovery " + yyyymmdd() + ".pln";
+  // filename = "Flight Sim Discovery " + yyyymmdd() + ".pln";
   cruise_altitude = $("#cruise_altitude_value").val();
   content = buildFlightPlan(flightPath_data, cruise_altitude);
 
@@ -28,7 +30,7 @@ function exportFlightPlan(flightPath_data) {
   const file = new Blob([content], { type: "text/xml" });
 
   a.href = URL.createObjectURL(file);
-  a.download = filename;
+  a.download = flightplan_filename + ".pln";
   a.click();
 
   URL.revokeObjectURL(a.href);
@@ -40,7 +42,7 @@ function exportFlightPlan(flightPath_data) {
     waypoint = flightPath_data[i]['waypoint'];
     fp_pois.push(waypoint);
   }
-  console.log(fp_pois);
+
 
   // $.post("/export_fp_post", {"fp_pois": JSON.stringify(fp_pois)})
   $.ajax({ 
@@ -281,32 +283,46 @@ function buildFlightPlanModalBody(flightPath_data) {
           body_html += "&nbsp;&nbsp;-> " + flightPath_data[i]["waypoint"] +"<br>";
       }
 
+      //build flightpath name
+      // flightplan_filename = "Flight Sim Discovery " + yyyymmdd();
+      flightplan_filename = "Flight Sim Discovery - " + departure_id + " to " + destination_id;
+  
+
       // body_html = body_html.substring(0, body_html.length - 4); //remove the last -->
       body_html += "</p>";
       body_html += "<p>Destination: " + destination_id + "</p>";
-      body_html += `<script>
+      body_html += "<hr>";
+      body_html += "<form>";
+      body_html += "<div class='export-filename form-group mt-3'>";
+      body_html += "<label class='mr-2' >Flight Plan Name: </label>";
+      body_html += '<input type="text" class="form-control" id="export-filename-input" value="' + flightplan_filename + '">';
+      body_html += "</div>";
+      body_html += "</form>";
+      body_html += 
+
+        `<script>
                         
-      // flight planner cruise alititude slider
-      var rangeSlider = function(){
-        var slider = $('.range-slider'),
-            range = $('.range-slider__range'),
-            value = $('.range-slider__value');
-          
-        slider.each(function(){
-      
-          value.each(function(){
-            var value = $(this).prev().attr('value');
-            $(this).html(value);
-          });
-      
-          range.on('input', function(){
-            $(this).next(value).html(this.value);
-          });
-        });
-      };
-      
-      rangeSlider();
-      </script>`
+                // flight planner cruise alititude slider
+                var rangeSlider = function(){
+                  var slider = $('.range-slider'),
+                      range = $('.range-slider__range'),
+                      value = $('.range-slider__value');
+                    
+                  slider.each(function(){
+                
+                    value.each(function(){
+                      var value = $(this).prev().attr('value');
+                      $(this).html(value);
+                    });
+                
+                    range.on('input', function(){
+                      $(this).next(value).html(this.value);
+                    });
+                  });
+                };
+                
+                rangeSlider();
+        </script>`;
 
     }
     $("#Flight_plan_modal").modal("show");

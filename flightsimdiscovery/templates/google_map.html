@@ -610,6 +610,7 @@
                     
                     controlInput.value = this.getElementsByTagName("input")[0].value;
                     closeAllLists();
+                    
 
                     //detemine lat/lng of selected poi
                     select_poi = infowindow_dict[controlInput.value];
@@ -621,6 +622,10 @@
                     map.setCenter({lat:poi_lat, lng:poi_lng});
                     map.setZoom(10);
                     location.hash = "#" + 'where_togo_area';
+
+                    //clear input
+                    this.blur();
+                    controlInput.value ='';
                 });
                 divCreate.appendChild(b);
             }
