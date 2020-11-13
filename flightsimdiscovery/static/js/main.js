@@ -4,7 +4,6 @@
 
 $(document).ready(function(){
 
-
   //  go to user detail tab that the user was last on upon refresh
   $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
     localStorage.setItem('activeTab', $(e.target).attr('href'));
@@ -36,281 +35,280 @@ $(document).ready(function(){
     setTimeout(function() { $("#poi_updated_flash").hide(); }, 10000);
   }
   
-  autocomplete(document.getElementById("poi_search_field_input"));
 
-// mobile_menu
-var menu = $('ul#navigation');
-if(menu.length){
-	menu.slicknav({
-		prependTo: ".mobile_menu",
-		closedSymbol: '+',
-		openedSymbol:'-'
-	});
-};
+  // mobile_menu
+  var menu = $('ul#navigation');
+  if(menu.length){
+    menu.slicknav({
+      prependTo: ".mobile_menu",
+      closedSymbol: '+',
+      openedSymbol:'-'
+    });
+  };
 
-//check if name exists when creating new poi
-$(".form_new_poi #name").blur(function(){
-  
-});
-
-$(document).on("click", ".iw_delete_poi", function () {
-        
-  var eventId = $(this).data('id');
-  var form_action = '/poi/' + eventId + '/delete'+'?page=home'
-
-  $("#delete_poi_confirm").attr('action', form_action);
-  // console.log(eventId);
-  $('#poi').html( eventId );
-});
-
-//handle for flagging a POI
-$( "#flag_poi_confirm_btn" ).click(function() {
-
-  var poi_id = $('.iw_delete_poi').data('id');
-  var message = $('#flaggedModalFormReasonTextArea').val();
-
-  if (message.length < 1) {
-      $("#flag_poi_modal_form").addClass('was-validated');
-  } else{
-      // $('#flaggedModalFormReasonTextArea').val("");
-      $('#flagReasonModal').modal('hide')
-      $("#iw_flagged_poi_icon").removeClass("far").addClass("fas");
-      $('#iw_flagged_poi_icon').prop('title', 'POI has been reported');
-      $.post("/flag_poi", {"reason": message, "poi_id": poi_id, "page":'home'})
-      flash_poi_flagged();
-      add_flagged_poi_to_list(poi_id);
-      $('html, body').animate({
-          scrollTop: $("#poi_flagged_flash").offset().top
-      }, 500);
-      $(this).find('form').trigger('reset');
-  }
-});
-
-$('#flagReasonModal' ).on('hidden.bs.modal', function() {
-
-  $("#flag_poi_modal_form").removeClass('was-validated')
-  $('#flaggedModalFormReasonTextArea').val("");
-})
-
-function flash_poi_flagged() {
-
-$("#poi_flagged_flash").show();
-setTimeout(function() { $("#poi_flagged_flash").hide(); }, 10000);
-}
-
-//Update Country Select values
-$("a.boxed-btn3").click(function(){
-
-  // var country = $(this).parent().find("a").attr("data-value"); 
-  var country = $(this).attr("data-value"); 
-  $("#selectCountry").val(country)
-  // $('#search_form').submit();
-  $("#search_form_submit_btn").click()
-
-});
-
-// //close delete confirm modal after deletion
-// $('#delete_poi_confirm_btn').click(function(){
-  
-//   $('#deleteModal').modal('hide');
-//   $(window).scrollTop(0);
-  
-
-// });
-
-//Tab data table
-$('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
-  $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust().responsive.recalc();
-} );
-
-$('#account_poi_datatable').DataTable( {
-  
-   responsive: true,
-  'columnDefs': [
-   
-    { className: 'text-center', targets: [1,2,4,5,6, 7] },
-   ],
-  // "scrollY":        "800px",
-  "scrollCollapse": true,
-  "paging":         false
-  
-  // "pagingType": "full_numbers"
-} );
-
-$('#account_favorite_datatable').DataTable( {
-
-  responsive: true,
-  'columnDefs': [
-   
-    { className: 'text-center', targets: [1,2,4, 5] },
-   ],
-  // "scrollY":        "800px",
-  "scrollCollapse": true,
-  "paging":         false
-  // "pagingType": "full_numbers"
-} );
-
-$('#account_visited_datatable').DataTable( {
-
-  responsive: true,
-  'columnDefs': [
-   
-    { className: 'text-center', targets: [1,2,4, 5] },
-   ],
-  // "scrollY":        "800px",
-  "scrollCollapse": true,
-  "paging":         false
-  // "pagingType": "full_numbers"
-} );
-
-$('#account_flagged_datatable').DataTable( {
-
-  responsive: true,
-  'columnDefs': [
-   
-    { className: 'text-center', targets: [2,3] },
-   ],
-  // "scrollY":        "800px",
-  "scrollCollapse": true,
-  "paging":         false
-  // "pagingType": "full_numbers"
-} );
-
-$('#all_pois_datatable').DataTable( {
-  
-  'columnDefs': [
-   
-    { className: 'text-center', targets: [1,2, 4, 5, 7,8,9] },
-   ],
-  // "scrollY":        "800px",
-  "scrollCollapse": true,
-  "paging":         false,
-  "order": [[ 0, "desc" ]]
-  // "pagingType": "full_numbers"
-} );
-
-$('#all_users_datatable').DataTable( {
-  
-  'columnDefs': [
-   
-    { className: 'text-center', targets: [0,2,3,4,5,6] },
-   ],
-  // "scrollY":        "800px",
-  "scrollCollapse": true,
-  "paging":         false
-  // "pagingType": "full_numbers"
-} );
-
-$('#flagged_pois_datatable').DataTable( {
-  
-  'columnDefs': [
-   
-    { className: 'text-center', targets: [1, 5,6, 7,8] },
-   ],
-  // "scrollY":        "800px",
-  "scrollCollapse": true,
-  "paging":         false
-  // "pagingType": "full_numbers"
-} );
-
-$('#topten_pois_datatable').DataTable( {
-
-  
-  'columnDefs': [
-   
-    { className: 'text-center', targets: [4,5] },
-   ],
-
-   "searching": false,
-   "paging": false,
-   "info": false,
-   "order": [[4, 'desc']]
-  // "scrollY":        "800px",
-  // "scrollCollapse": true,
-  // "paging":         false
-  // "pagingType": "full_numbers"
-} );
-
-  
-// review-active
-$('.slider_active').owlCarousel({
-  loop:true,
-  margin:0,
-  items:1,
-  autoplay:true,
-  navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
-  nav:true,
-  dots:false,
-  autoplayHoverPause: true,
-  autoplaySpeed: 800,
-  animateOut: 'fadeOut',
-  animateIn: 'fadeIn',
-  responsive:{
-      0:{
-          items:1,
-          nav:false,
-      },
-      767:{
-          items:1
-      },
-      992:{
-          items:1
-      },
-      1200:{
-          items:1
-      },
-      1600:{
-          items:1
-      }
-  }
-});
-
-// review-active
-$('.testmonial_active').owlCarousel({
-  loop:true,
-  margin:0,
-  items:1,
-  autoplay:true,
-  navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
-  nav:false,
-  dots:true,
-  autoplayHoverPause: true,
-  autoplaySpeed: 800,
-  responsive:{
-      0:{
-          items:1,
-      },
-      767:{
-          items:1,
-      },
-      992:{
-          items:1,
-      },
-      1200:{
-          items:1,
-      },
-      1500:{
-          items:1
-      }
-  }
-});
-
-$( function() {
-  $( "#slider-range" ).slider({
-      range: true,
-      min: 0,
-      max: 600,
-      values: [ 75, 300 ],
-      slide: function( event, ui ) {
-          $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-      }
+  //check if name exists when creating new poi
+  $(".form_new_poi #name").blur(function(){
+    
   });
-  $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
-} );
+
+  $(document).on("click", ".iw_delete_poi", function () {
+          
+    var eventId = $(this).data('id');
+    var form_action = '/poi/' + eventId + '/delete'+'?page=home'
+
+    $("#delete_poi_confirm").attr('action', form_action);
+    // console.log(eventId);
+    $('#poi').html( eventId );
+  });
+
+  //handle for flagging a POI
+  $( "#flag_poi_confirm_btn" ).click(function() {
+
+    var poi_id = $('.iw_delete_poi').data('id');
+    var message = $('#flaggedModalFormReasonTextArea').val();
+
+    if (message.length < 1) {
+        $("#flag_poi_modal_form").addClass('was-validated');
+    } else{
+        // $('#flaggedModalFormReasonTextArea').val("");
+        $('#flagReasonModal').modal('hide')
+        $("#iw_flagged_poi_icon").removeClass("far").addClass("fas");
+        $('#iw_flagged_poi_icon').prop('title', 'POI has been reported');
+        $.post("/flag_poi", {"reason": message, "poi_id": poi_id, "page":'home'})
+        flash_poi_flagged();
+        add_flagged_poi_to_list(poi_id);
+        $('html, body').animate({
+            scrollTop: $("#poi_flagged_flash").offset().top
+        }, 500);
+        $(this).find('form').trigger('reset');
+    }
+  });
+
+  $('#flagReasonModal' ).on('hidden.bs.modal', function() {
+
+    $("#flag_poi_modal_form").removeClass('was-validated')
+    $('#flaggedModalFormReasonTextArea').val("");
+  })
+
+  function flash_poi_flagged() {
+
+  $("#poi_flagged_flash").show();
+  setTimeout(function() { $("#poi_flagged_flash").hide(); }, 10000);
+  }
+
+  //Update Country Select values
+  $("a.boxed-btn3").click(function(){
+
+    // var country = $(this).parent().find("a").attr("data-value"); 
+    var country = $(this).attr("data-value"); 
+    $("#selectCountry").val(country)
+    // $('#search_form').submit();
+    $("#search_form_submit_btn").click()
+
+  });
+
+  // //close delete confirm modal after deletion
+  // $('#delete_poi_confirm_btn').click(function(){
+    
+  //   $('#deleteModal').modal('hide');
+  //   $(window).scrollTop(0);
+    
+
+  // });
+
+  //Tab data table
+  $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
+    $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust().responsive.recalc();
+  } );
+
+  $('#account_poi_datatable').DataTable( {
+    
+    responsive: true,
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [1,2,4,5,6, 7] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         false
+    
+    // "pagingType": "full_numbers"
+  } );
+
+  $('#account_favorite_datatable').DataTable( {
+
+    responsive: true,
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [1,2,4, 5] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         false
+    // "pagingType": "full_numbers"
+  } );
+
+  $('#account_visited_datatable').DataTable( {
+
+    responsive: true,
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [1,2,4, 5] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         false
+    // "pagingType": "full_numbers"
+  } );
+
+  $('#account_flagged_datatable').DataTable( {
+
+    responsive: true,
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [2,3] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         false
+    // "pagingType": "full_numbers"
+  } );
+
+  $('#all_pois_datatable').DataTable( {
+    
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [1,2, 4, 5, 7,8,9] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         false,
+    "order": [[ 0, "desc" ]]
+    // "pagingType": "full_numbers"
+  } );
+
+  $('#all_users_datatable').DataTable( {
+    
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [0,2,3,4,5,6] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         false
+    // "pagingType": "full_numbers"
+  } );
+
+  $('#flagged_pois_datatable').DataTable( {
+    
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [1, 5,6, 7,8] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         false
+    // "pagingType": "full_numbers"
+  } );
+
+  $('#topten_pois_datatable').DataTable( {
+
+    
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [4,5] },
+    ],
+
+    "searching": false,
+    "paging": false,
+    "info": false,
+    "order": [[4, 'desc']]
+    // "scrollY":        "800px",
+    // "scrollCollapse": true,
+    // "paging":         false
+    // "pagingType": "full_numbers"
+  } );
+
+    
+  // review-active
+  $('.slider_active').owlCarousel({
+    loop:true,
+    margin:0,
+    items:1,
+    autoplay:true,
+    navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
+    nav:true,
+    dots:false,
+    autoplayHoverPause: true,
+    autoplaySpeed: 800,
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    responsive:{
+        0:{
+            items:1,
+            nav:false,
+        },
+        767:{
+            items:1
+        },
+        992:{
+            items:1
+        },
+        1200:{
+            items:1
+        },
+        1600:{
+            items:1
+        }
+    }
+  });
+
+  // review-active
+  $('.testmonial_active').owlCarousel({
+    loop:true,
+    margin:0,
+    items:1,
+    autoplay:true,
+    navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
+    nav:false,
+    dots:true,
+    autoplayHoverPause: true,
+    autoplaySpeed: 800,
+    responsive:{
+        0:{
+            items:1,
+        },
+        767:{
+            items:1,
+        },
+        992:{
+            items:1,
+        },
+        1200:{
+            items:1,
+        },
+        1500:{
+            items:1
+        }
+    }
+  });
+
+  $( function() {
+    $( "#slider-range" ).slider({
+        range: true,
+        min: 0,
+        max: 600,
+        values: [ 75, 300 ],
+        slide: function( event, ui ) {
+            $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+        }
+    });
+    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+        " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+  } );
 
 
-// for filter
+  // for filter
   // init Isotope
   var $grid = $('.grid').isotope({
     itemSelector: '.grid-item',
@@ -343,26 +341,26 @@ $( function() {
     time: 10000
   });
 
-/* magnificPopup img view */
-$('.popup-image').magnificPopup({
-	type: 'image',
-	gallery: {
-	  enabled: true
-	}
-});
+  /* magnificPopup img view */
+  $('.popup-image').magnificPopup({
+    type: 'image',
+    gallery: {
+      enabled: true
+    }
+  });
 
-/* magnificPopup img view */
-$('.img-pop-up').magnificPopup({
-	type: 'image',
-	gallery: {
-	  enabled: true
-	}
-});
+  /* magnificPopup img view */
+  $('.img-pop-up').magnificPopup({
+    type: 'image',
+    gallery: {
+      enabled: true
+    }
+  });
 
-/* magnificPopup video view */
-$('.popup-video').magnificPopup({
-	type: 'iframe'
-});
+  /* magnificPopup video view */
+  $('.popup-video').magnificPopup({
+    type: 'iframe'
+  });
 
 
   // scrollIt for smoth scroll
@@ -389,104 +387,103 @@ $('.popup-video').magnificPopup({
   });
 
 
-  // blog-page
+    // blog-page
 
-  //brand-active
-$('.brand-active').owlCarousel({
-  loop:true,
-  margin:30,
-items:1,
-autoplay:true,
-  nav:false,
-dots:false,
-autoplayHoverPause: true,
-autoplaySpeed: 800,
-  responsive:{
-      0:{
-          items:1,
-          nav:false
+    //brand-active
+  $('.brand-active').owlCarousel({
+    loop:true,
+    margin:30,
+  items:1,
+  autoplay:true,
+    nav:false,
+  dots:false,
+  autoplayHoverPause: true,
+  autoplaySpeed: 800,
+    responsive:{
+        0:{
+            items:1,
+            nav:false
 
-      },
-      767:{
-          items:4
-      },
-      992:{
-          items:7
-      }
+        },
+        767:{
+            items:4
+        },
+        992:{
+            items:7
+        }
+    }
+  });
+
+  // blog-dtails-page
+
+    //project-active
+  $('.project-active').owlCarousel({
+    loop:true,
+    margin:30,
+  items:1,
+  // autoplay:true,
+  navText:['<i class="Flaticon flaticon-left-arrow"></i>','<i class="Flaticon flaticon-right-arrow"></i>'],
+  nav:true,
+  dots:false,
+  // autoplayHoverPause: true,
+  // autoplaySpeed: 800,
+    responsive:{
+        0:{
+            items:1,
+            nav:false
+
+        },
+        767:{
+            items:1,
+            nav:false
+        },
+        992:{
+            items:2,
+            nav:false
+        },
+        1200:{
+            items:1,
+        },
+        1501:{
+            items:2,
+        }
+    }
+  });
+
+  if (document.getElementById('default-select')) {
+    $('select').niceSelect();
   }
-});
 
-// blog-dtails-page
+    //about-pro-active
+  $('.details_active').owlCarousel({
+    loop:true,
+    margin:0,
+  items:1,
+  // autoplay:true,
+  navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
+  nav:true,
+  dots:false,
+  // autoplayHoverPause: true,
+  // autoplaySpeed: 800,
+    responsive:{
+        0:{
+            items:1,
+            nav:false
 
-  //project-active
-$('.project-active').owlCarousel({
-  loop:true,
-  margin:30,
-items:1,
-// autoplay:true,
-navText:['<i class="Flaticon flaticon-left-arrow"></i>','<i class="Flaticon flaticon-right-arrow"></i>'],
-nav:true,
-dots:false,
-// autoplayHoverPause: true,
-// autoplaySpeed: 800,
-  responsive:{
-      0:{
-          items:1,
-          nav:false
-
-      },
-      767:{
-          items:1,
-          nav:false
-      },
-      992:{
-          items:2,
-          nav:false
-      },
-      1200:{
-          items:1,
-      },
-      1501:{
-          items:2,
-      }
-  }
-});
-
-if (document.getElementById('default-select')) {
-  $('select').niceSelect();
-}
-
-  //about-pro-active
-$('.details_active').owlCarousel({
-  loop:true,
-  margin:0,
-items:1,
-// autoplay:true,
-navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
-nav:true,
-dots:false,
-// autoplayHoverPause: true,
-// autoplaySpeed: 800,
-  responsive:{
-      0:{
-          items:1,
-          nav:false
-
-      },
-      767:{
-          items:1,
-          nav:false
-      },
-      992:{
-          items:1,
-          nav:false
-      },
-      1200:{
-          items:1,
-      }
-  }
-});
-
+        },
+        767:{
+            items:1,
+            nav:false
+        },
+        992:{
+            items:1,
+            nav:false
+        },
+        1200:{
+            items:1,
+        }
+    }
+  });
 
 });
 

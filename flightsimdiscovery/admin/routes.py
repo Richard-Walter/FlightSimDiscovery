@@ -6,18 +6,17 @@ from utilities import get_country_list
 from flightsimdiscovery.admin.utilities import update_db, backup_db
 from flightsimdiscovery import db
 
-
 admin = Blueprint('admin', __name__)
+
 
 @admin.route("/flagged_pois", methods=['GET'])
 @login_required
 def flagged_pois():
-
     if current_user.is_authenticated and (current_user.username == 'admin'):
 
         flagged_pois_data = []
         flagged_pois = Flagged.query.all()
-        
+
         for flagged_poi in flagged_pois:
 
             poi = Pois.query.filter_by(id=flagged_poi.poi_id).first()
@@ -30,18 +29,19 @@ def flagged_pois():
             else:
                 date_flagged = date_flagged.strftime("%Y-%m-%d %H:%M:%S")
 
-            flagged_poi_data = {'user_id': flagged_poi.user_id, 'username': user.username, 'poi_id': poi.id, 'name': poi.name, 'date_posted': date_flagged,'reason': flagged_poi.reason, 'location': data_location}  
-            flagged_pois_data.append(flagged_poi_data) 
-        
+            flagged_poi_data = {'user_id': flagged_poi.user_id, 'username': user.username, 'poi_id': poi.id, 'name': poi.name,
+                                'date_posted': date_flagged, 'reason': flagged_poi.reason, 'location': data_location}
+            flagged_pois_data.append(flagged_poi_data)
+
         return render_template('flagged_pois.html', flagged_pois_data=flagged_pois_data)
-    
+
     else:
         abort(403)
-        
+
+
 @admin.route("/update_database", methods=['GET', 'POST'])
 @login_required
 def update_database():
-
     form = UpdateDatabaseForm()
 
     if current_user.is_authenticated and (current_user.username == 'admin'):
@@ -51,14 +51,14 @@ def update_database():
             return render_template('update_database.html', form=form)
 
         elif request.method == 'POST':
-        
+
             if form.validate_on_submit():
                 # current_user.username = form.username.dat
                 backup_db()
                 update_db(form.name.data, form.country.data)
 
                 flash('Database has been updated!', 'success')
-            
+
                 return redirect(url_for('main.home'))
 
             else:
@@ -70,6 +70,7 @@ def update_database():
 
     else:
         abort(403)
+
 
 @admin.route("/run_script", methods=['GET', 'POST'])
 @login_required
@@ -83,11 +84,11 @@ def run_script():
             return render_template('run_script.html', form=form)
 
         elif request.method == 'POST':
-        
+
             if form.validate_on_submit():
 
                 # SCRIPT DETAILS GOES HERE
-                
+
                 # # Update rating table
                 # all_ratings = Ratings.query.all()
 
@@ -98,28 +99,25 @@ def run_script():
                 #     if not poi:
                 #         print('deleting rating with POI ID = ', rating.poi_id )
                 #         db.session.delete(rating)
-                        
-                
+
                 # db.session.commit()
 
                 # # check which countries have no pois
                 # full_country_list = set(get_country_list())
                 # db_country_list = set()
-                
+
                 # all_pois = Pois.query.all()
 
                 # for poi in all_pois:
-                   
+
                 #     db_country_list.add(poi.country)
 
-                
                 # countries_not_in_db = list(full_country_list - db_country_list)
                 # for country in countries_not_in_db:
                 #     print(country)
 
-
                 flash('Script has run succesfully!', 'success')
-            
+
                 return render_template('run_script.html', form=form)
 
             else:
@@ -133,6 +131,7 @@ def run_script():
     else:
         abort(403)
 
+
 @admin.route("/user_details", methods=['GET', 'POST'])
 @login_required
 def user_details():
@@ -140,7 +139,6 @@ def user_details():
 
         users_data = []
         users = User.query.all()
-        
 
         for user in users:
 
@@ -181,19 +179,18 @@ def user_details():
 
             users_data.append(user_details)
 
-
         return render_template('user_details.html', users_data=users_data)
-    
+
     else:
         abort(403)
-        
+
 
 @admin.route("/all_pois")
 @login_required
 def all_pois():
     all_pois_data = []
     if current_user.is_authenticated and (current_user.username == 'admin'):
-        
+
         all_pois = Pois.query.all()
         flagged_pois = Flagged.query.all()
         flagged_pois_id_list = [flagged_poi.poi_id for flagged_poi in flagged_pois]
@@ -205,9 +202,10 @@ def all_pois():
 
             user = User.query.filter_by(id=poi.user_id).first()
             data_location = str(poi.latitude) + ', ' + str(poi.longitude)
-            poi_data = {'username': user.username, 'id': poi.id, 'location': data_location, 'name': poi.name, 'date_posted': poi.date_posted.strftime("%Y-%m-%d %H:%M:%S"), 'category': poi.category,
-                             'country': poi.country, 'region': poi.region,'description': poi.description, 'flag': poi_flagged}   
-            all_pois_data.append(poi_data)       
+            poi_data = {'username': user.username, 'id': poi.id, 'location': data_location, 'name': poi.name,
+                        'date_posted': poi.date_posted.strftime("%Y-%m-%d %H:%M:%S"), 'category': poi.category,
+                        'country': poi.country, 'region': poi.region, 'description': poi.description, 'flag': poi_flagged}
+            all_pois_data.append(poi_data)
 
         return render_template('all_pois.html', all_pois=all_pois_data)
     else:
@@ -270,4 +268,3 @@ def all_pois():
 #     db.create_all()
 
 #     return "success"
-

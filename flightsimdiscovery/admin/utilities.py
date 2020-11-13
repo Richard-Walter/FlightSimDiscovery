@@ -1,6 +1,6 @@
 import os, shutil, datetime
 import xml.etree.ElementTree as ET
-from flask import  abort
+from flask import abort
 from flightsimdiscovery import db
 from flask_login import current_user
 from utilities import get_country_region
@@ -8,8 +8,8 @@ from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.config import basedir, support_dir
 from utilities import get_location_details
 
-def get_xml_db_update_list():
 
+def get_xml_db_update_list():
     file_path_list = []
 
     xml_files = [os.path.abspath(x) for x in os.listdir(os.path.join(basedir, "input/database_updates"))]
@@ -20,8 +20,8 @@ def get_xml_db_update_list():
 
     return file_path_list
 
-def update_db(file_name, country):
 
+def update_db(file_name, country):
     pois = Pois.query.all()
 
     full_path = "flightsimdiscovery/input/database_updates/" + file_name
@@ -30,14 +30,12 @@ def update_db(file_name, country):
 
     if (current_user.username == 'admin'):
 
-        user_id = current_user.id # admin will create all these POIS
+        user_id = current_user.id  # admin will create all these POIS
         name = ''
         latitude = ''
         longitude = ''
 
-
         # country = ''  # change this if not country specific update
-
 
         description = ''
         country_set = set()
@@ -49,7 +47,7 @@ def update_db(file_name, country):
         # Parse the update db xml file
         tree = ET.parse("flightsimdiscovery\\input\\database_updates\\Japan Update.xml")
         # tree = ET.parse(full_path)
-        folders= tree.findall('.//Folder')
+        folders = tree.findall('.//Folder')
 
         for folder in folders:
             if folder.attrib['Name'] == 'Points of Interest':
@@ -65,7 +63,7 @@ def update_db(file_name, country):
             for placemark in folder:
                 for elem in placemark:
                     if elem.tag == 'name':
-                        name =  elem.text
+                        name = elem.text
 
                     elif elem.tag == 'Point':
                         cordinate_tag = elem[0].text
@@ -86,7 +84,7 @@ def update_db(file_name, country):
                         else:
                             countries_not_found.append(name + ", " + str(latitude) + ", " + str(longitude))
                             break
-                        
+
                         if category == "City/Town":
                             if county:
                                 name += ", " + county
@@ -108,12 +106,12 @@ def update_db(file_name, country):
                             break
 
                         # check if location exists
-                        poi_location_exists = location_exists(pois, latitude,longitude, category)
+                        poi_location_exists = location_exists(pois, latitude, longitude, category)
                         if poi_location_exists:
                             print("*** POI LOCATION EXISTS: ", name)
                             poi_location_exists_list.append(name)
                             break
-                        
+
                         print(name, country)
 
                         # create the poi
@@ -129,7 +127,6 @@ def update_db(file_name, country):
                         )
 
                         db.session.add(poi)
-                       
 
                         # Update Rating table with default rating of 4
                         rating = Ratings(user_id=user_id, poi_id=poi.id, rating_score=4)
@@ -141,16 +138,16 @@ def update_db(file_name, country):
 
         abort(403)
 
-def backup_db():
 
+def backup_db():
     now = str(datetime.datetime.now())[:19]
-    now = now.replace(":","_")
+    now = now.replace(":", "_")
 
     backup_dir = os.path.join(support_dir, "Database Backups")
 
     # src_dir="C:\\Users\\Asus\\Desktop\\Versand Verwaltung\\fsdiscovery.db"
-    src_dir=os.path.join(support_dir, "fsdiscovery.db")
+    src_dir = os.path.join(support_dir, "fsdiscovery.db")
 
     # dst_dir="C:\\Users\\Asus\\Desktop\\Versand Verwaltung\\fsdiscovery_"+str(now)+".bd"
-    dst_dir=os.path.join(backup_dir, "fsdiscovery_"+str(now)+".db")
-    shutil.copy(src_dir,dst_dir)
+    dst_dir = os.path.join(backup_dir, "fsdiscovery_" + str(now) + ".db")
+    shutil.copy(src_dir, dst_dir)

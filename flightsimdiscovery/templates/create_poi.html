@@ -16,18 +16,19 @@
 <div class="section_top_area"></div>
 <div class="container">
     <div class="form_new_poi">
-        
+
 
         <form method="POST" autocomplete="off" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <fieldset class="form-group mt-5">
-                
+
                 <h3 class="new_poi_header border-bottom mb-4">Create New Point of Interest</h3>
                 <div class="new_poi_msg mb-4 ">
-                    *Create a new POI that you think might be interesting to the community.  Private POI's can be created by unchecking 'Share with the community' at the bottom of this form 
+                    *Create a new POI that you think might be interesting to the community. Private POI's can be created
+                    by unchecking 'Share with the community' at the bottom of this form
                 </div>
                 <div class="form-group autocomplete">
-                    
+
                     {{ form.name.label(class="form-control-label") }}
 
                     {% if form.name.errors %}
@@ -120,7 +121,7 @@
                     {{ form.nearest_airport(class="form-control form-control-lg") }}
                     {% endif %}
                 </div> -->
-                <div class="form-check"{{share}}>
+                <div class="form-check" {{share}}>
                     {{ form.share(class="form-check-input") }}
                     {{ form.share.label(class="form-check-label") }}
                 </div>
@@ -131,8 +132,8 @@
         </form>
     </div>
 </div>
- 
- <script>
+
+<script>
     function autocomplete(searchEle, arr) {
        var currentFocus;
        searchEle.addEventListener("input", function(e) {
@@ -148,6 +149,7 @@
           divCreate = document.createElement("DIV");
           divCreate.setAttribute("id", this.id + "autocomplete-list");
           divCreate.setAttribute("class", "autocomplete-items");
+          divCreate.style.cursor = 'not-allowed';
           this.parentNode.appendChild(divCreate);
           b = document.createElement("DIV");
           heading_created = false;
@@ -206,5 +208,6 @@
     }
     var poi_names = {{db_poi_names|tojson}};
     autocomplete(document.getElementById("name"), poi_names);
- </script>
+
+</script>
 {% endblock content %}

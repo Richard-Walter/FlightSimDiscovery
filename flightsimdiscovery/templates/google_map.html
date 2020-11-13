@@ -1,18 +1,18 @@
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/geojson/0.5.0/geojson.min.js"></script>
 <div id="google_map" class="google_map_area">
-  <div class="">
-      <div class="d-sm-block pb-4">
-          <div
-                  id="map"
-                  style="
+    <div class="">
+        <div class="d-sm-block pb-4">
+            <div
+                    id="map"
+                    style="
         width: 100%;
         height: 1020px;
         position: relative;
         overflow: hidden;
       "
-          ></div>
-    <script>
+            ></div>
+            <script>
 
       //Create the Google Map
       var map;
@@ -43,6 +43,7 @@
       var user_favorites = new Set({{user_favorites|tojson}});
       var user_visited = new Set({{user_visited|tojson}});
       var flagged_pois = new Set({{flagged_pois|tojson}});
+      var db_poi_names = {{db_poi_names|tojson}};
 
 
       pois_array.forEach(function (poi, index) {
@@ -147,12 +148,12 @@
 
           addpoi_infowindow.setContent(add_poi_iw_html_content);
           addpoi_infowindow.open(map, currentMark);
-      });
+        });
 
-      google.maps.event.addListener(addpoi_infowindow,'closeclick',function(){
-        currentMark.setMap(null); //removes the marker
-        
-      });
+        google.maps.event.addListener(addpoi_infowindow,'closeclick',function(){
+          currentMark.setMap(null); //removes the marker
+          
+        });
         
 
         for (var i = 0, length = markerCollection.length;i < length;i++ ) {
@@ -541,21 +542,145 @@
 
         // Set CSS for the control interior.
         const controlText = document.createElement("div");
-        // controlText.classList = "Map_Flight_Plan_Text"
-        
-        searchPOIInnerHTML = 
-     
-                              '<input id="poi_search_field_input" type="text" class="form-control" placeholder="Search for Point of Interest">' +
-                              '<div class="input-group-append">'+
-                              '   <button class="btn btn-primary" type="button">'+
-                              '     <i class="fa fa-search"></i>'+
-                              '   </button>'+
-                              '</div>'
-
-
         controlText.classList = "input-group poi_search_field autocomplete";
-        controlText.innerHTML = searchPOIInnerHTML;
+
+
+        var controlInput = document.createElement('INPUT');
+        controlInput.id = "poi_search_field_input";
+        controlInput.type = "text";
+        controlInput.className = "form-control";
+        controlInput.setAttribute("placeholder", "Search for Point of Interest");
+
+        var controlButton = document.createElement("div");
+        controlButton.className = "input-group-append";
+
+        buttonSearchPOIInnerHTML = 
+
+                              '   <button class="btn btn-primary" type="button" disabled>'+
+                              '     <i class="fa fa-search"></i>'+
+                              '   </button>'
+
+
+
+        controlButton.innerHTML = buttonSearchPOIInnerHTML;
+        controlText.appendChild(controlInput)
+        controlText.appendChild(controlButton)
         controlUI.appendChild(controlText)
+
+        var currentAutocompleteItemFocus;
+
+        // autocomplete functionality
+        controlInput.addEventListener("input", () => {
+          var arr = db_poi_names;
+          
+          var divCreate,
+          b,
+          i,
+          fieldVal = controlInput.value;
+          closeAllLists();
+          if (!fieldVal) {
+            return false;
+          }
+          currentAutocompleteItemFocus = -1;
+          divCreate = document.createElement("DIV");
+          divCreate.setAttribute("id", controlInput.id + "autocomplete-list");
+          divCreate.setAttribute("class", "autocomplete-items poi-search");
+          divCreate.style.cursor = 'pointer';
+          controlInput.parentNode.appendChild(divCreate);
+          b = document.createElement("DIV");
+           
+
+          for (i = 0; i <arr.length; i++) {
+              
+
+            if ( arr[i].toUpperCase().includes(fieldVal.toUpperCase())) {      
+
+                b = document.createElement("DIV");
+                b.setAttribute("tabindex", "-1")
+                // b.innerHTML = "<strong>" + arr[i].substr(0, fieldVal.length) + "</strong>";
+                match_index = arr[i].toUpperCase().search(fieldVal.toUpperCase());
+                b.innerHTML += arr[i].substring(0, match_index);
+                strong_text = arr[i].substring(match_index, match_index+fieldVal.length) 
+                b.innerHTML += "<strong>" + strong_text + "</strong>";
+                b.innerHTML += arr[i].substr(match_index+fieldVal.length, arr[i].length);
+                b.innerHTML += "<input disabled type='hidden' value='" + arr[i] + "'>";
+
+                //
+                b.addEventListener("click", function (e) {
+                    
+                    controlInput.value = this.getElementsByTagName("input")[0].value;
+                    closeAllLists();
+
+                    //detemine lat/lng of selected poi
+                    select_poi = infowindow_dict[controlInput.value];
+                    console.log(select_poi);
+                    poi_lat =  parseFloat(select_poi['latitude']);
+                    poi_lng =  parseFloat(select_poi['longitude']);
+
+                    //set map coords and zoom in on poi
+                    map.setCenter({lat:poi_lat, lng:poi_lng});
+                    map.setZoom(10);
+                    location.hash = "#" + 'where_togo_area';
+                });
+                divCreate.appendChild(b);
+            }
+          }
+
+        });
+
+        controlInput.addEventListener("keydown", function (e) {
+          var autocompleteList = document.getElementById(
+            controlInput.id + "autocomplete-list"
+          );
+          if (autocompleteList)
+              autocompleteList = autocompleteList.getElementsByTagName("div");
+          if (e.keyCode == 40) {
+              currentAutocompleteItemFocus++;
+              addActive(autocompleteList);
+          } else if (e.keyCode == 38) {
+              //up
+              currentAutocompleteItemFocus--;
+              addActive(autocompleteList);
+          } else if (e.keyCode == 13) {
+              /*If the ENTER key is pressed, prevent the form from being submitted,*/
+              e.preventDefault();
+              if (currentAutocompleteItemFocus > -1) {
+                   /*and simulate a click on the "active" item:*/
+                  if (autocompleteList) {
+                    autocompleteList[currentAutocompleteItemFocus].click();
+                  }
+              }
+          }
+        });
+        
+        function addActive(autocompleteList) {
+          if (!autocompleteList) return false;
+          removeActive(autocompleteList);
+          if (currentAutocompleteItemFocus >= autocompleteList.length) currentAutocompleteItemFocus = 0;
+          if (currentAutocompleteItemFocus < 0) currentAutocompleteItemFocus = autocompleteList.length - 1;
+          autocompleteList[currentAutocompleteItemFocus].classList.add("autocomplete-active");
+        }
+
+        function removeActive(autocompleteList) {
+          for (var i = 0; i < autocompleteList.length; i++) {
+              autocompleteList[i].classList.remove("autocomplete-active");
+          }
+        }
+
+        function closeAllLists(elmnt) {
+          var autocompleteList = document.getElementsByClassName(
+            "autocomplete-items"
+          );
+          for (var i = 0; i < autocompleteList.length; i++) {
+            if (elmnt != controlInput) {
+                autocompleteList[i].parentNode.removeChild(autocompleteList[i]);
+            }
+          }
+        }
+
+      document.addEventListener("click", function(e) {
+          closeAllLists(e.target);
+      });
 
       }
 
@@ -686,87 +811,13 @@
 
         }
 
+            </script>
+            <!--DEVELOPMENT-->
+            <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script> -->
+            <script src="https://maps.googleapis.com/maps/api/js?key={{gm_key}}&amp;callback=initMap" async
+                    defer></script>
 
-          </script>
-          <!--DEVELOPMENT-->
-          <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script> -->
-          <script src="https://maps.googleapis.com/maps/api/js?key={{gm_key}}&amp;callback=initMap" async defer></script>
-          
-      </div>
-  </div>
+        </div>
+    </div>
 </div>
-<script>
-  function autocomplete(searchEle) {
-    var arr = {{db_poi_names|tojson}};
-     var currentFocus;
-     searchEle.addEventListener("input", function(e) {
-        var divCreate,
-        b,
-        i,
-        fieldVal = this.value;
-        closeAllLists();
-        if (!fieldVal) {
-           return false;
-        }
-        currentFocus = -1;
-        divCreate = document.createElement("DIV");
-        divCreate.setAttribute("id", this.id + "autocomplete-list");
-        divCreate.setAttribute("class", "autocomplete-items");
-        this.parentNode.appendChild(divCreate);
-        b = document.createElement("DIV");
-      //   heading_created = false;
-      //   b.innerHTML = "<strong>" + "PLEASE CHOOSE A POI NAME NOT  LITSTED BELOW" + "</strong>";
-      //   divCreate.appendChild(b);
-        for (i = 0; i <arr.length; i++) {
-            
-          //  if ( arr[i].substr(0, fieldVal.length).toUpperCase() == fieldVal.toUpperCase() ) {
-           if ( arr[i].toUpperCase().includes(fieldVal.toUpperCase())) {      
-
-              // if (!heading_created) {
-              //     divCreate.appendChild(b);
-              //     b.innerHTML = "<strong>" + "PLEASE ADD A POI  NOT LISTED BELOW:" + "</strong>";
-              //     b.setAttribute("id", "autocomplete_header");
-              //     heading_created = true;
-              // }
-              
-              b = document.createElement("DIV");
-              // b.innerHTML = "<strong>" + arr[i].substr(0, fieldVal.length) + "</strong>";
-              match_index = arr[i].toUpperCase().search(fieldVal.toUpperCase());
-              b.innerHTML += arr[i].substring(0, match_index);
-              strong_text = arr[i].substring(match_index, match_index+fieldVal.length) 
-              b.innerHTML += "<strong>" + strong_text + "</strong>";
-              b.innerHTML += arr[i].substr(match_index+fieldVal.length, arr[i].length);
-              b.innerHTML += "<input disabled type='hidden' value='" + arr[i] + "'>";
-              divCreate.appendChild(b);
-           }
-        }
-        if (!heading_created) {
-            closeAllLists();
-        }
-     });
-
-  //    searchEle.addEventListener("keydown", function(e) {
-  //       var autocompleteList = document.getElementById(
-  //          this.id + "autocomplete-list"
-  //       );
-  //       if (autocompleteList)
-  //          autocompleteList = autocompleteList.getElementsByTagName("div");
-
-  //    });
-
-     function closeAllLists(elmnt) {
-        var autocompleteList = document.getElementsByClassName(
-           "autocomplete-items"
-        );
-        for (var i = 0; i < autocompleteList.length; i++) {
-           if (elmnt != searchEle) {
-              autocompleteList[i].parentNode.removeChild(autocompleteList[i]);
-           }
-        }
-     }
-     document.addEventListener("click", function(e) {
-        closeAllLists(e.target);
-     });
-  }
-</script>
 {% endblock content %}

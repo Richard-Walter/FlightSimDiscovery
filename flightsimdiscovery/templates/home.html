@@ -89,10 +89,10 @@
 <!-- where_togo_area_start  -->
 <div id="searchTag"></div>
 <!-- This is a hidden value for country default that javascript retrieves -->
-<input id="countryDefaultVaule" name="countryDefaultVaule"  type="hidden" value="{{search_defaults['Country']}}"/>
-<input id="searchResults" name="searchResults"  type="hidden" value="{{pois_found}}"/>
-<input id="poiCreated" name="searchResults"  type="hidden" value="{{pois_created}}"/>
-<input id="poiUpdated" name="searchResults"  type="hidden" value="{{pois_updated}}"/>
+<input id="countryDefaultVaule" name="countryDefaultVaule" type="hidden" value="{{search_defaults['Country']}}"/>
+<input id="searchResults" name="searchResults" type="hidden" value="{{pois_found}}"/>
+<input id="poiCreated" name="searchResults" type="hidden" value="{{pois_created}}"/>
+<input id="poiUpdated" name="searchResults" type="hidden" value="{{pois_updated}}"/>
 
 <div id="where_togo_area" class="where_togo_area">
     <div class="container">
@@ -165,7 +165,8 @@
                             
                         </div> -->
                         <div class="search_btn">
-                            <button id="search_form_submit_btn" name="search_form_submit" class="boxed-btn4" type="submit">
+                            <button id="search_form_submit_btn" name="search_form_submit" class="boxed-btn4"
+                                    type="submit">
                                 Search
                             </button>
                         </div>
@@ -198,36 +199,38 @@
 <!-- where_togo_area_end  -->
 
 <!-- no search result flash start-->
-<div id="search_results_flash" class="alert alert-info text-center my-0"  style="display: none;" role="alert">
+<div id="search_results_flash" class="alert alert-info text-center my-0" style="display: none;" role="alert">
     {% if search_defaults['Country'] != 'Country' %}
-        No POIs found in {{search_defaults['Country']}} based on this search criteria.  Showing POIs from all countries that match your criteria
+    No POIs found in {{search_defaults['Country']}} based on this search criteria. Showing POIs from all countries that
+    match your criteria
     {% elif search_defaults['Region'] != 'Region' %}
-        No POIs found in {{search_defaults['Region']}} based on this search criteria.  Showing POIs from all countries that match your criteria
+    No POIs found in {{search_defaults['Region']}} based on this search criteria. Showing POIs from all countries that
+    match your criteria
     {% else %}
-        No POIs found that match your search criteria.
+    No POIs found that match your search criteria.
     {% endif %}
 </div>
 
 <!-- no search result flash end-->
 
 <!-- POI CREATED flash start-->
-<div id="poi_created_flash" class="alert alert-success text-center my-0"  style="display: none;" role="alert">
-    
+<div id="poi_created_flash" class="alert alert-success text-center my-0" style="display: none;" role="alert">
+
     A new point of interest has been created!
 
 </div>
 
 <!-- POI UPDATED flash start-->
-<div id="poi_updated_flash" class="alert alert-success text-center my-0"  style="display: none;" role="alert">
-    
+<div id="poi_updated_flash" class="alert alert-success text-center my-0" style="display: none;" role="alert">
+
     Your point of interest has been updated!
 
 </div>
 
 <!-- POI flagged flash start-->
-<div id="poi_flagged_flash" class="alert alert-info text-center my-0"  style="display: none;" role="alert">
-    
-    Thanks for your feedback.  This POI has been flagged for review
+<div id="poi_flagged_flash" class="alert alert-info text-center my-0" style="display: none;" role="alert">
+
+    Thanks for your feedback. This POI has been flagged for review
 
 </div>
 
@@ -328,65 +331,66 @@
 </div>
 <!-- popular_destination_area_end  -->
 
-  <!-- inspirational quotes  -->
-  <div class="testimonial_area">
+<!-- inspirational quotes  -->
+<div class="testimonial_area">
     <div class="container">
-      <div class="row">
-        <div class="col-xl-12">
-          <div class="testmonial_active owl-carousel">
-            <div class="single_carousel">
-              <div class="row justify-content-center">
-                <div class="col-lg-8">
-                  <div class="single_testmonial text-center">
-                    <p>
-                      “We were meant to explore this earth like children do,
-                      unhindered by fear, propelled by curiosity and a sense of
-                      discovery.”
-                    </p>
-                    <div class="testmonial_author">
-                      <h3>- Laurel Bleadon Maffei</h3>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="testmonial_active owl-carousel">
+                    <div class="single_carousel">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="single_testmonial text-center">
+                                    <p>
+                                        “We were meant to explore this earth like children do,
+                                        unhindered by fear, propelled by curiosity and a sense of
+                                        discovery.”
+                                    </p>
+                                    <div class="testmonial_author">
+                                        <h3>- Laurel Bleadon Maffei</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="single_carousel">
-              <div class="row justify-content-center">
-                <div class="col-lg-8">
-                  <div class="single_testmonial text-center">
-                    <p>“I haven't been everywhere, but its on my list.”</p>
-                    <div class="testmonial_author">
-                      <h3>- Susan Sontag</h3>
+                    <div class="single_carousel">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="single_testmonial text-center">
+                                    <p>“I haven't been everywhere, but its on my list.”</p>
+                                    <div class="testmonial_author">
+                                        <h3>- Susan Sontag</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="single_carousel">
-              <div class="row justify-content-center">
-                <div class="col-lg-8">
-                  <div class="single_testmonial text-center">
-                    <p>
-                      “If we were meant to stay in one place we’d have roots
-                      instead of feet.”
-                    </p>
-                    <div class="testmonial_author">
-                      <h3>- Rachel Wolchin</h3>
+                    <div class="single_carousel">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="single_testmonial text-center">
+                                    <p>
+                                        “If we were meant to stay in one place we’d have roots
+                                        instead of feet.”
+                                    </p>
+                                    <div class="testmonial_author">
+                                        <h3>- Rachel Wolchin</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- /inspirational quotes  -->
+</div>
+<!-- /inspirational quotes  -->
 
 <!-- Flight Plan Modal -->
 <div class="Flight_plan_modal">
-    <div class="modal fade Flight_plan_modal" id="Flight_plan_modal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+    <div class="modal fade Flight_plan_modal" id="Flight_plan_modal" tabindex="-1" role="dialog"
+         aria-labelledby="deleteModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -447,7 +451,7 @@
     <div class="modal fade" id="flagReasonModal" tabindex="-1" role="dialog" aria-labelledby="flaggedModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form  id='flag_poi_modal_form' class="needs-validation " novalidate>
+            <form id='flag_poi_modal_form' class="needs-validation " novalidate>
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="flaggedModalLabel">
@@ -460,7 +464,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <textarea class="form-control" id="flaggedModalFormReasonTextArea" rows="3" value="" placeholder="Reason" required></textarea>
+                        <textarea class="form-control" id="flaggedModalFormReasonTextArea" rows="3" value=""
+                                  placeholder="Reason" required></textarea>
                         <!-- <label data-error="wrong" data-success="right" for="flagFormReason">Reason</label> -->
                         <div class="invalid-feedback">
                             Please enter a reason.
@@ -508,6 +513,5 @@
         </div>
     </div>
 </div>
-
 <!-- <script src="https://code.jquery.com/jquery.min.js"></script>-->
 {% endblock content %}
