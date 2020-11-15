@@ -16,7 +16,7 @@ from utilities import get_location_details
 main = Blueprint('main', __name__)
 
 # TODO add tours to each POI see eamil from Tobias
-
+# TODO anon user can flag a poi
 # TODO allow users to upload photo of location
 # TODO export flight plan in xplane format
 # TODO save flight plan across session see html5 session storage
