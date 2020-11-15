@@ -207,6 +207,11 @@
             //     '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude + ')">Add to Flight plan</button> '+
             //   '</div>'
 
+            
+            if ((!flagged_pois.has(id))){
+              flagIconDisplay = '';
+            } 
+
 
             if (is_authenticated=='True') {
               console.log("USER IS AUTHENTICATED.  POI ID IS: "+ id);
@@ -255,9 +260,9 @@
                 favoriteCheck = 'far';
               }
 
-              if ((!flagged_pois.has(id)) && (is_authenticated=='True')){
-                flagIconDisplay = '';
-              } 
+              // if ((!flagged_pois.has(id)) && (is_authenticated=='True')){
+              //   flagIconDisplay = '';
+              // } 
             }
 
             //show or hide add/remove waypoint buttons
@@ -379,9 +384,9 @@
         map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
 
         //Create custon info - right click on map to create poi
-        const infoDiv = document.createElement("div");
-        styleInfoBtn(infoDiv, map);
-        map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(infoDiv);
+        // const infoDiv = document.createElement("div");
+        // styleInfoBtn(infoDiv, map);
+        // map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(infoDiv);
 
         //Create lengend toogle button
         const legendBtnDiv = document.createElement("div");

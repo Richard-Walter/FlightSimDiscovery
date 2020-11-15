@@ -14,6 +14,16 @@
   justify-content: start;
 }
 
+.tips-and-tricks{
+  background-color: #19682c;
+  
+}
+
+.tips-and-tricks-text{
+  color: #ffffff;
+  font-weight: 100;
+}
+
 .autocomplete {
   position: relative;
   /* display: inline-block; */

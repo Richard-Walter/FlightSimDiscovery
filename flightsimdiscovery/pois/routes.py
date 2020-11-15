@@ -234,7 +234,6 @@ def delete_poi(poi_id):
         return redirect(url_for('main.home'))
 
 @pois.route("/flag_poi", methods=['POST'])
-@login_required
 def flag_poi():
     
  
@@ -244,26 +243,26 @@ def flag_poi():
 
 
     if current_user.is_authenticated:
-
-        flagged_pois = poi = Flagged.query.all()
-
-        for flagged_poi in flagged_pois:
-            if int(poi_id) == flagged_poi.poi_id:
-                return 'Success'    # already flagged
-            
-        flagged = Flagged(user_id=current_user.id, poi_id=poi_id, reason=reason)
-        db.session.add(flagged)
-        db.session.commit()
-
-        if from_page == 'user_pois':
-            return redirect(url_for('users.user_pois'))
-        elif from_page == 'home':
-            return 'Success'
-        else:
-            return 'Success'
+        user_id = current_user.id
     else:
-        #  need to be logged in to flag a poi
-        abort(403)
+        user_id = User.query.filter_by(username='anonymous').first().id  #user is anonymous_username
+
+    flagged_pois = poi = Flagged.query.all()
+
+    for flagged_poi in flagged_pois:
+        if int(poi_id) == flagged_poi.poi_id:
+            return 'Success'    # already flagged
+        
+    flagged = Flagged(user_id=user_id, poi_id=poi_id, reason=reason)
+    db.session.add(flagged)
+    db.session.commit()
+
+    if from_page == 'user_pois':
+        return redirect(url_for('users.user_pois'))
+    elif from_page == 'home':
+        return 'Success'
+    else:
+        return 'Success'
 
 @pois.route("/poi/delete_flagged_poi/<poi_id>", methods=['GET'])
 @login_required

@@ -16,7 +16,7 @@ from utilities import get_location_details
 main = Blueprint('main', __name__)
 
 # TODO add tours to each POI see eamil from Tobias
-# TODO add scolling tip window with x ?
+
 # TODO allow users to upload photo of location
 # TODO export flight plan in xplane format
 # TODO save flight plan across session see html5 session storage
@@ -98,10 +98,10 @@ def home(filter_poi_location):
         for visit in user_visited_query:
             user_visited.append(visit.poi_id)
 
-         #  flagged pois
-        flagged_pois_query = Flagged.query.all()  # returns a list
-        for flagged_poi in flagged_pois_query:
-            flagged_pois_list.append(flagged_poi.poi_id)
+    #  flagged pois
+    flagged_pois_query = Flagged.query.all()  # returns a list
+    for flagged_poi in flagged_pois_query:
+        flagged_pois_list.append(flagged_poi.poi_id)
 
     # check if user has submitted a search or user has updated poi via the infowindow
     if request.method == 'POST':
