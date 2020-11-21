@@ -2547,7 +2547,7 @@ h3 {
 }
 
 .iw_latlng{
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .iw_rating_text{
@@ -2555,8 +2555,12 @@ h3 {
   color: #313131;
 }
 .iw_description{
-  color: #5c5b5b;
+
+  font-size: 13px !important;
+  text-align: justify !important;
+  text-justify: auto !important;
 }
+
 .iw_header_caption {
   position: absolute;
   top: 5%;
