@@ -2569,16 +2569,24 @@ h3 {
 }
 
 .poi_fp_header_btn{
-  font-weight: 300;
+  font-weight: 400;
   font-size: 14px;
   font-family: "Rubik", "sans-serif";
   color: #5c5b5b;
 
 }
 
+.poi_fp_body{
+  max-height: 133px;
+  overflow-y: auto;
+}
+
+
+
 .poi_fp_header{
-  padding: 1pt;
+  /* padding: 1pt; */
   background-color: #fadc59;
+  color: #1a1a1a;
 
 }
 
