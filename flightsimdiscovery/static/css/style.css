@@ -2568,12 +2568,34 @@ h3 {
   width: 100%;
 }
 
+.poi_fp_header_btn{
+  font-weight: 300;
+  font-size: 14px;
+  font-family: "Rubik", "sans-serif";
+  color: #5c5b5b;
+
+}
+
+.poi_fp_header{
+  padding: 1pt;
+  background-color: #fadc59;
+
+}
+
 .add_poi_iw_body{
   font-size: 14px;
   font-family: "Rubik", "sans-serif";
   color: #5c5b5b;
+  
 }
 
+.poi_fp_map_icon .fa-globe-americas {
+  color:#007bff! Important;
+}
+
+.poi_fp_text{
+  color: #1f75bb;
+}
 
 .poi_rating {
   width: 90px;
