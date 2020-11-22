@@ -109,6 +109,13 @@
 
         loadFlightPlan(flightPath, map);
 
+        google.maps.event.addListener(flightPath, 'click', function() {
+            
+            buildFlightPlanModalBody(flightPath_data);
+
+            
+        });
+
         //info window to add new poi
         var currentMark;
         addpoi_infowindow = new google.maps.InfoWindow;
