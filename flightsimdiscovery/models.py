@@ -92,3 +92,21 @@ class Flagged(db.Model):
 
     def __repr__(self):
         return f"Flagged('{self.user_id}', '{self.poi_id}', '{self.reason}')"
+
+class FlightPlan(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    alitude = db.Column(db.Integer, nullable=False, default=5000)
+    date_created = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"Flight Plan('{self.name}', '{self.alitude}', '{self.user_id}')"       
+
+class Flightplan_Waypoints(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    flightplan_id = db.Column(db.Integer, db.ForeignKey('flightplan.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Flight Plan Waypoint('{self.user_id}', '{self.flightplan_id}')"
