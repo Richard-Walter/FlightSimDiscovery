@@ -93,7 +93,7 @@ class Flagged(db.Model):
     def __repr__(self):
         return f"Flagged('{self.user_id}', '{self.poi_id}', '{self.reason}')"
 
-class FlightPlan(db.Model):
+class Flightplan(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     name = db.Column(db.Text, nullable=False)
