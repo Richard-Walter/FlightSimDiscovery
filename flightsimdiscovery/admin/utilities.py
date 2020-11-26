@@ -45,8 +45,8 @@ def update_db(file_name, country):
         poi_location_exists_list = []
 
         # Parse the update db xml file
-        tree = ET.parse("flightsimdiscovery\\input\\database_updates\\Japan Update.xml")
-        # tree = ET.parse(full_path)
+        # tree = ET.parse("flightsimdiscovery\\input\\database_updates\\Japan Update.xml")
+        tree = ET.parse(full_path)
         folders = tree.findall('.//Folder')
 
         for folder in folders:
@@ -128,8 +128,11 @@ def update_db(file_name, country):
 
                         db.session.add(poi)
 
+                        # get the newly create poi id for rating table
+                        new_poi = Pois.query.filter_by(name=name).first()
+
                         # Update Rating table with default rating of 4
-                        rating = Ratings(user_id=user_id, poi_id=poi.id, rating_score=4)
+                        rating = Ratings(user_id=user_id, poi_id=new_poi.id, rating_score=4)
                         db.session.add(rating)
 
         db.session.commit()
