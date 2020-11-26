@@ -4,7 +4,7 @@ from copy import deepcopy
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
 from openpyxl import load_workbook
 from flightsimdiscovery import db
-from flightsimdiscovery.models import Favorites, Visited, User, Flagged
+from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints
 from flask_login import current_user, login_required
 from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_nearest_airport
 from flightsimdiscovery.pois.utils import *
@@ -410,9 +410,13 @@ def export_fp_post():
         if request.method == 'POST':
 
             #  Stores users POI preferences from submitted form
-            fp_pois = request.get_json()
-            # print(fp_pois[0])
-            # fp_pois = json.loads(fp_pois_json)
+            export_fp_details = request.get_json()
+            fp_pois = export_fp_details['fp_pois']
+            fp_share = export_fp_details['share_flightplan']
+
+            # Store flight plan and waypoints if user wants to share
+            if fp_share == 'True':
+                pass
 
             # Add/Update Visited table
             for fp_poi in fp_pois:

@@ -45,12 +45,16 @@ function exportFlightPlan(flightPath_data) {
     fp_pois.push(waypoint);
   }
 
+  var postData = {
+    fp_pois: fp_pois,
+    fp_share: share_flightplan
+  }
 
-  // $.post("/export_fp_post", {"fp_pois": JSON.stringify(fp_pois)})
+  // send flight plan waypoints and if user wants to share the flight plan with the community
   $.ajax({ 
     url: '/export_fp_post', 
     type: 'POST', 
-    data: JSON.stringify(fp_pois),
+    data: JSON.stringify(postData),
     contentType: "application/json",
     success: function(response) {
       // console.log(response);
