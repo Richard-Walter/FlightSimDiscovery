@@ -4,7 +4,7 @@ from copy import deepcopy
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
 from openpyxl import load_workbook
 from flightsimdiscovery import db
-from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints
+from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints, FP_Ratings
 from flask_login import current_user, login_required
 from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_nearest_airport
 from flightsimdiscovery.pois.utils import *
@@ -414,9 +414,18 @@ def export_fp_post():
             fp_pois = export_fp_details['fp_pois']
             fp_share = export_fp_details['share_flightplan']
 
-            # Store flight plan and waypoints if user wants to share
+            # Store flight plan and waypoints and add default rating (4) if user wants to share
             if fp_share == 'True':
-                pass
+                fp = Flightplan(user_id=user_id, name=fp_name, altitude=fp_altitude)
+                db.session.add(fp)
+
+                fp_ratings = FP_Ratings(user_id=user_id, fp_id=fp.id, rating_score=4)
+                db.session.add(fp)
+
+                for fp_poi in fp_pois:
+                    poi = Pois.query.filter_by(name=fp_poi).first()
+                    fp_waypoints = Flightplan_Waypoints(fp_id=fp.id, poi_id=fp_poi)
+                    db.session.add(fp_waypoints)
 
             # Add/Update Visited table
             for fp_poi in fp_pois:
@@ -431,9 +440,9 @@ def export_fp_post():
                         
                         visit = Visited(user_id=user_id, poi_id=poi.id)
                         db.session.add(visit)
-                        db.session.commit()
-                        # print('NEW Visited: ', visit)
 
+            db.session.commit()
+                       
     return 'Success'    # must leave this here otherwise flask complains nothing returns
 
 @main.route("/admin")
