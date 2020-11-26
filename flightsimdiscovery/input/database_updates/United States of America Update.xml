@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Document>   
+    <Folder Name="Airports Standard">
+      <Placemark>
+        <name>Hartsfield-Jackson Atlanta International Airport</name>
+        <description>KATL</description>
+        <styleUrl>#icon-1504-9C27B0</styleUrl>
+        <Point>
+          <coordinates>
+            -84.4277001,33.6407282,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Dallas/Fort Worth International Airport</name>
+        <description>KDFW</description>
+        <styleUrl>#icon-1504-9C27B0</styleUrl>
+        <Point>
+          <coordinates>
+            -97.0403352,32.8998091,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>New York Stewart International Airport</name>
+        <description>KSWF</description>
+        <styleUrl>#icon-1504-9C27B0</styleUrl>
+        <Point>
+          <coordinates>
+            -74.1008627,41.4984032,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Friday Harbor Airport</name>
+        <description>KFHR</description>
+        <styleUrl>#icon-1750-9C27B0</styleUrl>
+        <Point>
+          <coordinates>
+            -123.0261848,48.5248261,0
+          </coordinates>
+        </Point>
+      </Placemark>
+	</Folder>
+	<Folder Name="Points of Interest">
+      <Placemark>
+        <name>Kennedy Space Center Visitor Complex</name>
+        <styleUrl>#icon-1535-0288D1</styleUrl>
+        <Point>
+          <coordinates>
+            -80.6818342,28.5232962,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Houston Space Center</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -95.0982892,29.5518461,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Crazy Horse Memorial</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -103.6234038,43.8366191,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Pilgrim Monument</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -70.1886391,42.0522202,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Fort Jefferson</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -82.8731853,24.6287053,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Washington Monument</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0352791,38.8894838,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>United States Capitol</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0090505,38.8899389,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The White House</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0365298,38.8976763,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Wright Brothers National Memorial</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -75.6692094,36.0173187,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Biltmore Estate</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -82.5523204,35.5405665,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>New River Gorge Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -81.0826545,38.0690355,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>United States National Arboretum</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -76.9657782,38.91213,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Bixby Creek Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -121.9017595,36.3714903,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Chesapeake Bay Bridge-Tunnel</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -76.0685871,37.0420967,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Sunshine Skyway Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -82.6558418,27.6207079,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Mackinac Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -84.7277655,45.817377,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Navajo Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -111.6302665,36.8171468,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Astoria-Megler Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -123.8622099,46.2157711,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>U.S. Grant Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -82.9973287,38.7279198,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Lowry Avenue Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -93.2745455,45.0130936,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Lewis and Clark Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -122.9620719,46.1045751,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>International Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -84.36254,46.5052998,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Fort Knox</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -85.9562469,37.9161043,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Monument Rocks National Natural Landmark</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -100.7631683,38.7936752,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Coronado Heights Castle</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -97.7029775,38.6121276,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Ellis County Historic Courthouse</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -96.8478807,32.3854778,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Yosemite - El Capitan</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -119.6376733,37.733931,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cliff Palace</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -108.473217,37.1669064,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Shiprock</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -108.6870322,36.7855543,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Haystack Rock</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -123.9686225,45.8841394,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Yosemite - Half Dome</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -119.5331992,37.7459192,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Dworshak Dam and Reservoir</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -116.3006258,46.5190971,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Oroville Dam</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -121.4832601,39.5380318,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Alcatraz Lighthouse</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -122.4221577,37.8262325,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Fort McHenry National Monument and Historic Shrine</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -76.5799058,39.2633021,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Rainbow International Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.0676409,43.0902131,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Glen Canyon Dam</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -111.4836693,36.9371988,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Las Vegas Strip</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -115.1728484,36.1147065,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Confederation Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -63.7652343,46.2001839,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Pearl Harbor National Memorial</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -157.938858,21.3675985,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Mauna Kea Observatory</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -155.4694483,19.8230355,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>National Radio Astronomy Observatory</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -155.4559256,19.8016961,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Airplane Boneyard</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -110.8752706,32.1923797,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Chimney Rock</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -103.3482643,41.7036517,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+ </Document>

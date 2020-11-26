@@ -681,12 +681,14 @@
                 strong_text = arr[i].substring(match_index, match_index+fieldVal.length) 
                 b.innerHTML += "<strong>" + strong_text + "</strong>";
                 b.innerHTML += arr[i].substr(match_index+fieldVal.length, arr[i].length);
-                b.innerHTML += "<input disabled type='hidden' value='" + arr[i] + "'>";
+                // b.innerHTML += "<input disabled type='hidden' value='" + arr[i] + "'>";
+                b.innerHTML += `<input disabled type='hidden' value="` + arr[i] + `">`;
 
                 //
                 b.addEventListener("click", function (e) {
                     
                     controlInput.value = this.getElementsByTagName("input")[0].value;
+
                     closeAllLists();
                     
 
