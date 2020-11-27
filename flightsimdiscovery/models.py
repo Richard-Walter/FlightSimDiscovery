@@ -105,8 +105,19 @@ class Flightplan(db.Model):
 
 class Flightplan_Waypoints(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     flightplan_id = db.Column(db.Integer, db.ForeignKey('flightplan.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    poi_id = db.Column(db.Integer, db.ForeignKey('pois.id'), nullable=False)
 
     def __repr__(self):
-        return f"Flight Plan Waypoint('{self.user_id}', '{self.flightplan_id}')"
+        return f"Flight Plan Waypoints('{self.user_id}', '{self.flightplan_id}', '{self.poi_id}')"
+
+class FP_Ratings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    flightplan_id = db.Column(db.Integer, db.ForeignKey('flightplan.id'), nullable=False)
+    rating_score = db.Column(db.Integer, nullable=True)
+    date_rated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"FP_Ratings('{self.fp_id}', '{self.rating_score}')"

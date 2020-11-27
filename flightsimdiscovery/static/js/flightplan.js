@@ -47,7 +47,9 @@ function exportFlightPlan(flightPath_data) {
 
   var postData = {
     fp_pois: fp_pois,
-    fp_share: share_flightplan
+    fp_share: share_flightplan,
+    fp_name: flightplan_filename,
+    fp_altitude: cruise_altitude
   }
 
   // send flight plan waypoints and if user wants to share the flight plan with the community
@@ -291,7 +293,7 @@ function buildFlightPlanModalBody(flightPath_data) {
 
       //build flightpath name
       // flightplan_filename = "Flight Sim Discovery " + yyyymmdd();
-      flightplan_filename = "Flight Sim Discovery - " + departure_id + " to " + destination_id;
+      flightplan_filename = "FSD - " + departure_id + " to " + destination_id;
   
 
       // body_html = body_html.substring(0, body_html.length - 4); //remove the last -->

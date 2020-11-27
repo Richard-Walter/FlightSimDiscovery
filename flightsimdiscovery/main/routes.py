@@ -15,11 +15,11 @@ from utilities import get_location_details
 
 main = Blueprint('main', __name__)
 
-# TODO add tours to each POI see eamil from Tobias
-# TODO anon user can flag a poi
+# TODO add tours to each POI 
+# TODO anon user can flag a poi - DONE
+
 # TODO allow users to upload photo of location
 # TODO export flight plan in xplane format
-# TODO save flight plan across session see html5 session storage
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
@@ -412,19 +412,22 @@ def export_fp_post():
             #  Stores users POI preferences from submitted form
             export_fp_details = request.get_json()
             fp_pois = export_fp_details['fp_pois']
-            fp_share = export_fp_details['share_flightplan']
+            fp_share = export_fp_details['fp_share']
+            fp_name = export_fp_details['fp_name']
+            fp_altitude = export_fp_details['fp_altitude']
 
             # Store flight plan and waypoints and add default rating (4) if user wants to share
-            if fp_share == 'True':
-                fp = Flightplan(user_id=user_id, name=fp_name, altitude=fp_altitude)
+            if fp_share:
+                fp = Flightplan(user_id=user_id, name=fp_name, alitude=fp_altitude)
                 db.session.add(fp)
+                db.session.flush()
 
-                fp_ratings = FP_Ratings(user_id=user_id, fp_id=fp.id, rating_score=4)
-                db.session.add(fp)
+                rating = FP_Ratings(user_id=user_id, flightplan_id=fp.id, rating_score=4)
+                db.session.add(rating)
 
                 for fp_poi in fp_pois:
                     poi = Pois.query.filter_by(name=fp_poi).first()
-                    fp_waypoints = Flightplan_Waypoints(fp_id=fp.id, poi_id=fp_poi)
+                    fp_waypoints = Flightplan_Waypoints(user_id=user_id, poi_id=poi.id, flightplan_id=fp.id)
                     db.session.add(fp_waypoints)
 
             # Add/Update Visited table
