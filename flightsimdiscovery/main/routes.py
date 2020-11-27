@@ -397,40 +397,40 @@ def build_flightplan():
 
 
 @main.route('/export_fp_post', methods=['POST'])
-@login_required
 def export_fp_post():
 
-    print("reveived expoted flight plan POIS")
-
     if current_user.is_authenticated:
-
-        is_authenticated = True
         user_id = current_user.id
 
-        if request.method == 'POST':
+    else:
+        user_id = User.query.filter_by(username='anonymous').first().id
 
-            #  Stores users POI preferences from submitted form
-            export_fp_details = request.get_json()
-            fp_pois = export_fp_details['fp_pois']
-            fp_share = export_fp_details['fp_share']
-            fp_name = export_fp_details['fp_name']
-            fp_altitude = export_fp_details['fp_altitude']
+    if request.method == 'POST':
 
-            # Store flight plan and waypoints and add default rating (4) if user wants to share
-            if fp_share:
-                fp = Flightplan(user_id=user_id, name=fp_name, alitude=fp_altitude)
-                db.session.add(fp)
-                db.session.flush()
+        #  Stores users POI preferences from submitted form
+        export_fp_details = request.get_json()
+        fp_pois = export_fp_details['fp_pois']
+        fp_share = export_fp_details['fp_share']
+        fp_name = export_fp_details['fp_name']
+        fp_altitude = export_fp_details['fp_altitude']
 
-                rating = FP_Ratings(user_id=user_id, flightplan_id=fp.id, rating_score=4)
-                db.session.add(rating)
+        # Store flight plan and waypoints and add default rating (4) if user wants to share
+        # do not store flightplan if name is empty
+        if fp_share and fp_name:
+            fp = Flightplan(user_id=user_id, name=fp_name, alitude=fp_altitude)
+            db.session.add(fp)
+            db.session.flush()
 
-                for fp_poi in fp_pois:
-                    poi = Pois.query.filter_by(name=fp_poi).first()
-                    fp_waypoints = Flightplan_Waypoints(user_id=user_id, poi_id=poi.id, flightplan_id=fp.id)
-                    db.session.add(fp_waypoints)
+            rating = FP_Ratings(user_id=user_id, flightplan_id=fp.id, rating_score=4)
+            db.session.add(rating)
 
-            # Add/Update Visited table
+            for fp_poi in fp_pois:
+                poi = Pois.query.filter_by(name=fp_poi).first()
+                fp_waypoints = Flightplan_Waypoints(user_id=user_id, poi_id=poi.id, flightplan_id=fp.id)
+                db.session.add(fp_waypoints)
+
+        # Add/Update Visited table if user logged in
+        if current_user.is_authenticated:
             for fp_poi in fp_pois:
                 poi = Pois.query.filter_by(name=fp_poi).first()
 
@@ -444,7 +444,7 @@ def export_fp_post():
                         visit = Visited(user_id=user_id, poi_id=poi.id)
                         db.session.add(visit)
 
-            db.session.commit()
+        db.session.commit()
                        
     return 'Success'    # must leave this here otherwise flask complains nothing returns
 

@@ -32,7 +32,7 @@ class User(db.Model, UserMixin):
 
     # how the object is printed out
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+        return f"User('{self.username}')"
 
 
 class Pois(db.Model):
