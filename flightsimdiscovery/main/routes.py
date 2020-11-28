@@ -448,14 +448,35 @@ def export_fp_post():
                        
     return 'Success'    # must leave this here otherwise flask complains nothing returns
 
-@main.route("/admin")
-@login_required
-def admin():
-
-    if (current_user.username == 'admin'):
-
-        return render_template('admin.html')
-    
-    else:
-        abort(403)
    
+@main.route("/flightplan/<int:id>/delete", methods=['POST'])
+@login_required
+def delete_fp(id):
+
+    page = request.args.get('page')
+
+    flightplan = Flightplan.query.filter_by(id=id).first()
+    fp_rating = FP_Ratings.query.filter_by(flightplan_id=id).first()
+    fp_waypoints = Flightplan_Waypoints.query.filter_by(flightplan_id=id).all()
+
+    if (current_user.username != 'admin'):
+
+        if (flightplan.user_id != current_user.id):
+            abort(403)
+
+    db.session.delete(flightplan)
+    db.session.delete(fp_rating)
+
+    for fp_waypoint in fp_waypoints:
+        db.session.delete(fp_waypoint)
+
+    db.session.commit()
+
+    if page == 'user_pois':
+        return redirect(url_for('users.user_pois'))
+    elif page == 'shared_flightplans':
+        return redirect(url_for('admin.shared_flightplans'))
+    else:
+        return redirect(url_for('main.home'))
+                       
+    return 'Success'    # must leave this here otherwise flask complains nothing returns
