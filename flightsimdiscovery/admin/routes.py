@@ -1,5 +1,5 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
-from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites, Flightplan
+from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites, Flightplan, Flightplan_Waypoints
 from flask_login import current_user, login_required
 from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm
 from utilities import get_country_list
@@ -34,6 +34,25 @@ def flagged_pois():
             flagged_pois_data.append(flagged_poi_data)
 
         return render_template('flagged_pois.html', flagged_pois_data=flagged_pois_data)
+
+    else:
+        abort(403)
+
+@admin.route("/shared_flightplans", methods=['GET'])
+@login_required
+def shared_flightplans():
+    if current_user.is_authenticated and (current_user.username == 'admin'):
+
+        shared_flightplan_data = []
+        flightplans = Flightplan.query.all()
+
+        for flightplan in flightplans:
+
+            flightplan_data = {'id': flightplan.id, 'user_id': flightplan.user_id, 'name': flightplan.name,
+                                'altitude': flightplan.alitude}
+            shared_flightplan_data.append(flightplan_data)
+
+        return render_template('shared_flightplans.html', shared_flightplan_data=shared_flightplan_data)
 
     else:
         abort(403)

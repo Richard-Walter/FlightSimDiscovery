@@ -211,6 +211,18 @@ $(document).ready(function(){
     // "pagingType": "full_numbers"
   } );
 
+  $('#shared_flightplans_datatable').DataTable( {
+    
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [0,1,3,4] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         false
+    // "pagingType": "full_numbers"
+  } );
+
   $('#topten_pois_datatable').DataTable( {
 
     
