@@ -2,7 +2,7 @@ import json
 from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
 from flightsimdiscovery import db
 from flightsimdiscovery.pois.forms import PoiCreateForm, PoiUpdateForm
-from flightsimdiscovery.models import Pois, User, Ratings, Flagged, Visited, Favorites
+from flightsimdiscovery.models import Pois, User, Ratings, Flagged, Visited, Favorites, FP_Ratings, Flightplan, Flightplan_Waypoints
 from flightsimdiscovery.pois.utils import location_exists, get_rating, validate_updated_poi_name
 from flask_login import current_user, login_required
 from utilities import get_country_region, continents_by_region, get_location_details
@@ -222,6 +222,26 @@ def delete_poi(poi_id):
         db.session.delete(favorited_pois)
     for ratings_poi in ratings_poi_list:
         db.session.delete(ratings_poi)
+
+    # delete record from flight plan tables that contain poi
+    fp_id_set = set()
+    fp_waypoints_poi_list = Flightplan_Waypoints.query.filter_by(poi_id=poi_id).all()
+
+    for fp_waypoints_poi in fp_waypoints_poi_list:
+        fp_id_set.add(fp_waypoints_poi.flightplan_id)
+
+    for fp_id in fp_id_set:
+        fp = Flightplan.query.filter_by(id=fp_id).first()
+        db.session.delete(fp)
+
+        fp_rating = FP_Ratings.query.filter_by(flightplan_id=fp_id).first()
+        db.session.delete(fp_rating)
+
+        fp_waypoints = Flightplan_Waypoints.query.filter_by(flightplan_id=fp_id).all()
+
+        # delete all waypoints associated with the flight plan as the flight plan is no longer valid
+        for fp_waypoint in fp_waypoints:
+            db.session.delete(fp_waypoint)
 
     db.session.commit()
     flash('Your point of interest has been deleted!', 'success')
