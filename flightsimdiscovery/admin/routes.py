@@ -1,5 +1,5 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
-from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites
+from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites, Flightplan
 from flask_login import current_user, login_required
 from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm
 from utilities import get_country_list
@@ -169,6 +169,11 @@ def user_details():
             if users_flagged:
                 no_of_user_flagged = len(users_flagged)
 
+            users_shared_fp = Flightplan.query.filter_by(user_id=user.id).all()
+            no_of_user_fp_shared = 0
+            if users_shared_fp:
+                no_of_user_fp_shared = len(users_shared_fp)
+
             user_details['id'] = user.id
             user_details['username'] = user.username
             user_details['number_pois'] = no_of_user_pois
@@ -176,6 +181,7 @@ def user_details():
             user_details['number_visited'] = no_of_user_visited
             user_details['number_rated'] = no_of_user_ratings
             user_details['number_flagged'] = no_of_user_flagged
+            user_details['number_fp_shared'] = no_of_user_fp_shared
 
             users_data.append(user_details)
 
