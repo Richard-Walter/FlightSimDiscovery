@@ -212,7 +212,7 @@ def home(filter_poi_location):
         data_dic['lng'] = format(poi.longitude, '.6f')
 
         for fp in poi_flightplans:
-            flightplan_ids.append(fp.id)
+            flightplan_ids.append(fp.flightplan_id)
 
         data_dic['fp_id_list'] = flightplan_ids
 

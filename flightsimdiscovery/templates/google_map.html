@@ -219,18 +219,23 @@
             //hide tour html if poi has no tours
             if (fp_id_list.length) {
               showFLightPlanTours = ''
-            }
+            } 
 
             //create flightplan tour list html
             var flightplan_tours_html = '';
             for (index = 0; index < fp_id_list.length; ++index) {
               fp_id = fp_id_list[index];
+              flightplan = flightsplans_dic[fp_id];
+              fp_name = flightplan['name'];
 
-
-
-
-
-
+              flightplan_tours_html += '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'
+              flightplan_tours_html +=   '<a href="#" class="poi_fp_text mr-4" onclick=""  role="button" aria-pressed="true">'
+              flightplan_tours_html +=     `Tour ${index+1}: ${fp_name}`
+              flightplan_tours_html +=   '</a>'
+              flightplan_tours_html +=   '<span href="#" class="poi_fp_text mr-2">View on map: </span>'
+              flightplan_tours_html +=   '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'
+              flightplan_tours_html +=   '  <i class="fas fa-globe-americas"></i></a>'
+              flightplan_tours_html += '</div>'
             }
 
             
