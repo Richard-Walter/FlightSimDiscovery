@@ -37,6 +37,7 @@
 
       //create the infowindow data dictionary
       infowindow_dict = {}
+      var flightsplans_dic = {{flightsplans_dic|tojson}}
       var pois_array = {{pois|tojson}};
       var user_pois = {{user_pois_json|tojson}};
       var user_ratings_dict = {{user_ratings|tojson}};
@@ -47,7 +48,7 @@
 
 
       pois_array.forEach(function (poi, index) {
-        infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating};
+        infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating, 'fp_id_list':fp_id_list};
       });
 
       //Update Country Select values

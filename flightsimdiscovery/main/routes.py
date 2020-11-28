@@ -46,6 +46,9 @@ def home(filter_poi_location):
         anchor = 'where_togo_area'
 
     pois = Pois.query.all()
+    flightsplans_dic= {}
+    flightplans_query = Flightplan.query.all()
+
     poi_names = [poi.name for poi in pois]
     filtered_pois = None
     search_category_selected = False
@@ -193,6 +196,8 @@ def home(filter_poi_location):
     for poi in pois:
         # print('Poi', poi)
         data_dic = {}
+        flightplan_ids = []
+        poi_flightplans = Flightplan_Waypoints.query.filter_by(poi_id=poi.id).all()
         data_dic['id'] = poi.id
         data_dic['user_id'] = poi.user_id
         data_dic['name'] = poi.name
@@ -206,7 +211,30 @@ def home(filter_poi_location):
         data_dic['lat'] = format(poi.latitude, '.6f')
         data_dic['lng'] = format(poi.longitude, '.6f')
 
+        for fp in poi_flightplans:
+            flightplan_ids.append(fp.id)
+
+        data_dic['fp_id_list'] = flightplan_ids
+
         map_data.append(data_dic)
+
+    # create the flighplans dictionary for map to use
+    for flightplan in flightplans_query:
+
+        fp_waypoint_list = []
+        fp_waypoint_query = Flightplan_Waypoints.query.filter_by(flightplan_id=flightplan.id).all()
+
+        for fp_waypoint in fp_waypoint_query:
+            fp_waypoint_list.append(fp_waypoint.poi_id)
+
+        
+        flightsplan_dic = {}
+        flightsplan_dic['user_id'] = flightplan.user_id
+        flightsplan_dic['name'] = flightplan.name
+        flightsplan_dic['altitude'] = flightplan.alitude
+        flightsplan_dic['waypoints_list'] = fp_waypoint_list
+
+        flightsplans_dic[flightplan.id] = flightsplan_dic
 
     # check to see if a new poi has been created or updated.  If so we will zoom in close to the newly created poi
     country = request.args.get('country', None)
@@ -225,7 +253,7 @@ def home(filter_poi_location):
         anchor = 'where_togo_area'
 
     return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
-                           user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, map_init=map_init,
+                           user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
                            search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
                            _anchor=anchor)
     # return render_template("home.html", pois=data)
