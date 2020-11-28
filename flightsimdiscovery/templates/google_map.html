@@ -46,9 +46,8 @@
       var flagged_pois = new Set({{flagged_pois|tojson}});
       var db_poi_names = {{db_poi_names|tojson}};
 
-
       pois_array.forEach(function (poi, index) {
-        infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating, 'fp_id_list':fp_id_list};
+        infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating, 'fp_id_list':poi.fp_id_list};
       });
 
       //Update Country Select values
@@ -194,6 +193,8 @@
             var country = infowindow_dict[marker_name]['country'];
             var description = infowindow_dict[marker_name]['description'];
             var rating = infowindow_dict[marker_name]['rating'];
+            var fp_id_list = infowindow_dict[marker_name]['fp_id_list'];
+            var showFLightPlanTours = 'style="display: none"';
             var hiddenButtons = 'style="display: none"';
             var hiddenDetails = 'style="display: none"';
             var flagIconDisplay = 'style="display: none"';
@@ -214,6 +215,23 @@
             //   '<div id="btn_addPoiToFlightPlan" class="my-2">' +
             //     '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude + ')">Add to Flight plan</button> '+
             //   '</div>'
+
+            //hide tour html if poi has no tours
+            if (fp_id_list.length) {
+              showFLightPlanTours = ''
+            }
+
+            //create flightplan tour list html
+            var flightplan_tours_html = '';
+            for (index = 0; index < fp_id_list.length; ++index) {
+              fp_id = fp_id_list[index];
+
+
+
+
+
+
+            }
 
             
             if ((!flagged_pois.has(id))){
@@ -343,7 +361,7 @@
                         '<p class="iw_description">'+ description + '</p>'+
                       '</div>'+
                       '<hr class="my-2"/>' +
-                      '<div id="poi_flight_plans" class=" my-2">'+
+                      '<div id="poi_flight_plans" class=" my-2"'+ showFLightPlanTours + '>'+
                         '<div class="card poi_flight_plans_card">'+
                           '<div class="p-2 card-header poi_fp_header">'+
   
@@ -352,56 +370,25 @@
                               // '</p>'+
  
                           '</div>'+
-                          '<div class="card-body py-1 poi_fp_body">'+
-                            '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'+
-                              '<a href="#" class="poi_fp_text mr-4" onclick=""  role="button" aria-pressed="true"> '+
-                                'Tour 1: YWOL to YSSY'+
-                              '</a>'+
-                              '<span href="#" class="poi_fp_text mr-2">View on map: </span>'+
-                              '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'+
-                                  ' <i class="fas fa-globe-americas"></i></a>'+
-                            '</div>'+
-                            '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'+
-                              '<a href="#" class="poi_fp_text mr-4" onclick="" title="View on map" role="button" aria-pressed="true"> '+
-                                'Tour 1: YWOL to YSSY'+
-                              '</a>'+
-                              '<span href="#" class="poi_fp_text mr-2">View on map: </span>'+
-                              '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'+
-                                  ' <i class="fas fa-globe-americas"></i></a>'+
-                            '</div>'+
-                            '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'+
-                              '<a href="#" class="poi_fp_text mr-4" onclick="" title="View on map" role="button" aria-pressed="true"> '+
-                                'Tour 1: YWOL to YSSY'+
-                              '</a>'+
-                              '<span href="#" class="poi_fp_text mr-2">View on map: </span>'+
-                              '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'+
-                                  ' <i class="fas fa-globe-americas"></i></a>'+
-                            '</div>'+
-                            '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'+
-                              '<a href="#" class="poi_fp_text mr-4" onclick="" title="View on map" role="button" aria-pressed="true"> '+
-                                'Tour 1: YWOL to YSSY'+
-                              '</a>'+
-                              '<span href="#" class="poi_fp_text mr-2">View on map: </span>'+
-                              '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'+
-                                  ' <i class="fas fa-globe-americas"></i></a>'+
-                            '</div>'+
-                            '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'+
-                              '<a href="#" class="poi_fp_text mr-4" onclick="" title="View on map" role="button" aria-pressed="true"> '+
-                                'Tour 1: YWOL to YSSY'+
-                              '</a>'+
-                              '<span href="#" class="poi_fp_text mr-2">View on map: </span>'+
-                              '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'+
-                                  ' <i class="fas fa-globe-americas"></i></a>'+
-                            '</div>'+
-                            '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'+
-                              '<a href="#" class="poi_fp_text mr-4" onclick="" title="View on map" role="button" aria-pressed="true"> '+
-                                'Tour 1: YWOL to YSSY'+
-                              '</a>'+
-                              '<span href="#" class="poi_fp_text mr-2">View on map: </span>'+
-                              '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'+
-                                  ' <i class="fas fa-globe-americas"></i></a>'+
+                          '<div class="card-body py-1 poi_fp_body" >'+
+                            flightplan_tours_html +
+                            // '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'+
+                            //   '<a href="#" class="poi_fp_text mr-4" onclick=""  role="button" aria-pressed="true"> '+
+                            //     'Tour 1: YWOL to YSSY'+
+                            //   '</a>'+
+                            //   '<span href="#" class="poi_fp_text mr-2">View on map: </span>'+
+                            //   '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'+
+                            //       ' <i class="fas fa-globe-americas"></i></a>'+
+                            // '</div>'+
+                            // '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'+
+                            //   '<a href="#" class="poi_fp_text mr-4" onclick="" title="View on map" role="button" aria-pressed="true"> '+
+                            //     'Tour 1: YWOL to YSSY'+
+                            //   '</a>'+
+                            //   '<span href="#" class="poi_fp_text mr-2">View on map: </span>'+
+                            //   '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'+
+                            //       ' <i class="fas fa-globe-americas"></i></a>'+
+                            // '</div>'+
 
-                            '</div>'+
                           '</div>'+
  
 
