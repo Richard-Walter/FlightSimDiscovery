@@ -225,8 +225,10 @@ def home(filter_poi_location):
         fp_waypoint_query = Flightplan_Waypoints.query.filter_by(flightplan_id=flightplan.id).all()
 
         for fp_waypoint in fp_waypoint_query:
-            fp_waypoint_list.append(fp_waypoint.poi_id)
 
+            # determine the name of the poi
+            poi_name = Pois.query.filter_by(id=fp_waypoint.poi_id).first().name
+            fp_waypoint_list.append(poi_name)
         
         flightsplan_dic = {}
         flightsplan_dic['user_id'] = flightplan.user_id

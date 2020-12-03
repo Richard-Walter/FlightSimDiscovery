@@ -504,13 +504,42 @@
 
       function showFlightPlanDialog(flightplan_id) {
 
-        alert(flightplan_id);
+        // First remove and delete previous flight plan and path
+        deleteFlightPlan();
+
+        var waypointlist = flightsplans_dic[flightplan_id]['waypoints_list'];
+        alert(waypointlist);
+
+        for (let i = 0; i < waypointlist.length; i++) {
+
+          var waypoint = waypointlist[i];
+          var latitude = parseFloat(infowindow_dict[waypoint]['latitude']);
+          var longitude = parseFloat(infowindow_dict[waypoint]['longitude']);
+          var category = infowindow_dict[waypoint]['category'];
+          addPoiToFlightPlan(latitude, longitude, waypoint, category);
+
+        }
+
+        buildFlightPlanModalBody(flightPath_data);
 
       }
 
       function showFlightPlanOnMap(flightplan_id) {
 
-        alert(flightplan_id);
+        // remove any previous flight plan if exists
+        deleteFlightPlan();
+
+        var waypointlist = flightsplans_dic[flightplan_id]['waypoints_list'];
+
+        for (let i = 0; i < waypointlist.length; i++) {
+
+          var waypoint = waypointlist[i];
+          var latitude = parseFloat(infowindow_dict[waypoint]['latitude']);
+          var longitude = parseFloat(infowindow_dict[waypoint]['longitude']);
+          var category = infowindow_dict[waypoint]['category'];
+          addPoiToFlightPlan(latitude, longitude, waypoint, category);
+
+        }
 
       }
 
