@@ -229,12 +229,12 @@
               fp_name = flightplan['name'];
 
               flightplan_tours_html += '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'
-              flightplan_tours_html +=   '<a href="#" class="poi_fp_text mr-4" onclick=""  role="button" aria-pressed="true">'
+              flightplan_tours_html +=   `<span class="poi_fp_text mr-4" onclick="showFlightPlanDialog(${fp_id})"  style="cursor: pointer">`
               flightplan_tours_html +=     `Tour ${index+1}: ${fp_name}`
-              flightplan_tours_html +=   '</a>'
+              flightplan_tours_html +=   '</span>'
               flightplan_tours_html +=   '<span href="#" class="poi_fp_text mr-2">View on map: </span>'
-              flightplan_tours_html +=   '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'
-              flightplan_tours_html +=   '  <i class="fas fa-globe-americas"></i></a>'
+              flightplan_tours_html +=   `<span  class="poi_fp_map_icon" onclick="showFlightPlanOnMap(${fp_id})" title="View on map" style="cursor: pointer">`
+              flightplan_tours_html +=   '  <i class="fas fa-globe-americas"></i></span>'
               flightplan_tours_html += '</div>'
             }
 
@@ -502,10 +502,25 @@
       }
 
 
+      function showFlightPlanDialog(flightplan_id) {
+
+        alert(flightplan_id);
+
+      }
+
+      function showFlightPlanOnMap(flightplan_id) {
+
+        alert(flightplan_id);
+
+      }
+
       //Add a new point to the FlightPath
       function addPoiToFlightPlan(latitude, longitude, waypoint, category) {
         const path = flightPath.getPath();
         var latLng = [latitude, longitude]
+
+        // issue with names containing
+        waypoint.replace("'", "&#39") 
 
         // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
         path.push(new google.maps.LatLng(latLng[0], latLng[1]));
