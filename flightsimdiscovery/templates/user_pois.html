@@ -33,15 +33,11 @@
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#tab-account_flagged_datatable">My Flagged POIs</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-account_user_fp_datatable">My Flight Plans</a>
+                        </li>
                       </ul>
-                    <!-- <ul class="nav nav-tabs" role="tablist">
-                        <li class="active">
-                            <a href="#tab-table1" data-toggle="tab">My POIs</a>
-                        </li>
-                        <li>
-                            <a href="#tab-table2" data-toggle="tab">Favorited</a>
-                        </li>
-                    </ul> -->
+
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab-account_poi_datatable">
@@ -62,6 +58,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                    
                                 {% for poi in user_pois %}
                                 <tr>
                                     <td>{{poi.name}}</td>
@@ -191,6 +188,40 @@
                             </table>
                         </div>
 
+                        <div class="tab-pane" id="tab-account_user_fp_datatable">
+                            <div class="new_poi_msg mb-4 ">
+                                
+                            </div>
+                            <table id="account_user_fp_datatable" class="stripe row-border">
+                                <thead class="">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Waypoints</th>
+                                    <th scope="col">Altitude</th>
+                                    <th scope="col">Map</th>
+                                    <th scope="col">Delete</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                
+                                {% for flightplan_data in user_flightplan_data %}
+                                <tr>
+                                    <td>{{flightplan_data.name}}</td>
+                                    <td>{{flightplan_data.waypoints_list}}</td>
+                                    <td>{{flightplan_data.altitude}}</td>
+                                    <td><a href="" class="btn btn-primary" role="button"
+                                        aria-disabled="true"><i class="fas fa-globe-americas"></i></a>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="open_delete_fp_modal btn btn-danger" data-id="{{flightplan_data.id}}"
+                                                data-toggle="modal" data-target="#deleteFPModal"><i class="far fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
         </div>
@@ -231,6 +262,39 @@
         </div>
     </div>
 </div>
+<div class="custom_search_pop">
+    <div
+            class="modal fade"
+            id="deleteFPModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="deleteModalLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">
+                        Are you sure you want to delete this flight plan?
+                    </h5>
+                    <input type="hidden" name="eventId" id="eventId"/>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                    <form id="delete_fp_confirm" action="" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).on("click", ".open_delete_modal", function () {
@@ -242,7 +306,13 @@
        console.log(eventId);
        $('#poi').html( eventId );
   });
-
+  
+  $(document).on("click", ".open_delete_fp_modal", function () {
+       
+       var id = $(this).data('id');
+       var form_action = '/flightplan/' + id + '/delete?page=shared_flightplans'
+       $("#delete_fp_confirm").attr('action', form_action);
+  });
   
 
 </script>

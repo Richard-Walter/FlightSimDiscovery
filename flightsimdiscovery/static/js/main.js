@@ -117,9 +117,11 @@ $(document).ready(function(){
   // });
 
   //Tab data table
-  $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
-    $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust().responsive.recalc();
-  } );
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+    $($.fn.dataTable.tables({ visible: true, api: true })).DataTable()
+       .columns.adjust()
+       .responsive.recalc();
+  });
 
   $('#account_poi_datatable').DataTable( {
     
@@ -216,6 +218,19 @@ $(document).ready(function(){
     'columnDefs': [
     
       { className: 'text-center', targets: [0,1,3,4] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         false
+    // "pagingType": "full_numbers"
+  } );
+  
+
+  $('#account_user_fp_datatable').DataTable( {
+    
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [2,3,4] },
     ],
     // "scrollY":        "800px",
     "scrollCollapse": true,

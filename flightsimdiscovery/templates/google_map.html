@@ -368,11 +368,11 @@
                       '<hr class="my-2"/>' +
                       '<div id="poi_flight_plans" class=" my-2"'+ showFLightPlanTours + '>'+
                         '<div class="card poi_flight_plans_card">'+
-                          '<div class="p-2 card-header poi_fp_header">'+
+                          '<div class="p-1 card-header poi_fp_header">'+
   
-                              // '<p class="" >'+
+                              '<p class="ml-2 iw_flightplan_header" >'+
                                 'This POI is part of the following tours:'+
-                              // '</p>'+
+                              '</p>'+
  
                           '</div>'+
                           '<div class="card-body py-1 poi_fp_body" >'+
@@ -508,7 +508,6 @@
         deleteFlightPlan();
 
         var waypointlist = flightsplans_dic[flightplan_id]['waypoints_list'];
-        alert(waypointlist);
 
         for (let i = 0; i < waypointlist.length; i++) {
 

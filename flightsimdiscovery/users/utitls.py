@@ -4,7 +4,7 @@ from PIL import Image
 from flask import url_for
 from flask_mail import Message
 from flightsimdiscovery import mail
-from flightsimdiscovery.models import Pois, Visited, Favorites, User, Flagged
+from flightsimdiscovery.models import Pois, Visited, Favorites, User, Flagged, Flightplan, Flightplan_Waypoints
 from flightsimdiscovery.pois.utils import getTickImageBasedOnState
 from flask import current_app
 from flightsimdiscovery.config import Config
@@ -157,3 +157,36 @@ def get_user_flagged_pois(user_id):
         additional_user_pois_data.append(poi_data)
 
     return additional_user_pois_data
+
+def get_user_flightplans(user_id):
+
+    user_flightplans_query = Flightplan.query.filter_by(user_id=user_id).all()
+    flightsplans_list= []
+
+    for flightplan in user_flightplans_query:
+
+        fp_waypoint_list = ""
+        fp_waypoint_query = Flightplan_Waypoints.query.filter_by(flightplan_id=flightplan.id).all()
+
+        for fp_waypoint in fp_waypoint_query:
+
+            # determine the name of the poi
+            poi_name = Pois.query.filter_by(id=fp_waypoint.poi_id).first().name
+            fp_waypoint_list += poi_name + " -> "
+
+        fp_waypoint_list = strip_end(fp_waypoint_list, " -> ")
+        
+        flightplan_dic = {}
+        flightplan_dic['user_id'] = flightplan.user_id
+        flightplan_dic['name'] = flightplan.name
+        flightplan_dic['altitude'] = flightplan.alitude
+        flightplan_dic['waypoints_list'] = fp_waypoint_list
+
+        flightsplans_list.append(flightplan_dic)
+
+    return flightsplans_list
+
+def strip_end(text, suffix):
+    if not text.endswith(suffix):
+        return text
+    return text[:len(text)-len(suffix)]

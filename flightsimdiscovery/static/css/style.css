@@ -2561,6 +2561,16 @@ h3 {
   text-justify: auto !important;
 }
 
+.iw_flightplan_header{
+
+  font-family: "Rubik", sans-serif;
+  color: #001D38;
+
+  font-size: 15px !important;
+  text-align: justify !important;
+  text-justify: auto !important;
+}
+
 .iw_header_caption {
   position: absolute;
   top: 5%;
