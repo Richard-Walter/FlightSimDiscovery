@@ -177,6 +177,7 @@ def get_user_flightplans(user_id):
         fp_waypoint_list = strip_end(fp_waypoint_list, " -> ")
         
         flightplan_dic = {}
+        flightplan_dic['id'] = flightplan.id
         flightplan_dic['user_id'] = flightplan.user_id
         flightplan_dic['name'] = flightplan.name
         flightplan_dic['altitude'] = flightplan.alitude

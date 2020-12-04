@@ -204,7 +204,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                
                                 {% for flightplan_data in user_flightplan_data %}
                                 <tr>
                                     <td>{{flightplan_data.name}}</td>
@@ -310,7 +309,7 @@
   $(document).on("click", ".open_delete_fp_modal", function () {
        
        var id = $(this).data('id');
-       var form_action = '/flightplan/' + id + '/delete?page=shared_flightplans'
+       var form_action = '/flightplan/' + id + '/delete?page=user_flightplans'
        $("#delete_fp_confirm").attr('action', form_action);
   });
   
