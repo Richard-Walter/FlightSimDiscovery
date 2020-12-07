@@ -54,7 +54,7 @@ function exportFlightPlan(flightPath_data) {
 
   // send flight plan waypoints and if user wants to share the flight plan with the community
   $.ajax({ 
-    url: '/export_fp_post', 
+    url: '/flightplans/export_fp_post', 
     type: 'POST', 
     data: JSON.stringify(postData),
     contentType: "application/json",
@@ -359,7 +359,8 @@ async function getDepDestAirports(flightPath_data) {
 
   jsonified_data = JSON.stringify(dep_dest_array);
 
-  let response = await fetch("/build_flightplan", {
+  // let response = await fetch("/build_flightplan", {
+  let response = await fetch("/flightplans/build_flightplan", {
     method: "POST",
     credentials: "include",
     body: jsonified_data,

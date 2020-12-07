@@ -209,7 +209,7 @@
                                     <td>{{flightplan_data.name}}</td>
                                     <td>{{flightplan_data.waypoints_list}}</td>
                                     <td>{{flightplan_data.altitude}}</td>
-                                    <td><a href="" class="btn btn-primary" role="button"
+                                    <td><a href="/view_flightplan/{{flightplan_data.id}}#searchTag" class="btn btn-primary" role="button"
                                         aria-disabled="true"><i class="fas fa-globe-americas"></i></a>
                                     </td>
                                     <td>
@@ -309,7 +309,7 @@
   $(document).on("click", ".open_delete_fp_modal", function () {
        
        var id = $(this).data('id');
-       var form_action = '/flightplan/' + id + '/delete?page=user_flightplans'
+       var form_action = '/flightplans/' + id + '/delete?page=user_flightplans'
        $("#delete_fp_confirm").attr('action', form_action);
   });
   
