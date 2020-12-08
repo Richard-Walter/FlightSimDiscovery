@@ -21,6 +21,7 @@ $(document).ready(function(){
     setTimeout(function() { $("#search_results_flash").hide(); }, 10000);
   }
 
+
   var poi_created = $('#poiCreated').val();
 
   if (poi_created == 'True') {

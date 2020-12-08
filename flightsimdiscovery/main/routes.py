@@ -247,7 +247,10 @@ def home(filter_poi_location):
         map_init['long'] = new_poi_long
         anchor = 'where_togo_area'
 
-    return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
+    #check to see if user wants to view a fliughtplan
+    view_flightplan = request.args.get('view_flightplan', 0)
+
+    return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
                            user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
                            search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
                            _anchor=anchor)
@@ -374,3 +377,11 @@ def iw_post():
                 print('NEW RATING: ', rating)
 
     return 'Success'    # must leave this here otherwise flask complains nothing returns
+
+
+@main.route("/view_flightplan/<flightplan_id>")
+@login_required
+def view_flightplan(flightplan_id):
+
+    return redirect(url_for('main.home', _anchor='where_togo_area', view_flightplan=flightplan_id))
+

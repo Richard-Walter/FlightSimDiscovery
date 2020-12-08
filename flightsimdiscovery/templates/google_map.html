@@ -23,6 +23,7 @@
       var markerCluster;
       var markerCollection;
       var clusterMarkers = [];
+      var view_flightplan_id = {{view_flightplan}};
 
 
       // Parse the posted data into a GeoJSon format required by Google Maps
@@ -37,7 +38,7 @@
 
       //create the infowindow data dictionary
       infowindow_dict = {}
-      var flightsplans_dic = {{flightsplans_dic|tojson}}
+      var flightsplans_dic = {{flightsplans_dic|tojson}};
       var pois_array = {{pois|tojson}};
       var user_pois = {{user_pois_json|tojson}};
       var user_ratings_dict = {{user_ratings|tojson}};
@@ -99,13 +100,15 @@
         const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
         markerCollection = map.data.addGeoJson(dataGeoJSON);
 
-        //Allow user to create a flight plan
+        //Allow user to create a flight plan.
         flightPath = new google.maps.Polyline({
           geodesic: true,
           strokeColor: '#cf4ddb',
           strokeOpacity: 0.5,
           strokeWeight: 5
         });
+
+
 
         loadFlightPlan(flightPath, map);
 
@@ -539,7 +542,6 @@
           addPoiToFlightPlan(latitude, longitude, waypoint, category);
 
         }
-
       }
 
       //Add a new point to the FlightPath
@@ -621,7 +623,35 @@
       }
 
       function loadFlightPlan(flightPath, map) {
-        flightPath.setMap(map);
+
+        const path = flightPath.getPath()
+
+
+        //check to see if user wants to view an existing flightplan - if so then display it on map
+        if (view_flightplan_id != 0) {  
+          var waypointlist = flightsplans_dic[view_flightplan_id]['waypoints_list'];
+
+          for (let i = 0; i < waypointlist.length; i++) {
+
+            var waypoint = waypointlist[i];
+            var latitude = parseFloat(infowindow_dict[waypoint]['latitude']);
+            var longitude = parseFloat(infowindow_dict[waypoint]['longitude']);
+            var category = infowindow_dict[waypoint]['category'];
+            
+            var latLng = [latitude, longitude]
+
+            // issue with names containing
+            waypoint.replace("'", "&#39") 
+
+            // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
+            path.push(new google.maps.LatLng(latLng[0], latLng[1]));
+
+            // We also need to add additional data to flightPath_data so we can create a flight plan
+            flightPath_data.push({'latLng': latLng, 'waypoint': waypoint, 'category': category})
+
+          }
+          flightPath.setMap(map);
+        }
       }
 
       function hasWaypointBeenAdded(flightPath, latitude, longitude ) {
