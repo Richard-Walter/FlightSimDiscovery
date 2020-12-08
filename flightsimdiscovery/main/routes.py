@@ -15,7 +15,7 @@ from utilities import get_location_details
 
 main = Blueprint('main', __name__)
 
-# TODO add tours to each POI 
+# TODO add tours to each POI - DONE
 # TODO anon user can flag a poi - DONE
 
 # TODO allow users to upload photo of location

@@ -18,7 +18,7 @@
       var map;
       var infowindow;
       var flightPath;
-      var flightPath_data = []
+      var flightPath_data = [];
       var is_authenticated='{{is_authenticated}}';
       var markerCluster;
       var markerCollection;
@@ -110,10 +110,10 @@
 
         loadFlightPlan(flightPath, map);
 
-        google.maps.event.addListener(flightPath, 'click', function() {
+        flightPath.addListener('click', () => {
             
             buildFlightPlanModalBody(flightPath_data);
- 
+
         });
 
 
@@ -465,6 +465,8 @@
         const legendDiv = document.createElement("div");
         styleLegend(legendDiv, map);
         map.controls[google.maps.ControlPosition.LEFT].push(legendDiv);
+
+
       }
 
       function iw_update_favorite(poi_id){  
@@ -628,6 +630,7 @@
 
         const path = flightPath.getPath()
 
+        flightPath.setMap(map);
 
         //check to see if user wants to view an existing flightplan - if so then display it on map
         if (view_flightplan_id != 0) {  
@@ -654,18 +657,18 @@
           }
 
           //add listener
-          google.maps.event.addListener(flightPath, 'click', function() {
+          // google.maps.event.addListener(flightPath, 'click', function(flightPath_data) {
               
-              showFlightPlanDialog(view_flightplan_id)
+          //     // showFlightPlanDialog(view_flightplan_id);
+          //     buildFlightPlanModalBody(flightPath_data);
     
-          });        
+          // });        
         }
 
-        flightPath.setMap(map);
+        
         if (view_flightplan_id != 0) { 
           zoomToObject(flightPath);
         }
-
 
       }
 
@@ -986,11 +989,15 @@
           map.fitBounds(bounds);
         }
 
-            </script>
-            <!--DEVELOPMENT-->
-            <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script> -->
-            <script src="https://maps.googleapis.com/maps/api/js?key={{gm_key}}&amp;callback=initMap" async
-                    defer></script>
+        
+
+
+        </script>
+        <!--DEVELOPMENT-->
+        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script> -->
+        <script src="https://maps.googleapis.com/maps/api/js?key={{gm_key}}&amp;callback=initMap" async
+                defer>
+        </script>
 
         </div>
     </div>

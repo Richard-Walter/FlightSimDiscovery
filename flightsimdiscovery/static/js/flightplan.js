@@ -1,4 +1,4 @@
-var flightPath_data = [];
+// var flightPath_data = [];
 var flightplan_filename = "";
 
 var dep_data;
