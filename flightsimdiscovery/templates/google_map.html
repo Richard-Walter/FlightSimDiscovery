@@ -113,8 +113,7 @@
         google.maps.event.addListener(flightPath, 'click', function() {
             
             buildFlightPlanModalBody(flightPath_data);
-
-            
+ 
         });
 
 
@@ -654,15 +653,12 @@
 
           }
 
-        //add listener
-        google.maps.event.addListener(flightPath, 'click', function() {
-            
-            showFlightPlanDialog(view_flightplan_id)
-  
-        });        
-
-
-
+          //add listener
+          google.maps.event.addListener(flightPath, 'click', function() {
+              
+              showFlightPlanDialog(view_flightplan_id)
+    
+          });        
         }
 
         flightPath.setMap(map);
