@@ -110,6 +110,14 @@
 
         loadFlightPlan(flightPath, map);
 
+        google.maps.event.addListener(flightPath, 'click', function() {
+            
+            buildFlightPlanModalBody(flightPath_data);
+
+            
+        });
+
+
         //info window to add new poi
         var currentMark;
         addpoi_infowindow = new google.maps.InfoWindow;
@@ -561,7 +569,9 @@
         $("#btn_addPoiToFlightPlan").addClass("d-none");
         $("#btn_removePoiToFlightPlan").removeClass("d-none");
 
-        infowindow.close()
+        if (infowindow) {
+          infowindow.close();
+        }
 
 
         // Add a new marker at the new plotted point on the polyline.
@@ -644,7 +654,13 @@
 
           }
 
-          //lets set the map zoom and coordinates based on this flight plan
+        //add listener
+        google.maps.event.addListener(flightPath, 'click', function() {
+            
+            showFlightPlanDialog(view_flightplan_id)
+  
+        });        
+
 
 
         }
@@ -654,12 +670,7 @@
           zoomToObject(flightPath);
         }
 
-        //add listener
-        google.maps.event.addListener(flightPath, 'click', function() {
-            
-            buildFlightPlanModalBody(flightPath_data);
 
-        });
       }
 
       function hasWaypointBeenAdded(flightPath, latitude, longitude ) {
