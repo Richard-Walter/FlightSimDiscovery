@@ -108,16 +108,7 @@
           strokeWeight: 5
         });
 
-
-
         loadFlightPlan(flightPath, map);
-
-        google.maps.event.addListener(flightPath, 'click', function() {
-            
-            buildFlightPlanModalBody(flightPath_data);
-
-            
-        });
 
         //info window to add new poi
         var currentMark;
@@ -646,12 +637,27 @@
             // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
             path.push(new google.maps.LatLng(latLng[0], latLng[1]));
 
-            // We also need to add additional data to flightPath_data so we can create a flight plan
+            // We also need to add additional data to flightPath_data so we can build a flight plan
             flightPath_data.push({'latLng': latLng, 'waypoint': waypoint, 'category': category})
 
           }
-          flightPath.setMap(map);
+
+          //lets set the map zoom and coordinates based on this flight plan
+
+
         }
+
+        flightPath.setMap(map);
+        if (view_flightplan_id != 0) { 
+          zoomToObject(flightPath);
+        }
+
+        //add listener
+        google.maps.event.addListener(flightPath, 'click', function() {
+            
+            buildFlightPlanModalBody(flightPath_data);
+
+        });
       }
 
       function hasWaypointBeenAdded(flightPath, latitude, longitude ) {
@@ -960,6 +966,15 @@
           controlText.innerHTML = legend_details;
           controlUI.appendChild(controlText);
 
+        }
+
+        function zoomToObject(obj){
+          var bounds = new google.maps.LatLngBounds();
+          var points = obj.getPath().getArray();
+          for (var n = 0; n < points.length ; n++){
+              bounds.extend(points[n]);
+          }
+          map.fitBounds(bounds);
         }
 
             </script>
