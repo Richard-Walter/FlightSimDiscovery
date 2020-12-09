@@ -195,7 +195,7 @@
             var description = infowindow_dict[marker_name]['description'];
             var rating = infowindow_dict[marker_name]['rating'];
             var fp_id_list = infowindow_dict[marker_name]['fp_id_list'];
-            var showFLightPlanTours = 'style="display: none"';
+            var showFlightPlanTours = 'style="display: none"';
             var hiddenButtons = 'style="display: none"';
             var hiddenDetails = 'style="display: none"';
             var flagIconDisplay = 'style="display: none"';
@@ -219,24 +219,43 @@
 
             //hide tour html if poi has no tours
             if (fp_id_list.length) {
-              showFLightPlanTours = ''
+              showFlightPlanTours = ''
             } 
 
             //create flightplan tour list html
             var flightplan_tours_html = '';
+            var flightplan_waypoints_added_list = [];
+            var tour_number = 1;
             for (index = 0; index < fp_id_list.length; ++index) {
+              create_fp_html = true;
+
               fp_id = fp_id_list[index];
               flightplan = flightsplans_dic[fp_id];
+              fp_waypoints = flightplan['waypoints_list'];
               fp_name = flightplan['name'];
 
-              flightplan_tours_html += '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'
-              flightplan_tours_html +=   `<span class="poi_fp_text mr-4" onclick="showFlightPlanDialog(${fp_id})"  style="cursor: pointer">`
-              flightplan_tours_html +=     `Tour ${index+1}: ${fp_name}`
-              flightplan_tours_html +=   '</span>'
-              flightplan_tours_html +=   '<span href="#" class="poi_fp_text mr-2">View on map: </span>'
-              flightplan_tours_html +=   `<span  class="poi_fp_map_icon" onclick="showFlightPlanOnMap(${fp_id})" title="View on map" style="cursor: pointer">`
-              flightplan_tours_html +=   '  <i class="fas fa-globe-americas"></i></span>'
-              flightplan_tours_html += '</div>'
+              //check to see if an identical waypoint list has already been added
+              for (i = 0; i < flightplan_waypoints_added_list.length; i++) {
+                current_fp_waypoints = flightplan_waypoints_added_list[i];
+
+                if (JSON.stringify(fp_waypoints) == JSON.stringify(current_fp_waypoints)) {
+                  create_fp_html = false;
+                  break;
+                } 
+              }
+
+              if (create_fp_html==true) {
+                flightplan_waypoints_added_list.push(fp_waypoints)
+                flightplan_tours_html += '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'
+                flightplan_tours_html +=   `<span class="poi_fp_text mr-4" onclick="showFlightPlanDialog(${fp_id})"  style="cursor: pointer">`
+                flightplan_tours_html +=     `Tour ${tour_number}: ${fp_name}`
+                flightplan_tours_html +=   '</span>'
+                flightplan_tours_html +=   '<span href="#" class="poi_fp_text mr-2">View on map: </span>'
+                flightplan_tours_html +=   `<span  class="poi_fp_map_icon" onclick="showFlightPlanOnMap(${fp_id})" title="View on map" style="cursor: pointer">`
+                flightplan_tours_html +=   '  <i class="fas fa-globe-americas"></i></span>'
+                flightplan_tours_html += '</div>'
+                tour_number++
+              }
             }
 
             
@@ -367,7 +386,7 @@
                         '<p class="iw_description">'+ description + '</p>'+
                       '</div>'+
                       '<hr class="my-2"/>' +
-                      '<div id="poi_flight_plans" class=" my-2"'+ showFLightPlanTours + '>'+
+                      '<div id="poi_flight_plans" class=" my-2"'+ showFlightPlanTours + '>'+
                         '<div class="card poi_flight_plans_card">'+
                           '<div class="p-1 card-header poi_fp_header">'+
   
@@ -378,23 +397,6 @@
                           '</div>'+
                           '<div class="card-body py-1 poi_fp_body" >'+
                             flightplan_tours_html +
-                            // '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'+
-                            //   '<a href="#" class="poi_fp_text mr-4" onclick=""  role="button" aria-pressed="true"> '+
-                            //     'Tour 1: YWOL to YSSY'+
-                            //   '</a>'+
-                            //   '<span href="#" class="poi_fp_text mr-2">View on map: </span>'+
-                            //   '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'+
-                            //       ' <i class="fas fa-globe-americas"></i></a>'+
-                            // '</div>'+
-                            // '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'+
-                            //   '<a href="#" class="poi_fp_text mr-4" onclick="" title="View on map" role="button" aria-pressed="true"> '+
-                            //     'Tour 1: YWOL to YSSY'+
-                            //   '</a>'+
-                            //   '<span href="#" class="poi_fp_text mr-2">View on map: </span>'+
-                            //   '<a href="#" class="poi_fp_map_icon" onclick="#" title="View on map" role="button" aria-disabled="true">'+
-                            //       ' <i class="fas fa-globe-americas"></i></a>'+
-                            // '</div>'+
-
                           '</div>'+
  
 
