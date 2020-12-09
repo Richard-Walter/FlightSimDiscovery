@@ -654,17 +654,8 @@
             // We also need to add additional data to flightPath_data so we can build a flight plan
             flightPath_data.push({'latLng': latLng, 'waypoint': waypoint, 'category': category})
 
-          }
-
-          //add listener
-          // google.maps.event.addListener(flightPath, 'click', function(flightPath_data) {
-              
-          //     // showFlightPlanDialog(view_flightplan_id);
-          //     buildFlightPlanModalBody(flightPath_data);
-    
-          // });        
+          }   
         }
-
         
         if (view_flightplan_id != 0) { 
           zoomToObject(flightPath);

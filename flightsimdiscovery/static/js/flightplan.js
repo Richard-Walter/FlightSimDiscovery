@@ -244,6 +244,12 @@ function buildATCWapoints(
 
 function buildFlightPlanModalBody(flightPath_data) {
 
+
+  if (flightPath_data.length > 0) {
+    $('#fp_save_btn').removeAttr('disabled')
+    $('#fp_delete_btn').removeAttr('disabled')
+  }
+
   getDepDestAirports(flightPath_data).then(function (json) {
 
     var body_html;
