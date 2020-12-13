@@ -134,7 +134,7 @@ def delete_fp(id):
     db.session.commit()
 
     if page == 'user_flightplans':
-        return redirect(url_for('users.user_pois'))
+        return redirect(url_for('flightplans.user_flight_plans'))
     elif page == 'shared_flightplans':
         return redirect(url_for('admin.shared_flightplans'))
     else:

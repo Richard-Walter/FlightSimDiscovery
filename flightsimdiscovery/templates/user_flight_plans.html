@@ -138,15 +138,7 @@
 </div>
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
-    $(document).on("click", ".open_delete_modal", function () {
-       
-       var eventId = $(this).data('id');
-       var form_action = '/poi/' + eventId + '/delete' +'?page=user_pois'
-       console.log(form_action)
-       $("#delete_poi_confirm").attr('action', form_action);
-       console.log(eventId);
-       $('#poi').html( eventId );
-  });
+
   
   $(document).on("click", ".open_delete_fp_modal", function () {
        

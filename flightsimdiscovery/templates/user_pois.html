@@ -270,12 +270,6 @@
        $('#poi').html( eventId );
   });
   
-  $(document).on("click", ".open_delete_fp_modal", function () {
-       
-       var id = $(this).data('id');
-       var form_action = '/flightplans/' + id + '/delete?page=user_flightplans'
-       $("#delete_fp_confirm").attr('action', form_action);
-  });
   
 
 </script>

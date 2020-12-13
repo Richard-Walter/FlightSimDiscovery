@@ -312,7 +312,7 @@ function buildFlightPlanModalBody(flightPath_data) {
       body_html += '<input required type="text" class="form-control" id="export-filename-input" value="' + flightplan_filename + '">';
       body_html += "</div>";
       body_html += "<div class='form-check mt-2'>";
-      body_html += '<input type="checkbox" class="form-check-input" id="export-share_fp">';
+      body_html += '<input type="checkbox" class="form-check-input" id="export-share_fp" checked>';
       body_html += "<label class='mr-2' >Save & Share Flight Plan</label>";
 
       body_html += "</div>";
