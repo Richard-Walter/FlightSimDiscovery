@@ -3,7 +3,7 @@ from flightsimdiscovery import db, bcrypt
 from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flightsimdiscovery.models import User, Pois
 from flask_login import login_user, current_user, logout_user, login_required
-from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois, get_user_flightplans
+from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois
 
 users = Blueprint('users', __name__)
 
@@ -89,9 +89,8 @@ def user_pois(user_id):
     favorite_pois = get_user_favorited_pois(user_id)
     visited_pois = get_user_visited_pois(user_id)
     flagged_pois = get_user_flagged_pois(user_id)
-    user_flightplan_data = get_user_flightplans(user_id)
 
-    return render_template('user_pois.html', user_pois=user_pois_with_additional_data, favorite_pois=favorite_pois, visited_pois=visited_pois, flagged_pois=flagged_pois, user_flightplan_data=user_flightplan_data)
+    return render_template('user_pois.html', user_pois=user_pois_with_additional_data, favorite_pois=favorite_pois, visited_pois=visited_pois, flagged_pois=flagged_pois)
 
 
 @users.route("/reset_password", methods=['GET', 'POST'])

@@ -11,7 +11,7 @@ from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.main.forms import ContactForm
 from flightsimdiscovery.users.utitls import send_contact_email
 from flightsimdiscovery.config import Config
-from utilities import get_location_details
+from flightsimdiscovery.flightplans.utils import get_user_flightplans
 
 main = Blueprint('main', __name__)
 

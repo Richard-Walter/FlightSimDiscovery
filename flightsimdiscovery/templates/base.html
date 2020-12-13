@@ -97,6 +97,7 @@
                             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" data-toggle="dropdown">Account</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{{ url_for('users.user_pois') }}">My Points of Interest</a>
+                                <a class="dropdown-item" href="{{ url_for('flightplans.user_flight_plans') }}">My Flight Plans</a>
                                 <a class="dropdown-item" href="{{ url_for('users.account') }}">Update Account</a>
                             </div>
                             {% endif %}

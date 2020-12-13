@@ -10,7 +10,7 @@ from utilities import get_country_region, get_country_list, get_region_list, get
 from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.config import Config
 from utilities import get_location_details
-from flightsimdiscovery.flightplans.utils import checkUserFlightPlanWaypointsUnique
+from flightsimdiscovery.flightplans.utils import checkUserFlightPlanWaypointsUnique, get_user_flightplans
 
 flightplans = Blueprint('flightplans', __name__)
 
@@ -141,3 +141,21 @@ def delete_fp(id):
         return redirect(url_for('main.home'))
                        
     return 'Success'    # must leave this here otherwise flask complains nothing returns
+
+@flightplans.route("/user_flight_plans", defaults={'user_id': None})
+@login_required
+def user_flight_plans(user_id):
+
+    if user_id:
+        if (current_user.username != 'admin'):
+            if (user_id != str(current_user.id)):
+                abort(403)
+    else:
+        user_id = current_user.id
+        
+    # user_pois_with_additional_data = get_user_pois_dict_inc_favorites_visited(user_id, True)
+
+    user_flightplan_data = get_user_flightplans(user_id)
+
+    # return render_template('user_pois.html', user_pois=user_pois_with_additional_data, favorite_pois=favorite_pois, visited_pois=visited_pois, flagged_pois=flagged_pois, user_flightplan_data=user_flightplan_data)
+    return render_template('user_flight_plans.html', user_flightplan_data=user_flightplan_data)

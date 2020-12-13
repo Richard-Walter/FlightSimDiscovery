@@ -33,9 +33,6 @@
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#tab-account_flagged_datatable">My Flagged POIs</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tab-account_user_fp_datatable">Saved Flight Plans</a>
-                        </li>
                       </ul>
 
 
@@ -188,39 +185,6 @@
                             </table>
                         </div>
 
-                        <div class="tab-pane" id="tab-account_user_fp_datatable">
-                            <div class="new_poi_msg mb-4 ">
-                                
-                            </div>
-                            <table id="account_user_fp_datatable" class="stripe row-border">
-                                <thead class="">
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Waypoints</th>
-                                    <th scope="col">Altitude</th>
-                                    <th scope="col">Map</th>
-                                    <th scope="col">Delete</th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for flightplan_data in user_flightplan_data %}
-                                <tr>
-                                    <td>{{flightplan_data.name}}</td>
-                                    <td>{{flightplan_data.waypoints_list}}</td>
-                                    <td>{{flightplan_data.altitude}}</td>
-                                    <td><a href="/view_flightplan/{{flightplan_data.id}}" class="btn btn-primary" role="button"
-                                        aria-disabled="true"><i class="fas fa-globe-americas"></i></a>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="open_delete_fp_modal btn btn-danger" data-id="{{flightplan_data.id}}"
-                                                data-toggle="modal" data-target="#deleteFPModal"><i class="far fa-trash-alt"></i></button>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
         </div>
