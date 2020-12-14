@@ -2589,13 +2589,12 @@ h3 {
 .poi_fp_body{
   max-height: 133px;
   overflow-y: auto;
+  background-color: rgb(243, 242, 242);
 }
-
-
 
 .poi_fp_header{
   /* padding: 1pt; */
-  background-color: #fadc59;
+  background-color: #a8cfd6;
   color: #1a1a1a;
 
 }
@@ -2612,7 +2611,12 @@ h3 {
 }
 
 .poi_fp_text{
-  color: #1f75bb;
+  font-weight: 400;
+  /* line-height: 28px; */
+  /* color: #7A838B; */
+  margin-bottom: 0px;
+  font-family: "Rubik", sans-serif;
+  color: #184163;
 }
 
 .poi_rating {
