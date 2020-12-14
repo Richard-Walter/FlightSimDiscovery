@@ -18,6 +18,9 @@ main = Blueprint('main', __name__)
 # TODO add tours to each POI - DONE
 # TODO anon user can flag a poi - DONE
 
+# TODO Update FAQ to include flight plans
+# TODO Justify POI flight plan text 
+# TODO get details (most popular) on flight plans and pois visisted by anonymous users
 # TODO allow users to upload photo of location
 # TODO export flight plan in xplane format
 
