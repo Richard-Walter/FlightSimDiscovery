@@ -242,7 +242,7 @@ function buildATCWapoints(
   }
 }
 
-function buildFlightPlanModalBody(flightPath_data) {
+function buildFlightPlanModalBody(flightPath_data, fp_name="") {
 
 
   if (flightPath_data.length > 0) {
@@ -299,8 +299,11 @@ function buildFlightPlanModalBody(flightPath_data) {
 
       //build flightpath name
       // flightplan_filename = "Flight Sim Discovery " + yyyymmdd();
-      flightplan_filename = "FSD - " + departure_id + " to " + destination_id;
-  
+      if (fp_name == "") {
+        flightplan_filename = "FSD - " + departure_id + " to " + destination_id;
+      } else {
+        flightplan_filename = fp_name
+      }
 
       // body_html = body_html.substring(0, body_html.length - 4); //remove the last -->
       body_html += "</p>";

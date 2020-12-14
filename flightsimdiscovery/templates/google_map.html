@@ -39,6 +39,7 @@
       //create the infowindow data dictionary
       infowindow_dict = {}
       var flightsplans_dic = {{flightsplans_dic|tojson}};
+      var flightpath_name = "";
       var pois_array = {{pois|tojson}};
       var user_pois = {{user_pois_json|tojson}};
       var user_ratings_dict = {{user_ratings|tojson}};
@@ -112,7 +113,7 @@
 
         flightPath.addListener('click', () => {
             
-            buildFlightPlanModalBody(flightPath_data);
+            buildFlightPlanModalBody(flightPath_data, flightpath_name);
 
         });
 
@@ -247,7 +248,7 @@
               if (create_fp_html==true) {
                 flightplan_waypoints_added_list.push(fp_waypoints)
                 flightplan_tours_html += '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'
-                flightplan_tours_html +=   `<span class="poi_fp_text mr-4" onclick="showFlightPlanDialog(${fp_id})"  style="cursor: pointer">`
+                flightplan_tours_html +=   `<span class="poi_fp_text mr-4" onclick="showFlightPlanDialog(${fp_id},'${fp_name}')"  style="cursor: pointer">`
                 flightplan_tours_html +=     `Tour ${tour_number}: ${fp_name}`
                 flightplan_tours_html +=   '</span>'
                 flightplan_tours_html +=   '<span href="#" class="poi_fp_text mr-2">View on map: </span>'
@@ -263,14 +264,11 @@
               flagIconDisplay = '';
             } 
 
-
             if (is_authenticated=='True') {
               console.log("USER IS AUTHENTICATED.  POI ID IS: "+ id);
               console.log("POI NAME IS: " + marker_name);
               hiddenDetails ='';
               
-
-
               // if (user_pois_list.includes(parseInt(id))) {
               // user_poi_infowindow_dict =  infowindow_user_dict[id]
               if (user_pois.includes(id)) {
@@ -507,7 +505,7 @@
       }
 
 
-      function showFlightPlanDialog(flightplan_id) {
+      function showFlightPlanDialog(flightplan_id, fp_name) {
 
         // First remove and delete previous flight plan and path
         deleteFlightPlan();
@@ -524,7 +522,9 @@
 
         }
 
-        buildFlightPlanModalBody(flightPath_data);
+        flightpath_name = fp_name;
+
+        buildFlightPlanModalBody(flightPath_data, fp_name);
 
       }
 
@@ -621,6 +621,7 @@
 
       function deleteFlightPlan() {
         // flightPath.setMap(null);
+        flightpath_name = "";
         flightPath.getPath().clear()
         flightPath_data = [];
         $("#Flight_plan_modal").modal('hide');
@@ -636,6 +637,7 @@
 
         //check to see if user wants to view an existing flightplan - if so then display it on map
         if (view_flightplan_id != 0) {  
+          flightpath_name = flightsplans_dic[view_flightplan_id]['name'];
           var waypointlist = flightsplans_dic[view_flightplan_id]['waypoints_list'];
 
           for (let i = 0; i < waypointlist.length; i++) {
@@ -868,7 +870,7 @@
         // open up flight plan modal
         controlUI.addEventListener("click", () => {
           
-          buildFlightPlanModalBody(flightPath_data);
+          buildFlightPlanModalBody(flightPath_data, flightpath_name);
         });
       }
 
