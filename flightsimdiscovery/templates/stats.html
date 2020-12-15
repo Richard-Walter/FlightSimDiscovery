@@ -22,10 +22,10 @@
                 <div>
                     <ul class="nav nav-tabs mb-4"  id="user_pois_tabs" role="tablist">
                         <li class="nav-item">
-                          <a class="nav-link active" data-toggle="tab" href="#tab-account_poi_datatable">Most Visited POIs</a>
+                          <a class="nav-link active" data-toggle="tab" href="#tab-poi_popularity_datatable">Most Visited POIs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tab-account_favorite_datatable">Most Popular Flights</a>
+                            <a class="nav-link" data-toggle="tab" href="#tab-flight_popularity_datatable">Most Popular Flights</a>
                         </li>
                       </ul>
 
@@ -34,7 +34,7 @@
                         <div class="tab-pane active" id="tab-poi_popularity_datatable">
 
                             <div class="new_poi_msg mb-4 ">
-                                Note: POIs are automatically marked as 'visited' when exporting a fight plan. 
+                                Note: POIs are automatically marked as 'visited' when exporting a fight plan.  
                             </div>
                             <table id="poi_popularity_datatable" class="stripe row-border">
                                 <thead class="">
@@ -67,37 +67,25 @@
                             </table>
                         </div>
 
-                        <div class="tab-pane" id="tab-account_visited_datatable">
+                        <div class="tab-pane" id="tab-flight_popularity_datatable">
 
-                            <div class="new_poi_msg mb-4 ">
-                                Note: POIs are automatically marked as 'visited' when exporting a fight plan. 
-                            </div>
-                            <table id="account_visited_datatable" class="stripe row-border">
+                            <table id="flight_popularity_datatable" class="stripe row-border">
                                 <thead class="">
                                 <tr>
+                                    <th scope="col">No. of Flights</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Country</th>
-
-                                    <th scope="col">Description</th>
+                                    <th scope="col">Waypoints</th>
                                     <th scope="col">Map</th>
-                                    <th scope="col">Remove Visited</th>
-
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for poi in visited_pois %}
+                                {% for flight in popular_flight_data %}
                                 <tr>
-                                    <td>{{poi.name}}</td>
-                                    <td>{{poi.category}}</td>
-                                    <td>{{poi.country}}</td>
-                                    <td>{{poi.description}}</td>
-                                    <td><a href="/{{poi.location}}#searchTag" class="btn btn-primary" onclick="this.form.submit()" role="button"
+                                    <td>{{flight.popularity}}</td>
+                                    <td>{{flight.name}}</td>
+                                    <td>{{flight.waypoints}}</td>
+                                    <td><a href="/view_flightplan/{{flight.id}}" class="btn btn-primary" role="button"
                                         aria-disabled="true"><i class="fas fa-globe-americas"></i></a>
-                                    </td>
-                                    <td>
-                                        <a style="cursor:pointer" href="/poi/remove_visited_poi/{{poi.id}}?page=user_pois">
-                                            <i class="fas fa-minus-circle fa-2x" title='remove flag' style="color:#f3d10d;"></i></button>
                                     </td>
                                 </tr>
                                 {% endfor %}

@@ -12,7 +12,6 @@
                     <th scope="col">User ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Alititude</th>             
-                    <th scope="col">Map</th>             
                     <th scope="col">Delete</th>
 
                 </tr>
@@ -24,9 +23,6 @@
                     <td>{{flightplan_data.user_id}}</td>
                     <td>{{flightplan_data.name}}</td>
                     <td>{{flightplan_data.altitude}}</td>
-                    <td><a href="/view_flightplan/{{flightplan_data.id}}" class="btn btn-primary" role="button"
-                        aria-disabled="true"><i class="fas fa-globe-americas"></i></a>
-                    </td>
                     <td>
                         <button type="button" class="open_delete_modal btn btn-danger" data-id="{{flightplan_data.id}}"
                                 data-toggle="modal" data-target="#deleteFPModal"><i class="far fa-trash-alt"></i></button>

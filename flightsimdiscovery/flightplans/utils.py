@@ -1,4 +1,5 @@
 from flightsimdiscovery.models import Flightplan, Flightplan_Waypoints, Pois
+from flightsimdiscovery import db
 
 def checkUserFlightPlanWaypointsUnique(user_id, new_fp_pois):
 
@@ -27,6 +28,20 @@ def checkUserFlightPlanWaypointsUnique(user_id, new_fp_pois):
     
     return True
 
+
+def updateFlightPlanNumberFlown(fp_name):
+    flight_plan = Flightplan.query.filter_by(name=fp_name).first()
+
+    if flight_plan:
+        number_of_flights = flight_plan.number_flown
+        if number_of_flights is None:
+            flight_plan.number_flown = 1
+        else:
+            flight_plan.number_flown = number_of_flights + 1
+        db.session.add(flight_plan)
+        db.session.commit()
+
+    
 def get_user_flightplans(user_id):
 
     user_flightplans_query = Flightplan.query.filter_by(user_id=user_id).all()

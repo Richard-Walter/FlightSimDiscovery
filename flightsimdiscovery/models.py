@@ -99,6 +99,7 @@ class Flightplan(db.Model):
     name = db.Column(db.Text, nullable=False)
     alitude = db.Column(db.Integer, nullable=False, default=5000)
     date_created = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
+    number_flown = db.Column(db.Integer, nullable=True, default=0)
 
     def __repr__(self):
         return f"Flight Plan('{self.name}', '{self.alitude}', '{self.user_id}')"       

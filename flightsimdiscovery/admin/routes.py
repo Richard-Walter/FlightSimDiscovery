@@ -108,32 +108,16 @@ def run_script():
 
                 # SCRIPT DETAILS GOES HERE
 
-                # # Update rating table
-                # all_ratings = Ratings.query.all()
+                # update flightplan table so number_flown is not null
 
-                # for rating in all_ratings:
+                flightplans = Flightplan.query.all()
 
-                #     poi = Pois.query.get(rating.poi_id)
-
-                #     if not poi:
-                #         print('deleting rating with POI ID = ', rating.poi_id )
-                #         db.session.delete(rating)
-
-                # db.session.commit()
-
-                # # check which countries have no pois
-                # full_country_list = set(get_country_list())
-                # db_country_list = set()
-
-                # all_pois = Pois.query.all()
-
-                # for poi in all_pois:
-
-                #     db_country_list.add(poi.country)
-
-                # countries_not_in_db = list(full_country_list - db_country_list)
-                # for country in countries_not_in_db:
-                #     print(country)
+                for flightplan in flightplans:
+                    if flightplan.number_flown is None:
+                        flightplan.number_flown = 0
+                        db.session.add(flightplan)
+                
+                db.session.commit()
 
                 flash('Script has run succesfully!', 'success')
 
@@ -238,6 +222,28 @@ def all_pois():
 
 @admin.route("/stats")
 def stats():
+
+    # FLIGHT STATS
+    popular_flight_data = []
+
+    flightplans = Flightplan.query.all()
+
+    for flightplan in flightplans:
+
+        fp_waypoint_list = ""
+        fp_waypoint_query = Flightplan_Waypoints.query.filter_by(flightplan_id=flightplan.id).all()
+
+        for fp_waypoint in fp_waypoint_query:
+
+            # determine the name of the poi
+            poi_name = Pois.query.filter_by(id=fp_waypoint.poi_id).first().name
+            fp_waypoint_list += poi_name + " -> "
+
+        flight_data = {'id': flightplan.id, 'popularity': flightplan.number_flown, 'name': flightplan.name,
+                            'waypoints': fp_waypoint_list}
+        popular_flight_data.append(flight_data)
+
+    # POI STATS
     popular_pois_data = []
     no_poi_visited = 0
     all_pois = Pois.query.all()
@@ -250,7 +256,7 @@ def stats():
         popular_pois = {'popularity': no_poi_visited, 'name': poi.name,'category': poi.category,'country': poi.country, 'region': poi.region, 'description': poi.description, 'location': data_location}
         popular_pois_data.append(popular_pois)
 
-    return render_template('stats.html', popular_pois=popular_pois_data)
+    return render_template('stats.html', popular_pois=popular_pois_data, popular_flight_data=popular_flight_data)
 
 # @admin.route("/build_db")
 # @login_required

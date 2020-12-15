@@ -253,6 +253,20 @@ $(document).ready(function(){
     // "pagingType": "full_numbers"
   } );
 
+  $('#flight_popularity_datatable').DataTable( {
+    
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [0,2,3] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         true,
+    "order": [[0, 'desc']],
+    "pageLength": 25,
+    // "pagingType": "full_numbers"
+  } );
+
   $('#topten_pois_datatable').DataTable( {
 
     

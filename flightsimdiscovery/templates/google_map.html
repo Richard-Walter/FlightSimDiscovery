@@ -251,7 +251,7 @@
                 flightplan_tours_html +=   `<span class="poi_fp_text mr-4" onclick="showFlightPlanDialog(${fp_id},'${fp_name}')"  title="View Flight Plan" style="cursor: pointer">`
                 flightplan_tours_html +=     `TOUR ${tour_number}: ${fp_name}`
                 flightplan_tours_html +=   '</span>'
-                flightplan_tours_html +=   ` <span href="#" class="poi_fp_map_icon mr-1" onclick="showFlightPlanOnMap(${fp_id})" title="View on map" style="cursor: pointer">`
+                flightplan_tours_html +=   ` <span href="#" class="poi_fp_map_icon mr-1" onclick="showFlightPlanOnMap(${fp_id},'${fp_name}')" title="View on map" style="cursor: pointer">`
                 flightplan_tours_html +=   ` <i class="fas fa-globe-americas"></i>`
                 flightplan_tours_html +=   '</span>'
                 flightplan_tours_html += '</div>'
@@ -528,7 +528,7 @@
 
       }
 
-      function showFlightPlanOnMap(flightplan_id) {
+      function showFlightPlanOnMap(flightplan_id, fp_name) {
 
         // remove any previous flight plan if exists
         deleteFlightPlan();
@@ -544,6 +544,8 @@
           addPoiToFlightPlan(latitude, longitude, waypoint, category);
 
         }
+
+        flightpath_name = fp_name;
         
         zoomToObject(flightPath);
       }

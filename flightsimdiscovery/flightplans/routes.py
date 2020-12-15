@@ -10,7 +10,7 @@ from utilities import get_country_region, get_country_list, get_region_list, get
 from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.config import Config
 from utilities import get_location_details
-from flightsimdiscovery.flightplans.utils import checkUserFlightPlanWaypointsUnique, get_user_flightplans
+from flightsimdiscovery.flightplans.utils import checkUserFlightPlanWaypointsUnique, get_user_flightplans, updateFlightPlanNumberFlown
 
 flightplans = Blueprint('flightplans', __name__)
 
@@ -75,10 +75,16 @@ def export_fp_post():
         fp_name = export_fp_details['fp_name']
         fp_altitude = export_fp_details['fp_altitude']
 
+        # update number flown if this flightplan already exists
+
+        updateFlightPlanNumberFlown(fp_name)
+
         # Store flight plan and waypoints and add default rating (4) if user wants to share
         # do not store flightplan if name is empty, or the waypoints alreay exist for a flight plan
         if fp_share and fp_name and checkUserFlightPlanWaypointsUnique(user_id, fp_pois):
-            fp = Flightplan(user_id=user_id, name=fp_name, alitude=fp_altitude)
+
+            
+            fp = Flightplan(user_id=user_id, name=fp_name, alitude=fp_altitude, number_flown=1)
             db.session.add(fp)
             db.session.flush()
 

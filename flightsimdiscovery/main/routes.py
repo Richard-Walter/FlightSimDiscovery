@@ -17,10 +17,10 @@ main = Blueprint('main', __name__)
 
 # TODO add tours to each POI - DONE
 # TODO anon user can flag a poi - DONE
-# TODO add stats page - DONE
+# TODO add stats page -  (most popular) on flight plans and pois visited by anonymous users - DONE
 
+# TODO Change TOP TEN by visited rather than rating
 # TODO Bug - flightplans and only showing user pois
-# TODO get details (most popular) on flight plans and pois visited by anonymous users
 # TODO allow users to upload photo of location
 # TODO export flight plan in xplane format
 
@@ -383,7 +383,6 @@ def iw_post():
 
 
 @main.route("/view_flightplan/<flightplan_id>")
-@login_required
 def view_flightplan(flightplan_id):
 
     return redirect(url_for('main.home', _anchor='where_togo_area', view_flightplan=flightplan_id))
