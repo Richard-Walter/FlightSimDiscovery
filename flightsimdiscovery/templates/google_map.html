@@ -247,13 +247,13 @@
 
               if (create_fp_html==true) {
                 flightplan_waypoints_added_list.push(fp_waypoints)
-                flightplan_tours_html += '<div class="d-flex justify-content-center poi_fp_details m-1 pl-2 text-left">'
-                flightplan_tours_html +=   `<span class="poi_fp_text mr-4" onclick="showFlightPlanDialog(${fp_id},'${fp_name}')"  style="cursor: pointer">`
-                flightplan_tours_html +=     `Tour ${tour_number}: ${fp_name}`
+                flightplan_tours_html += '<div class="d-flex justify-content-between poi_fp_details m-1 text-left">'
+                flightplan_tours_html +=   `<span class="poi_fp_text mr-4" onclick="showFlightPlanDialog(${fp_id},'${fp_name}')"  title="View Flight Plan" style="cursor: pointer">`
+                flightplan_tours_html +=     `TOUR ${tour_number}: ${fp_name}`
                 flightplan_tours_html +=   '</span>'
-                flightplan_tours_html +=   '<span href="#" class="poi_fp_text mr-2">View on map: </span>'
-                flightplan_tours_html +=   `<span  class="poi_fp_map_icon" onclick="showFlightPlanOnMap(${fp_id})" title="View on map" style="cursor: pointer">`
-                flightplan_tours_html +=   '  <i class="fas fa-globe-americas"></i></span>'
+                flightplan_tours_html +=   ` <span href="#" class="poi_fp_map_icon mr-1" onclick="showFlightPlanOnMap(${fp_id})" title="View on map" style="cursor: pointer">`
+                flightplan_tours_html +=   ` <i class="fas fa-globe-americas"></i>`
+                flightplan_tours_html +=   '</span>'
                 flightplan_tours_html += '</div>'
                 tour_number++
               }
@@ -393,7 +393,7 @@
                               '</p>'+
  
                           '</div>'+
-                          '<div class="card-body py-1 poi_fp_body" >'+
+                          '<div class="px-2 py-1 poi_fp_body" >'+
                             flightplan_tours_html +
                           '</div>'+
  
