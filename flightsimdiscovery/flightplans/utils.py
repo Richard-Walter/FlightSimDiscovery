@@ -18,7 +18,7 @@ def checkUserFlightPlanWaypointsUnique(user_id, new_fp_pois):
 
         fp_poi_ids = []    
  
-        fp_waypoints = Flightplan_Waypoints.query.filter_by(user_id=user_id).filter_by(flightplan_id=flight_plan.id).all()
+        fp_waypoints = Flightplan_Waypoints.query.filter_by(flightplan_id=flight_plan.id).all()
 
         for fp_waypoint in fp_waypoints:
             fp_poi_ids.append(fp_waypoint.poi_id)
