@@ -90,20 +90,19 @@ def export_fp_post():
                 fp_waypoints = Flightplan_Waypoints(user_id=user_id, poi_id=poi.id, flightplan_id=fp.id)
                 db.session.add(fp_waypoints)
 
-        # Add/Update Visited table if user logged in
-        if current_user.is_authenticated:
-            for fp_poi in fp_pois:
-                poi = Pois.query.filter_by(name=fp_poi).first()
+        # Add/Update Visited table 
+        for fp_poi in fp_pois:
+            poi = Pois.query.filter_by(name=fp_poi).first()
 
-                if poi:
+            if poi:
+                
+                # check if already visisted
+                visited = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi.id).first()
+
+                if not visited:
                     
-                    # check if already visisted
-                    visited = Visited.query.filter_by(user_id=user_id).filter_by(poi_id=poi.id).first()
-
-                    if not visited:
-                        
-                        visit = Visited(user_id=user_id, poi_id=poi.id)
-                        db.session.add(visit)
+                    visit = Visited(user_id=user_id, poi_id=poi.id)
+                    db.session.add(visit)
 
         db.session.commit()
                        

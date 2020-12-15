@@ -72,6 +72,7 @@
                     <div class="navbar-nav mr-auto">
 
                         <a class="nav-item nav-link" href="{{ url_for('pois.new_poi') }}">Create POI</a>
+                        <a class="nav-item nav-link" href="{{ url_for('admin.stats') }}">Stats</a>
                         <a class="nav-item nav-link" href="{{ url_for('main.about') }}">About</a>
                         <a class="nav-item nav-link" href="{{ url_for('main.faq') }}">FAQ</a>
                         <a class="nav-item nav-link" href="{{ url_for('main.contact') }}">Contact</a>
@@ -83,7 +84,7 @@
                         
                         <li class="nav-item dropdown">
                             {% if current_user.username == 'admin' %}
-                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" data-toggle="dropdown">Admin Panel</a>
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" data-toggle="dropdown">Admin</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" href="{{ url_for('admin.all_pois') }}">All POI's</a>
                                     <a class="dropdown-item" href="{{ url_for('admin.flagged_pois') }}">Flagged POI's</a>

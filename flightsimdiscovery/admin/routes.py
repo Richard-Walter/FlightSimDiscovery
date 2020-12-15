@@ -236,6 +236,22 @@ def all_pois():
     else:
         return render_template('errors/403.html'), 403
 
+@admin.route("/stats")
+def stats():
+    popular_pois_data = []
+    no_poi_visited = 0
+    all_pois = Pois.query.all()
+
+    for poi in all_pois:
+        poi_visited = Visited.query.filter_by(poi_id=poi.id).all()
+        if poi_visited:
+            no_poi_visited = len(poi_visited)
+        data_location = str(poi.latitude) + ', ' + str(poi.longitude)
+        popular_pois = {'popularity': no_poi_visited, 'name': poi.name,'category': poi.category,'country': poi.country, 'region': poi.region, 'description': poi.description, 'location': data_location}
+        popular_pois_data.append(popular_pois)
+
+    return render_template('stats.html', popular_pois=popular_pois_data)
+
 # @admin.route("/build_db")
 # @login_required
 # def build_db():
