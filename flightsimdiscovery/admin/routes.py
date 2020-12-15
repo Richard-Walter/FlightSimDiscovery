@@ -235,6 +235,39 @@ def all_pois():
 @admin.route("/stats")
 def stats():
 
+    # USER STATS
+    user_data = []
+    users = User.query.all()
+
+    for user in users:
+
+        no_poi_visited = 0
+        no_poi_created = 0
+        no_flights_shared = 0
+
+        #exclude admin and anonymous users
+        if (user.id == 1) or (user.id==2):
+            continue
+
+        #pois visited by user
+        poi_visited = Visited.query.filter_by(user_id=user.id).all()
+        if poi_visited:
+            no_poi_visited = len(poi_visited)
+
+        #pois created by user
+        pois_created = Pois.query.filter_by(user_id=user.id).all()
+        if pois_created:
+            no_poi_created = len(pois_created)
+
+        #flights shared by user
+        flights_shared = Flightplan.query.filter_by(user_id=user.id).all()
+        if flights_shared:
+            no_flights_shared = len(flights_shared)
+
+        user_info = {'name': user.username, 'pois_visited': no_poi_visited, 'pois_created': no_poi_created, 'flights_shared': no_flights_shared}
+        user_data.append(user_info)
+    
+
     # FLIGHT STATS
     popular_flight_data = []
 
@@ -270,7 +303,7 @@ def stats():
         popular_pois = {'popularity': no_poi_visited, 'name': poi.name,'category': poi.category,'country': poi.country, 'region': poi.region, 'description': poi.description, 'location': data_location}
         popular_pois_data.append(popular_pois)
 
-    return render_template('stats.html', popular_pois=popular_pois_data, popular_flight_data=popular_flight_data)
+    return render_template('stats.html', popular_pois=popular_pois_data, popular_flight_data=popular_flight_data, user_data=user_data)
 
 # @admin.route("/build_db")
 # @login_required

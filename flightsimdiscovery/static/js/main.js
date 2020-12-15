@@ -267,6 +267,21 @@ $(document).ready(function(){
     // "pagingType": "full_numbers"
   } );
 
+  $('#user_popularity_datatable').DataTable( {
+    
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [1,2,3] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         true,
+    "order": [[1, 'desc']],
+    "pageLength": 25,
+    // "pagingType": "full_numbers"
+  } );
+
+
   $('#topten_pois_datatable').DataTable( {
 
     

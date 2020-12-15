@@ -27,6 +27,9 @@
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#tab-flight_popularity_datatable">Most Popular Flights</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-user_popularity_datatable">Top Users</a>
+                        </li>
                       </ul>
 
 
@@ -87,6 +90,30 @@
                                     <td><a href="/view_flightplan/{{flight.id}}" class="btn btn-primary" role="button"
                                         aria-disabled="true"><i class="fas fa-globe-americas"></i></a>
                                     </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="tab-user_popularity_datatable">
+
+                            <table id="user_popularity_datatable" class="stripe row-border">
+                                <thead class="">
+                                    
+                                <tr>
+                                    <th scope="col">User Name</th>
+                                    <th scope="col">POIs Visited</th>
+                                    <th scope="col">POIs Created</th>
+                                    <th scope="col">Flights Shared</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for user in user_data %}
+                                <tr>
+                                    <td>{{user.name}}</td>
+                                    <td>{{user.pois_visited}}</td>
+                                    <td>{{user.pois_created}}</td>
+                                    <td>{{user.flights_shared}}</td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>
