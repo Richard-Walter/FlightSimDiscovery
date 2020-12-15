@@ -115,7 +115,7 @@ def run_script():
 
                 for flightplan in flightplans:
                     if flightplan.number_flown is None:
-                        flightplan.number_flown = 0
+                        flightplan.number_flown = 1
                         db.session.add(flightplan)
                 
                 db.session.commit()
