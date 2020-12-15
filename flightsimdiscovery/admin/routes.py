@@ -45,12 +45,23 @@ def shared_flightplans():
     if current_user.is_authenticated and (current_user.username == 'admin'):
 
         shared_flightplan_data = []
-        flightplans = Flightplan.query.all()
+        flightplans = Flightplan.query.filter_by()
 
         for flightplan in flightplans:
+            user = User.query.filter_by(id=flightplan.user_id).first()
 
-            flightplan_data = {'id': flightplan.id, 'user_id': flightplan.user_id, 'name': flightplan.name,
-                                'altitude': flightplan.alitude}
+            fp_waypoint_list = ""
+            fp_waypoint_query = Flightplan_Waypoints.query.filter_by(flightplan_id=flightplan.id).all()
+
+            for fp_waypoint in fp_waypoint_query:
+
+                # determine the name of the poi
+                poi_name = Pois.query.filter_by(id=fp_waypoint.poi_id).first().name
+                fp_waypoint_list += poi_name + " -> "
+                fp_waypoint_list = strip_end(fp_waypoint_list, " -> ")
+
+            flightplan_data = {'id': flightplan.id, 'user_id': flightplan.user_id, 'user_name': user.username, 'name': flightplan.name,
+                                'waypoints': fp_waypoint_list}
             shared_flightplan_data.append(flightplan_data)
 
         return render_template('shared_flightplans.html', shared_flightplan_data=shared_flightplan_data)
@@ -111,14 +122,14 @@ def run_script():
 
                 # update flightplan table so number_flown is not null
 
-                flightplans = Flightplan.query.all()
+                # flightplans = Flightplan.query.all()
 
-                for flightplan in flightplans:
-                    if flightplan.number_flown is None:
-                        flightplan.number_flown = 1
-                        db.session.add(flightplan)
+                # for flightplan in flightplans:
+                #     if flightplan.number_flown is None:
+                #         flightplan.number_flown = 1
+                #         db.session.add(flightplan)
                 
-                db.session.commit()
+                # db.session.commit()
 
                 flash('Script has run succesfully!', 'success')
 

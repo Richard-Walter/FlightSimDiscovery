@@ -10,8 +10,9 @@
                 <tr>
                     <th scope="col">Flight ID</th>
                     <th scope="col">User ID</th>
+                    <th scope="col">User</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Alititude</th>             
+                    <th scope="col">Waypoints</th>             
                     <th scope="col">Delete</th>
 
                 </tr>
@@ -21,8 +22,9 @@
                 <tr>
                     <td>{{flightplan_data.id}}</td>
                     <td>{{flightplan_data.user_id}}</td>
+                    <td>{{flightplan_data.user_name}}</td>
                     <td>{{flightplan_data.name}}</td>
-                    <td>{{flightplan_data.altitude}}</td>
+                    <td>{{flightplan_data.waypoints}}</td>
                     <td>
                         <button type="button" class="open_delete_modal btn btn-danger" data-id="{{flightplan_data.id}}"
                                 data-toggle="modal" data-target="#deleteFPModal"><i class="far fa-trash-alt"></i></button>

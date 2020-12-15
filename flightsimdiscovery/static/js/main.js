@@ -218,7 +218,7 @@ $(document).ready(function(){
     
     'columnDefs': [
     
-      { className: 'text-center', targets: [0,1,3,4] },
+      { className: 'text-center', targets: [0,1,2,5] },
     ],
     // "scrollY":        "800px",
     "scrollCollapse": true,
@@ -257,7 +257,7 @@ $(document).ready(function(){
     
     'columnDefs': [
     
-      { className: 'text-center', targets: [0,2,3] },
+      { className: 'text-center', targets: [0,3] },
     ],
     // "scrollY":        "800px",
     "scrollCollapse": true,
