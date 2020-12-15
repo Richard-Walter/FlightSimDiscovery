@@ -10,7 +10,7 @@ from utilities import get_country_region, get_country_list, get_region_list, get
 from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.config import Config
 from utilities import get_location_details
-from flightsimdiscovery.flightplans.utils import checkUserFlightPlanWaypointsUnique, get_user_flightplans, updateFlightPlanNumberFlown
+from flightsimdiscovery.flightplans.utils import checkUserFlightPlanWaypointsUnique, get_user_flightplans, updateFlightPlanNumberFlown, strip_end
 
 flightplans = Blueprint('flightplans', __name__)
 

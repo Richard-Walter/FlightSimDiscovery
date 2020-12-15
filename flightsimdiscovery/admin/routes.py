@@ -5,6 +5,7 @@ from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm
 from utilities import get_country_list
 from flightsimdiscovery.admin.utilities import update_db, backup_db
 from flightsimdiscovery import db
+from flightsimdiscovery.flightplans.utils import checkUserFlightPlanWaypointsUnique, get_user_flightplans, updateFlightPlanNumberFlown, strip_end
 
 admin = Blueprint('admin', __name__)
 
@@ -238,6 +239,8 @@ def stats():
             # determine the name of the poi
             poi_name = Pois.query.filter_by(id=fp_waypoint.poi_id).first().name
             fp_waypoint_list += poi_name + " -> "
+        
+        fp_waypoint_list = strip_end(fp_waypoint_list, " -> ")
 
         flight_data = {'id': flightplan.id, 'popularity': flightplan.number_flown, 'name': flightplan.name,
                             'waypoints': fp_waypoint_list}
