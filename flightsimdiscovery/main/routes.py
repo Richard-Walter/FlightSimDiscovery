@@ -53,7 +53,7 @@ def home(filter_poi_location):
     flightsplans_dic= {}
     flightplans_query = Flightplan.query.all()
 
-    poi_names = [poi.name for poi in pois]
+    poi_names = [poi.name for poi in pois if poi.share==1]
     filtered_pois = None
     search_category_selected = False
     pois_found = True
