@@ -28,6 +28,16 @@ def checkUserFlightPlanWaypointsUnique(user_id, new_fp_pois):
     
     return True
 
+def areFlightPlanWaypointsPublic(new_fp_pois):
+    
+    for poi_name in new_fp_pois:
+
+        poi = Pois.query.filter_by(name=poi_name).first()
+        if poi.share==0:
+            return False
+
+    return True
+
 
 def updateFlightPlanNumberFlown(fp_name):
     flight_plan = Flightplan.query.filter_by(name=fp_name).first()

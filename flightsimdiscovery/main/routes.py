@@ -101,6 +101,10 @@ def home(filter_poi_location):
         for visit in user_visited_query:
             user_visited.append(visit.poi_id)
 
+    else:
+        # user is anonymous
+        current_user.id = 2
+
     #  flagged pois
     flagged_pois_query = Flagged.query.all()  # returns a list
     for flagged_poi in flagged_pois_query:
@@ -194,7 +198,13 @@ def home(filter_poi_location):
 
     # create the Point of Interest dictionary that gets posted for map to use
     for poi in pois:
-        # print('Poi', poi)
+
+
+        # Only include private pois if its the users
+        if poi.share == 0:
+            if current_user.id != poi.user_id:
+                continue
+
         data_dic = {}
         flightplan_ids = []
         poi_flightplans = Flightplan_Waypoints.query.filter_by(poi_id=poi.id).all()
