@@ -28,7 +28,7 @@ def static_from_root():
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
-@main.route("/<filter_poi_location>", )
+@main.route("/focus_on_poi/<filter_poi_location>", )
 def home(filter_poi_location):
 
     # test logging
