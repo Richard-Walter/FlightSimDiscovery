@@ -24,6 +24,7 @@
       var markerCollection;
       var clusterMarkers = [];
       var view_flightplan_id = {{view_flightplan}};
+      
 
 
       // Parse the posted data into a GeoJSon format required by Google Maps
@@ -47,6 +48,8 @@
       var user_visited = new Set({{user_visited|tojson}});
       var flagged_pois = new Set({{flagged_pois|tojson}});
       var db_poi_names = {{db_poi_names|tojson}};
+      var search_defaults = {{search_defaults|tojson}};
+      var filter_user_pois = search_defaults['filter_user_pois']
 
       pois_array.forEach(function (poi, index) {
         infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating, 'fp_id_list':poi.fp_id_list};
@@ -218,10 +221,15 @@
             //     '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude + ')">Add to Flight plan</button> '+
             //   '</div>'
 
-            //hide tour html if poi has no tours
-            if (fp_id_list.length) {
-              showFlightPlanTours = ''
-            } 
+            //show tours html if poi has tours associated with it and user hasnt filtered only his pois
+            if (filter_user_pois !='Yes') {
+
+              if (fp_id_list.length) {
+                showFlightPlanTours = ''
+              } 
+
+            }
+       
 
             //create flightplan tour list html
             var flightplan_tours_html = '';

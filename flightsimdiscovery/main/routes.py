@@ -16,10 +16,9 @@ from flightsimdiscovery.flightplans.utils import get_user_flightplans
 main = Blueprint('main', __name__)
 
 # TODO allow user to rename flightplan - DONE
+# TODO Bug - flightplans and only showing user pois - Done
 
-# TODO Bug - flightplans and only showing user pois
 # TODO allow users to upload photo of location
-# TODO export flight plan in xplane format
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
