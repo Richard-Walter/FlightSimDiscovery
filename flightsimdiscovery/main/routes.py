@@ -15,12 +15,8 @@ from flightsimdiscovery.flightplans.utils import get_user_flightplans
 
 main = Blueprint('main', __name__)
 
-# TODO add tours to each POI - DONE
-# TODO anon user can flag a poi - DONE
-# TODO add stats page -  (most popular) on flight plans and pois visited by anonymous users - DONE
+# TODO allow user to rename flightplan - DONE
 
-# TODO allow user to rename flightplan
-# TODO Change TOP TEN by visited rather than rating
 # TODO Bug - flightplans and only showing user pois
 # TODO allow users to upload photo of location
 # TODO export flight plan in xplane format

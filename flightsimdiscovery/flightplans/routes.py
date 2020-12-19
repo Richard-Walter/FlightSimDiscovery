@@ -149,6 +149,32 @@ def delete_fp(id):
                        
     return 'Success'    # must leave this here otherwise flask complains nothing returns
 
+@flightplans.route("/flightplans/<int:id>/rename", methods=['POST'])
+@login_required
+def rename_fp(id):
+
+    page = request.args.get('page')
+    new_name = request.form['renameFPInputText']
+
+    flightplan = Flightplan.query.filter_by(id=id).first()
+
+    if (current_user.username != 'admin'):
+
+        if (flightplan.user_id != current_user.id):
+            abort(403)
+
+    flightplan.name = new_name
+    db.session.commit()
+
+    if page == 'user_flightplans':
+        return redirect(url_for('flightplans.user_flight_plans'))
+    elif page == 'shared_flightplans':
+        return redirect(url_for('admin.shared_flightplans'))
+    else:
+        return redirect(url_for('main.home'))
+                       
+    return 'Success'    # must leave this here otherwise flask complains nothing returns
+
 @flightplans.route("/user_flight_plans", defaults={'user_id': None})
 @login_required
 def user_flight_plans(user_id):
