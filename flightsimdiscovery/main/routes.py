@@ -1,7 +1,7 @@
 import csv, os, json
 import xml.etree.ElementTree as ET
 from copy import deepcopy
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response, send_from_directory
 from openpyxl import load_workbook
 from flightsimdiscovery import db
 from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints, FP_Ratings
@@ -19,6 +19,12 @@ main = Blueprint('main', __name__)
 # TODO Bug - flightplans and only showing user pois - Done
 
 # TODO allow users to upload photo of location
+
+@main.route('/robots.txt')
+@main.route('/sitemap.xml')
+def static_from_root():
+
+    return send_from_directory("static", "robots.txt")
 
 @main.route("/", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
 @main.route("/home", defaults={'filter_poi_location': None}, methods=['GET', 'POST'])
