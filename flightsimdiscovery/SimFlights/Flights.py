@@ -14,6 +14,8 @@ class Flights:
     def __init__(self, database_path):
 
         self.users_flight_db = FlightDatabase(database_path)
+        self.latitude_list = []
+        self.longitude_list = []
         
 
     def get_flights(self):
@@ -29,29 +31,47 @@ class Flights:
 
             flight_datapoints = self.users_flight_db.get_flight_datapoints(flight_id)  # returns a list of tuples e.g[(20, 2, -35.2921968232364, 149.19443248723417, 1880, 637440143770217255)....
 
+            for datapoint in flight_datapoints:
+                self.latitude_list.append(datapoint[2])
+                self.longitude_list.append(datapoint[3])
+
+            zipped_coorindates = list(zip(self.latitude_list, self.longitude_list))
+
+            flight_polygon_points = self.get_flight_path_polygon(zipped_coorindates)
+
+            # google maps requires list of lats and lngs of the polygon
+            lats = []
+            longs = []      
+
+            for index, point in enumerate(flight_polygon_points, start=1):
+                lats.append(point.latitude)
+                longs.append((point.longitude))
+            
+            
             flight_info['flight_id'] = flight_id
             flight_info['flight_name'] = sim_flight[1]
             flight_info['flight_date'] = sim_flight[2]
-            flight_info['flight_datapoints'] = flight_datapoints
+            flight_info['flight_path_polygon_lats'] = lats
+            flight_info['flight_path_polygon_longs'] = longs
 
             user_flights_datapoints.append(flight_info)
 
         return user_flights_datapoints
 
-
-    def get_flight_path_polygon(self):
+    # returns a lits of Points that define the flith path polygon
+    def get_flight_path_polygon(self, zipped_coorindates):
 
         polygon_start_coordinates = []
         polygon_end_coordinates = []
 
-        for index, coordinate in enumerate(self.zipped_coorindates):
+        for index, coordinate in enumerate(zipped_coorindates):
 
             # need to calculate bearing between two points first
-            if index < len(self.zipped_coorindates) - 1:
+            if index < len(zipped_coorindates) - 1:
                 # lattitude2, longitude2 = self.zipped_coorindates[index+1]
                 # lattitude, longitude = self.zipped_coorindates[index]
 
-                bearing = self.calculate_bearing(Point(*self.zipped_coorindates[index + 1]), Point(*self.zipped_coorindates[index]))
+                bearing = self.calculate_bearing(Point(*zipped_coorindates[index + 1]), Point(*zipped_coorindates[index]))
                 perpendicular_bearings = self.calculate_perpendicular_bearings(bearing)
 
                 # for testing lets plot waypoints
@@ -60,7 +80,7 @@ class Flights:
                 polygon_end_coordinates.append(self.calculate_coordinates(Point(*coordinate), perpendicular_bearings[0]))  # clockwise/end
 
             else:
-                bearing = self.calculate_bearing(Point(*self.zipped_coorindates[index]), Point(*self.zipped_coorindates[index-1]))
+                bearing = self.calculate_bearing(Point(*zipped_coorindates[index]), Point(*zipped_coorindates[index-1]))
                 perpendicular_bearings = self.calculate_perpendicular_bearings(bearing)
 
                 # for testing lets plot waypoints
@@ -78,7 +98,7 @@ class Flights:
     def calculate_coordinates(self, point, bearing_degrees):
 
         new_location = geodesic(kilometers=flight_path_display_width).destination(point, bearing_degrees).format_decimal()
-        print('new location', new_location)
+        # print('new location', new_location)
         new_location = new_location.split(',')
         return Point(new_location[0].strip(), new_location[1].strip())
 
@@ -115,7 +135,7 @@ class Flights:
         d_phi = math.log(tan_end / tan_start)
         bearing = (math.degrees(math.atan2(d_lng, d_phi)) + 360.0) % 360.0
 
-        print('bearing', bearing)
+        # print('bearing', bearing)
 
         return bearing
 

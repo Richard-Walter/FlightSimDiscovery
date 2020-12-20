@@ -67,10 +67,12 @@ def home(filter_poi_location):
     user_ratings = {}
     user_favorites = []
     user_visited = []
+    user_flights = []
     flagged_pois_list = []
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating': 'Rating'}
     is_authenticated = False
     user_id = None
+
 
     if current_user.is_authenticated:
 
@@ -81,43 +83,12 @@ def home(filter_poi_location):
 
 
 
-
         # Test code to display user flights from Pilot Path Recorder
-
 
         DATABASE_PATH = r'C:\Users\rjwal_000\Downloads\PilotPathRecorder\FlightSimFlightsDB.db'
 
         flights_db = Flights(DATABASE_PATH)
-        flights = flights_db.get_flights()
-
-        print(flights)
-
-
-        #returns a list of tuples e.g. [(1, 'Cessna 152 Asobo', 637440139466586018), (2, 'Cessna 152 Asobo', 637440143750216623)]
-        # users_flight_db = FlightDatabase(DATABASE_PATH)
-        # users_sim_flights = users_flight_db.get_all_flights_ids()
-
-        # print(users_sim_flights)
-
-        # user_flights_datapoints = []
-
-        # for sim_flight in users_sim_flights:
-            
-        #     flight_info = {}
-        #     flight_id = sim_flight[0]
-
-        #     flight_datapoints = users_flight_db.get_flight_datapoints(flight_id)  # returns a list of tuples e.g[(20, 2, -35.2921968232364, 149.19443248723417, 1880, 637440143770217255)....
-
-        #     flight_info['flight_id'] = flight_id
-        #     flight_info['flight_name'] = sim_flight[1]
-        #     flight_info['flight_date'] = sim_flight[2]
-        #     flight_info['flight_datapoints'] = flight_datapoints
-
-        #     user_flights_datapoints.append(flight_info)
-
-        # print(user_flights_datapoints)
-
-
+        user_flights = flights_db.get_flights()
 
 
 
@@ -311,7 +282,7 @@ def home(filter_poi_location):
     view_flightplan = request.args.get('view_flightplan', 0)
 
     return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
-                           user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
+                           user_flights=user_flights, user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
                            search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
                            _anchor=anchor)
     # return render_template("home.html", pois=data)
