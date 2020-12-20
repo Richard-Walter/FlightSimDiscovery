@@ -46,6 +46,7 @@
       var user_ratings_dict = {{user_ratings|tojson}};
       var user_favorites = new Set({{user_favorites|tojson}});
       var user_visited = new Set({{user_visited|tojson}});
+      var user_flights = {{user_flights|tojson}};
       var flagged_pois = new Set({{flagged_pois|tojson}});
       var db_poi_names = {{db_poi_names|tojson}};
       var search_defaults = {{search_defaults|tojson}};
@@ -103,6 +104,30 @@
 
         const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
         markerCollection = map.data.addGeoJson(dataGeoJSON);
+
+
+        //contruct flight polygons for each of users flights
+        for (var i = 0; i < user_flights.length; i++) {
+
+          flight_data = user_flights[i];
+
+          fpaths = flight_data['flight_path_polygon_coords'];
+          
+          //Allow user to create a flight plan.
+          flight_polygon = new google.maps.Polygon({
+          paths: fpaths,
+          strokeColor: "#FF0000",
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: "#FF0000",
+          fillOpacity: 0.35,
+          });
+
+          flight_polygon.setMap(map);
+          
+        }
+
+
 
         //Allow user to create a flight plan.
         flightPath = new google.maps.Polyline({

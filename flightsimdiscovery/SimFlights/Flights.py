@@ -40,19 +40,17 @@ class Flights:
             flight_polygon_points = self.get_flight_path_polygon(zipped_coorindates)
 
             # google maps requires list of lats and lngs of the polygon
-            lats = []
-            longs = []      
+            coords = []  
 
             for index, point in enumerate(flight_polygon_points, start=1):
-                lats.append(point.latitude)
-                longs.append((point.longitude))
-            
-            
+                
+                lats_lngs_dict = {'lat': point.latitude, 'lng': point.longitude}
+                coords.append(lats_lngs_dict)
+
             flight_info['flight_id'] = flight_id
             flight_info['flight_name'] = sim_flight[1]
             flight_info['flight_date'] = sim_flight[2]
-            flight_info['flight_path_polygon_lats'] = lats
-            flight_info['flight_path_polygon_longs'] = longs
+            flight_info['flight_path_polygon_coords'] = coords
 
             user_flights_datapoints.append(flight_info)
 
