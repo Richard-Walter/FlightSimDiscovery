@@ -12,6 +12,7 @@ from flightsimdiscovery.main.forms import ContactForm
 from flightsimdiscovery.users.utitls import send_contact_email
 from flightsimdiscovery.config import Config
 from flightsimdiscovery.flightplans.utils import get_user_flightplans
+from flightsimdiscovery.SimFlights.Flights import Flights
 
 main = Blueprint('main', __name__)
 
@@ -77,6 +78,49 @@ def home(filter_poi_location):
 
         if (current_user.username == 'admin'):
             is_admin = True
+
+
+
+
+        # Test code to display user flights from Pilot Path Recorder
+
+
+        DATABASE_PATH = r'C:\Users\rjwal_000\Downloads\PilotPathRecorder\FlightSimFlightsDB.db'
+
+        flights_db = Flights(DATABASE_PATH)
+        flights = flights_db.get_flights()
+
+        print(flights)
+
+
+        #returns a list of tuples e.g. [(1, 'Cessna 152 Asobo', 637440139466586018), (2, 'Cessna 152 Asobo', 637440143750216623)]
+        # users_flight_db = FlightDatabase(DATABASE_PATH)
+        # users_sim_flights = users_flight_db.get_all_flights_ids()
+
+        # print(users_sim_flights)
+
+        # user_flights_datapoints = []
+
+        # for sim_flight in users_sim_flights:
+            
+        #     flight_info = {}
+        #     flight_id = sim_flight[0]
+
+        #     flight_datapoints = users_flight_db.get_flight_datapoints(flight_id)  # returns a list of tuples e.g[(20, 2, -35.2921968232364, 149.19443248723417, 1880, 637440143770217255)....
+
+        #     flight_info['flight_id'] = flight_id
+        #     flight_info['flight_name'] = sim_flight[1]
+        #     flight_info['flight_date'] = sim_flight[2]
+        #     flight_info['flight_datapoints'] = flight_datapoints
+
+        #     user_flights_datapoints.append(flight_info)
+
+        # print(user_flights_datapoints)
+
+
+
+
+
 
         # Create a list of Users POIS for the google map info window to use
         user_id = current_user.id
@@ -196,6 +240,7 @@ def home(filter_poi_location):
                         pois.remove(poi)
             else:
                 search_defaults['filter_user_pois'] = 'No'
+                
 
     # create the Point of Interest dictionary that gets posted for map to use
     for poi in pois:
