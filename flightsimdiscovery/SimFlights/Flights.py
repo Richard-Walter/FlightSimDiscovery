@@ -6,8 +6,7 @@ from geopy.distance import geodesic
 from flightsimdiscovery.SimFlights.DatabaseConnector import FlightDatabase
 
 # Default FLight Variables
-flight_path_display_width = 2
-
+flight_path_display_width = 4   # kilometers
 
 class Flights:
 
@@ -27,6 +26,7 @@ class Flights:
         for sim_flight in users_sim_flights:
             
             flight_info = {}
+            flight_path_coordinates = []
             flight_id = sim_flight[0]
 
             flight_datapoints = self.users_flight_db.get_flight_datapoints(flight_id)  # returns a list of tuples e.g[(20, 2, -35.2921968232364, 149.19443248723417, 1880, 637440143770217255)....
@@ -34,23 +34,25 @@ class Flights:
             for datapoint in flight_datapoints:
                 self.latitude_list.append(datapoint[2])
                 self.longitude_list.append(datapoint[3])
+                flight_path_coordinates.append({'lat':datapoint[2],'lng':datapoint[3]})
 
             zipped_coorindates = list(zip(self.latitude_list, self.longitude_list))
 
             flight_polygon_points = self.get_flight_path_polygon(zipped_coorindates)
 
             # google maps requires list of lats and lngs of the polygon
-            coords = []  
+            polygon_coords = []  
 
             for index, point in enumerate(flight_polygon_points, start=1):
                 
                 lats_lngs_dict = {'lat': point.latitude, 'lng': point.longitude}
-                coords.append(lats_lngs_dict)
+                polygon_coords.append(lats_lngs_dict)
 
             flight_info['flight_id'] = flight_id
             flight_info['flight_name'] = sim_flight[1]
             flight_info['flight_date'] = sim_flight[2]
-            flight_info['flight_path_polygon_coords'] = coords
+            flight_info['flight_path_coords'] = flight_path_coordinates
+            flight_info['flight_path_polygon_coords'] = polygon_coords
 
             user_flights_datapoints.append(flight_info)
 
@@ -66,23 +68,16 @@ class Flights:
 
             # need to calculate bearing between two points first
             if index < len(zipped_coorindates) - 1:
-                # lattitude2, longitude2 = self.zipped_coorindates[index+1]
-                # lattitude, longitude = self.zipped_coorindates[index]
 
                 bearing = self.calculate_bearing(Point(*zipped_coorindates[index + 1]), Point(*zipped_coorindates[index]))
                 perpendicular_bearings = self.calculate_perpendicular_bearings(bearing)
-
-                # for testing lets plot waypoints
-
                 polygon_start_coordinates.append(self.calculate_coordinates(Point(*coordinate), perpendicular_bearings[1]))  # anticlockwise/start
                 polygon_end_coordinates.append(self.calculate_coordinates(Point(*coordinate), perpendicular_bearings[0]))  # clockwise/end
 
+            # calculate bearing of last zipped coordinate in the list 
             else:
                 bearing = self.calculate_bearing(Point(*zipped_coorindates[index]), Point(*zipped_coorindates[index-1]))
                 perpendicular_bearings = self.calculate_perpendicular_bearings(bearing)
-
-                # for testing lets plot waypoints
-
                 polygon_start_coordinates.append(self.calculate_coordinates(Point(*coordinate), perpendicular_bearings[1]))  # anticlockwise/start
                 polygon_end_coordinates.append(self.calculate_coordinates(Point(*coordinate), perpendicular_bearings[0]))  # clockwise/end
 
