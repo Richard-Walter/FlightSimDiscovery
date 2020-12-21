@@ -13,8 +13,7 @@ class Flights:
     def __init__(self, database_path):
 
         self.users_flight_db = FlightDatabase(database_path)
-        self.latitude_list = []
-        self.longitude_list = []
+
         
 
     def get_flights(self):
@@ -26,17 +25,21 @@ class Flights:
         for sim_flight in users_sim_flights:
             
             flight_info = {}
+            flight_datapoints = []
             flight_path_coordinates = []
             flight_id = sim_flight[0]
+
+            latitude_list = []
+            longitude_list = []
 
             flight_datapoints = self.users_flight_db.get_flight_datapoints(flight_id)  # returns a list of tuples e.g[(20, 2, -35.2921968232364, 149.19443248723417, 1880, 637440143770217255)....
 
             for datapoint in flight_datapoints:
-                self.latitude_list.append(datapoint[2])
-                self.longitude_list.append(datapoint[3])
+                latitude_list.append(datapoint[2])
+                longitude_list.append(datapoint[3])
                 flight_path_coordinates.append({'lat':datapoint[2],'lng':datapoint[3]})
 
-            zipped_coorindates = list(zip(self.latitude_list, self.longitude_list))
+            zipped_coorindates = list(zip(latitude_list, longitude_list))
 
             flight_polygon_points = self.get_flight_path_polygon(zipped_coorindates)
 
@@ -45,8 +48,7 @@ class Flights:
 
             for index, point in enumerate(flight_polygon_points, start=1):
                 
-                lats_lngs_dict = {'lat': point.latitude, 'lng': point.longitude}
-                polygon_coords.append(lats_lngs_dict)
+                polygon_coords.append({'lat': point.latitude, 'lng': point.longitude})
 
             flight_info['flight_id'] = flight_id
             flight_info['flight_name'] = sim_flight[1]
