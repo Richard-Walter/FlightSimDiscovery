@@ -847,8 +847,8 @@ def nominatim_lookup_country(input_country):
         country = "Comoros"
     elif country == 'Democratic Republic of the Congo':
         country = "Congo, Democratic Republic of the"
-    elif country == "Côte d'Ivoire":
-        country = "Côte dIvoire"
+    elif country == "Côte dIvoire":
+        country = "Côte d'Ivoire"
     elif country == 'Czech Republic':
         country = "Czechia"
     elif country == 'eSwatini':
@@ -905,6 +905,8 @@ def nominatim_lookup_country(input_country):
         country = "Eswatini"
     elif country == 'Oceania (Federated States of)':
         country = "Federated States of Micronesia"
+    elif country == 'United States':
+        country = "United States of America"
 
     return country
 
