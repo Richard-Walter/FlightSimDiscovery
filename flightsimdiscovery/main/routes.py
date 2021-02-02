@@ -82,42 +82,26 @@ def home(filter_poi_location):
         if (current_user.username == 'admin'):
             is_admin = True
 
+        # Show users flights on map
+
+        volanta_export_path = r'C:\Users\rjwal_000\Downloads\volanta-export'
+        volanta_flights_path = os.path.join(volanta_export_path, "flights")
+
+        user_flights = Flights(volanta_flights_path).get_flights()
 
 
-        # Test code to display user flights from Pilot Path Recorder
-
-        # OLD METHOD
-        # DATABASE_PATH = r'C:\Users\rjwal_000\Downloads\PilotPathRecorder\FlightSimFlightsDB.db'
-
-        # flights_db = Flights(DATABASE_PATH)
-        # user_flights = flights_db.get_flights()
-
-
-        # NEW METHOD
-        # Read in Volanta flight data and create a path object containing list of lat/lng
-        user_flight = []
         # FLIGHT_PATH = r'C:\Users\rjwal_000\Downloads\volanta-export\flights\0729ee83-6cd6-4624-9c8a-e5df9dcda148.json'
-        FLIGHT_PATH = r'C:\Users\rjwal_000\Downloads\volanta-export\flights\91d3bfb0-5797-4cce-b0d7-e333c1ef749d.json'
-        with open(FLIGHT_PATH, 'r') as f:
-            text = f.read()
+        # FLIGHT_PATH = r'C:\Users\rjwal_000\Downloads\volanta-export\flights\91d3bfb0-5797-4cce-b0d7-e333c1ef749d.json'
+        # with open(FLIGHT_PATH, 'r') as f:
+        #     text = f.read()
 
-            # remove first 3 characters thats added by Volanta's encoding
-            data = json.loads(text[3:])
+        #     # remove first 3 characters thats added by Volanta's encoding
+        #     data = json.loads(text[3:])
 
-        for position in data['Positions']:
-            latitude = position['Latitude']
-            longitude = position['Longitude']
-            user_flight.append([latitude, longitude])
-
-        print(user_flight)
-
-
-
-
-
-
-
-
+        # for position in data['Positions']:
+        #     latitude = position['Latitude']
+        #     longitude = position['Longitude']
+        #     user_flight.append([latitude, longitude])
 
 
 
@@ -310,9 +294,8 @@ def home(filter_poi_location):
     view_flightplan = request.args.get('view_flightplan', 0)
 
     return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
-                           user_flights=user_flights, user_flight=user_flight, user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
-                           search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(),
-                           _anchor=anchor)
+                           user_flights=user_flights, user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
+                           search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(), _anchor=anchor)
     # return render_template("home.html", pois=data)
 
 @main.route("/about")
