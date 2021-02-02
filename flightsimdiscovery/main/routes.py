@@ -86,10 +86,10 @@ def home(filter_poi_location):
 
         # Test code to display user flights from Pilot Path Recorder
 
-        DATABASE_PATH = r'C:\Users\rjwal_000\Downloads\PilotPathRecorder\FlightSimFlightsDB.db'
+        # DATABASE_PATH = r'C:\Users\rjwal_000\Downloads\PilotPathRecorder\FlightSimFlightsDB.db'
 
-        flights_db = Flights(DATABASE_PATH)
-        user_flights = flights_db.get_flights()
+        # flights_db = Flights(DATABASE_PATH)
+        # user_flights = flights_db.get_flights()
 
 
 
