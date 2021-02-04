@@ -17,9 +17,8 @@ from flightsimdiscovery.SimFlights.Flights import Flights
 main = Blueprint('main', __name__)
 
 # TODO allow user to rename flightplan - DONE
-# TODO Bug - flightplans and only showing user pois - Done
+# TODO add flights from VOlanta - in progress
 
-# TODO upload asobo default discovery tours?
 # TODO allow users to upload photo of location
 
 @main.route('/robots.txt')
