@@ -82,26 +82,12 @@ def home(filter_poi_location):
         if (current_user.username == 'admin'):
             is_admin = True
 
-        # Show users flights on map
+        # Show users flights on map based on Volanta flight tracking
 
         volanta_export_path = r'C:\Users\rjwal_000\Downloads\volanta-export'
         volanta_flights_path = os.path.join(volanta_export_path, "flights")
 
         user_flights = Flights(volanta_flights_path).get_flights()
-
-
-        # FLIGHT_PATH = r'C:\Users\rjwal_000\Downloads\volanta-export\flights\0729ee83-6cd6-4624-9c8a-e5df9dcda148.json'
-        # FLIGHT_PATH = r'C:\Users\rjwal_000\Downloads\volanta-export\flights\91d3bfb0-5797-4cce-b0d7-e333c1ef749d.json'
-        # with open(FLIGHT_PATH, 'r') as f:
-        #     text = f.read()
-
-        #     # remove first 3 characters thats added by Volanta's encoding
-        #     data = json.loads(text[3:])
-
-        # for position in data['Positions']:
-        #     latitude = position['Latitude']
-        #     longitude = position['Longitude']
-        #     user_flight.append([latitude, longitude])
 
 
 
