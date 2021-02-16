@@ -109,72 +109,77 @@
         const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
         markerCollection = map.data.addGeoJson(dataGeoJSON);
 
-        //contruct flight polygons and flight paths  for each of users flights
-        var distance = 0.05 // 5km either side of path
+        var show_my_flights_check_element = document.getElementById("show_my_flights_check");
+        if (show_my_flights_check_element) {
+          if(document.getElementById('show_my_flights_check').checked) {
 
-        for (var i = 0; i < user_flights.length; i++) {
+            //contruct flight polygons and flight paths  for each of users flights
+            var distance = 0.05 // 5km either side of path
 
-          var buffer_dist = 0.05 // 5km either side of path for polygon create
-          var compl_flight_data = user_flights[i];
-          var positional_flight_data = compl_flight_data['Positions'];
-          var flight_coordinates_poly = [];
-          var flight_coordinates_gm = [];
+            for (var i = 0; i < user_flights.length; i++) {
 
-          //create flight path coordinates for polygon creation and  google maps format
-          for (var j = 0; j < positional_flight_data.length; j++) {
-            latitude = positional_flight_data[j]['Latitude'];
-            longitude = positional_flight_data[j]['Longitude'];
-            flight_point = {'lat': latitude, 'lng': longitude}
-            flight_coordinates_poly.push([latitude, longitude]);
-            // flight_coordinates_gm.push(new google.maps.LatLng(latitude, longitude));
-            flight_coordinates_gm.push(flight_point);
-          
+              var buffer_dist = 0.05 // 5km either side of path for polygon create
+              var compl_flight_data = user_flights[i];
+              var positional_flight_data = compl_flight_data['Positions'];
+              var flight_coordinates_poly = [];
+              var flight_coordinates_gm = [];
+
+              //create flight path coordinates for polygon creation and  google maps format
+              for (var j = 0; j < positional_flight_data.length; j++) {
+                latitude = positional_flight_data[j]['Latitude'];
+                longitude = positional_flight_data[j]['Longitude'];
+                flight_point = {'lat': latitude, 'lng': longitude}
+                flight_coordinates_poly.push([latitude, longitude]);
+                // flight_coordinates_gm.push(new google.maps.LatLng(latitude, longitude));
+                flight_coordinates_gm.push(flight_point);
+              
+              }
+
+              //lets create the polygon coordinates using JSTS
+              geoInput = {
+                type: "LineString",
+                coordinates: flight_coordinates_poly
+              };
+
+              var geoReader = new jsts.io.GeoJSONReader()
+                  geoWriter = new jsts.io.GeoJSONWriter();
+              var geometry = geoReader.read(geoInput).buffer(distance);
+              var polygon = geoWriter.write(geometry);
+
+              var polygonLatLng = [];
+              var oCoordinates;
+              oCoordinates = polygon.coordinates[0];
+              for (var k = 0; k < oCoordinates.length; k++) {
+                var oItem;
+                oItem = oCoordinates[k];
+                flight_point = {'lat': oItem[0], 'lng': oItem[1]}
+                polygonLatLng.push(flight_point);
+              }
+
+              flight_polygons.push(new google.maps.Polygon({
+                  paths: polygonLatLng,
+                  strokeColor: "#FF0000",
+                  strokeOpacity: 0.35,
+                  strokeOpacity: 0,
+                  // strokeWeight: 2,
+                  fillColor: "#FF0000",
+                  fillOpacity: 0.35,
+                  map: map
+              }));
+
+              //add flight path
+              flightPath = new google.maps.Polyline({
+                path: flight_coordinates_gm,
+                geodesic: true,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.5,
+                strokeWeight: 3,
+                map: map
+              });
+              
+            }
           }
-
-          //lets create the polygon coordinates using JSTS
-          geoInput = {
-            type: "LineString",
-            coordinates: flight_coordinates_poly
-          };
-
-          var geoReader = new jsts.io.GeoJSONReader()
-              geoWriter = new jsts.io.GeoJSONWriter();
-          var geometry = geoReader.read(geoInput).buffer(distance);
-          var polygon = geoWriter.write(geometry);
-
-          var polygonLatLng = [];
-          var oCoordinates;
-          oCoordinates = polygon.coordinates[0];
-          for (var k = 0; k < oCoordinates.length; k++) {
-            var oItem;
-            oItem = oCoordinates[k];
-            flight_point = {'lat': oItem[0], 'lng': oItem[1]}
-            polygonLatLng.push(flight_point);
-          }
-
-          flight_polygons.push(new google.maps.Polygon({
-              paths: polygonLatLng,
-              strokeColor: "#FF0000",
-              strokeOpacity: 0.35,
-              strokeOpacity: 0,
-              // strokeWeight: 2,
-              fillColor: "#FF0000",
-              fillOpacity: 0.35,
-              map: map
-          }));
-
-          //add flight path
-          flightPath = new google.maps.Polyline({
-            path: flight_coordinates_gm,
-            geodesic: true,
-            strokeColor: "#FF0000",
-            strokeOpacity: 0.5,
-            strokeWeight: 3,
-            map: map
-          });
-          
         }
-
 
         //Allow user to create a flight plan.
         flightPath = new google.maps.Polyline({

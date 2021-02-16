@@ -79,14 +79,12 @@ def home(filter_poi_location):
 
         is_authenticated = True
 
-        if (current_user.username == 'admin'):
-            is_admin = True
 
-            # Show users flights on map based on Volanta flight tracking
-            volanta_export_path = r'C:\Users\rjwal\Downloads\volanta-export'
-            volanta_flights_path = os.path.join(volanta_export_path, "flights")
+        # Show users flights on map based on Volanta flight tracking
+        volanta_export_path = r'C:\Users\rjwal\Downloads\volanta-export'
+        volanta_flights_path = os.path.join(volanta_export_path, "flights")
 
-            user_flights = Flights(volanta_flights_path).get_flights()
+        user_flights = Flights(volanta_flights_path).get_flights()
 
 
         # Create a list of Users POIS for the google map info window to use
