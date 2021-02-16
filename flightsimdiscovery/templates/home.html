@@ -199,15 +199,17 @@
                 <form class="mt-2 mr-4 show_my_flights_form" method="POST" action="/home#searchTag">
                     <div class="input_field">
                         {% if current_user.username %}
-                            {% if show_my_flights == 'Yes' %}
-                                <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
-                                    name="show_my_flights_check" id="show_my_flights_check" value="Yes" checked>
-                            {% else %}
-                                <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
-                                    name="show_my_flights_check" id="show_my_flights_check" value="Yes">
+                            {% if user_flights %}
+                                {% if show_my_flights == 'Yes' %}
+                                    <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
+                                        name="show_my_flights_check" id="show_my_flights_check" value="Yes" checked>
+                                {% else %}
+                                    <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
+                                        name="show_my_flights_check" id="show_my_flights_check" value="Yes">
+                                {% endif %}
+                                <input type="hidden" name="show_my_flights_check" value="No" id="show_my_flights_check ">
+                                <label class="form-check-label" for="show_my_flights_check">show my flights</label>
                             {% endif %}
-                            <input type="hidden" name="show_my_flights_check" value="No" id="show_my_flights_check ">
-                            <label class="form-check-label" for="show_my_flights_check">show my flights</label>
                         {% endif %}
                     </div>
                 </form>
