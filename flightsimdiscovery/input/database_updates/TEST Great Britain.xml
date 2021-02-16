@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <Document>
+    <Folder Name="Airports Standard">
+		<Placemark>
+		  <name>Liverpool John Lennon Airport</name>
+		  <description>EGGP</description>
+		  <styleUrl>#icon-1504-4E342E</styleUrl>
+		  <Point>
+			<coordinates>
+			  -2.8550475,53.3358627,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Manchester/Barton</name>
+		  <description>EGCB</description>
+		  <styleUrl>#icon-1750-4E342E</styleUrl>
+		  <Point>
+			<coordinates>
+			  -2.389757,53.471439,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Out Skerries Airstrip (not sure)</name>
+		  <description>ICAO: GB-OUK</description>
+		  <styleUrl>#icon-1750-4E342E</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.7511349,60.4251714,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Land's End Airport</name>
+		  <description>EGHC</description>
+		  <styleUrl>#icon-1750-4E342E</styleUrl>
+		  <Point>
+			<coordinates>
+			  -5.6678268,50.1021258,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Barra Airport</name>
+		  <description>EGPR</description>
+		  <styleUrl>#icon-1750-4E342E</styleUrl>
+		  <Point>
+			<coordinates>
+			  -7.4494001,57.025424,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+	</Folder>
+    <Folder Name="Photogrammery Cities"> 
+		<Placemark>
+		  <name>London</name>
+		  <description>3D Photogrammetry</description>
+		  <styleUrl>#icon-1546-0288D1</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1277583,51.5073509,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Birmingham</name>
+		  <description>3D Photogrammetry</description>
+		  <styleUrl>#icon-1546-0288D1</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.890401,52.486243,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Oxford</name>
+		  <description>3D Photogrammetry</description>
+		  <styleUrl>#icon-1546-0288D1</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.2577263,51.7520209,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Cambridge</name>
+		  <description>3D Photogrammetry</description>
+		  <styleUrl>#icon-1546-0288D1</styleUrl>
+		  <Point>
+			<coordinates>
+			  0.121817,52.205337,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Bristol</name>
+		  <description>3D Photogrammetry</description>
+		  <styleUrl>#icon-1546-0288D1</styleUrl>
+		  <Point>
+			<coordinates>
+			  -2.58791,51.454513,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+	</Folder>
+	<Folder Name="Points of Interest">
+		<Placemark>
+		  <name>Stonehenge</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.826215,51.178882,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Eden Project</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -4.7447178,50.3601344,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Salisbury Cathedral</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.7975462,51.0661191,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Spinnaker Tower</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.1085171,50.7955752,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>White Cliffs of Dover</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  1.3573028,51.1344689,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Canterbury Cathedral</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  1.0827998,51.2797971,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Maritime Greenwich World Heritage Site
+	</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0041292,51.4815675,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>lastminute.com London Eye</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1195537,51.5032973,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Buckingham Palace</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.14189,51.501364,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Stamford Bridge</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1909565,51.481663,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Windsor Castle</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.6044027,51.483894,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Blenheim Palace</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.360972,51.841365,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Hampton Court Palace</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.3377623,51.4036128,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Warwick Castle</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.585228,52.279668,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Principality Stadium</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.1826341,51.4782085,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Snowdonia National Park</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.801704,53.0932155,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Pontcysyllte Aqueduct</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.0877879,52.9704262,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+	</Folder>
+  </Document>

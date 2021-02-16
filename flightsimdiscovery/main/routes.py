@@ -70,6 +70,7 @@ def home(filter_poi_location):
     user_flights = []
     flagged_pois_list = []
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating': 'Rating'}
+    show_my_flights = 'No'
     is_authenticated = False
     user_id = None
 
@@ -81,13 +82,11 @@ def home(filter_poi_location):
         if (current_user.username == 'admin'):
             is_admin = True
 
-        # Show users flights on map based on Volanta flight tracking
+            # Show users flights on map based on Volanta flight tracking
+            volanta_export_path = r'C:\Users\rjwal\Downloads\volanta-export'
+            volanta_flights_path = os.path.join(volanta_export_path, "flights")
 
-        volanta_export_path = r'C:\Users\rjwal_000\Downloads\volanta-export'
-        volanta_flights_path = os.path.join(volanta_export_path, "flights")
-
-        user_flights = Flights(volanta_flights_path).get_flights()
-
+            user_flights = Flights(volanta_flights_path).get_flights()
 
 
         # Create a list of Users POIS for the google map info window to use
@@ -208,6 +207,17 @@ def home(filter_poi_location):
                         pois.remove(poi)
             else:
                 search_defaults['filter_user_pois'] = 'No'
+
+        elif 'show_my_flights_check' in request.form:
+            show_my_flights = request.form.get('show_my_flights_check')
+
+            if show_my_flights == 'Yes':
+                show_my_flights = 'Yes'
+                print('showing all my flights')
+
+            else:
+                show_my_flights = 'No'
+                print('hiding all my flights')
                 
 
     # create the Point of Interest dictionary that gets posted for map to use
@@ -280,7 +290,7 @@ def home(filter_poi_location):
 
     return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
                            user_flights=user_flights, user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
-                           search_defaults=search_defaults, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(), _anchor=anchor)
+                           search_defaults=search_defaults, show_my_flights=show_my_flights, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(), _anchor=anchor)
     # return render_template("home.html", pois=data)
 
 @main.route("/about")
