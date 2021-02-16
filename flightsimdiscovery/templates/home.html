@@ -201,13 +201,15 @@
                         {% if current_user.username %}
                             {% if user_flights %}
                                 {% if show_my_flights == 'Yes' %}
+                                    <!-- <input type="checkbox" class="form-check-input" onclick="showUsersFlightsVolanta()" -->
                                     <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
                                         name="show_my_flights_check" id="show_my_flights_check" value="Yes" checked>
                                 {% else %}
+                                    <!-- <input type="checkbox" class="form-check-input" onclick="showUsersFlightsVolanta()" -->
                                     <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
-                                        name="show_my_flights_check" id="show_my_flights_check" value="Yes">
+                                        name="show_my_flights_check" id="show_my_flights_check" value="No">
                                 {% endif %}
-                                <input type="hidden" name="show_my_flights_check" value="No" id="show_my_flights_check ">
+                                <!-- <input type="hidden" name="show_my_flights_check" value="No" id="show_my_flights_check "> -->
                                 <label class="form-check-label" for="show_my_flights_check">show my flights</label>
                             {% endif %}
                         {% endif %}
