@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <Document>
+	<Folder Name="Airports Standard">
+		<Placemark>
+		  <name>Liverpool John Lennon Airport</name>
+		  <description>EGGP</description>
+		  <styleUrl>#icon-1504-4E342E</styleUrl>
+		  <Point>
+			<coordinates>
+			  -2.8550475,53.3358627,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Manchester/Barton</name>
+		  <description>EGCB</description>
+		  <styleUrl>#icon-1750-4E342E</styleUrl>
+		  <Point>
+			<coordinates>
+			  -2.389757,53.471439,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Out Skerries Airstrip</name>
+		  <description>ICAO: GB-OUK</description>
+		  <styleUrl>#icon-1750-4E342E</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.7511349,60.4251714,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Land's End Airport</name>
+		  <description>EGHC</description>
+		  <styleUrl>#icon-1750-4E342E</styleUrl>
+		  <Point>
+			<coordinates>
+			  -5.6678268,50.1021258,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Barra Airport</name>
+		  <description>EGPR</description>
+		  <styleUrl>#icon-1750-4E342E</styleUrl>
+		  <Point>
+			<coordinates>
+			  -7.4494001,57.025424,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+	</Folder>
+    <Folder Name="Photogrammery Cities"> 
+		<Placemark>
+		  <name>London</name>
+		  <description>3D Photogrammetry</description>
+		  <styleUrl>#icon-1546-0288D1</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1277583,51.5073509,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Birmingham</name>
+		  <description>3D Photogrammetry</description>
+		  <styleUrl>#icon-1546-0288D1</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.890401,52.486243,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Oxford</name>
+		  <description>3D Photogrammetry</description>
+		  <styleUrl>#icon-1546-0288D1</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.2577263,51.7520209,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Cambridge</name>
+		  <description>3D Photogrammetry</description>
+		  <styleUrl>#icon-1546-0288D1</styleUrl>
+		  <Point>
+			<coordinates>
+			  0.121817,52.205337,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Bristol</name>
+		  <description>3D Photogrammetry</description>
+		  <styleUrl>#icon-1546-0288D1</styleUrl>
+		  <Point>
+			<coordinates>
+			  -2.58791,51.454513,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+	</Folder>
+	<Folder Name="Points of Interest">		
+		<Placemark>
+		  <name>Stonehenge</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.826215,51.178882,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Eden Project</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -4.7447178,50.3601344,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Salisbury Cathedral</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.7975462,51.0661191,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Spinnaker Tower</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.1085171,50.7955752,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>White Cliffs of Dover</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  1.3573028,51.1344689,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Canterbury Cathedral</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  1.0827998,51.2797971,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Maritime Greenwich World Heritage Site</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0041292,51.4815675,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>London Eye</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1195537,51.5032973,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Buckingham Palace</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.14189,51.501364,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Stamford Bridge</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1909565,51.481663,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Windsor Castle</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.6044027,51.483894,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Blenheim Palace</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.360972,51.841365,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Hampton Court Palace</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.3377623,51.4036128,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Warwick Castle</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.585228,52.279668,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Principality Stadium</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.1826341,51.4782085,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Snowdonia National Park</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.801704,53.0932155,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Pontcysyllte Aqueduct</name>
+		  <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.0877879,52.9704262,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>One Blackfriars</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1047741,51.5077741,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>BT Tower</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1388964,51.5214598,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>St George Wharf Tower</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1260188,51.4856178,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Southbank Tower</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1073667,51.5076139,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>20 Fenchurch St / Sky Garden</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0835063,51.5114605,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>The Leadenhall Building</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0823131,51.5138619,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>HSBC/Canada Square</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0175192,51.5053457,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>London Tower 42</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0842815,51.515369,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>City Bank</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0177746,51.5040016,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>22 Bishopsgate</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0830852,51.5144513,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>The Landmark Pinnacle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0251391,51.5021609,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Heron Tower</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0809449,51.5162529,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>One Park Drive</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0150596,51.5023013,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>The Scalpel</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0811375,51.5132386,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>The Madison</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0124295,51.4999572,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>100 Bishopsgate</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.081623,51.5158884,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>AYKON London One</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1247352,51.4840273,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>30 St Mary Axe (The Gherkin)</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0803065,51.5144918,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Strata SE1</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0993869,51.4929781,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Palace of Holyroodhouse</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.1722724,55.9527138,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>St James's Palace</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1378269,51.5045855,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Palace of Westminster</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1248092,51.4994794,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Glamis Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.0017186,56.6201994,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Archbishop's Palace, Maidstone</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  0.5206328,51.2709618,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Wolvesey Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.3102186,51.0590832,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Floors Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -2.459863,55.604832,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Balmoral Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.2292362,57.0396646,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Hillsborough Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -6.0928689,54.464124,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Dublin Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -6.2674284,53.3428861,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Mount Stuart House</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -5.019185,55.791661,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Blair Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.8455898,56.766979,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Rock of Cashel</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -7.8904521,52.5200763,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Stirling Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.9455615,56.122907,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Blarney Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -8.5708847,51.9290922,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Eilean Donan Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -5.5161585,57.2738957,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Edinburgh Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.1999135,55.9485947,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Caernarfon Castle</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -4.2769297,53.1391389,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Durham Cathedral</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.5763921,54.7732329,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Fountains Abbey</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.58186,54.109512,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Lincoln Cathedral</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.5360156,53.2342968,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>St. Paul's Cathedral</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0983506,51.5138453,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Westminster Abbey</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1282311,51.4995001,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>York Minster</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.0819205,53.9623292,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Angel of the North</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.5894941,54.9141223,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Blackpool Tower</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.0552921,53.8158834,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>British Airways i360</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.150156,50.821449,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Glenfinnan Viaduct</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -5.4317589,56.8762172,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Humber Bridge</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.449848,53.70484,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Jodrell Bank Observatory</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -2.3065549,53.2361097,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>The Kelpies</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.7593229,56.0107315,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Royal Botanic Garden</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.2092309,55.9652527,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Titanic Belfast</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -5.9098197,54.6081821,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Tower of London</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0759493,51.5081124,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Wales Millennium Centre</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.163183,51.4648421,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>The National Wallace Monument</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -3.9178894,56.1387732,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>All England Club</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.2252626,51.3964478,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Anfield</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -2.96083,53.4308294,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Emirates Stadium</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.108438,51.5548885,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Goodison Park</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -2.9663193,53.438787,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Old Trafford Cricket Ground</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -2.286797,53.456428,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Saint James Park</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0378551,51.5771225,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Twickenham Stadium</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.3415051,51.4559558,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Villa Park</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -1.8847828,52.5091117,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Wembley Stadium</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.2796177,51.5560247,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Southend Pier</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  0.7216821,51.5151961,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Millennium Bridge</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.0985425,51.5095291,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Blackfriars Railway Bridge</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.1043828,51.5096426,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+		<Placemark>
+		  <name>Southwark Bridge</name>
+		  <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+		  <Point>
+			<coordinates>
+			  -0.094167,51.5089326,0
+			</coordinates>
+		  </Point>
+		</Placemark>
+	</Folder>	
+  </Document>
