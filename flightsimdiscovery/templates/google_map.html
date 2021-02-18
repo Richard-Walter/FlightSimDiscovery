@@ -110,16 +110,16 @@
         const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
         markerCollection = map.data.addGeoJson(dataGeoJSON);
 
-        // var show_my_flights_check_element = document.getElementById("show_my_flights_check");
-        // if (show_my_flights_check_element) {
-        //   if(document.getElementById('show_my_flights_check').checked) {
+        var show_my_flights_check_element = document.getElementById("show_my_flights_check");
+        if (show_my_flights_check_element) {
+          if(document.getElementById('show_my_flights_check').checked) {
 
-        //       showUsersFlightsVolanta();
+              showUsersFlightsVolanta();
 
-        //   }
-        // }
+          }
+        }
         
-        showUsersFlightsVolanta();
+
         //Allow user to create a flight plan.
         flightPath = new google.maps.Polyline({
           geodesic: true,

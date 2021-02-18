@@ -215,6 +215,7 @@ def home(filter_poi_location):
 
             else:
                 show_my_flights = 'No'
+                user_flights = None
                 print('hiding all my flights')
                 
 
