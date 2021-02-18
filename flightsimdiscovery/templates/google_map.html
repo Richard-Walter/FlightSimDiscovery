@@ -714,13 +714,6 @@
       function showUsersFlightsVolanta() {
 
 
-        if (flights_currently_showing) {
-          //lets remove them
-
-          flights_currently_showing = false;
-
-        } else {
-
           //contruct flight polygons and flight paths  for each of users flights
           var distance = 0.05 // 5km either side of path
 
@@ -764,7 +757,7 @@
               polygonLatLng.push(flight_point);
             }
 
-            flight_polygons.push(new google.maps.Polygon({
+            flight_polygon = new google.maps.Polygon({
                 paths: polygonLatLng,
                 strokeColor: "#FF0000",
                 strokeOpacity: 0.35,
@@ -772,8 +765,11 @@
                 // strokeWeight: 2,
                 fillColor: "#FF0000",
                 fillOpacity: 0.35,
-                map: map
-            }));
+                map: map,
+                // cursor: 'grab'
+            })
+
+            flight_polygons.push(flight_polygon);
 
             //add flight path
             flightPath = new google.maps.Polyline({
@@ -783,10 +779,15 @@
               strokeOpacity: 0.5,
               strokeWeight: 3,
               map: map
+              
             });
+            
+            google.maps.event.addListener(flight_polygon, 'click', function() {
+
+              alert('Display flight information here');
+            });
+
           }     
-          flights_currently_showing = true;
-        }
       }
 
 

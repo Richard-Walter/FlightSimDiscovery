@@ -70,7 +70,7 @@ def home(filter_poi_location):
     user_flights = []
     flagged_pois_list = []
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating': 'Rating'}
-    show_my_flights = 'No'
+    show_my_flights = 'Yes'
     is_authenticated = False
     user_id = None
 
