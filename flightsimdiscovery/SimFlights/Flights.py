@@ -34,8 +34,10 @@ class Flights:
 
         # only include relevant data to send to front-end
         flights= []
+        
 
         for flight in self.flights:
+            flight_positions = []
             flight_data = {}
             flight_data['Plan'] = flight['Plan']
             flight_data['AircraftTitle'] = flight['AircraftTitle']
@@ -49,9 +51,19 @@ class Flights:
             
             if flight_destination:    
                 flight_data['Destination'] = flight['Destination']['Name'] + ' (' + flight['Destination']['IcaoCode'] + ')' 
-                
-            flight_data['Positions'] = flight['Positions']
+            
+            # flight_data['Positions'] = flight['Positions']
+
+            # create flight lat-lng positions
+            positions = flight['Positions']
+            for position in positions:
+                flight_positions.append({'Latitude': position['Latitude'], 'Longitude': position['Longitude'] })
+
+            flight_data['Positions'] = flight_positions
+
+
             flights.append(flight_data)
+            
 
         return flights
 
