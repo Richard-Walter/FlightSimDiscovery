@@ -32,6 +32,27 @@ class Flights:
 
     def get_flights(self):
 
-        return self.flights
+        # only include relevant data to send to front-end
+        flights= []
+
+        for flight in self.flights:
+            flight_data = {}
+            flight_data['Plan'] = flight['Plan']
+            flight_data['AircraftTitle'] = flight['AircraftTitle']
+            flight_data['AircraftRegistration'] = flight['AircraftRegistration']
+            
+            flight_origin = flight['Origin']
+            flight_destination = flight['Destination']
+
+            if flight_origin:
+                flight_data['Origin'] = flight['Origin']['Name'] + ' (' + flight['Origin']['IcaoCode'] + ')' 
+            
+            if flight_destination:    
+                flight_data['Destination'] = flight['Destination']['Name'] + ' (' + flight['Destination']['IcaoCode'] + ')' 
+                
+            flight_data['Positions'] = flight['Positions']
+            flights.append(flight_data)
+
+        return flights
 
   

@@ -26,7 +26,7 @@
       var markerCollection;
       var clusterMarkers = [];
       var view_flightplan_id = {{view_flightplan}};
-      var flight_polygons = [];
+      // var flight_polygons = [];
       var show_my_flights = {{show_my_flights|tojson}};
       var flights_currently_showing = false;
 
@@ -769,7 +769,7 @@
                 // cursor: 'grab'
             })
 
-            flight_polygons.push(flight_polygon);
+            // flight_polygons.push(flight_polygon);
 
             //add flight path
             flightPath = new google.maps.Polyline({
@@ -782,14 +782,27 @@
               
             });
             
-            google.maps.event.addListener(flight_polygon, 'click', function() {
-
-              alert('Display flight information here');
-            });
+            google.maps.event.addListener(flight_polygon, 'click', showFlightDetails.bind(null, compl_flight_data));
 
           }     
       }
 
+      function showFlightDetails(flight_data){
+
+        flight_plan = flight_data['Plan']
+
+        if (!flight_plan){
+          flight_plan = 'No flight plan'
+        }
+
+        aircraft_registration = flight_data['AircraftRegistration']
+        aircraft_title = flight_data['AircraftTitle']
+        flight_origin = flight_data['Origin']
+        flight_destination = flight_data['Destination']
+
+        alert(flight_plan + '   ' + flight_origin + '   ' + flight_destination + '   ' + aircraft_registration + '  ' + aircraft_title);
+
+      }
 
       function styleSearchPOIBtn(controlDiv, map) {
 
