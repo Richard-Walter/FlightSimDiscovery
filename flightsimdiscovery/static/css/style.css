@@ -2596,6 +2596,13 @@ h3 {
 
 }
 
+.add_user_waypoint_fp{
+
+  border-radius: 5px;
+  background: #b1ebaeea;
+  padding: 5px;
+}
+
 .poi_fp_body{
   max-height: 133px;
   overflow-y: auto;
