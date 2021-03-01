@@ -44,6 +44,7 @@
 
       //flightplan creation
       var temp_waypoint_list = [];
+      var temp_marker_list = [];
       var waypoint_name = '';
 
       //create the infowindow data dictionary
@@ -147,14 +148,15 @@
         addpoi_infowindow = new google.maps.InfoWindow;
         map.addListener('rightclick', function(event) {
 
-          if (currentMark){
+          if ((currentMark) && (currentMark.title == null)) {
             //removes the marker if user didnt close previous one down
             currentMark.setMap(null); 
           }
 
           // map.setCenter(event.latLng);
           // map.setZoom(14);
-          currentMark = new google.maps.Marker({map: map, }),
+          currentMark = new google.maps.Marker({map: map, });
+
           currentMark.setPosition(event.latLng);
           var lat = event.latLng.lat().toFixed(6);
           var lng = event.latLng.lng().toFixed(6);
@@ -664,7 +666,12 @@
         $('#fp_save_btn').attr('disabled', 'disabled');
         $('#fp_delete_btn').attr('disabled', 'disabled');
         temp_waypoint_list = [];
-        currentMark.setMap(null);
+
+        //remove any user created temporary waypoints
+        temp_marker_list.forEach((temp_marker) => {
+          temp_marker.setMap(null);
+        })
+        
       }
 
       function loadFlightPlan(flightPath, map) {
@@ -1105,15 +1112,12 @@
 
         }
 
-        function addTempWaypointToList() {
-            temp_waypoint_list.push(waypoint_name);
-            addpoi_infowindow.close();
-
-        }
-
         function addWaypointToFP(lat, lng, category ) { 
 
             temp_waypoint_list.push(waypoint_name);
+            currentMark.title = 'User Waypoint';
+            temp_marker_list.push(currentMark);
+            
             addPoiToFlightPlan(lat, lng, waypoint_name, category);
             addpoi_infowindow.close();
         }
