@@ -18,7 +18,7 @@ main = Blueprint('main', __name__)
 
 # TODO allow user to rename flightplan - DONE
 # TODO add flights from VOlanta - in progress
-
+# TODO script to export POIs into a littlenavmap format to import ADMIN only??
 # TODO allow users to upload photo of location
 
 @main.route('/robots.txt')
