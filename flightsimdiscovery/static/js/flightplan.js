@@ -192,7 +192,7 @@ function buildATCWapoints(
   // build poi waypoints
   for (var i = 0; i < flightPath_data.length; i++) {
 
-    //first and last POIs if airport then skip as they will be dpe and dest airports
+    //first and last POIs if airport or then skip as they will be dpe and dest airports
     if ((i==0) || (i==(flightPath_data.length-1))) {
       if(flightPath_data[i]["category"].includes("Airport")){
         continue;
@@ -317,7 +317,6 @@ function buildFlightPlanModalBody(flightPath_data, fp_name="") {
       body_html += "<div class='form-check mt-2'>";
       body_html += '<input type="checkbox" class="form-check-input" id="export-share_fp" checked>';
       body_html += "<label class='mr-2' >Save & Share Flight Plan</label>";
-
       body_html += "</div>";
       body_html += "</form>";
       body_html += 

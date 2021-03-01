@@ -178,10 +178,14 @@
                       '<p>or</p>'+
                     '</div>' +
                     '<div id="btn_add_new_poi_iw" class="">' +
-                      `<button class='btn btn-success btn-sm btn-block'  onclick='addWaypointToFP(` + lat + `, ` + lng +  `, "` + waypoint_name + `");'>Add location to flight plan</button> `+
+                      `<button class='btn btn-primary btn-sm btn-block'  onclick='addWaypointToFP(` + lat + `, ` + lng +  `, "` + waypoint_name + `");'>Add waypoint to flight plan</button> `+
                     '</div>' +
                     "<div class='export-filename form-group'>" +
                       '<input required type="text" id="tempWaypoint" class="form-control mt-1 tempWaypoint" onchange="waypoint_name = this.value" value="' + waypoint_name + '">' +
+                    "</div>"+
+                    "<div class='form-check'>"+
+                      '<input type="checkbox" class="form-check-input" id="temp_waypoint_airport_checkbox">'+
+                      "<label class='mr-2' >waypoint an airport?</label>"+
                     "</div>"+
                   '</div>'
 
@@ -1117,6 +1121,13 @@
             temp_waypoint_list.push(waypoint_name);
             currentMark.title = 'User Waypoint';
             temp_marker_list.push(currentMark);
+
+            var chkBox = document.getElementById('temp_waypoint_airport_checkbox');
+            if (chkBox.checked) {
+
+              category = 'Airport'
+            }
+            
             
             addPoiToFlightPlan(lat, lng, waypoint_name, category);
             addpoi_infowindow.close();
