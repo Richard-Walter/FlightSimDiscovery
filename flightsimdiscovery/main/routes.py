@@ -17,6 +17,7 @@ from flightsimdiscovery.SimFlights.Flights import Flights
 main = Blueprint('main', __name__)
 
 # TODO Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
+# TODO Unchecking show my flights reloads page and shows as ticked
 # TODO add flights from VOlanta - in progress
 # TODO do flight path processing on front end in Javascript
 # TODO allow users to upload photo of location

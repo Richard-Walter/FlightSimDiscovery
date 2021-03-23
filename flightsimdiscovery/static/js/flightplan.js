@@ -219,7 +219,8 @@ function buildATCWapoints(
 
   function buildNode(name, lla, waypoint_type) {
     ATCWaypoint_node = xmlDoc.createElement("ATCWaypoint");
-    ATCWaypoint_node.setAttribute("id", `${name}`);
+    //NOTE:  DUE TO BUG IN MSFS NOT SHOWING FLIGHT PATH IN G3X and G1000, must truncate to 6 chars
+    ATCWaypoint_node.setAttribute("id", `${name.substring(0,6)}`);
     flightplan_node.appendChild(ATCWaypoint_node);
 
     ATCWaypointType_node = xmlDoc.createElement("ATCWaypointType");
