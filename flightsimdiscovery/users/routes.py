@@ -75,22 +75,28 @@ def account():
 @users.route("/my_flights", methods=['GET', 'POST'])
 @login_required
 def my_flights():
+
     form = MyFlightsForm()
-    user_pois = None
+    user = User.query.filter_by(id=current_user.id).first()
+
     print(current_user.id)
     if form.validate_on_submit():
-        # current_user.username = form.username.data
-        # db.session.commit()
+        
+        user.volanta_export_path = form.user_flights_dir.data
+        user.show_my_flights_check = form.show_my_flights_check.data
+        db.session.commit()
 
-        flash('Your account has been updated!', 'success')
+        # flash('Your flights are now shown on the world map', 'success')
         return redirect(url_for('main.home', _anchor='where_togo_area'))
 
 
     elif request.method == 'GET':
         # form.user_flights_dir.data = current_user.user_flights_dir
+        form.user_flights_dir.data = user.volanta_export_path
+        show_my_flights_check = str(user.show_my_flights_check)
+        print(show_my_flights_check)
 
-        return render_template('my_flights.html', form=form)
-
+        return render_template('my_flights.html', form=form, show_my_flights=show_my_flights_check)
 
 @users.route("/user_pois", defaults={'user_id': None})
 @users.route("/user_pois/<user_id>")

@@ -58,7 +58,7 @@ class UpdateAccountForm(FlaskForm):
 class MyFlightsForm(FlaskForm):
 
     user_flights_dir = TextField(r'Please enter Volanta export folder (e.g. C:\Users\xxxx\Downloads\volanta-export):', validators=[DataRequired()])
-    show_flights_default = BooleanField('Always show my flights')
+    show_my_flights_check = BooleanField('Always show my flights')
 
     submit = SubmitField('Show my flights')
 
