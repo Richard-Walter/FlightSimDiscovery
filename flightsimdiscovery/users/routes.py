@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from flightsimdiscovery import db, bcrypt
-from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
+from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm, MyFlightsForm
 from flightsimdiscovery.models import User, Pois
 from flask_login import login_user, current_user, logout_user, login_required
 from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois
@@ -71,6 +71,25 @@ def account():
 
     image_file = url_for('static', filename='img/profile_pics/' + current_user.image_file)
     return render_template('account.html', image_file=image_file, form=form)
+
+@users.route("/my_flights", methods=['GET', 'POST'])
+@login_required
+def my_flights():
+    form = MyFlightsForm()
+    user_pois = None
+    print(current_user.id)
+    if form.validate_on_submit():
+        # current_user.username = form.username.data
+        # db.session.commit()
+
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('main.home', _anchor='where_togo_area'))
+
+
+    elif request.method == 'GET':
+        # form.user_flights_dir.data = current_user.user_flights_dir
+
+        return render_template('my_flights.html', form=form)
 
 
 @users.route("/user_pois", defaults={'user_id': None})

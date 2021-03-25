@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flightsimdiscovery.models import User
 
@@ -54,6 +54,13 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
+
+class MyFlightsForm(FlaskForm):
+
+    user_flights_dir = TextField(r'Please enter Volanta export folder (e.g. C:\Users\xxxx\Downloads\volanta-export):', validators=[DataRequired()])
+    show_flights_default = BooleanField('Always show my flights')
+
+    submit = SubmitField('Show my flights')
 
 
 class RequestResetForm(FlaskForm):

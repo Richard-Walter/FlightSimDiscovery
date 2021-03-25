@@ -17,7 +17,7 @@ from flightsimdiscovery.SimFlights.Flights import Flights
 main = Blueprint('main', __name__)
 
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
-# TODO Share flightplans not showing up in Saved Flight Plans
+# TODO Exported flight plan with custom waypoints not showing in Saved Flight Plans
 # TODO Unchecking show my flights reloads page and shows as ticked
 # TODO Add section on most popular flights
 # TODO add flights from VOlanta - in progress

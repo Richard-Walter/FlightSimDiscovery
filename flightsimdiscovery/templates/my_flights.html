@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- bradcam_area  -->
+<div class="bradcam_area register_bg">
+    <div class="container">
+        <div class="row">
+            <!-- <div class="col-xl-12">
+                <div class="bradcam_text text-center">
+                    <h3>Account</h3>
+                    <p>{{ current_user.username }}</p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!--/ bradcam_area  -->
+<div class="container">
+    <div class="account_section">
+        <!-- <div class="media">
+          <img class="rounded-circle  align-self-center mr-4 " src="{{ image_file }}">
+          <div class="media-body">
+            <h2 class="account-heading mt-3">{{ current_user.username }}</h2>
+            <p class="text-secondary">{{ current_user.email }}</p>
+          </div>
+        </div> -->
+        <div class="mt-5">
+            <legend class="border-bottom mb-4">My Flights</legend>
+            <p>
+              At the moment, Flight Sim Discovery can show your exported Volanta flights on the world map.
+              Volanta is an easy-to-use smart flight tracker that integrates all your flight data across all major sims. 
+              See <a href="https://volanta.app/", target="_blank">https://volanta.app/ </a>for more information.
+            </p>
+
+        </div>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group mt-5">
+                
+                <div class="form-group">
+                    {{ form.user_flights_dir.label(class="form-control-label") }}
+                    {% if form.user_flights_dir.errors %}
+                    {{ form.user_flights_dir(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.user_flights_dir.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.user_flights_dir(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-check">
+                    {{ form.show_flights_default(class="form-check-input") }}
+                    {{ form.show_flights_default.label(class="form-check-label") }}
+                </div>
+            </fieldset>
+            <div class="form-group mb-5">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).on("click", ".open_delete_modal", function () {
+       
+       var eventId = $(this).data('id');
+       var form_action = '/poi/' + eventId + '/delete'
+       console.log(form_action)
+       $("#delete_poi_confirm").attr('action', form_action);
+       console.log(eventId);
+       $('#poi').html( eventId );
+  });
+
+</script>
+{% endblock content %}
