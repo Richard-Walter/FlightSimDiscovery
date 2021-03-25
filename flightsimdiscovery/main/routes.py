@@ -17,10 +17,10 @@ from flightsimdiscovery.SimFlights.Flights import Flights
 main = Blueprint('main', __name__)
 
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
-# TODO Exported flight plan with custom waypoints not showing in Saved Flight Plans
-# TODO Unchecking show my flights reloads page and shows as ticked
+# TODO SHow my flights logic to front end so user can acces his flight data
+# TODO add flights from VOlanta - in progress.  Need to create error notification if can;t find valid volanta folder
+# TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 # TODO Add section on most popular flights
-# TODO add flights from VOlanta - in progress
 # TODO allow users to upload photo of location
 
 @main.route('/robots.txt')
@@ -72,7 +72,7 @@ def home(filter_poi_location):
     user_flights = []
     flagged_pois_list = []
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating': 'Rating'}
-    show_my_flights = 'Yes'
+    show_my_flights = ''
     is_authenticated = False
     user_id = None
 
@@ -80,13 +80,14 @@ def home(filter_poi_location):
     if current_user.is_authenticated:
 
         is_authenticated = True
-
+        user = User.query.filter_by(id=current_user.id).first()
 
         # Show users flights on map based on Volanta flight tracking
-        volanta_export_path = r'C:\Users\rjwal\Downloads\volanta-export'
-        volanta_flights_path = os.path.join(volanta_export_path, "flights")
+        show_my_flights = 'Yes' if user.show_my_flights_check else 'No'
 
-        user_flights = Flights(volanta_flights_path).get_flights()
+        if show_my_flights == 'Yes':
+            volanta_flights_path = os.path.join(user.volanta_export_path, "flights")
+            user_flights = Flights(volanta_flights_path).get_flights()
 
 
         # Create a list of Users POIS for the google map info window to use
@@ -124,6 +125,7 @@ def home(filter_poi_location):
 
     # check if user has submitted a search or user has updated poi via the infowindow
     if request.method == 'POST':
+        print("in post")
 
         anchor = 'where_togo_area'
 
@@ -208,18 +210,17 @@ def home(filter_poi_location):
             else:
                 search_defaults['filter_user_pois'] = 'No'
 
-        elif 'show_my_flights_check' in request.form:
-            show_my_flights = request.form.get('show_my_flights_check')
+        # elif 'show_my_flights_check' in request.form:
+        #     print("in show_my_flights_check")
+        #     show_my_flights = request.form.get('show_my_flights_check')
 
-            if show_my_flights == 'Yes':
-                show_my_flights = 'Yes'
-                print('showing all my flights')
+        #     if show_my_flights == 'Yes':
+        #         session['show_my_flights'] = 'Yes'
 
-            else:
-                show_my_flights = 'No'
-                user_flights = None
-                print('hiding all my flights')
-                
+        #     else:
+        #         session['show_my_flights'] = 'No'
+        #         user_flights = None
+     
 
     # create the Point of Interest dictionary that gets posted for map to use
     for poi in pois:
@@ -292,7 +293,6 @@ def home(filter_poi_location):
     return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
                            user_flights=user_flights, user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
                            search_defaults=search_defaults, show_my_flights=show_my_flights, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(), _anchor=anchor)
-    # return render_template("home.html", pois=data)
 
 @main.route("/about")
 def about():
