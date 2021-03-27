@@ -1,9 +1,10 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from flightsimdiscovery import db, bcrypt
-from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm, MyFlightsForm
+from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flightsimdiscovery.models import User, Pois
 from flask_login import login_user, current_user, logout_user, login_required
 from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois
+import json
 
 users = Blueprint('users', __name__)
 
@@ -76,27 +77,33 @@ def account():
 @login_required
 def my_flights():
 
-    form = MyFlightsForm()
     user = User.query.filter_by(id=current_user.id).first()
 
     print(current_user.id)
-    if form.validate_on_submit():
-        
-        user.volanta_export_path = form.user_flights_dir.data
-        user.show_my_flights_check = form.show_my_flights_check.data
-        db.session.commit()
+    if request.method == 'POST':
+        if 'files[]' not in request.files:
+            flash('No files found, try again.')
+            return redirect(request.url)
 
-        # flash('Your flights are now shown on the world map', 'success')
+        files = request.files.getlist('files[]')
+        
+        for file in files:
+            # if file and allowed_file(file.filename):
+            flight_text = file.read().decode('utf-8-sig')
+            flight_data = json.loads(flight_text)
+            print(flight_data)
+        
+        # db.session.commit()
+
+        
+        print("showing my flights")
         return redirect(url_for('main.home', _anchor='where_togo_area'))
 
 
     elif request.method == 'GET':
-        # form.user_flights_dir.data = current_user.user_flights_dir
-        form.user_flights_dir.data = user.volanta_export_path
-        show_my_flights_check = str(user.show_my_flights_check)
-        print(show_my_flights_check)
+        
 
-        return render_template('my_flights.html', form=form, show_my_flights=show_my_flights_check)
+        return render_template('my_flights.html')
 
 @users.route("/user_pois", defaults={'user_id': None})
 @users.route("/user_pois/<user_id>")

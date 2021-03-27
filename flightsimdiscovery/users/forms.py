@@ -55,13 +55,6 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
 
-class MyFlightsForm(FlaskForm):
-
-    user_flights_dir = TextField(r'Please enter Volanta export folder (e.g. C:\Users\xxxx\Downloads\volanta-export):', validators=[DataRequired()])
-    show_my_flights_check = BooleanField('Always show my flights')
-
-    submit = SubmitField('Show my flights')
-
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email',

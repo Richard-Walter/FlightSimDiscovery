@@ -17,8 +17,10 @@ from flightsimdiscovery.SimFlights.Flights import Flights
 main = Blueprint('main', __name__)
 
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
-# TODO SHow my flights logic to front end so user can acces his flight data
-# TODO add flights from VOlanta - in progress.  Need to create error notification if can;t find valid volanta folder
+# TODO ability to delete flight plan upon clicking on flight
+# TODO Add marker for departure-destination airports
+# TODO Show/hide my flights bug - store in session object.  Show by default.
+# TODO add flights from Volanta - in progress.  Need to create error notification if can;t find valid volanta folder
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 # TODO Add section on most popular flights
 # TODO allow users to upload photo of location
@@ -80,15 +82,13 @@ def home(filter_poi_location):
     if current_user.is_authenticated:
 
         is_authenticated = True
-        user = User.query.filter_by(id=current_user.id).first()
+        # user = User.query.filter_by(id=current_user.id).first()
+        volanta_flights_path = os.path.join(r'C:\Users\rjwal\Downloads\volanta-export', "flights")
+        user_flights = Flights(volanta_flights_path).get_flights()
 
         # Show users flights on map based on Volanta flight tracking
-        show_my_flights = 'Yes' if user.show_my_flights_check else 'No'
-
-        if show_my_flights == 'Yes':
-            volanta_flights_path = os.path.join(user.volanta_export_path, "flights")
-            user_flights = Flights(volanta_flights_path).get_flights()
-
+        # show_my_flights = 'Yes' if user.show_my_flights_check else 'No'
+        show_my_flights = 'Yes'
 
         # Create a list of Users POIS for the google map info window to use
         user_id = current_user.id

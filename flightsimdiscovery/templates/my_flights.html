@@ -33,36 +33,16 @@
             </p>
 
         </div>
-        <form method="POST" action="" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
+        <form method="POST" action="/my_flights" enctype="multipart/form-data">
+           
             <fieldset class="form-group mt-5">
-                
-                <div class="form-group">
-                    {{ form.user_flights_dir.label(class="form-control-label") }}
-                    {% if form.user_flights_dir.errors %}
-                    {{ form.user_flights_dir(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.user_flights_dir.errors %}
-                        <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    {{ form.user_flights_dir(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-check">
-       
-                    {% if show_my_flights == "True" %}
-                    {{ form.show_my_flights_check(checked=True, class="form-check-input") }}
-                    {% else %}
-                    {{ form.show_my_flights_check(class="form-check-input") }}
-                    {% endif %}
-                    {{ form.show_my_flights_check.label(class="form-check-label")}}
-                </div>
+                <div class="box__input">
+                    <dl>
+                        <p><input type="file" name="files[]" multiple="true" autocomplete="off" accept=".json" value="Choose Volanta Flights" required></p>
+                    </dl>
+                    <p><input type="submit" value="Show Flights"></p>
+                </div>               
             </fieldset>
-            <div class="form-group mb-5">
-                {{ form.submit(class="btn btn-outline-info") }}
-            </div>
         </form>
     </div>
 </div>

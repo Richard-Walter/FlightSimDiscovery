@@ -1,8 +1,8 @@
 
 import os, glob, json
 import math
-from geopy import Point
-from geopy.distance import geodesic
+# from geopy import Point
+# from geopy.distance import geodesic
 
 # from flightsimdiscovery.SimFlights.DatabaseConnector import FlightDatabase
 
@@ -11,6 +11,7 @@ flight_path_display_width = 4   # kilometers
 
 class Flights:
 
+    # def __init__(self, volanta_flights_path):
     def __init__(self, volanta_flights_path):
 
 
@@ -35,7 +36,6 @@ class Flights:
         # only include relevant data to send to front-end
         flights= []
         
-
         for flight in self.flights:
             flight_positions = []
             flight_data = {}
