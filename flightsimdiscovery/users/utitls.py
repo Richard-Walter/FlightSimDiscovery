@@ -1,13 +1,16 @@
 import os
 import secrets
 from PIL import Image
+from datetime import datetime
 from flask import url_for
 from flask_mail import Message
-from flightsimdiscovery import mail
-from flightsimdiscovery.models import Pois, Visited, Favorites, User, Flagged, Flightplan, Flightplan_Waypoints
+from flightsimdiscovery import mail, db
+from flightsimdiscovery.models import Pois, Visited, Favorites, User, Flagged, Flightplan, Flightplan_Waypoints, User_flight_positions, UserFlights
 from flightsimdiscovery.pois.utils import getTickImageBasedOnState
 from flask import current_app
+from flask_login import current_user
 from flightsimdiscovery.config import Config
+from json.decoder import JSONDecodeError
 
 
 def send_reset_email(user):
@@ -157,3 +160,121 @@ def get_user_flagged_pois(user_id):
         additional_user_pois_data.append(poi_data)
 
     return additional_user_pois_data
+
+def save_flight_data_to_db(json_flight_data, flight_recorder):
+
+
+    for flight in json_flight_data:
+
+        aircraft_title = ""
+        aircraft_reg = ""
+        origin_name = ""
+        origin_icao = ""
+        destination_name = ""
+        destination_icao = ""
+        flight_date = None
+        network = ""
+
+        flight_positions = []
+        flight_data = {}
+        flight_id = flight['Id']
+        flight_state = flight['State']
+        
+
+        # check if flight already exists or was cancelled.  Ignore if so
+        if get_flight(flight_id) or (flight_state == 'Cancelled'):
+            continue
+        
+        aircraft_title = flight['AircraftTitle']
+        aircraft_reg = flight['AircraftRegistration']
+
+        if flight['Origin']:
+            origin_name = flight['Origin'].get('Name')
+            origin_icao = flight['Origin'].get('IcaoCode')
+        if flight['Destination']:
+            destination_name = flight['Destination'].get('Name')
+            destination_icao = flight['Destination'].get('IcaoCode')
+        network = flight['Network']
+        flight_date_str = flight['OffBlocksTime']
+        
+        try:
+            flight_date = datetime.strptime(flight_date_str, r"%Y-%m-%dT%H:%M:%S.%f")   #e.g. "2021-02-12T02:46:22.372",
+        except (ValueError, TypeError):
+            print('strtime error' , 'flight id is ', flight_id)
+            # just use current date by defaul
+            # flight_date = datetime.utcnow
+            pass
+
+        # create flight lat-lng positions
+        positions = flight['Positions']
+        for position in positions:
+            latitude = position['Latitude']
+            longitude = position['Longitude']
+            altitude = position['Altitude']
+            altitude_agl = position['AltitudeAgl']
+            altitude_agl = position['AltitudeAgl']
+            on_ground = position['OnGround']
+            OnGround = 1 if position['OnGround'] == True else 0
+            flight_positions_db = User_flight_positions(flight_id=flight_id,latitude=latitude, longitude=longitude,altitude=altitude, altitude_agl=altitude_agl, OnGround=OnGround)
+
+            db.session.add(flight_positions_db)
+
+        user_flight_db = UserFlights(flight_id=flight_id, user_id=current_user.id, aircraft_title=aircraft_title, aircraft_reg=aircraft_reg,
+                                     origin_name=origin_name, origin_icao=origin_icao, destination_name=destination_name, destination_icao=destination_icao,
+                                     network=network, flight_date=flight_date)
+ 
+        db.session.add(user_flight_db)
+        
+
+    try:
+        db.session.commit()
+    except Exception:
+        raise JSONDecodeError
+
+def get_flight(flight_id):
+
+    return UserFlights.query.filter_by(flight_id=flight_id).all()
+
+def get_user_flights():
+
+    
+
+    try:
+
+        user_flights = UserFlights.query.filter_by(user_id=current_user.id).all()
+
+        flights= []
+        
+        for flight in user_flights:
+            flight_positions = []
+            flight_data = {}
+            flight_data['Flight_ID'] = flight.flight_id
+            flight_data['AircraftTitle'] = flight.aircraft_title
+            flight_data['AircraftRegistration'] = flight.aircraft_reg
+            flight_origin_name = flight.origin_name
+            flight_origin_icao = flight.origin_icao
+            flight_destination_name = flight.destination_name
+            flight_destination_icao = flight.destination_icao
+
+            if flight_origin_name:
+                flight_data['Origin'] = flight_origin_name + ' (' + flight_origin_icao + ')' 
+            
+            if flight_destination_name:    
+                flight_data['Destination'] = flight_destination_name + ' (' + flight_destination_icao + ')' 
+
+            # create flight lat-lng positions
+            positions = User_flight_positions.query.filter_by(flight_id=flight.flight_id).all()
+            for position in positions:
+                flight_positions.append({'Latitude': position.latitude, 'Longitude': position.longitude, 'Altitude': position.altitude})
+
+            flight_data['Positions'] = flight_positions
+
+
+            flights.append(flight_data)
+    except Exception as e:
+        print(e)
+        print("Something went wrong getting users flights")
+        #dont crash app if something goies wrong with getting user flights
+        
+    else:
+        return flights

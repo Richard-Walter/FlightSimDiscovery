@@ -1,13 +1,13 @@
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, current_app
 from flightsimdiscovery import db, bcrypt
 from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flightsimdiscovery.models import User, Pois
 from flask_login import login_user, current_user, logout_user, login_required
-from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois
-import json
+from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois, save_flight_data_to_db
+import json, os
+from json.decoder import JSONDecodeError
 
 users = Blueprint('users', __name__)
-
 
 @users.route("/login", methods=['GET', 'POST'])
 def login():
@@ -77,9 +77,8 @@ def account():
 @login_required
 def my_flights():
 
-    user = User.query.filter_by(id=current_user.id).first()
+    json_flight_data_list = []
 
-    print(current_user.id)
     if request.method == 'POST':
         if 'files[]' not in request.files:
             flash('No files found, try again.')
@@ -87,21 +86,24 @@ def my_flights():
 
         files = request.files.getlist('files[]')
         
-        for file in files:
-            # if file and allowed_file(file.filename):
-            flight_text = file.read().decode('utf-8-sig')
-            flight_data = json.loads(flight_text)
-            print(flight_data)
-        
-        # db.session.commit()
+        try:
+            for file in files:
+                flight_text = file.read().decode('utf-8-sig')
+                json_flight_data = json.loads(flight_text)
+                json_flight_data_list.append(json_flight_data)
+            
+            #parse volanta json flight data and store in database
+            save_flight_data_to_db(json_flight_data_list, 'Volanta')
+                
+        except  JSONDecodeError:
+            print("cannont decode the json file")
+            flash("One of the files you have selected does not appear to be a valid volanta JSON file", 'warning')
+            return redirect(request.url)
 
-        
-        print("showing my flights")
-        return redirect(url_for('main.home', _anchor='where_togo_area'))
-
+        else:
+            return redirect(url_for('main.home', _anchor='google_map'))      
 
     elif request.method == 'GET':
-        
 
         return render_template('my_flights.html')
 

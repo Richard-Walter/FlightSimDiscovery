@@ -90,7 +90,7 @@ def new_poi(iw_add_poi_location):
         db.session.commit()
 
         # flash('A new point of interest has been created!', 'success')
-        return redirect(url_for('main.home', _anchor='where_togo_area', pois_created='True', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
+        return redirect(url_for('main.home', _anchor='google_map', pois_created='True', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
 
     return render_template('create_poi.html', form=form, db_poi_names=poi_names, share=share_with_community)
 
@@ -178,7 +178,7 @@ def update_poi(poi_id):
             poi.share = form.share.data        
             db.session.commit()
 
-            return redirect(url_for('main.home', _anchor='where_togo_area', pois_updated='True', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
+            return redirect(url_for('main.home', _anchor='google_map', pois_updated='True', latitude=poi.latitude, longitude=poi.longitude, country=poi.country))
 
     elif request.method == 'GET':
         form.poi_name.data = poi.name

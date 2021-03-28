@@ -125,3 +125,30 @@ class FP_Ratings(db.Model):
 
     def __repr__(self):
         return f"FP_Ratings('{self.fp_id}', '{self.rating_score}')"
+
+class UserFlights(db.Model):
+    flight_id = db.Column(db.Text, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    aircraft_title = db.Column(db.Text, nullable=False, default="")
+    aircraft_reg = db.Column(db.Text, nullable=False, default="")
+    origin_name = db.Column(db.Text, nullable=False, default="")
+    origin_icao = db.Column(db.Text, nullable=False, default="")
+    destination_name = db.Column(db.Text, nullable=False, default="")
+    destination_icao = db.Column(db.Text, nullable=False, default="")
+    network = db.Column(db.Text, nullable=False, default="")
+    flight_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"User Flgihts('{self.flight_id}', '{self.origin_name}', '{self.destination_name}')"  
+
+class User_flight_positions(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    flight_id = db.Column(db.Integer, db.ForeignKey('flightplan.id'), nullable=False)
+    latitude = db.Column(db.Text, nullable=False)
+    longitude = db.Column(db.Text, nullable=False)
+    altitude = db.Column(db.Text, nullable=False)
+    altitude_agl = db.Column(db.Text, nullable=False)
+    OnGround = db.Column(db.Boolean(), nullable=False, default=False)
+
+    def __repr__(self):
+        return f"User_flight_positions ('{self.flight_id}', '{self.position}')"  

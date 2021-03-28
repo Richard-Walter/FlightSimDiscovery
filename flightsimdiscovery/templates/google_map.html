@@ -815,18 +815,13 @@
 
       function showFlightDetails(flight_data){
 
-        flight_plan = flight_data['Plan']
-
-        if (!flight_plan){
-          flight_plan = 'No flight plan'
-        }
-
+          flight_id = flight_data['Flight_ID']
         aircraft_registration = flight_data['AircraftRegistration']
         aircraft_title = flight_data['AircraftTitle']
         flight_origin = flight_data['Origin']
         flight_destination = flight_data['Destination']
 
-        alert(flight_plan + '   ' + flight_origin + '   ' + flight_destination + '   ' + aircraft_registration + '  ' + aircraft_title);
+        alert(flight_id + '  ' + flight_origin + '   ' + flight_destination + '   ' + aircraft_registration + '  ' + aircraft_title);
 
       }
 

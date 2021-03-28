@@ -9,10 +9,9 @@ from flask_login import current_user, login_required
 from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_nearest_airport
 from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.main.forms import ContactForm
-from flightsimdiscovery.users.utitls import send_contact_email
+from flightsimdiscovery.users.utitls import send_contact_email, get_user_flights
 from flightsimdiscovery.config import Config
 from flightsimdiscovery.flightplans.utils import get_user_flightplans
-from flightsimdiscovery.SimFlights.Flights import Flights
 
 main = Blueprint('main', __name__)
 
@@ -36,8 +35,6 @@ def static_from_root():
 @main.route("/focus_on_poi/<filter_poi_location>", )
 def home(filter_poi_location):
 
-    # test logging
-    # print(3/0)
     anchor = ''
 
     # variables required for google maps to display data
@@ -82,12 +79,10 @@ def home(filter_poi_location):
     if current_user.is_authenticated:
 
         is_authenticated = True
-        # user = User.query.filter_by(id=current_user.id).first()
-        volanta_flights_path = os.path.join(r'C:\Users\rjwal\Downloads\volanta-export', "flights")
-        user_flights = Flights(volanta_flights_path).get_flights()
+
+        user_flights = get_user_flights()
 
         # Show users flights on map based on Volanta flight tracking
-        # show_my_flights = 'Yes' if user.show_my_flights_check else 'No'
         show_my_flights = 'Yes'
 
         # Create a list of Users POIS for the google map info window to use
@@ -420,5 +415,5 @@ def iw_post():
 @main.route("/view_flightplan/<flightplan_id>")
 def view_flightplan(flightplan_id):
 
-    return redirect(url_for('main.home', _anchor='where_togo_area', view_flightplan=flightplan_id))
+    return redirect(url_for('main.home', _anchor='google_map', view_flightplan=flightplan_id))
 
