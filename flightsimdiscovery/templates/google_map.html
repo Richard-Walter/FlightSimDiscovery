@@ -28,7 +28,6 @@
       var markerCollection;
       var clusterMarkers = [];
       var view_flightplan_id = {{view_flightplan}};
-      // var flight_polygons = [];
       var show_my_flights = {{show_my_flights|tojson}};
       var flights_currently_showing = false;
 
@@ -755,7 +754,7 @@
             for (var j = 0; j < positional_flight_data.length; j++) {
               latitude = positional_flight_data[j]['Latitude'];
               longitude = positional_flight_data[j]['Longitude'];
-              flight_point = {'lat': latitude, 'lng': longitude}
+              flight_point = {'lat': parseFloat(latitude), 'lng': parseFloat(longitude)}
               flight_coordinates_poly.push([latitude, longitude]);
               // flight_coordinates_gm.push(new google.maps.LatLng(latitude, longitude));
               flight_coordinates_gm.push(flight_point);
@@ -783,6 +782,7 @@
               polygonLatLng.push(flight_point);
             }
 
+            //add flight polygon
             flight_polygon = new google.maps.Polygon({
                 paths: polygonLatLng,
                 strokeColor: "#FF0000",
@@ -795,10 +795,9 @@
                 // cursor: 'grab'
             })
 
-            // flight_polygons.push(flight_polygon);
-
             //add flight path
-            flightPath = new google.maps.Polyline({
+            console.log(flight_coordinates_gm)
+            sim_flight_path = new google.maps.Polyline({
               path: flight_coordinates_gm,
               geodesic: true,
               strokeColor: "#FF0000",
