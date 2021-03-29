@@ -221,20 +221,37 @@
                     </div>
                 </form>
             </div>
+            <!-- <div class="">
+                <form class="mt-2 ml-4 show_my_flights_check_form" method="POST" action="/home#searchTag">
+                    <div class="input_field">
+                        {% if current_user.username %}
+                            {% if search_defaults['filter_user_pois'] == 'Yes' %}
+                                <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
+                                    name="show_my_flights_check" id="show_my_flights_check" value="Yes" checked>
+                            {% else %}
+                                <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
+                                    name="show_my_flights_check" id="show_my_flights_check" value="Yes">
+                            {% endif %}
+                            <input type="hidden" name="show_ony_user_pois_check" value="No" id="show_ony_user_pois_check ">
+                            <label class="form-check-label" for="show_ony_user_pois_check">show only my points of
+                                interest</label>
+                        {% endif %}
+                    </div>
+                </form>
+            </div> -->
             <div class="">
                 <form class="mt-2 mr-4 show_my_flights_form" method="POST" action="/home#searchTag">
                     <div class="input_field">
                         {% if current_user.username %}
                             {% if user_flights %}
                                 {% if show_my_flights == 'Yes' %}
-                                    <!-- <input type="checkbox" class="form-check-input" onclick="showUsersFlightsVolanta()" -->
-                                    <input type="checkbox" class="form-check-input" onclick="showUsersFlightsVolanta('Yes')"
-                                        name="show_my_flights_check" id="show_my_flights_check" value="No" checked>
+                                    <input type="checkbox" class="form-check-input" id="show_my_flights_check" onclick="this.form.submit()"
+                                        name="show_my_flights_check"  value="No" checked >
                                 {% else %}
-                                    <!-- <input type="checkbox" class="form-check-input" onclick="showUsersFlightsVolanta()" -->
-                                    <input type="checkbox" class="form-check-input" onclick="showUsersFlightsVolanta('No')"
-                                        name="show_my_flights_check" id="show_my_flights_check" value="Yes">
+                                    <input type="checkbox" class="form-check-input" id="show_my_flights_check" onclick="this.form.submit()"
+                                        name="show_my_flights_check"  value="Yes" >
                                 {% endif %}
+                                <input type="hidden" name="show_my_flights_check" value="No" id="show_my_flights_check ">
                                 <label class="form-check-label" for="show_my_flights_check">show my flights</label>
                             {% endif %}
                         {% endif %}

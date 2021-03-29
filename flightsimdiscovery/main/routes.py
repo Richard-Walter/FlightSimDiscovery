@@ -1,7 +1,7 @@
 import csv, os, json
 import xml.etree.ElementTree as ET
 from copy import deepcopy
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response, send_from_directory
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response, send_from_directory, session
 from openpyxl import load_workbook
 from flightsimdiscovery import db
 from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints, FP_Ratings
@@ -18,7 +18,6 @@ main = Blueprint('main', __name__)
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
 # TODO ability to delete flight plan upon clicking on flight
 # TODO Add marker for departure-destination airports
-# TODO Show/hide my flights bug - store in session object.  Show by default.
 # TODO add flights from Volanta - in progress.  Need to create error notification if can;t find valid volanta folder
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 # TODO Add section on most popular flights
@@ -80,10 +79,20 @@ def home(filter_poi_location):
 
         is_authenticated = True
 
+        # get user sim flights and show if applicable
         user_flights = get_user_flights()
 
-        # Show users flights on map based on Volanta flight tracking
-        show_my_flights = 'Yes'
+        if user_flights:
+            if session.get('show_my_flights') == 'No':
+                show_my_flights = 'No'
+            else:
+                show_my_flights = 'Yes'
+                session['show_my_flights'] = 'Yes'
+        else:
+            session['show_my_flights'] = 'No'
+            show_my_flights = 'No'
+            user_flights = None
+            
 
         # Create a list of Users POIS for the google map info window to use
         user_id = current_user.id
@@ -205,17 +214,16 @@ def home(filter_poi_location):
             else:
                 search_defaults['filter_user_pois'] = 'No'
 
-        # elif 'show_my_flights_check' in request.form:
-        #     print("in show_my_flights_check")
-        #     show_my_flights = request.form.get('show_my_flights_check')
+        elif 'show_my_flights_check' in request.form:
+            print("in show_my_flights_check")
+            show_my_flights = request.form.get('show_my_flights_check')
 
-        #     if show_my_flights == 'Yes':
-        #         session['show_my_flights'] = 'Yes'
+            if show_my_flights == 'Yes':
+                session['show_my_flights'] = 'Yes'
+                user_flights
 
-        #     else:
-        #         session['show_my_flights'] = 'No'
-        #         user_flights = None
-     
+            else:
+                session['show_my_flights'] = 'No'     
 
     # create the Point of Interest dictionary that gets posted for map to use
     for poi in pois:
