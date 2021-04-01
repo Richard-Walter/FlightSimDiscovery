@@ -798,7 +798,6 @@
             })
 
             //add flight path
-            console.log(flight_coordinates_gm)
             sim_flight_path = new google.maps.Polyline({
               path: flight_coordinates_gm,
               geodesic: true,
@@ -809,12 +808,20 @@
               
             });
             
-            google.maps.event.addListener(flight_polygon, 'click', showFlightDetails.bind(null, compl_flight_data));
-
+            // google.maps.event.addListener(flight_polygon, 'click', showFlightDetails.bind(null, compl_flight_data));
+            google.maps.event.addListener(flight_polygon, 'click',   function (e) {
+              //close existing flight detail IW
+              if (flight_infowindow) {
+                flight_infowindow.close()
+              }
+              showFlightDetails(compl_flight_data, e.latLng);
+            });
           }     
       }
 
-      function showFlightDetails(flight_data){
+      function showFlightDetails(flight_data, map_position){
+
+        flight_infowindow = new google.maps.InfoWindow;
 
         flight_id = flight_data['Flight_ID']
         aircraft_registration = flight_data['AircraftRegistration']
@@ -824,7 +831,20 @@
         flight_destination_name = flight_data['Destination_name']
         flight_destination_icao = flight_data['Destination_icao']
 
-        alert(flight_id + '  ' + flight_origin_name + '   (' + flight_origin_icao + ')   '  + flight_destination_name + '   (' + flight_destination_icao + ')   '  + aircraft_registration + '  ' + aircraft_title);
+        var flight_details_iw_html_content =
+          "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+            "<div class='gm-style-iw' id='iw-container'>" +
+              '<p class="text-sm">TEST</p>'+
+
+            '</div>'
+
+
+
+        flight_infowindow.setContent(flight_details_iw_html_content);
+        flight_infowindow.setPosition(map_position);
+        flight_infowindow.open(map);
+
+        // alert(flight_id + '  ' + flight_origin_name + '   (' + flight_origin_icao + ')   '  + flight_destination_name + '   (' + flight_destination_icao + ')   '  + aircraft_registration + '  ' + aircraft_title);
 
       }
 
