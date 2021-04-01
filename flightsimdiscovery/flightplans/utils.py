@@ -10,7 +10,12 @@ def checkUserFlightPlanWaypointsUnique(user_id, new_fp_pois):
     for poi_name in new_fp_pois:
 
         poi = Pois.query.filter_by(name=poi_name).first()
-        new_fp_poi_ids.append(poi.id)
+
+        if poi:
+            new_fp_poi_ids.append(poi.id)
+        else:
+            # custom waypoint temporarily added - dont create flight plan to share
+            return False
 
     # lets check the new flight plan list against other flightplans
     flight_plans = Flightplan.query.all()

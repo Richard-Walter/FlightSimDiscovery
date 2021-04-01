@@ -81,7 +81,8 @@ def export_fp_post():
 
         # Store flight plan and waypoints and add default rating (4) if user wants to share
         # Do not store flightplan if name is empty, or the waypoints alreay exist for a flight plan,
-        #  or waypoints contain a private POI
+        #  or waypoints contain a private POI,
+        # or if the flightplan contains a temporary custom waypoint
         if fp_share and fp_name and checkUserFlightPlanWaypointsUnique(user_id, fp_pois) and areFlightPlanWaypointsPublic(fp_pois):
 
             
