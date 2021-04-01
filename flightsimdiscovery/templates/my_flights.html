@@ -38,9 +38,9 @@
             <fieldset class="form-group mt-5">
                 <div class="box__input">
                     <dl>
-                        <p><input type="file" name="files[]" multiple="true" autocomplete="off" accept=".json" value="Choose Volanta Flights" required></p>
+                        <p><input type="file" id="choose_flights_btn" name="files[]" multiple="true" autocomplete="off" accept=".json" value="Choose Volanta Flights" required></p>
                     </dl>
-                    <p><input type="submit" value="Show Flights"></p>
+                    <p><input type="submit" class="show_flights_btn" value="Show Flights"></p>
                 </div>               
             </fieldset>
         </form>
@@ -48,15 +48,13 @@
 </div>
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
-    $(document).on("click", ".open_delete_modal", function () {
+    $(document).on("click", ".show_flights_btn", function () {
        
-       var eventId = $(this).data('id');
-       var form_action = '/poi/' + eventId + '/delete'
-       console.log(form_action)
-       $("#delete_poi_confirm").attr('action', form_action);
-       console.log(eventId);
-       $('#poi').html( eventId );
-  });
+        var fileVal=document.getElementById("choose_flights_btn");
+        if (fileVal.value) {
+            document.body.style.cursor = 'wait';
+        }
+    });
 
 </script>
 {% endblock content %}
