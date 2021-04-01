@@ -257,10 +257,12 @@ def get_user_flights():
             flight_destination_icao = flight.destination_icao
 
             if flight_origin_name:
-                flight_data['Origin'] = flight_origin_name + ' (' + flight_origin_icao + ')' 
+                flight_data['Origin_name'] = flight_origin_name
+                flight_data['Origin_icao'] = flight_origin_icao
             
             if flight_destination_name:    
-                flight_data['Destination'] = flight_destination_name + ' (' + flight_destination_icao + ')' 
+                flight_data['Destination_name'] = flight_destination_name
+                flight_data['Destination_icao'] = flight_destination_icao
 
             # create flight lat-lng positions
             positions = User_flight_positions.query.filter_by(flight_id=flight.flight_id).all()

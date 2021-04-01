@@ -16,10 +16,11 @@ from flightsimdiscovery.flightplans.utils import get_user_flightplans
 main = Blueprint('main', __name__)
 
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
+# TODO imporve popup dialog box
 # TODO ability to delete flight plan upon clicking on flight
 # TODO Add marker for departure-destination airports
 # TODO Add volanta fights database list, otherwise notifty user that no data exsist - pleas upload
-# TODO Add flights from Volanta - in progress.  Need to create error notification if can;t find valid volanta folder
+# TODO create error notification if can't find valid volanta folder
 
 # TODO Add section on most popular flights
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans

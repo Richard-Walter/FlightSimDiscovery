@@ -815,13 +815,15 @@
 
       function showFlightDetails(flight_data){
 
-          flight_id = flight_data['Flight_ID']
+        flight_id = flight_data['Flight_ID']
         aircraft_registration = flight_data['AircraftRegistration']
         aircraft_title = flight_data['AircraftTitle']
-        flight_origin = flight_data['Origin']
-        flight_destination = flight_data['Destination']
+        flight_origin_name = flight_data['Origin_name']
+        flight_origin_icao = flight_data['Origin_icao']
+        flight_destination_name = flight_data['Destination_name']
+        flight_destination_icao = flight_data['Destination_icao']
 
-        alert(flight_id + '  ' + flight_origin + '   ' + flight_destination + '   ' + aircraft_registration + '  ' + aircraft_title);
+        alert(flight_id + '  ' + flight_origin_name + '   (' + flight_origin_icao + ')   '  + flight_destination_name + '   (' + flight_destination_icao + ')   '  + aircraft_registration + '  ' + aircraft_title);
 
       }
 
