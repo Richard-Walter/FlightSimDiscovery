@@ -471,7 +471,9 @@
             infowindow.open(map, marker);
           
             google.maps.event.addListener(map, "click", function () {
+              
               infowindow.close();
+              
             });            
           });
 
@@ -816,6 +818,16 @@
               }
               showFlightDetails(compl_flight_data, e.latLng);
             });
+
+            //close flight details window if user clicks on the map
+            google.maps.event.addListener(map, "click", function () {
+
+              if (flight_infowindow){
+              
+                flight_infowindow.close();
+              }
+              
+            });       
           }     
       }
 
