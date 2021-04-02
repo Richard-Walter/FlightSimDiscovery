@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, current_app
 from flightsimdiscovery import db, bcrypt
 from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
-from flightsimdiscovery.models import User, Pois
+from flightsimdiscovery.models import User, Pois, UserFlights, User_flight_positions
 from flask_login import login_user, current_user, logout_user, login_required
 from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois, save_flight_data_to_db
 import json, os
@@ -109,57 +109,31 @@ def my_flights():
 
 @users.route("/my_flights/delete/<id>",methods=['POST'])
 @login_required
-def delete_flight(id):
+def delete_flight(flight_id):
     
-    # *** WHEN WE DELETE A FLIGHT, WE HAVE DELETE THE CORRESPONDING FLIGHT WAYPOINTS OUT OF THE OTHER TABLE  ****
+    # WHEN WE DELETE A FLIGHT, WE HAVE DELETE THE CORRESPONDING FLIGHT WAYPOINTS OUT OF THE OTHER TABLE
 
-    # category = request.args.get('page')
-    # poi = Pois.query.get_or_404(poi_id)
-    # flagged_poi = Flagged.query.filter_by(poi_id=poi_id).first()
+    category = request.args.get('page')
+    flight = UserFlights.query.get_or_404(flight_id)
 
-    # # visited and favorite can contain multuple records for the one poi_id
-    # visited_poi_list = Visited.query.filter_by(poi_id=poi_id).all()
-    # favorited_pois_list = Favorites.query.filter_by(poi_id=poi_id).all()
-    # ratings_poi_list = Ratings.query.filter_by(poi_id=poi_id).all()
+    # each flight can contain multiple waypoints that need to be deleted as well
+    flight_waypoint_list = User_flight_positions.query.filter_by(flight_id=flight_id).all()
 
+    # only the user who owns the flight can delete it.
     # if (current_user.username != 'admin'):
-    #     if (poi.user_id != current_user.id):
+    #     if (flight.user_id != current_user.id):
     #         abort(403)
-    # db.session.delete(poi)
-    # if flagged_poi:
-    #     db.session.delete(flagged_poi)
+    # db.session.delete(flight)
 
-    # for visited_poi in visited_poi_list:
-    #     db.session.delete(visited_poi)
-    # for favorited_pois in favorited_pois_list:
-    #     db.session.delete(favorited_pois)
-    # for ratings_poi in ratings_poi_list:
-    #     db.session.delete(ratings_poi)
+    # for waypoint_poi in flight_waypoint_list:
+    #     db.session.delete(waypoint_poi)
 
-    # # delete record from flight plan tables that contain poi
-    # fp_id_set = set()
-    # fp_waypoints_poi_list = Flightplan_Waypoints.query.filter_by(poi_id=poi_id).all()
-
-    # for fp_waypoints_poi in fp_waypoints_poi_list:
-    #     fp_id_set.add(fp_waypoints_poi.flightplan_id)
-
-    # for fp_id in fp_id_set:
-    #     fp = Flightplan.query.filter_by(id=fp_id).first()
-    #     db.session.delete(fp)
-
-    #     fp_rating = FP_Ratings.query.filter_by(flightplan_id=fp_id).first()
-    #     db.session.delete(fp_rating)
-
-    #     fp_waypoints = Flightplan_Waypoints.query.filter_by(flightplan_id=fp_id).all()
-
-    #     # delete all waypoints associated with the flight plan as the flight plan is no longer valid
-    #     for fp_waypoint in fp_waypoints:
-    #         db.session.delete(fp_waypoint)
+    # print(id)
 
     # db.session.commit()
-    print(id)
+
+    
     flash('Your flight has been deleted!', 'success')
-    print('Your flight has been deleted!')
 
     return redirect(url_for('main.home'))
 
