@@ -745,6 +745,13 @@
           //contruct flight polygons and flight paths  for each of users flights
           var distance = 0.08 // 8km either side of path
 
+          var addListenersOnPolygon = function(polygon) {
+            google.maps.event.addListener(polygon, 'click', function (event) {
+              // alert(polygon.flight_data['Origin_name']);
+              showFlightDetails(polygon.flight_data, event.latLng);
+            });  
+          }
+
           for (var i = 0; i < user_flights.length; i++) {
 
             var buffer_dist = 0.05 // 5km either side of path for polygon create
@@ -796,6 +803,7 @@
                 fillColor: "#FF0000",
                 fillOpacity: 0.35,
                 map: map,
+                flight_data: compl_flight_data
                 // cursor: 'grab'
             })
 
@@ -810,14 +818,14 @@
               
             });
             
-            // google.maps.event.addListener(flight_polygon, 'click', showFlightDetails.bind(null, compl_flight_data));
-            google.maps.event.addListener(flight_polygon, 'click',   function (e) {
-              //close existing flight detail IW
-              if (flight_infowindow) {
-                flight_infowindow.close()
-              }
-              showFlightDetails(compl_flight_data, e.latLng);
-            });
+            // google.maps.event.addListener(flight_polygon, 'click', showFlightDetails.bind(compl_flight_data, e.latLng));
+
+            addListenersOnPolygon(flight_polygon);
+
+            // google.maps.event.addListener(flight_polygon, 'click',   function (e) {
+
+            //   showFlightDetails(compl_flight_data, e.latLng);
+            // });
 
             //close flight details window if user clicks on the map
             google.maps.event.addListener(map, "click", function () {
@@ -833,6 +841,11 @@
 
       function showFlightDetails(flight_data, map_position){
 
+        //close existing flight detail IW
+        if (flight_infowindow) {
+                flight_infowindow.close()
+        }
+
         flight_infowindow = new google.maps.InfoWindow;
 
         flight_id = flight_data['Flight_ID']
@@ -846,16 +859,20 @@
         flight_origin_icao = flight_data['Origin_icao']
         if (!flight_origin_icao) {
           flight_origin_icao = '';
+        } else {
+          flight_origin_icao = '(' + flight_origin_icao + ')'
         }
 
         flight_destination_name = flight_data['Destination_name']
         if (!flight_destination_name) {
-          flight_destination_name = 'No Origin Airport';
+          flight_destination_name = 'No Destination Airport';
         }
 
         flight_destination_icao = flight_data['Destination_icao']
         if (!flight_destination_icao) {
           flight_destination_icao = '';
+        } else {
+          flight_destination_icao = '(' + flight_destination_icao + ')'
         }
 
         var flight_details_iw_html_content =
@@ -872,9 +889,9 @@
                   '<div class="iw_flight_header">'+
                     '<div style="cursor:pointer">'+
                       "<a href='https://www.google.com/search?q=" + flight_origin_icao +"' target='_blank'>" +
-                        '<h5 id="">'+flight_origin_name +' ('+flight_origin_icao + ')</h4>'+
+                        '<h5 id="">'+flight_origin_name + ' ' + flight_origin_icao + '</h4>'+
                         '<h5 id="">to</h4>'+
-                        '<h5 id="">'+flight_destination_name +' ('+flight_destination_icao + ')</h4>'+
+                        '<h5 id="">'+flight_destination_name + ' ' + flight_destination_icao + '</h4>'+
                       '</a>' +
                     '</div>'+             
                 '</div>'+
