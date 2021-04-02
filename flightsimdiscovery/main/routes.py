@@ -16,6 +16,7 @@ from flightsimdiscovery.flightplans.utils import get_user_flightplans
 main = Blueprint('main', __name__)
 
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
+# DONE Fix bug where Clicking on Map ICon ina top ten page gives 404
 # TODO add flight_id just an ID primary key to user flights and change flight_id to filename
 # TODO ability to delete flight plan upon clicking on flight
 # TODO Add volanta fights database list, otherwise notifty user that no data exsist - pleas upload
