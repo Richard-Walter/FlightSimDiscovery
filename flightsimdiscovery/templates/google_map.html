@@ -839,17 +839,56 @@
         aircraft_registration = flight_data['AircraftRegistration']
         aircraft_title = flight_data['AircraftTitle']
         flight_origin_name = flight_data['Origin_name']
+        if (!flight_origin_name) {
+          flight_origin_name = 'No Origin Airport';
+        }
+
         flight_origin_icao = flight_data['Origin_icao']
+        if (!flight_origin_icao) {
+          flight_origin_icao = '';
+        }
+
         flight_destination_name = flight_data['Destination_name']
+        if (!flight_destination_name) {
+          flight_destination_name = 'No Origin Airport';
+        }
+
         flight_destination_icao = flight_data['Destination_icao']
+        if (!flight_destination_icao) {
+          flight_destination_icao = '';
+        }
 
         var flight_details_iw_html_content =
+          // "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+          //   "<div class='gm-style-iw' id='iw-container'>" +
+          //     '<p class="text-sm">TEST</p>'+
+
+          //   '</div>'
           "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
-            "<div class='gm-style-iw' id='iw-container'>" +
-              '<p class="text-sm">TEST</p>'+
 
+          "<div class='gm-style-iw' id='iw-container'>" +
+
+              "<div class='gm-style-iw' id='iw-container'>" +
+                  '<div class="iw_flight_header">'+
+                    '<div style="cursor:pointer">'+
+                      "<a href='https://www.google.com/search?q=" + flight_origin_icao +"' target='_blank'>" +
+                        '<h5 id="">'+flight_origin_name +' ('+flight_origin_icao + ')</h4>'+
+                        '<h5 id="">to</h4>'+
+                        '<h5 id="">'+flight_destination_name +' ('+flight_destination_icao + ')</h4>'+
+                      '</a>' +
+                    '</div>'+             
+                '</div>'+
+              '<div id="bodyContent">'+
+                  '<div class="my-2">'+
+                    '<p class="iw_description mx-3">AIRCRAFT:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ aircraft_title + '</p>'+
+                    '<p class="iw_description mx-3">REGISTRATION:&nbsp&nbsp'+ aircraft_registration + '</p>'+
+                    '<p class="iw_description mx-3">FILENAME:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ flight_id + '</p>'+
+                  '</div>'+
+              '</div>'+
+              '<div>' +
+                '<a class="iw_delete_flight btn btn-danger btn-sm btn-block" style="cursor:pointer" href="#" role="button" data-id="'+ flight_id +'" data-toggle="modal" data-target="#deleteFlightModal">Delete Flight</a>'+
+              '</div>'+ 
             '</div>'
-
 
 
         flight_infowindow.setContent(flight_details_iw_html_content);
@@ -1174,8 +1213,7 @@
           }
           map.fitBounds(bounds);
         }
-
-        
+    
 
 
         </script>

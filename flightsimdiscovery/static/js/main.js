@@ -62,6 +62,27 @@ $(document).ready(function(){
     $('#poi').html( eventId );
   });
 
+  //handle for deleting a sim flight
+  $(document).on("click", ".iw_delete_flight", function () {
+          
+    var eventId = $(this).data('id');
+    var form_action = '/my_flights/delete/' + eventId +'?page=home'
+    $("#delete_flight_confirm_btn").attr('action', form_action);
+    // console.log(eventId);
+    // $('#poi').html( eventId );
+  });
+
+  // $(document).on("click", "#deleteFlightModal", function () {
+  //   $( "#flag_poi_confirm_btn" ).click(function() {
+       
+  //      var eventId = $('.iw_delete_flight').data('flight_id');
+  //      var form_action = '/my_flights/delete/' + eventId +'?page=home'
+  //      console.log(form_action)
+  //      $.post('/my_flights/delete/' + eventId +'?page=home')
+  //     //  $("#delete_flight_confirm").attr('action', form_action);
+  //   //    $('#poi').html( eventId );
+  // });
+
   //handle for flagging a POI
   $( "#flag_poi_confirm_btn" ).click(function() {
 

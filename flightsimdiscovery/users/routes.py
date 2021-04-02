@@ -107,6 +107,63 @@ def my_flights():
 
         return render_template('my_flights.html')
 
+@users.route("/my_flights/delete/<id>",methods=['POST'])
+@login_required
+def delete_flight(id):
+    
+    # *** WHEN WE DELETE A FLIGHT, WE HAVE DELETE THE CORRESPONDING FLIGHT WAYPOINTS OUT OF THE OTHER TABLE  ****
+
+    # category = request.args.get('page')
+    # poi = Pois.query.get_or_404(poi_id)
+    # flagged_poi = Flagged.query.filter_by(poi_id=poi_id).first()
+
+    # # visited and favorite can contain multuple records for the one poi_id
+    # visited_poi_list = Visited.query.filter_by(poi_id=poi_id).all()
+    # favorited_pois_list = Favorites.query.filter_by(poi_id=poi_id).all()
+    # ratings_poi_list = Ratings.query.filter_by(poi_id=poi_id).all()
+
+    # if (current_user.username != 'admin'):
+    #     if (poi.user_id != current_user.id):
+    #         abort(403)
+    # db.session.delete(poi)
+    # if flagged_poi:
+    #     db.session.delete(flagged_poi)
+
+    # for visited_poi in visited_poi_list:
+    #     db.session.delete(visited_poi)
+    # for favorited_pois in favorited_pois_list:
+    #     db.session.delete(favorited_pois)
+    # for ratings_poi in ratings_poi_list:
+    #     db.session.delete(ratings_poi)
+
+    # # delete record from flight plan tables that contain poi
+    # fp_id_set = set()
+    # fp_waypoints_poi_list = Flightplan_Waypoints.query.filter_by(poi_id=poi_id).all()
+
+    # for fp_waypoints_poi in fp_waypoints_poi_list:
+    #     fp_id_set.add(fp_waypoints_poi.flightplan_id)
+
+    # for fp_id in fp_id_set:
+    #     fp = Flightplan.query.filter_by(id=fp_id).first()
+    #     db.session.delete(fp)
+
+    #     fp_rating = FP_Ratings.query.filter_by(flightplan_id=fp_id).first()
+    #     db.session.delete(fp_rating)
+
+    #     fp_waypoints = Flightplan_Waypoints.query.filter_by(flightplan_id=fp_id).all()
+
+    #     # delete all waypoints associated with the flight plan as the flight plan is no longer valid
+    #     for fp_waypoint in fp_waypoints:
+    #         db.session.delete(fp_waypoint)
+
+    # db.session.commit()
+    print(id)
+    flash('Your flight has been deleted!', 'success')
+    print('Your flight has been deleted!')
+
+    return redirect(url_for('main.home'))
+
+
 @users.route("/user_pois", defaults={'user_id': None})
 @users.route("/user_pois/<user_id>")
 @login_required

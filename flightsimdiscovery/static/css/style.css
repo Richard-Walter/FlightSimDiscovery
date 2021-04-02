@@ -2581,6 +2581,21 @@ h3 {
   text-justify: auto !important;
 }
 
+.iw_flight_header {
+  font-family: "Georgia", "Open Sans", Sans-serif;
+  /* font-size: 14px; */
+  /* font-weight: 400; */
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #a8cfd6;
+  opacity: 0.9;
+  color: #013769;
+  /* margin: 1px; */
+  border-radius: 2px 2px 0 0; /* In accordance with the rounding of the default infowindow corners. */
+}
+
 .iw_header_caption {
   position: absolute;
   top: 5%;

@@ -16,6 +16,7 @@ from flightsimdiscovery.flightplans.utils import get_user_flightplans
 main = Blueprint('main', __name__)
 
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
+# TODO add flight_id just an ID primary key to user flights and change flight_id to filename
 # TODO imporve popup dialog box
 # TODO ability to delete flight plan upon clicking on flight
 # TODO Add marker for departure-destination airports
@@ -132,7 +133,6 @@ def home(filter_poi_location):
 
     # check if user has submitted a search or user has updated poi via the infowindow
     if request.method == 'POST':
-        print("in post")
 
         anchor = 'where_togo_area'
 
