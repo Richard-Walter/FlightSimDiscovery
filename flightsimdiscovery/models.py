@@ -127,8 +127,9 @@ class FP_Ratings(db.Model):
         return f"FP_Ratings('{self.fp_id}', '{self.rating_score}')"
 
 class UserFlights(db.Model):
-    flight_id = db.Column(db.Text, primary_key=True)
+    flight_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    filename = db.Column(db.Text, nullable=False, default="")
     aircraft_title = db.Column(db.Text, nullable=False, default="")
     aircraft_reg = db.Column(db.Text, nullable=False, default="")
     origin_name = db.Column(db.Text, nullable=False, default="")
@@ -137,9 +138,10 @@ class UserFlights(db.Model):
     destination_icao = db.Column(db.Text, nullable=False, default="")
     network = db.Column(db.Text, nullable=False, default="")
     flight_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    real_flight_time = db.Column(db.Numeric(8,12), nullable=False, default=0)
 
     def __repr__(self):
-        return f"User Flgihts('{self.flight_id}', '{self.origin_name}', '{self.destination_name}')"  
+        return f"User Flgihts('{self.filename}', '{self.origin_name}', '{self.destination_name}')"  
 
 class User_flight_positions(db.Model):
     id = db.Column(db.Integer, primary_key=True)

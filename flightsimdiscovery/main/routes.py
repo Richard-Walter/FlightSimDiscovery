@@ -17,8 +17,8 @@ main = Blueprint('main', __name__)
 
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
 # DONE Fix bug where Clicking on Map ICon ina top ten page gives 404
-# TODO add flight_id just an ID primary key to user flights and change flight_id to filename
 # TODO ability to delete flight plan upon clicking on flight
+
 # TODO Add volanta fights database list, otherwise notifty user that no data exsist - pleas upload
 # TODO create error notification if can't find valid volanta folder
 
@@ -82,8 +82,9 @@ def home(filter_poi_location):
 
         is_authenticated = True
 
-        # get user sim flights and show if applicable
+        # get and store user sim flights and show if applicable
         user_flights = get_user_flights()
+        # session['user_flights'] = user_flights
 
         if user_flights:
             if session.get('show_my_flights') == 'No':

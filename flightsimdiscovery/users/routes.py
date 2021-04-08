@@ -1,9 +1,9 @@
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, current_app
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, current_app, session
 from flightsimdiscovery import db, bcrypt
 from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flightsimdiscovery.models import User, Pois, UserFlights, User_flight_positions
 from flask_login import login_user, current_user, logout_user, login_required
-from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois, save_flight_data_to_db
+from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois, save_flight_data_to_db, get_user_flights
 import json, os
 from json.decoder import JSONDecodeError
 
@@ -77,6 +77,8 @@ def account():
 @login_required
 def my_flights():
 
+    user_flights = get_user_flights()
+
     json_flight_data_list = []
 
     if request.method == 'POST':
@@ -101,11 +103,13 @@ def my_flights():
             return redirect(request.url)
 
         else:
-            return redirect(url_for('main.home', _anchor='google_map'))      
+            flash("Volanta flights successfully uploaded", 'success')
+            return redirect(request.url)
+            # return redirect(url_for('main.home', _anchor='google_map'))      
 
     elif request.method == 'GET':
 
-        return render_template('my_flights.html')
+        return render_template('my_flights.html', user_flights=user_flights)
 
 @users.route("/my_flights/delete/<id>",methods=['POST'])
 @login_required

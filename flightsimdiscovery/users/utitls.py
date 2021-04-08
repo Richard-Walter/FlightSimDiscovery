@@ -177,12 +177,12 @@ def save_flight_data_to_db(json_flight_data, flight_recorder):
 
         flight_positions = []
         flight_data = {}
-        flight_id = flight['Id']
+        filename = flight['Id']
         flight_state = flight['State']
         
 
-        # check if flight already exists or was cancelled.  Ignore if so
-        if get_flight(flight_id) or (flight_state == 'Cancelled'):
+        # check if flight already exists or was cancelled.  Ignore if so.  Assumes filename is unique
+        if get_flight(filename) or (flight_state == 'Cancelled'):
             continue
         
         aircraft_title = flight['AircraftTitle']
@@ -200,10 +200,17 @@ def save_flight_data_to_db(json_flight_data, flight_recorder):
         try:
             flight_date = datetime.strptime(flight_date_str, r"%Y-%m-%dT%H:%M:%S.%f")   #e.g. "2021-02-12T02:46:22.372",
         except (ValueError, TypeError):
-            print('strtime error' , 'flight id is ', flight_id)
+            print('strtime error' , 'filename is ', filename)
             # just use current date by defaul
             # flight_date = datetime.utcnow
             pass
+
+        user_flight_db = UserFlights(user_id=current_user.id, filename=filename, aircraft_title=aircraft_title, aircraft_reg=aircraft_reg,
+                                origin_name=origin_name, origin_icao=origin_icao, destination_name=destination_name, destination_icao=destination_icao,
+                                network=network, flight_date=flight_date)
+ 
+        db.session.add(user_flight_db)
+        db.session.flush()
 
         # create flight lat-lng positions
         positions = flight['Positions']
@@ -215,25 +222,20 @@ def save_flight_data_to_db(json_flight_data, flight_recorder):
             altitude_agl = position['AltitudeAgl']
             on_ground = position['OnGround']
             OnGround = 1 if position['OnGround'] == True else 0
-            flight_positions_db = User_flight_positions(flight_id=flight_id,latitude=latitude, longitude=longitude,altitude=altitude, altitude_agl=altitude_agl, OnGround=OnGround)
+            flight_positions_db = User_flight_positions(flight_id=user_flight_db.flight_id,latitude=latitude, longitude=longitude,altitude=altitude, altitude_agl=altitude_agl, OnGround=OnGround)
 
             db.session.add(flight_positions_db)
 
-        user_flight_db = UserFlights(flight_id=flight_id, user_id=current_user.id, aircraft_title=aircraft_title, aircraft_reg=aircraft_reg,
-                                     origin_name=origin_name, origin_icao=origin_icao, destination_name=destination_name, destination_icao=destination_icao,
-                                     network=network, flight_date=flight_date)
- 
-        db.session.add(user_flight_db)
-        
+       
 
     try:
         db.session.commit()
     except Exception:
         raise JSONDecodeError
 
-def get_flight(flight_id):
+def get_flight(filename):
 
-    return UserFlights.query.filter_by(flight_id=flight_id).all()
+    return UserFlights.query.filter_by(filename=filename).first()
 
 def get_user_flights():
 
@@ -271,8 +273,8 @@ def get_user_flights():
 
             flight_data['Positions'] = flight_positions
 
-
             flights.append(flight_data)
+
     except Exception as e:
         print(e)
         print("Something went wrong getting users flights")

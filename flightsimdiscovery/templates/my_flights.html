@@ -23,6 +23,7 @@
             <p class="text-secondary">{{ current_user.email }}</p>
           </div>
         </div> -->
+        
         <div class="mt-5">
             <legend class="border-bottom mb-4">My Flights</legend>
             <p>
@@ -33,6 +34,17 @@
             </p>
 
         </div>
+        <div class="user_flights">
+            <br>
+            {% if current_user.username %}
+                {% if user_flights %}
+                        <p>You have uploaded {{user_flights|length}} user flights detected</p>
+                    {% else %}
+                        <p>No user volanta flights detected.  Please upload some volanta flights to view on world map.</p>
+                {% endif %}
+            {% endif %}
+            
+        </div>
         <form method="POST" action="/my_flights" enctype="multipart/form-data">
            
             <fieldset class="form-group mt-5">
@@ -40,10 +52,17 @@
                     <dl>
                         <p><input type="file" id="choose_flights_btn" name="files[]" multiple="true" autocomplete="off" accept=".json" value="Choose Volanta Flights" required></p>
                     </dl>
-                    <p><input type="submit" class="show_flights_btn" value="Show Flights"></p>
+                    <p><input type="submit" class="show_flights_btn" value="Upload Flights"></p>
                 </div>               
             </fieldset>
         </form>
+        <div class="mt-5">
+            
+            <p>
+              Volanta database table goes here
+            </p>
+
+        </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery.min.js"></script>
