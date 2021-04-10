@@ -1,7 +1,7 @@
 import os
 import secrets
 from PIL import Image
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import url_for, session
 from flask_mail import Message
 from flightsimdiscovery import mail, db
@@ -179,10 +179,11 @@ def save_flight_data_to_db(json_flight_data, flight_recorder):
         flight_data = {}
         filename = flight['Id']
         flight_state = flight['State']
+        real_flight_time_sec = flight['RealFlightTime']
         
 
         # check if flight already exists or was cancelled.  Ignore if so.  Assumes filename is unique
-        if get_flight(filename) or (flight_state == 'Cancelled'):
+        if get_flight(filename) or (flight_state == 'Cancelled') or (not real_flight_time_sec):
             continue
         
         aircraft_title = flight['AircraftTitle']
@@ -195,20 +196,20 @@ def save_flight_data_to_db(json_flight_data, flight_recorder):
             destination_name = flight['Destination'].get('Name')
             destination_icao = flight['Destination'].get('IcaoCode')
         network = flight['Network']
-        real_flight_time_sec = flight['real_flight_time']
+        
         flight_date_str = flight['OffBlocksTime']
         
         try:
-            flight_date = datetime.strptime(flight_date_str, r"%Y-%m-%dT%H:%M:%S")   #e.g. "2021-02-12T02:46:22.372",
-        except (ValueError, TypeError):
-            print('strtime error' , 'filename is ', filename)
+            flight_date = datetime.strptime(flight_date_str, r"%Y-%m-%dT%H:%M:%S.%f")   #e.g. "2021-02-12T02:46:22.372",
+        except (ValueError, TypeError) as e:
+            print('strtime error' , e, 'filename is ', filename)
             # just use current date by defaul
             # flight_date = datetime.utcnow
             pass
 
         user_flight_db = UserFlights(user_id=current_user.id, filename=filename, aircraft_title=aircraft_title, aircraft_reg=aircraft_reg,
                                 origin_name=origin_name, origin_icao=origin_icao, destination_name=destination_name, destination_icao=destination_icao,
-                                network=network, flight_date=flight_date, real_flight_time=real_flight_time)
+                                network=network, flight_date=flight_date, real_flight_time=real_flight_time_sec)
  
         db.session.add(user_flight_db)
         db.session.flush()
@@ -256,7 +257,8 @@ def get_user_flights():
             flight_data = {}
             flight_data['Flight_ID'] = flight.flight_id
             flight_data['Date'] = (flight.flight_date).strftime("%d-%b-%Y %H:%M")
-            flight_data['Flight_time'] = float(flight.real_flight_time)
+            flight_time_sec = float(flight.real_flight_time)
+            flight_data['Flight_time'] = str(timedelta(seconds=round(flight_time_sec)))
             flight_data['AircraftTitle'] = flight.aircraft_title
             flight_data['AircraftRegistration'] = flight.aircraft_reg
             flight_data['Filename'] = flight.filename

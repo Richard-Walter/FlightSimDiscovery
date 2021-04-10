@@ -38,7 +38,7 @@
             <br>
             {% if current_user.username %}
                 {% if user_flights %}
-                        <p>You have uploaded {{user_flights|length}} user flights detected</p>
+                        <p>You have uploaded {{user_flights|length}} flights</p>
                     {% else %}
                         <p>No user volanta flights detected.  Please upload some volanta flights to view on world map.</p>
                 {% endif %}
@@ -74,6 +74,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                            
                            
                         {% for user_flight in user_flights %}
                         <tr>
@@ -81,7 +82,7 @@
                             <td>{{user_flight.Origin_name}}</td>
                             <td>{{user_flight.Destination_name}}</td>
                             <td>{{user_flight.AircraftTitle}}</td>
-                            <td>{{user_flight.real_flight_time}}</td>
+                            <td>{{user_flight.Flight_time}}</td>
                             <td>{{user_flight.Filename}}</td>
 
                             <!-- <td><a href="/view_flightplan/{{user_flight.flight_id}}" class="btn btn-primary" role="button"
