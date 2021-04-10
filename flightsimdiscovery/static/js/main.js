@@ -260,6 +260,18 @@ $(document).ready(function(){
     // "pagingType": "full_numbers"
   } );
 
+  $('#account_user_flight_datatable').DataTable( {
+    
+    'columnDefs': [
+    
+      { className: 'text-center', targets: [4, 6] },
+    ],
+    // "scrollY":        "800px",
+    "scrollCollapse": true,
+    "paging":         false
+    // "pagingType": "full_numbers"
+  } );
+
   $('#poi_popularity_datatable').DataTable( {
     
     'columnDefs': [

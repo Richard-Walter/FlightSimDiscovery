@@ -56,17 +56,92 @@
                 </div>               
             </fieldset>
         </form>
-        <div class="mt-5">
-            
-            <p>
-              Volanta database table goes here
-            </p>
 
+            <div class="db_table_area my-5">
+                <!-- <legend class="border-bottom mb-5">My Points of Interest</legend> -->
+                <div>
+                    <table id="account_user_flight_datatable" class="stripe row-border">
+                        <thead class="">
+                        <tr>
+                            <th scope="col">Date (UTC)</th>
+                            <th scope="col">Origin</th>
+                            <th scope="col">Destination</th>
+                            <th scope="col">Aircraft</th>
+                            <th scope="col">Flight Time</th>
+                            <th scope="col">Filename</th>
+                            <!-- <th scope="col">Map</th> -->
+                            <th scope="col">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                           
+                        {% for user_flight in user_flights %}
+                        <tr>
+                            <td>{{user_flight.Date}}</td>
+                            <td>{{user_flight.Origin_name}}</td>
+                            <td>{{user_flight.Destination_name}}</td>
+                            <td>{{user_flight.AircraftTitle}}</td>
+                            <td>{{user_flight.real_flight_time}}</td>
+                            <td>{{user_flight.Filename}}</td>
+
+                            <!-- <td><a href="/view_flightplan/{{user_flight.flight_id}}" class="btn btn-primary" role="button"
+                                aria-disabled="true"><i class="fas fa-globe-americas"></i></a>
+                            </td>                              -->
+                            <td>
+                                <button type="button" class="open_delete_fp_modal btn btn-danger" data-id="{{user_flight.Flight_ID}}"
+                                        data-toggle="modal" data-target="#deleteFlightModal"><i class="far fa-trash-alt"></i></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+</div>
+<!-- Delete sim flight Modal -->
+<div class="custom_search_pop">
+    <div
+            class="modal fade"
+            id="deleteFlightModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="deleteModalLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">
+                        Are you sure you want to delete this flight?
+                    </h5>
+                    <input type="hidden" name="eventId" id="eventId"/>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                    <form id="delete_flight_confirm" action="" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete"/>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
+  $(document).on("click", ".open_delete_fp_modal", function () {
+       
+       var id = $(this).data('id');
+       var form_action = '/my_flights/' + id + '/delete?page=my_flights'
+       $("#delete_flight_confirm").attr('action', form_action);
+  });
+
     $(document).on("click", ".show_flights_btn", function () {
        
         var fileVal=document.getElementById("choose_flights_btn");

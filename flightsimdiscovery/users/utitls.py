@@ -2,7 +2,7 @@ import os
 import secrets
 from PIL import Image
 from datetime import datetime
-from flask import url_for
+from flask import url_for, session
 from flask_mail import Message
 from flightsimdiscovery import mail, db
 from flightsimdiscovery.models import Pois, Visited, Favorites, User, Flagged, Flightplan, Flightplan_Waypoints, User_flight_positions, UserFlights
@@ -195,10 +195,11 @@ def save_flight_data_to_db(json_flight_data, flight_recorder):
             destination_name = flight['Destination'].get('Name')
             destination_icao = flight['Destination'].get('IcaoCode')
         network = flight['Network']
+        real_flight_time_sec = flight['real_flight_time']
         flight_date_str = flight['OffBlocksTime']
         
         try:
-            flight_date = datetime.strptime(flight_date_str, r"%Y-%m-%dT%H:%M:%S.%f")   #e.g. "2021-02-12T02:46:22.372",
+            flight_date = datetime.strptime(flight_date_str, r"%Y-%m-%dT%H:%M:%S")   #e.g. "2021-02-12T02:46:22.372",
         except (ValueError, TypeError):
             print('strtime error' , 'filename is ', filename)
             # just use current date by defaul
@@ -207,7 +208,7 @@ def save_flight_data_to_db(json_flight_data, flight_recorder):
 
         user_flight_db = UserFlights(user_id=current_user.id, filename=filename, aircraft_title=aircraft_title, aircraft_reg=aircraft_reg,
                                 origin_name=origin_name, origin_icao=origin_icao, destination_name=destination_name, destination_icao=destination_icao,
-                                network=network, flight_date=flight_date)
+                                network=network, flight_date=flight_date, real_flight_time=real_flight_time)
  
         db.session.add(user_flight_db)
         db.session.flush()
@@ -232,6 +233,9 @@ def save_flight_data_to_db(json_flight_data, flight_recorder):
         db.session.commit()
     except Exception:
         raise JSONDecodeError
+    else:
+        # assume user wants to see his flights after uploading
+        session['show_my_flights'] = 'Yes'
 
 def get_flight(filename):
 
@@ -251,8 +255,11 @@ def get_user_flights():
             flight_positions = []
             flight_data = {}
             flight_data['Flight_ID'] = flight.flight_id
+            flight_data['Date'] = (flight.flight_date).strftime("%d-%b-%Y %H:%M")
+            flight_data['Flight_time'] = float(flight.real_flight_time)
             flight_data['AircraftTitle'] = flight.aircraft_title
             flight_data['AircraftRegistration'] = flight.aircraft_reg
+            flight_data['Filename'] = flight.filename
             flight_origin_name = flight.origin_name
             flight_origin_icao = flight.origin_icao
             flight_destination_name = flight.destination_name
