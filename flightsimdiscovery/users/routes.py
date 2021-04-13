@@ -111,7 +111,7 @@ def my_flights():
 
         return render_template('my_flights.html', user_flights=user_flights)
 
-@users.route("/my_flights/delete/<id>",methods=['POST'])
+@users.route("/my_flights/delete/<flight_id>",methods=['POST'])
 @login_required
 def delete_flight(flight_id):
     
@@ -124,22 +124,22 @@ def delete_flight(flight_id):
     flight_waypoint_list = User_flight_positions.query.filter_by(flight_id=flight_id).all()
 
     # only the user who owns the flight can delete it.
-    # if (current_user.username != 'admin'):
-    #     if (flight.user_id != current_user.id):
-    #         abort(403)
-    # db.session.delete(flight)
+    if (current_user.username != 'admin'):
+        if (flight.user_id != current_user.id):
+            abort(403)
+    db.session.delete(flight)
 
-    # for waypoint_poi in flight_waypoint_list:
-    #     db.session.delete(waypoint_poi)
+    for waypoint_poi in flight_waypoint_list:
+        db.session.delete(waypoint_poi)
 
-    # print(id)
-
-    # db.session.commit()
-
+    db.session.commit()
     
     flash('Your flight has been deleted!', 'success')
 
-    return redirect(url_for('main.home'))
+    if category == 'my_flights':
+        return redirect(url_for('users.my_flights'))
+    else:
+        return redirect(url_for('main.home'))
 
 
 @users.route("/user_pois", defaults={'user_id': None})

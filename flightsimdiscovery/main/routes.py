@@ -21,7 +21,6 @@ main = Blueprint('main', __name__)
 # TODO ability to delete flight plan upon clicking on flight
 # TODO view user flight from my flights datatable
 # TODO export flights with custom waypoint not showing as visited - seems to work locally check next update
-# TODO Add volanta fights database list, otherwise notifty user that no data exsist - pleas upload
 # TODO create error notification if can't find valid volanta folder
 
 # TODO Add marker for departure-destination airports for sim flights

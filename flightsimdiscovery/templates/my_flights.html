@@ -139,7 +139,7 @@
   $(document).on("click", ".open_delete_fp_modal", function () {
        
        var id = $(this).data('id');
-       var form_action = '/my_flights/' + id + '/delete?page=my_flights'
+       var form_action = '/my_flights/delete/' + id + '?page=my_flights'
        $("#delete_flight_confirm").attr('action', form_action);
   });
 
