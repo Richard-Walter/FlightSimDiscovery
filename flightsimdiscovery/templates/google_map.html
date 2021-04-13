@@ -849,6 +849,7 @@
         flight_infowindow = new google.maps.InfoWindow;
 
         flight_id = flight_data['Flight_ID']
+        flight_filename = flight_data['Filename']
         aircraft_registration = flight_data['AircraftRegistration']
         aircraft_title = flight_data['AircraftTitle']
         flight_origin_name = flight_data['Origin_name']
@@ -899,7 +900,7 @@
                   '<div class="my-2">'+
                     '<p class="iw_description mx-3">AIRCRAFT:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ aircraft_title + '</p>'+
                     '<p class="iw_description mx-3">REGISTRATION:&nbsp&nbsp'+ aircraft_registration + '</p>'+
-                    '<p class="iw_description mx-3">FILENAME:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ flight_id + '</p>'+
+                    '<p class="iw_description mx-3">FILENAME:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ flight_filename + '</p>'+
                   '</div>'+
               '</div>'+
               '<div>' +

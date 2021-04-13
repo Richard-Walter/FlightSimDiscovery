@@ -17,6 +17,7 @@ main = Blueprint('main', __name__)
 
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
 # DONE Fix bug where Clicking on Map ICon ina top ten page gives 404
+# TODO click on my flights pop up heading takes to google search not displaying search info correctly
 # TODO ability to delete flight plan upon clicking on flight
 # TODO view user flight from my flights datatable
 # TODO export flights with custom waypoint not showing as visited - seems to work locally check next update
