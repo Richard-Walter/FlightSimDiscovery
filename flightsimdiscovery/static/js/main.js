@@ -264,11 +264,13 @@ $(document).ready(function(){
     
     'columnDefs': [
     
-      { className: 'text-center', targets: [4, 6] },
+      { className: 'text-center', targets: [4, 6, 7] },
+      { type: 'date', 'targets': [0] },
     ],
     // "scrollY":        "800px",
     "scrollCollapse": true,
-    "paging":         false
+    "paging":         false,
+    order: [[ 0, 'desc' ]]
     // "pagingType": "full_numbers"
   } );
 

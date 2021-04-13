@@ -63,6 +63,7 @@
                     <table id="account_user_flight_datatable" class="stripe row-border">
                         <thead class="">
                         <tr>
+                           
                             <th scope="col">Date (UTC)</th>
                             <th scope="col">Origin</th>
                             <th scope="col">Destination</th>
@@ -70,6 +71,7 @@
                             <th scope="col">Flight Time</th>
                             <th scope="col">Filename</th>
                             <!-- <th scope="col">Map</th> -->
+                            <th scope="col">Map</th>
                             <th scope="col">Delete</th>
                         </tr>
                         </thead>
@@ -78,6 +80,7 @@
                            
                         {% for user_flight in user_flights %}
                         <tr>
+                        
                             <td>{{user_flight.Date}}</td>
                             <td>{{user_flight.Origin_name}}</td>
                             <td>{{user_flight.Destination_name}}</td>
@@ -85,9 +88,9 @@
                             <td>{{user_flight.Flight_time}}</td>
                             <td>{{user_flight.Filename}}</td>
 
-                            <!-- <td><a href="/view_flightplan/{{user_flight.flight_id}}" class="btn btn-primary" role="button"
+                            <td><a href="/view_sim_flight/{{user_flight.Flight_ID}}" class="btn btn-primary" role="button"
                                 aria-disabled="true"><i class="fas fa-globe-americas"></i></a>
-                            </td>                              -->
+                            </td>                             
                             <td>
                                 <button type="button" class="open_delete_fp_modal btn btn-danger" data-id="{{user_flight.Flight_ID}}"
                                         data-toggle="modal" data-target="#deleteFlightModal"><i class="far fa-trash-alt"></i></button>

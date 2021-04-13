@@ -18,11 +18,9 @@ main = Blueprint('main', __name__)
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
 # DONE Fix bug where Clicking on Map ICon ina top ten page gives 404
 # TODO Import files must have a unique filename_date - TEST
-# TODO ability to delete flight plan upon clicking on flight
 # TODO view user flight from my flights datatable
 # TODO export flights with custom waypoint not showing as visited - seems to work locally check next update
 # TODO create error notification if can't find valid volanta folder
-
 # TODO Add marker for departure-destination airports for sim flights
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 # TODO allow users to upload photo of location
@@ -296,8 +294,9 @@ def home(filter_poi_location):
 
     #check to see if user wants to view a fliughtplan
     view_flightplan = request.args.get('view_flightplan', 0)
+    view_sim_flight = request.args.get('view_sim_flight', 0)
 
-    return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
+    return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, view_sim_flight=view_sim_flight, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
                            user_flights=user_flights, user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
                            search_defaults=search_defaults, show_my_flights=show_my_flights, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(), _anchor=anchor)
 
