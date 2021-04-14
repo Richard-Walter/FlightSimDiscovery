@@ -29,6 +29,7 @@
       var markerCollection;
       var clusterMarkers = [];
       var view_flightplan_id = {{view_flightplan}};
+      var view_sim_flight_id = {{view_sim_flight}};
       var show_my_flights = {{show_my_flights|tojson}};
       var flights_currently_showing = false;
 
@@ -137,6 +138,33 @@
 
         loadFlightPlan(flightPath, map);
 
+        //check if user wants to view one of their simflights
+        if (view_sim_flight_id != 0) { 
+          //get flight and bounds from the fist and last poistions 
+
+          sim_flight_bounds = getSimFlightBounds(view_sim_flight_id)
+
+        
+          if (sim_flight_bounds) {
+
+            x_min = sim_flight_bounds['x_min']
+            y_min = sim_flight_bounds['y_min']
+            x_max = sim_flight_bounds['x_max']
+            y_max = sim_flight_bounds['y_max']
+            console.log(JSON.stringify(sim_flight_bounds) )
+
+            //zoom to sim flight
+            var bounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(x_min,y_min),
+                new google.maps.LatLng(x_max, y_max)
+            );
+
+          map.fitBounds(bounds, {top:50,bottom:50,right:50,left:50});         
+
+          } 
+        }
+
+
         flightPath.addListener('click', () => {
             
             buildFlightPlanModalBody(flightPath_data, flightpath_name);
@@ -144,7 +172,6 @@
         });
 
         //info window to add new poi
-        
         addpoi_infowindow = new google.maps.InfoWindow;
         map.addListener('rightclick', function(event) {
 
@@ -1233,8 +1260,47 @@
           }
           map.fitBounds(bounds);
         }
-    
 
+        function getSimFlightBounds(user_flight_id){
+
+          for (var k = 0; k < user_flights.length; k++) {
+
+            var flight = user_flights[k];
+            if (flight['Flight_ID'] == user_flight_id){
+              
+              
+              var x_coords = []
+              var y_coords = []
+              var positional_flight_data = flight['Positions'];
+
+              for (var m = 0; m < positional_flight_data.length; m++) {
+                x_coords.push(parseFloat(positional_flight_data[m]['Latitude']))
+                y_coords.push(parseFloat(positional_flight_data[m]['Longitude']))
+
+              }
+
+
+              // var x_min = positional_flight_data[0]['Latitude']
+              // var y_min = positional_flight_data[0]['Longitude']
+              // var x_max = positional_flight_data[positional_flight_data.length-1]['Latitude']
+              // var y_max = positional_flight_data[positional_flight_data.length-1]['Longitude']
+
+              var bounds_dict = {
+                x_min:Math.min.apply(null, x_coords),
+                y_min:Math.min.apply(null, y_coords),
+                x_max:Math.max.apply(null, x_coords),
+                y_max:Math.max.apply(null, y_coords),
+
+              }
+              
+              return bounds_dict
+            } 
+          }
+          // couldnt find matching sim flight
+        
+          return null
+        }
+    
 
         </script>
         <!--DEVELOPMENT-->

@@ -18,7 +18,6 @@ main = Blueprint('main', __name__)
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
 # DONE Fix bug where Clicking on Map ICon ina top ten page gives 404
 # TODO Import files must have a unique filename_date - TEST
-# TODO view user flight from my flights datatable
 # TODO export flights with custom waypoint not showing as visited - seems to work locally check next update
 # TODO create error notification if can't find valid volanta folder
 # TODO Add marker for departure-destination airports for sim flights
@@ -427,4 +426,9 @@ def iw_post():
 def view_flightplan(flightplan_id):
 
     return redirect(url_for('main.home', _anchor='google_map', view_flightplan=flightplan_id))
+
+@main.route("/view_sim_flight/<view_simflight_id>")
+def view_sim_flight(view_simflight_id):
+
+    return redirect(url_for('main.home', _anchor='google_map', view_sim_flight=view_simflight_id))
 
