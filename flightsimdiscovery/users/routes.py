@@ -97,7 +97,7 @@ def my_flights():
             #parse volanta json flight data and store in database
             save_flight_data_to_db(json_flight_data_list, 'Volanta')
                 
-        except  JSONDecodeError:
+        except  (JSONDecodeError, TypeError, KeyError):
             print("cannont decode the json file")
             flash("One of the files you have selected does not appear to be a valid volanta JSON file", 'warning')
             return redirect(request.url)
