@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <Document>
+    <Folder Name="Airports Standard">
+      <Placemark>
+        <name>Altiport Megève</name>
+        <description>LFHM</description>
+        <styleUrl>#icon-1750-795548</styleUrl>
+        <Point>
+          <coordinates>
+            6.6510851,45.8202286,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Nice Côte d'Azur Airport></name>
+        <description>LFMN</description>
+        <styleUrl>#icon-1504-795548</styleUrl>
+        <Point>
+          <coordinates>
+            7.2148214,43.6597689,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Rotterdam The Hague Airport</name>
+        <description>EHRD</description>
+        <styleUrl>#icon-1504-795548</styleUrl>
+        <Point>
+          <coordinates>
+            4.4398832,51.9555086,0
+          </coordinates>
+        </Point>
+      </Placemark>
+	</Folder>
+	<Folder Name="Points of Interest">
+      <Placemark>
+        <name>Afsluitdijk</name>
+        <description></description>
+        <styleUrl>#icon-1535-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value></value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            5.226658,53.0313172,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Abbey of Saint-Savin</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            0.8658333,46.5647443,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cathédrale Notre-Dame d'Amiens</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.3020481,49.8946252,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>La Basilique Notre Dame de Fourvière</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.822626,45.7622928,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Shrine of Our Lady of La Salette</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.9788044,44.8586296,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>National Basilica of the Sacred Heart in Koekelberg</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.3170834,50.8670934,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Bourges Cathedral</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.399205,47.0821639,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cathedral of Our Lady Antwerp</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.4015157,51.2202678,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Chartres Cathedral</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            1.4878371,48.4478026,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Church of Our Lady Bruges</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            3.2244695,51.2046484,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Basilique Notre-Dame de la Garde</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.3712377,43.2839533,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cathédrale Notre-Dame de Paris</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.3499021,48.8529682,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The Oude Church</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.8982067,52.3743671,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Reims Cathedral</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.0340402,49.2538569,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cathédrale Notre Dame de Strasbourg</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            7.7510348,48.5818799,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cathedral of Our Lady</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            3.388899,50.6064864,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Vézelay Abbey</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            3.7487404,47.4663856,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Erasmus Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.4862352,51.9093267,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Pont de Normandie</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            0.2742406,49.4306078,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Pont de Wandre</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.6432016,50.6742921,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Pythonbrug</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.9488986,52.373207,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Pont de Saint-Nazaire</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -2.1704184,47.2846525,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Arc de Triomphe</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.2950275,48.8738093,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Arles, Roman and Romanesque Monuments</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.6305946,43.6769699,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Champs-Élysées</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.3087413,48.8695034,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Belfry of Bruges</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            3.2248011,51.2081466,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cairn of Barnenez</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -3.8583557,48.6675928,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Canadian National Vimy Memorial</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.7739734,50.3795913,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cité de Carcassonne</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.3641961,43.2060816,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Caserne Loubere + Lighthouse</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -52.3375576,4.9386516,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Château de Chenonceau</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            1.0703005,47.3248696,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Château de Costaérès</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -3.4926194,48.8353133,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Château de Pierrefonds</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.9801831,49.346975,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Château de Quéribus</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.6214955,42.8367719,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Château de Vaux le Vicomte</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.714135,48.565812,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Château du Haut-Kœnigsbourg</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            7.3444831,48.2494853,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Citadelle de Lille</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            3.0445812,50.6409299,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Citadel of Namur</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.861122,50.4597979,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cordouan Lighthouse</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -1.1733526,45.5863295,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Douaumont Ossuary</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.4245709,49.2074232,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Dreyfus Tower</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -52.6265501,5.1585701,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Dune of Pilat</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -1.2133338,44.5896525,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Etretat Chalk Complex</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            0.2055978,49.7070069,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Fort Boyard</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -1.2139238,45.9995289,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Fort Napoléon des Saintes</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -61.5821279,15.8752901,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Grande Arche de la Defense</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.2361121,48.8925978,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Houtribdijk</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.416667,52.633333,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Île Vierge lighthouse</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -4.5674963,48.638843,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>La Vieille Lighthouse (La Cavelle?)</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -4.7564445,48.040761,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>La Jument</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -2.965933,48.788809,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Montparnasse Tower</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.3219514,48.8421379,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Maasvlakte Light</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.0147276,51.9700613,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Viaduc de Millau</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            3.0228388,44.0774541,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Mont Aiguille</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.553049,44.842021,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Grand Duke Jean Museum of Modern Art</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            6.140341,49.6171219,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Musée Draï Eechelen</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            6.139253,49.6163693,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Museum aan de Stroom</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.4048203,51.2289238,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Château de Fontainebleau</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.6969502,48.4026127,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Court of First Instance at Antwerp, Antwerp Division</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.3874428,51.2039273,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Palais des Festivals</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            7.0179622,43.5507813,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Palais des Papes</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.8076971,43.9508521,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Panorama of the Battle of Waterloo</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.4051785,50.6793052,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Panthéon</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.3464138,48.8462218,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Perret Tower</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.7354225,45.1849538,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Phare d'Eckmühl</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -4.3727685,47.7981899,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Phare de Gatteville</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -1.2659017,49.6964722,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Le Phare du Cap Ferret</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -1.2488237,44.6459088,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Pic du Midi Observatory</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            0.14117,42.9370374,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Place de la Concorde</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.3212357,48.8656331,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Place Stanislas</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            6.1832413,48.6936184,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Planier Light</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.2299302,43.1987055,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Pointe aux Canons Lighthouse</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -56.1661273,46.7813455,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Provinciaal Hof</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            3.2250127,51.2088486,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Rumm-Befestegungen</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            6.1390126,49.6100279,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Rijksmuseum</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.8852188,52.3599976,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Roches-Douvres Light</name>
+        <description>https://en.wikipedia.org/wiki/Roches-Douvres_Light</description>
+        <styleUrl>#icon-1535-0288D1</styleUrl>
+        <Point>
+          <coordinates>
+            -2.81388888888889,49.105,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Royal Palace Amsterdam</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.891368,52.373186,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Saline Royale d'Arc-et-Senans</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.7776263,47.0331753,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Vianden Castle</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            6.2027224,49.9350345,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Windmills at Kinderdijk</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.6369466,51.8883917,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Allianz Riviera - Nice Stadium</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            7.1928457,43.7053308,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Coque Sport Center</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            6.154117,49.6233849,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>De Grolsch Veste</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            6.8379335,52.2365565,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Johan Cruijff ArenA</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.9419641,52.3143713,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>King Baudouin Stadium</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.3341225,50.8957132,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Nouveau Stade de Bordeaux</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -0.5615863,44.8973583,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Le Parc des Princes</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.2530487,48.8414356,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Groupama Stadium</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.982029,45.765295,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Philips Stadium</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.4674478,51.4417341,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Stade de France</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.3601645,48.9244592,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Stade de la Beaujoire</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -1.524675,47.2560233,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Geoffroy Stadium</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.3901511,45.4607733,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Stade Jean-Bouin</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.2528923,48.8433695,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Stade Pierre Mauroy</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            3.1304899,50.6119667,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Orange Vélodrome</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.3958873,43.269827,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Stadium TFC</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            1.434048,43.5832972,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Adolphe Bridge</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            6.1270177,49.6083531,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Law Courts of Brussels</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.3516068,50.8366449,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>CNIT</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.2394592,48.8927042,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tour First</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.2517691,48.8886221,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tour D2</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.247778,48.890278,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cœur Défense</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.2438816,48.891113,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>ENGIE Tour T1</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.2396611,48.8955904,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tour Majunga</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.2435,48.8888,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tour Total</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.2433333,48.8927778,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tour Carpe Diem</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.245833,48.891389,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Metallic tower of Fourvière</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            4.8223697,45.7639847,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Framatome</name>
+        <styleUrl>#icon-1535-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            2.2419005,48.8924857,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
