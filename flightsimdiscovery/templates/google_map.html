@@ -1,7 +1,9 @@
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/geojson/0.5.0/geojson.min.js"></script>
-<script src="http://www.geocodezip.com/scripts/javascript.util.js"></script>
-<script src="http://www.geocodezip.com/scripts/jsts.js"></script>
+<!-- <script src="http://www.geocodezip.com/scripts/javascript.util.js"></script> -->
+<!-- <script src="http://www.geocodezip.com/scripts/jsts.js"></script> -->
+<script src="{{ url_for('static', filename='/js/javascript.util.js') }}"></script> -->
+<script src="{{ url_for('static', filename='/js/jsts.js') }}"></script>
 <div id="google_map" class="google_map_area">
     <div class="">
         <div class="d-sm-block pb-4">
