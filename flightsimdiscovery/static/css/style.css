@@ -1517,19 +1517,23 @@ h3 {
 }
 
 /* line 1, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_slider.scss */
+
+
+.slider_bg_17 {
+  background-image: url(../img/banner/banner17.jpg);
+}
+
+.slider_bg_18 {
+  background-image: url(../img/banner/banner18.jpg);
+}
+
+.slider_bg_19 {
+  background-image: url(../img/banner/banner19.jpg);
+}
+
 .slider_bg_1 {
   background-image: url(../img/banner/banner1.jpg);
 }
-
-.slider_bg_11 {
-  background-image: url(../img/banner/banner11.jpg);
-}
-
-.slider_bg_12 {
-  background-image: url(../img/banner/banner12.jpg);
-}
-
-
 
 /* line 4, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_slider.scss */
 .slider_bg_2 {
