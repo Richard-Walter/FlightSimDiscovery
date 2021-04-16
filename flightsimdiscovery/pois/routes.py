@@ -65,7 +65,7 @@ def new_poi(iw_add_poi_location):
             new_form.share.data = form.share.data
 
             flash('A point of interest already exists at this location', 'danger')
-            return render_template('create_poi.html', form=new_form, legend='New Poi')
+            return render_template('create_poi.html', db_poi_names=poi_names, form=new_form, legend='New Poi')
 
         # determine country from user coordinates not from the country they input in the form
         location_details = get_location_details(float(form.latitude.data), float(form.longitude.data))

@@ -17,12 +17,12 @@ main = Blueprint('main', __name__)
 
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
 # DONE Fix bug where Clicking on Map ICon ina top ten page gives 404
+
 # TODO JSTS error - Put in try/Catch
-# TODO Add flight time to sim flight IW
-# TODO adding paris as a city location gives 501 error
+
 # TODO go to #google map upon deleting sim flight
 # TODO check file import size and display error to use if uploading greater than 200M
-
+# TODO adding paris as a city location gives 501 error
 # TODO Add marker for departure-destination airports for sim flights
 # TODO export flights with custom waypoint not showing as visited - seems to work locally check next update
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans

@@ -878,6 +878,8 @@
         flight_infowindow = new google.maps.InfoWindow;
 
         flight_id = flight_data['Flight_ID']
+        flight_date = flight_data['Date']
+        flight_time = flight_data['Flight_time']
         flight_filename = flight_data['Filename']
         aircraft_registration = flight_data['AircraftRegistration']
         aircraft_title = flight_data['AircraftTitle']
@@ -929,9 +931,11 @@
                 '</div>'+
               '<div id="bodyContent">'+
                   '<div class="my-2">'+
-                    '<p class="iw_description mx-3">AIRCRAFT:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ aircraft_title + '</p>'+
-                    '<p class="iw_description mx-3">REGISTRATION:&nbsp&nbsp'+ aircraft_registration + '</p>'+
-                    '<p class="iw_description mx-3">FILENAME:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ flight_filename + '</p>'+
+                    '<p class="iw_description mx-3">AIRCRAFT:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ aircraft_title + '</p>'+
+                    '<p class="iw_description mx-3">REGISTRATION:&nbsp&nbsp&nbsp&nbsp'+ aircraft_registration + '</p>'+
+                    '<p class="iw_description mx-3">DATE (UTC):&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ flight_date + '</p>'+
+                    '<p class="iw_description mx-3">FLIGHT TIME:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ flight_time + '</p>'+
+                    '<p class="iw_description mx-3">FILE:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ flight_filename + '</p>'+
                   '</div>'+
               '</div>'+
               '<div>' +
