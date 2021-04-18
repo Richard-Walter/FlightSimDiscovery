@@ -139,7 +139,7 @@ def delete_flight(flight_id):
     if category == 'my_flights':
         return redirect(url_for('users.my_flights'))
     else:
-        return redirect(url_for('main.home'))
+        return redirect(url_for('main.home', _anchor='google_map')) 
 
 
 @users.route("/user_pois", defaults={'user_id': None})

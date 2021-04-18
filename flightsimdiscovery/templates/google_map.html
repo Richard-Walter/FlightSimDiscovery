@@ -124,7 +124,11 @@
         if (show_my_flights_check_element) {
           if(document.getElementById('show_my_flights_check').checked) {
 
-              showUsersFlightsVolanta();
+              try {
+                showUsersFlightsVolanta();
+              } catch (error){
+                console.error(error);
+              }
 
           }
         }
