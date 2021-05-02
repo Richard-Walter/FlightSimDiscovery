@@ -139,19 +139,38 @@
 </div>
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
-  $(document).on("click", ".open_delete_fp_modal", function () {
-       
-       var id = $(this).data('id');
-       var form_action = '/my_flights/delete/' + id + '?page=my_flights'
-       $("#delete_flight_confirm").attr('action', form_action);
-  });
+    $(document).on("click", ".open_delete_fp_modal", function () {
+        
+        var id = $(this).data('id');
+        var form_action = '/my_flights/delete/' + id + '?page=my_flights'
+        $("#delete_flight_confirm").attr('action', form_action);
+    });
 
     $(document).on("click", ".show_flights_btn", function () {
-       
+        
         var fileVal=document.getElementById("choose_flights_btn");
         if (fileVal.value) {
             document.body.style.cursor = 'wait';
         }
+    });
+
+    $('#choose_flights_btn').on('change', function() {
+
+        size = 0
+
+        //let compute the total size of the files
+        for (var i = 0; i <= this.files.length - 1; i++) {
+            
+            size += this.files[i].size;
+        }
+
+        //calc size in Mb
+        size = (size / 1024 / 1024).toFixed(2);
+
+        if (size > 200) {
+            
+            alert("Current upload size is " + size +"MB.  Upload size must be less than 200MB.  Try uploading in files in batches of less than 200MB each.");
+        } 
     });
 
 </script>
