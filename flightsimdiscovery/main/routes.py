@@ -20,10 +20,9 @@ main = Blueprint('main', __name__)
 
 # TODO add account setting that bypasses banner and goes straight to map
 # TODO Add marker for departure-destination airports for sim flights
-# TODO export flights with custom waypoint not showing as visited - seems to work locally check next update
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 # TODO allow users to upload photo of location
-# TODO aadd phtogrammerty as a category
+# TODO add phtogrammetry as a category
 
 @main.route('/robots.txt')
 @main.route('/sitemap.xml')

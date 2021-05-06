@@ -45,7 +45,12 @@ def filter_pois_by_category(pois, category):
     filtered_pois = []
 
     for poi in pois:
-        if poi.category == category:
+
+        # for photogrametry and msfs places we need to check the discription
+        if category in ("MSFS Photogrammery City", "MSFS Point of Interest"):
+            if category in poi.description:
+                filtered_pois.append(poi)
+        elif poi.category == category:
             filtered_pois.append(poi)
     return filtered_pois
 

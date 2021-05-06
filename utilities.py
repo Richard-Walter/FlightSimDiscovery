@@ -341,6 +341,8 @@ continents_by_region = {
 categoryList = [
     "Airport (Bush Strip)",
     "Airport (Famous/Interesting)",
+    "MSFS Photogrammery City",
+    "MSFS Point of Interest",
     "Beach",
     "Canyon",
     "City/Town",
