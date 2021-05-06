@@ -18,7 +18,6 @@ main = Blueprint('main', __name__)
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
 # DONE Fix bug where Clicking on Map ICon ina top ten page gives 404
 
-# TODO BUG - BERRY ISLANDS not working cant select country
 # TODO add account setting that bypasses banner and goes straight to map
 # TODO Add marker for departure-destination airports for sim flights
 # TODO export flights with custom waypoint not showing as visited - seems to work locally check next update
