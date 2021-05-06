@@ -38,7 +38,7 @@
             <br>
             {% if current_user.username %}
                 {% if user_flights %}
-                        <p>You have uploaded {{user_flights|length}} flights</p>
+                        <p>You have previously uploaded {{user_flights|length}} flights</p>
                     {% else %}
                         <p>No user volanta flights detected.  Please upload some volanta flights (*.json) to view on world map.</p>
                 {% endif %}
@@ -47,12 +47,16 @@
         </div>
         <form method="POST" action="/my_flights" enctype="multipart/form-data">
            
-            <fieldset class="form-group mt-5">
+            <fieldset class="form-group mt-3">
                 <div class="box__input">
+                    <small id="choose_flights_error_txt" style="display: none" class="text-danger">
+                        With faded secondary text
+                    </small >
                     <dl>
                         <p><input type="file" id="choose_flights_btn" name="files[]" multiple="true" autocomplete="off" accept=".json" value="Choose Volanta Flights" required></p>
                     </dl>
-                    <p><input type="submit" class="show_flights_btn" value="Upload Flights"></p>
+ 
+                    <p><input type="submit" id="upload_flights_btn" class="show_flights_btn" value="Upload Flights" disabled></p>
                 </div>               
             </fieldset>
         </form>
@@ -167,10 +171,18 @@
         //calc size in Mb
         size = (size / 1024 / 1024).toFixed(2);
 
-        if (size > 200) {
+        // if (size > 200) {
+        if (size > 1) {
             
-            alert("Current upload size is " + size +"MB.  Upload size must be less than 200MB.  Try uploading in files in batches of less than 200MB each.");
-        } 
+            error_text = "Current upload size is " + size +"MB.  Upload size must be less than 200MB.  Try uploading files in batches of less than 200MB each.";
+            
+            $("#choose_flights_error_txt").text(error_text);
+            $("#choose_flights_error_txt").show();
+        } else {
+            $("#choose_flights_error_txt").hide();
+            $('#upload_flights_btn').prop('disabled', false);
+            // enable upload flights button
+        }
     });
 
 </script>

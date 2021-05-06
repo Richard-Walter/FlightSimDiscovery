@@ -907,6 +907,8 @@ def nominatim_lookup_country(input_country):
         country = "Federated States of Micronesia"
     elif country == 'United States':
         country = "United States of America"
+    elif country == 'The Bahamas':
+        country = 'Bahamas'
 
     return country
 
