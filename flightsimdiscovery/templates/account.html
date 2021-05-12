@@ -54,6 +54,10 @@
                     {{ form.email(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <div class="form-check">
+                    {{ form.goto_map_home_page(class="form-check-input") }}
+                    {{ form.goto_map_home_page.label(class="form-check-label") }}
+                </div>
                 <!-- <div class="form-group">
                     {{ form.picture.label() }}
                     {{ form.picture(class="form-control-file") }}

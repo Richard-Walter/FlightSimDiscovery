@@ -17,12 +17,13 @@ main = Blueprint('main', __name__)
 
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
 # DONE Fix bug where Clicking on Map ICon ina top ten page gives 404
+# DONE add photogrammetry as a category
 
 # TODO add account setting that bypasses banner and goes straight to map
 # TODO Add marker for departure-destination airports for sim flights
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 # TODO allow users to upload photo of location
-# TODO add phtogrammetry as a category
+
 
 @main.route('/robots.txt')
 @main.route('/sitemap.xml')

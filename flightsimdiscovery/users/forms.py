@@ -41,6 +41,7 @@ class UpdateAccountForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+    goto_map_home_page = BooleanField('Go straight to map on home page')
     submit = SubmitField('Update')
 
     def validate_username(self, username):
