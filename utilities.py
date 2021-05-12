@@ -385,6 +385,10 @@ def get_region_list():
 def get_category_list():
     return categoryList
 
+def get_new_poi_category_list():
+
+    return [e for e in categoryList if e not in ("MSFS Photogrammery City", "MSFS Point of Interest")]
+
 
 def get_country_region(country):
     for region in countries_by_region:

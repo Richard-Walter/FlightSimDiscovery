@@ -1,14 +1,14 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, SelectField, BooleanField, HiddenField
 from wtforms.validators import DataRequired, Length, ValidationError
-from utilities import validate_lat, validate_long, get_country_list, get_category_list
+from utilities import validate_lat, validate_long, get_country_list, get_category_list, get_new_poi_category_list
 from flightsimdiscovery.pois.utils import validate_poi_name
 
 
 class PoiCreateForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     country = SelectField('Country', choices=get_country_list(), render_kw={'disabled': False}, validators=[DataRequired()])
-    category = SelectField('Category', choices=get_category_list(), validators=[DataRequired()])
+    category = SelectField('Category', choices=get_new_poi_category_list(), validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     latitude = StringField('Latitude (decimal degrees) e.g. -34.407279', validators=[DataRequired(), Length(min=2, max=18)])
     longitude = StringField('Longitude (decimal degrees) e.g. 150.676888', validators=[DataRequired(), Length(min=2, max=18)])
@@ -37,7 +37,7 @@ class PoiUpdateForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     country = SelectField('Country', choices=get_country_list(), render_kw={'disabled': False}, validators=[DataRequired()])
     # country = StringField('Country', render_kw={'disabled': False})
-    category = SelectField('Category', choices=get_category_list(), validators=[DataRequired()])
+    category = SelectField('Category', choices=get_new_poi_category_list(), validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     latitude = StringField('Latitude (decimal degrees) ', render_kw={'disabled': False}, validators=[DataRequired(), Length(min=2, max=18)])
     # latitude = StringField('Latitude (decimal degrees) ', render_kw={'disabled': False})
