@@ -19,6 +19,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     # volanta_export_path = db.Column(db.String(120), nullable=False, server_default="", default='')
     # show_my_flights_check = db.Column(db.Boolean(), nullable=False, server_default=expression.false(), default=False)
+    goto_map_home_page = db.Column(db.Boolean(), nullable=False, server_default=expression.false(), default=False)
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)

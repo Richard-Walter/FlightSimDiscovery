@@ -59,6 +59,7 @@ def account():
             current_user.image_file = picture_file  # image file is what we defined in our models.py
         current_user.username = form.username.data
         current_user.email = form.email.data
+        current_user.goto_map_home_page = form.goto_map_home_page.data
         db.session.commit()
 
         flash('Your account has been updated!', 'success')
@@ -67,8 +68,8 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-        # user_pois_with_additional_data = get_user_pois_dict_inc_favorites_visited(current_user.id)
-        # print('###### USER POIS ###### ', user_pois_with_additional_data )
+        form.goto_map_home_page.data = current_user.goto_map_home_page
+        # form.goto_map_home_page.data = current_user.email
 
     image_file = url_for('static', filename='img/profile_pics/' + current_user.image_file)
     return render_template('account.html', image_file=image_file, form=form)

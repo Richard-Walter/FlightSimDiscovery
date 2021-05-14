@@ -4,6 +4,8 @@
 
 $(document).ready(function(){
 
+  // window.location.hash='where_togo_area';
+
   //  go to user detail tab that the user was last on upon refresh
   $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
     localStorage.setItem('activeTab', $(e.target).attr('href'));

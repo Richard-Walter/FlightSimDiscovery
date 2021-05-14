@@ -18,8 +18,8 @@ main = Blueprint('main', __name__)
 # DONE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
 # DONE Fix bug where Clicking on Map ICon ina top ten page gives 404
 # DONE add photogrammetry as a category
+# DONE add account setting that bypasses banner and goes straight to map
 
-# TODO add account setting that bypasses banner and goes straight to map
 # TODO Add marker for departure-destination airports for sim flights
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 # TODO allow users to upload photo of location
@@ -37,6 +37,7 @@ def static_from_root():
 def home(filter_poi_location):
 
     anchor = ''
+    goto_gm = False
 
     # variables required for google maps to display data
     gm_key = Config.GM_KEY
@@ -95,7 +96,10 @@ def home(filter_poi_location):
             session['show_my_flights'] = 'No'
             show_my_flights = 'No'
             user_flights = None
-            
+        
+        # check to see if user wants to go straight to map view as defined in account settings
+        if current_user.goto_map_home_page:
+            goto_gm = True
 
         # Create a list of Users POIS for the google map info window to use
         user_id = current_user.id
@@ -298,7 +302,7 @@ def home(filter_poi_location):
 
     return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, view_sim_flight=view_sim_flight, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
                            user_flights=user_flights, user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
-                           search_defaults=search_defaults, show_my_flights=show_my_flights, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(), _anchor=anchor)
+                           search_defaults=search_defaults, show_my_flights=show_my_flights, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(), goto_gm=goto_gm, _anchor=anchor)
 
 @main.route("/about")
 def about():
