@@ -66,7 +66,6 @@ if (goto_gm) {
       var user_favorites = new Set({{user_favorites|tojson}});
       var user_visited = new Set({{user_visited|tojson}});
       var user_flights = {{user_flights|tojson}};
-
   
       var flagged_pois = new Set({{flagged_pois|tojson}});
       var db_poi_names = {{db_poi_names|tojson}};
@@ -662,6 +661,8 @@ if (goto_gm) {
           infowindow.close();
         }
 
+        //if ()
+
 
         // Add a new marker at the new plotted point on the polyline.
         // new google.maps.Marker({
@@ -671,7 +672,7 @@ if (goto_gm) {
         // });
       }
 
-      function removePoiToFlightPlan(latitude, longitude, waypoint) {
+      function removePoiToFlightPlan(latitude, longitude, iw_marker_title) {
         const path = flightPath.getPath();  
         var flightpath_array = path.getArray()
         
@@ -701,7 +702,17 @@ if (goto_gm) {
         $( "#btn_removePoiToFlightPlan" ).addClass("d-none");
         $("#btn_addPoiToFlightPlan").removeClass("d-none");
 
-        infowindow.close()
+        infowindow.close();
+
+        //removes the marker if it is a custom waypoint
+
+        for (var i = 0; i < temp_marker_list.length; i++) {
+          
+          if (temp_marker_list[i].title == iw_marker_title) {
+            temp_marker_list[i].setMap(null);
+            break;
+          }
+       }
 
       }
 
@@ -1254,8 +1265,39 @@ if (goto_gm) {
         function addWaypointToFP(lat, lng, category ) { 
 
             temp_waypoint_list.push(waypoint_name);
-            currentMark.title = 'User Waypoint';
+            currentMark.title = waypoint_name;
             temp_marker_list.push(currentMark);
+            var custom_waypoint_iw_html = 
+              "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+
+                "<div class='gm-style-iw cust_waypoint_iw' id='iw-container'>" +
+
+                    "<div class='gm-style-iw' id='iw-container'>" +
+                        '<div class="iw-poi_header">'+
+                          '<div>'+
+                              '<h3 id="firstHeading">'+waypoint_name+'</h3>'+
+                          '</div>'+              
+                      '</div>'+
+                  '<div id="bodyContent">'+
+                      '<div class="my-1 p-1 border border-seconday iw_copy_latlng">'+
+                        '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  '+ lat + ', ' + lng + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
+                        '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+lat+', ' + lng+'">'+
+                      '</div>'+
+                      '<hr class="my-2"/>' +
+                    '<div>'+
+                      '<div id="btn_removePoiToFlightPlan" class="my-2">' +
+                        "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + lat + ", " + lng +  ", \"" + waypoint_name + "\")'>Remove from flight plan</button> "+
+                      '</div>'+
+                    '</div>'+
+                '</div>'
+
+            //add listener so we can add functionality such as remove from flight plan
+            google.maps.event.addListener(currentMark, 'click', function () {
+              
+              infowindow = new google.maps.InfoWindow({content: custom_waypoint_iw_html,});
+              infowindow.open(map, currentMark);
+              
+            });
 
             var chkBox = document.getElementById('temp_waypoint_airport_checkbox');
             if (chkBox.checked) {

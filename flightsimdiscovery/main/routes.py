@@ -19,11 +19,15 @@ main = Blueprint('main', __name__)
 # DONE Fix bug where Clicking on Map ICon ina top ten page gives 404
 # DONE add photogrammetry as a category
 # DONE add account setting that bypasses banner and goes straight to map
+# DONE can't remove custom waypoint from flight plan
 
-# TODO Add marker for departure-destination airports for sim flights
+# TODO add airports to map with smaller icon and link to airport nav finder
+# TODO Add marker for departure-destination airports for sim flights - see note above
+# TODO remove CTL_mouse wheel to scroll
+# TODO in game panel-flight recorder, display position on web browser, talk about FSD waypoints
+# TODO POIs abiolity to import into game
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 # TODO allow users to upload photo of location
-
 
 @main.route('/robots.txt')
 @main.route('/sitemap.xml')
