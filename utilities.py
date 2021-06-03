@@ -9,6 +9,8 @@ from math import cos, asin, sqrt
 from flightsimdiscovery import db
 from geopy.geocoders import Nominatim
 
+msfs_airport_list = []
+
 # validate latitude and longitude constants
 lat_pattern = re.compile(r"^(\+|-)?(?:90(?:(?:\.0{1,18})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,18})?))$")
 long_pattern = re.compile(r"^(\+|-)?(?:180(?:(?:\.0{1,18})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,18})?))$")
@@ -366,6 +368,32 @@ categoryList = [
     "Special Interest",
     "Other",
 ]
+
+def get_default_airports():
+
+        # check to see if this function has already been called
+        if not msfs_airport_list:
+
+            try:
+
+                csv_filepath = os.path.join("flightsimdiscovery/data", "msfs_airports" + "." + "csv")
+
+                with open(csv_filepath, encoding="utf-8") as csv_file:
+
+                    csv_reader = csv.reader(csv_file, delimiter=',')
+                    line_count = 0
+                    for row in csv_reader:
+                        if line_count == 0:
+                            line_count += 1
+                        else:
+                            airport_data = {'ICAO': row[0], 'Airport_Name': row[1], 'City': row[2], 'lat': float(row[5]), 'lon': float(row[4]), 'elev': float(row[3]), 'Elevation': row[3],}
+                            line_count += 1
+                            msfs_airport_list.append(airport_data)
+
+            except Exception as e:
+                print("Can't import default airports from csv\n\n" + e)
+        
+        return msfs_airport_list
 
 
 def get_country_list():

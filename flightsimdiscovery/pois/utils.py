@@ -7,6 +7,7 @@ visited_marker_airport = '/static/img/marker/visited-marker_airport.png'
 user_marker = '/static/img/marker/user-marker.png'
 user_marker_airport = '/static/img/marker/user-marker_airport.png'
 airport_marker = '/static/img/marker/airport-marker.png'
+default_airport_marker = '/static/img/marker/default_airport_marker.png'
 normal_marker = '/static/img/marker/normal-marker.png'
 
 location_exists_diff_default = 0.005

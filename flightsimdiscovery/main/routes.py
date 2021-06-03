@@ -6,7 +6,7 @@ from openpyxl import load_workbook
 from flightsimdiscovery import db
 from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints, FP_Ratings
 from flask_login import current_user, login_required
-from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_nearest_airport
+from utilities import get_default_airports, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_nearest_airport
 from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.main.forms import ContactForm
 from flightsimdiscovery.users.utitls import send_contact_email, get_user_flights
@@ -21,6 +21,8 @@ main = Blueprint('main', __name__)
 # DONE add account setting that bypasses banner and goes straight to map
 # DONE can't remove custom waypoint from flight plan
 
+
+# TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO add airports to map with smaller icon and link to airport nav finder
 # TODO Add marker for departure-destination airports for sim flights - see note above
 # TODO remove CTL_mouse wheel to scroll
@@ -306,7 +308,7 @@ def home(filter_poi_location):
 
     return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, view_sim_flight=view_sim_flight, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
                            user_flights=user_flights, user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
-                           search_defaults=search_defaults, show_my_flights=show_my_flights, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(), goto_gm=goto_gm, _anchor=anchor)
+                           search_defaults=search_defaults, show_my_flights=show_my_flights, categories=get_category_list(), regions=get_region_list(), countries=get_country_list(), default_airports=get_default_airports(), goto_gm=goto_gm, _anchor=anchor)
 
 @main.route("/about")
 def about():

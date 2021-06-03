@@ -6,10 +6,10 @@ from openpyxl import load_workbook
 from flightsimdiscovery import db
 from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints, FP_Ratings
 from flask_login import current_user, login_required
-from utilities import get_country_region, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_nearest_airport
+from utilities import region_details, countries_details, get_nearest_airport
 from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.config import Config
-from utilities import get_location_details
+from utilities import get_default_airports
 from flightsimdiscovery.flightplans.utils import checkUserFlightPlanWaypointsUnique, get_user_flightplans, updateFlightPlanNumberFlown, strip_end, areFlightPlanWaypointsPublic
 
 flightplans = Blueprint('flightplans', __name__)
@@ -18,26 +18,13 @@ flightplans = Blueprint('flightplans', __name__)
 def build_flightplan():
      
     json_resp_msg = ""
-    msfs_airport_list = []
+    msfs_airport_list = get_default_airports()
+
     # get the list of waypoints from the request
     waypoint_list = request.get_json()
 
     # user has choosen at least one waypoint
     if waypoint_list:
-        csv_filepath = os.path.join("flightsimdiscovery/data", "msfs_airports" + "." + "csv")
-
-        with open(csv_filepath, encoding="utf-8") as csv_file:
-
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            line_count = 0
-            for row in csv_reader:
-                if line_count == 0:
-                   
-                    line_count += 1
-                else:
-                    airport_data = {'ICAO': row[0], 'Airport_Name': row[1], 'lat': float(row[5]), 'lon': float(row[4]), 'elev': float(row[3])}
-                    line_count += 1
-                    msfs_airport_list.append(airport_data)
 
         first_poi = waypoint_list[0]
         last_poi =waypoint_list[-1]
