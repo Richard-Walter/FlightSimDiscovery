@@ -27,6 +27,7 @@ if (goto_gm) {
       //Create the Google Map
       var map;
       var infowindow;
+      var ap_infowindow;
       var addpoi_infowindow;
       var flight_infowindow;
       var currentMark;
@@ -125,9 +126,8 @@ if (goto_gm) {
 
         
         //add deault airpot markers to flight sim
-        var ap_infowindow;
-        var showAddWaypointBtn = '';
-        var showRemoveWaypointBtn = 'd-none';
+        // var showAddWaypointBtn = '';
+        // var showRemoveWaypointBtn = 'd-none';
         var airport_markers_list = [];
 
         for (var i = 0; i < default_airport_list.length; i++) {
@@ -136,7 +136,7 @@ if (goto_gm) {
           let icao = default_airport_list[i]['ICAO'];
           let airport_name = default_airport_list[i]['Airport_Name'];
           let airport_city = default_airport_list[i]['City'];
-          let airport_title = airport_name + ', ' + airport_city
+          let airport_title = airport_name + ' ('+icao+'), ' + airport_city
           let lat = parseFloat(default_airport_list[i]['lat']);
           let lng = parseFloat(default_airport_list[i]['lon']);
           let elevation = parseFloat(default_airport_list[i]['Elevation']);
@@ -157,10 +157,21 @@ if (goto_gm) {
           //add listener to display info window
           airport_marker.addListener("click", function (event) {
 
+            var showAddWaypointBtn = 'd-none';
+            var showRemoveWaypointBtn = 'd-none';
+
             //close the current info window if exists
             if (ap_infowindow) {
               ap_infowindow.close();
             }
+
+            //show or hide add/remove waypoint buttons
+            if (hasWaypointBeenAdded(flightPath, lat, lng )) {
+              showRemoveWaypointBtn = '';
+            } else {
+              showAddWaypointBtn = '';
+            }
+            
             var custom_waypoint_iw_html = 
                 "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
 
@@ -186,7 +197,7 @@ if (goto_gm) {
                         '<div id="btn_addPoiToFlightPlan" class="mt-3 mb-1 ' + showAddWaypointBtn + '">' +
                             `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + lat + `, ` + lng +  `, "` + airport_title.replace("'", "&#39") + `", "` + category + `")'>Add to Flight plan</button> `+
                           '</div>' +
-                        '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
+                        '<div id="btn_removePoiToFlightPlan" class="my-2 ' + showRemoveWaypointBtn + '">' +
                           "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + lat + ", " + lng +  ", \"" + airport_title.replace("'", "&#39") + "\")'>Remove from flight plan</button> "+
                         '</div>'+
                       '</div>'+
@@ -197,16 +208,6 @@ if (goto_gm) {
             });
             ap_infowindow.open(map, airport_marker);
             
-
-          //add click listener for ap_marker to add to flight plan
-          // airport_marker.addListener(airport_marker, 'click', (function (airport_marker, i) {
-
-          //   return function () {
-          //     ap_infowindow.setContent(custom_waypoint_iw_html);
-          //     ap_infowindow.open(map, airport_marker);
-          //   }
-
-          //   })(airport_marker, i));
 
           //close info window when clicked outside
             google.maps.event.addListener(map,'click',function(){
@@ -220,7 +221,7 @@ if (goto_gm) {
         google.maps.event.addListener(map, 'zoom_changed', function() {
           
           var zoom = map.getZoom();
-          if( zoom > 7) {
+          if( zoom > 6) {
     
             for (var i = 0; i < airport_markers_list.length; i++) {    
               airport_markers_list[i].setMap(map);
@@ -508,17 +509,9 @@ if (goto_gm) {
 
             //show or hide add/remove waypoint buttons
             if (hasWaypointBeenAdded(flightPath, latitude, longitude )) {
-
               showRemoveWaypointBtn = '';
-              // $("#btn_addPoiToFlightPlan").addClass("d-none");
-              // $("#btn_removePoiToFlightPlan").removeClass("d-none");
-              // console.log("waypoint has been added before")
               } else {
-
               showAddWaypointBtn = '';
-              // $("#btn_removePoiToFlightPlan").addClass("d-none");
-              // $("#btn_addPoiToFlightPlan").removeClass("d-none");
-              // console.log("waypoint has NOT been added ")
             }
             
             
@@ -768,11 +761,14 @@ if (goto_gm) {
         $("#btn_addPoiToFlightPlan").addClass("d-none");
         $("#btn_removePoiToFlightPlan").removeClass("d-none");
 
+
         if (infowindow) {
           infowindow.close();
-        }
+        } 
 
-        //if ()
+        if (ap_infowindow) {
+          ap_infowindow.close();
+        }
 
 
         // Add a new marker at the new plotted point on the polyline.
@@ -814,6 +810,9 @@ if (goto_gm) {
         $("#btn_addPoiToFlightPlan").removeClass("d-none");
 
         infowindow.close();
+        if (ap_infowindow) {
+          ap_infowindow.close();
+        }
 
         //removes the marker if it is a custom waypoint
 
