@@ -5,854 +5,703 @@
 <script src="{{ url_for('static', filename='/js/javascript.util.js') }}"></script>
 <script src="{{ url_for('static', filename='/js/jsts.js') }}"></script>
 <script>
-var goto_gm = {{goto_gm|tojson}};
-if (goto_gm) {
-  window.location.hash='where_togo_area';
-}
+  var goto_gm = {{ goto_gm| tojson}};
+  if (goto_gm) {
+    window.location.hash = 'where_togo_area';
+  }
 </script>
 <div id="google_map" class="google_map_area">
-    <div class="">
-        <div class="d-sm-block pb-4">
-            <div
-                    id="map"
-                    style="
+  <div class="">
+    <div class="d-sm-block pb-4">
+      <div id="map" style="
         width: 100%;
         height: 1020px;
         position: relative;
         overflow: hidden;
-      "
-            ></div>
-            <script>
+      "></div>
+      <script>
 
-      //Create the Google Map
-      var map;
-      var infowindow;
-      var ap_infowindow;
-      var addpoi_infowindow;
-      var flight_infowindow;
-      var currentMark;
-      var flightPath;
-      var flightPath_data = [];
-      var is_authenticated='{{is_authenticated}}';
-      var markerCluster;
-      var markerCollection;
-      var clusterMarkers = [];
-      var view_flightplan_id = {{view_flightplan}};
-      var view_sim_flight_id = {{view_sim_flight}};
-      var show_my_flights = {{show_my_flights|tojson}};
-      var flights_currently_showing = false;
-      const default_airport_list = {{default_airports|tojson}};
+        //Create the Google Map
+        var map;
+        var infowindow;
+        var ap_infowindow;
+        var addpoi_infowindow;
+        var flight_infowindow;
+        var currentMark;
+        var flightPath;
+        var flightPath_data = [];
+        var is_authenticated = '{{is_authenticated}}';
+        var markerCluster;
+        var markerCollection;
+        var clusterMarkers = [];
+        var view_flightplan_id = {{ view_flightplan }};
+        var view_sim_flight_id = {{ view_sim_flight }};
+        var show_my_flights = {{ show_my_flights| tojson}};
+        var flights_currently_showing = false;
+        const default_airport_list = {{ default_airports| tojson}};
 
-      // Parse the posted data into a GeoJSon format required by Google Maps
-      var poi_data_array = [];
-      var poi_data = {};
+        // Parse the posted data into a GeoJSon format required by Google Maps
+        var poi_data_array = [];
+        var poi_data = {};
 
-      // let user_pois_list = [];
-      var gm_key = '{{gm_key}}';
-      var map_zoom = {{map_init['zoom']}};
-      var map_center_lat = {{map_init['lat']}};
-      var map_center_long = {{map_init['long']}};
+        // let user_pois_list = [];
+        var gm_key = '{{gm_key}}';
+        var map_zoom = {{ map_init['zoom']}};
+        var map_center_lat = {{ map_init['lat']}};
+        var map_center_long = {{ map_init['long']}};
 
-      //flightplan creation
-      var temp_waypoint_list = [];
-      var temp_marker_list = [];
-      var waypoint_name = '';
+        //flightplan creation
+        var temp_waypoint_list = [];
+        var temp_marker_list = [];
+        var waypoint_name = '';
 
-      //create the infowindow data dictionary
-      infowindow_dict = {}
-      var flightsplans_dic = {{flightsplans_dic|tojson}};
-      var flightpath_name = "";
-      var pois_array = {{pois|tojson}};
-      var user_pois = {{user_pois_json|tojson}};
-      var user_ratings_dict = {{user_ratings|tojson}};
-      var user_favorites = new Set({{user_favorites|tojson}});
-      var user_visited = new Set({{user_visited|tojson}});
-      var user_flights = {{user_flights|tojson}};
-  
-      var flagged_pois = new Set({{flagged_pois|tojson}});
-      var db_poi_names = {{db_poi_names|tojson}};
-      var search_defaults = {{search_defaults|tojson}};
-      var filter_user_pois = search_defaults['filter_user_pois']
+        //create the infowindow data dictionary
+        infowindow_dict = {}
+        var flightsplans_dic = {{ flightsplans_dic| tojson}};
+        var flightpath_name = "";
+        var pois_array = {{ pois| tojson}};
+        var user_pois = {{ user_pois_json| tojson}};
+        var user_ratings_dict = {{ user_ratings| tojson}};
+        var user_favorites = new Set({{ user_favorites| tojson}});
+        var user_visited = new Set({{ user_visited| tojson}});
+        var user_flights = {{ user_flights| tojson}};
 
-      pois_array.forEach(function (poi, index) {
-        infowindow_dict[poi.name] = {'id': poi.id,'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating, 'fp_id_list':poi.fp_id_list};
-      });
+        var flagged_pois = new Set({{ flagged_pois| tojson}});
+        var db_poi_names = {{ db_poi_names| tojson}};
+        var search_defaults = {{ search_defaults| tojson}};
+        var filter_user_pois = search_defaults['filter_user_pois']
 
-      //Update Country Select values
-      function copy_latLon() {
-
-        var textBox = document.getElementById("poi_lat_long");
-        textToClipboard(textBox.value);
-        $("#copylatlong").html('Copied');
-
-      };
-
-      //this function used so flagged icon is displayed correctly with a refresh
-      function add_flagged_poi_to_list(poi_id) {
-        flagged_pois.add(poi_id);
-      };
-
-      function textToClipboard (latlong) {
-        var dummy = document.createElement("textarea");
-        document.body.appendChild(dummy);
-        dummy.value = latlong;
-        dummy.select();
-        document.execCommand("copy");
-        document.body.removeChild(dummy);
-        // alert("Copied the text: " + dummy.value);
-      }
-
-      function initMap() {
-          map = new google.maps.Map(document.getElementById("map"), {
-          zoom: map_zoom,
-          center: {lat: map_center_lat, lng: map_center_long},
-          restriction: {
-            latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
-            strictBounds: false,
-          },
-          fullscreenControl: false,
-          streetViewControl: false,
-          zoomControl: true,
-          clickableIcons: false,
-          mapTypeControl: true,
-          mapTypeId: 'terrain',
-          mapTypeControlOptions: {
-            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-            position: google.maps.ControlPosition.LEFT_BOTTOM,
-            mapTypeIds: ["roadmap", "terrain", "satellite"]
-          },
-          
+        pois_array.forEach(function (poi, index) {
+          infowindow_dict[poi.name] = { 'id': poi.id, 'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating, 'fp_id_list': poi.fp_id_list };
         });
 
-        
-        //add deault airpot markers to flight sim
-        // var showAddWaypointBtn = '';
-        // var showRemoveWaypointBtn = 'd-none';
-        var airport_markers_list = [];
+        //Update Country Select values
+        function copy_latLon() {
 
-        for (var i = 0; i < default_airport_list.length; i++) {
-          
-          //airport information
-          let icao = default_airport_list[i]['ICAO'];
-          let airport_name = default_airport_list[i]['Airport_Name'];
-          let airport_city = default_airport_list[i]['City'];
-          let airport_title = airport_name + ' ('+icao+'), ' + airport_city
-          let lat = parseFloat(default_airport_list[i]['lat']);
-          let lng = parseFloat(default_airport_list[i]['lon']);
-          let elevation = parseFloat(default_airport_list[i]['Elevation']);
-          const category = 'default airport';
+          var textBox = document.getElementById("poi_lat_long");
+          textToClipboard(textBox.value);
+          $("#copylatlong").html('Copied');
 
-          
+        };
 
-          let airport_marker = new google.maps.Marker({
-              position: { lat: lat, lng: lng },
-              // map: map,
-              icon: '/static/img/marker/default_airport_marker.png',
-              title: airport_title
-          });
-          
-          //add markers to a list so we can add them to the map at a certain zoom range
-          airport_markers_list.push(airport_marker);
-          
-          //add listener to display info window
-          airport_marker.addListener("click", function (event) {
+        //this function used so flagged icon is displayed correctly with a refresh
+        function add_flagged_poi_to_list(poi_id) {
+          flagged_pois.add(poi_id);
+        };
 
-            var showAddWaypointBtn = 'd-none';
-            var showRemoveWaypointBtn = 'd-none';
-
-            //close the current info window if exists
-            if (ap_infowindow) {
-              ap_infowindow.close();
-            }
-
-            //show or hide add/remove waypoint buttons
-            if (hasWaypointBeenAdded(flightPath, lat, lng )) {
-              showRemoveWaypointBtn = '';
-            } else {
-              showAddWaypointBtn = '';
-            }
-            
-            var custom_waypoint_iw_html = 
-                "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
-
-                  "<div class='gm-style-iw cust_waypoint_iw' id='iw-container'>" +
-
-                      "<div class='gm-style-iw' id='iw-container'>" +
-                          '<div class="iw-poi_header">'+
-                            '<div style="cursor:pointer">'+
-                            // "<a href='https://www.google.com/search?q=" + airport_name + " ("+ icao +")' target='_blank'>" +
-                            "<a href=https://skyvector.com/airport/" +  icao + " target='_blank'>" +
-                              '<h3 id="firstHeading">'+airport_name + " ("+ icao +')</h3>'+
-                              '<h4 id="categoryHeading" class=" font-italic ">'+airport_city+'</h4>'+
-                            '</a>' +
-                          '</div>'+          
-                        '</div>'+
-                    '<div id="bodyContent">'+
-                        '<div class="my-1 p-1 border border-seconday iw_copy_latlng">'+
-                          '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  '+ lat + ', ' + lng + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
-                          '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+lat+', ' + lng+'">'+
-                        '</div>'+
-                        '<hr class="my-2"/>' +
-                      '<div>'+
-                        '<div id="btn_addPoiToFlightPlan" class="mt-3 mb-1 ' + showAddWaypointBtn + '">' +
-                            `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + lat + `, ` + lng +  `, "` + airport_title.replace("'", "&#39") + `", "` + category + `")'>Add to Flight plan</button> `+
-                          '</div>' +
-                        '<div id="btn_removePoiToFlightPlan" class="my-2 ' + showRemoveWaypointBtn + '">' +
-                          "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + lat + ", " + lng +  ", \"" + airport_title.replace("'", "&#39") + "\")'>Remove from flight plan</button> "+
-                        '</div>'+
-                      '</div>'+
-                  '</div>';
-
-            ap_infowindow = new google.maps.InfoWindow({
-              content: custom_waypoint_iw_html,
-            });
-            ap_infowindow.open(map, airport_marker);
-            
-
-          //close info window when clicked outside
-            google.maps.event.addListener(map,'click',function(){
-              ap_infowindow.close();
-            });
-          });
+        function textToClipboard(latlong) {
+          var dummy = document.createElement("textarea");
+          document.body.appendChild(dummy);
+          dummy.value = latlong;
+          dummy.select();
+          document.execCommand("copy");
+          document.body.removeChild(dummy);
+          // alert("Copied the text: " + dummy.value);
         }
 
-        //add a listener for map zoom so we can display airport markers at a certain zoom leve
+        function initMap() {
+          map = new google.maps.Map(document.getElementById("map"), {
+            zoom: map_zoom,
+            center: { lat: map_center_lat, lng: map_center_long },
+            restriction: {
+              latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
+              strictBounds: false,
+            },
+            options: {
+              gestureHandling: 'greedy'
+            },
+            fullscreenControl: false,
+            streetViewControl: false,
+            zoomControl: true,
+            clickableIcons: false,
+            mapTypeControl: true,
+            mapTypeId: 'terrain',
+            mapTypeControlOptions: {
+              style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+              position: google.maps.ControlPosition.LEFT_BOTTOM,
+              mapTypeIds: ["roadmap", "terrain", "satellite"]
+            },
 
-        google.maps.event.addListener(map, 'zoom_changed', function() {
-          
-          var zoom = map.getZoom();
-          if( zoom > 6) {
-    
-            for (var i = 0; i < airport_markers_list.length; i++) {    
-              airport_markers_list[i].setMap(map);
+          });
+
+
+          //add deault airpot markers to flight sim
+          // var showAddWaypointBtn = '';
+          // var showRemoveWaypointBtn = 'd-none';
+          var airport_markers_list = [];
+
+          for (var i = 0; i < default_airport_list.length; i++) {
+
+            //airport information
+            let icao = default_airport_list[i]['ICAO'];
+            let airport_name = default_airport_list[i]['Airport_Name'];
+            let airport_city = default_airport_list[i]['City'];
+            let airport_title = airport_name + ' (' + icao + '), ' + airport_city
+            let lat = parseFloat(default_airport_list[i]['lat']);
+            let lng = parseFloat(default_airport_list[i]['lon']);
+            let elevation = parseFloat(default_airport_list[i]['Elevation']);
+            const category = 'Airport';
+
+
+
+            let airport_marker = new google.maps.Marker({
+              position: { lat: lat, lng: lng },
+              // map: map,
+              icon: '/static/img/marker/ms_airport_marker.png',
+              title: airport_title
+            });
+
+            //add markers to a list so we can add them to the map at a certain zoom range
+            airport_markers_list.push(airport_marker);
+
+            //add listener to display info window
+            airport_marker.addListener("click", function (event) {
+
+              var showAddWaypointBtn = 'd-none';
+              var showRemoveWaypointBtn = 'd-none';
+
+              //close the current info window if exists
+              if (ap_infowindow) {
+                ap_infowindow.close();
+              }
+
+              //show or hide add/remove waypoint buttons
+              if (hasWaypointBeenAdded(flightPath, lat, lng)) {
+                showRemoveWaypointBtn = '';
+              } else {
+                showAddWaypointBtn = '';
+              }
+
+              var custom_waypoint_iw_html =
+                "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+
+                "<div class='gm-style-iw cust_waypoint_iw' id='iw-container'>" +
+
+                "<div class='gm-style-iw' id='iw-container'>" +
+                '<div class="iw-poi_header">' +
+                '<div style="cursor:pointer">' +
+                // "<a href='https://www.google.com/search?q=" + airport_name + " ("+ icao +")' target='_blank'>" +
+                "<a href=https://skyvector.com/airport/" + icao + " target='_blank'>" +
+                '<h3 id="firstHeading">' + airport_name + " (" + icao + ')</h3>' +
+                '<h4 id="categoryHeading" class=" font-italic ">' + airport_city + '</h4>' +
+                '</a>' +
+                '</div>' +
+                '</div>' +
+                '<div id="bodyContent">' +
+                '<div class="my-1 p-1 border border-seconday iw_copy_latlng">' +
+                '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  ' + lat + ', ' + lng + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' + '</p>' +
+                '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="' + lat + ', ' + lng + '">' +
+                '</div>' +
+                '<hr class="my-2"/>' +
+                '<div>' +
+                '<div id="btn_addPoiToFlightPlan" class="mt-3 mb-1 ' + showAddWaypointBtn + '">' +
+                `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + lat + `, ` + lng + `, "` + airport_title.replace("'", "&#39") + `", "` + category + `")'>Add to Flight plan</button> ` +
+                '</div>' +
+                '<div id="btn_removePoiToFlightPlan" class="my-2 ' + showRemoveWaypointBtn + '">' +
+                "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + lat + ", " + lng + ", \"" + airport_title.replace("'", "&#39") + "\")'>Remove from flight plan</button> " +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
+              ap_infowindow = new google.maps.InfoWindow({
+                content: custom_waypoint_iw_html,
+              });
+              ap_infowindow.open(map, airport_marker);
+
+
+              //close info window when clicked outside
+              google.maps.event.addListener(map, 'click', function () {
+                ap_infowindow.close();
+              });
+            });
+          }
+
+          //add a listener for map zoom so we can display airport markers at a certain zoom leve
+
+          google.maps.event.addListener(map, 'zoom_changed', function () {
+
+            var zoom = map.getZoom();
+
+
+
+            if (zoom > 7) {
+
+              for (var i = 0; i < airport_markers_list.length; i++) {
+                airport_markers_list[i].setMap(map);
+              }
+            } else if (zoom <= 7) { 
+              for (var i = 0; i < airport_markers_list.length; i++) {
+                airport_markers_list[i].setMap(null);
+              }
             }
-          } else {
-            for (var i = 0; i < airport_markers_list.length; i++) {    
-              airport_markers_list[i].setMap(null);
-            }
-    }
-        });
-        
+          });
 
-        const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
-        markerCollection = map.data.addGeoJson(dataGeoJSON);
 
-        var show_my_flights_check_element = document.getElementById("show_my_flights_check");
-        if (show_my_flights_check_element) {
-          if(document.getElementById('show_my_flights_check').checked) {
+          const dataGeoJSON = GeoJSON.parse(pois_array, { Point: ["lat", "lng"] });
+          markerCollection = map.data.addGeoJson(dataGeoJSON);
+
+          var show_my_flights_check_element = document.getElementById("show_my_flights_check");
+          if (show_my_flights_check_element) {
+            if (document.getElementById('show_my_flights_check').checked) {
 
               try {
                 showUsersFlightsVolanta();
-              } catch (error){
+              } catch (error) {
                 console.error(error);
               }
 
+            }
           }
-        }
-        
 
-        //Allow user to create a flight plan.
-        flightPath = new google.maps.Polyline({
-          geodesic: true,
-          strokeColor: '#cf4ddb',
-          strokeOpacity: 0.5,
-          strokeWeight: 5
-        });
 
-        loadFlightPlan(flightPath, map);
+          //Allow user to create a flight plan.
+          flightPath = new google.maps.Polyline({
+            geodesic: true,
+            strokeColor: '#cf4ddb',
+            strokeOpacity: 0.5,
+            strokeWeight: 5
+          });
 
-        //check if user wants to view one of their simflights
-        if (view_sim_flight_id != 0) { 
-          //get flight and bounds from the fist and last poistions 
+          loadFlightPlan(flightPath, map);
 
-          sim_flight_bounds = getSimFlightBounds(view_sim_flight_id)
+          //check if user wants to view one of their simflights
+          if (view_sim_flight_id != 0) {
+            //get flight and bounds from the fist and last poistions 
 
-        
-          if (sim_flight_bounds) {
+            sim_flight_bounds = getSimFlightBounds(view_sim_flight_id)
 
-            x_min = sim_flight_bounds['x_min']
-            y_min = sim_flight_bounds['y_min']
-            x_max = sim_flight_bounds['x_max']
-            y_max = sim_flight_bounds['y_max']
-            console.log(JSON.stringify(sim_flight_bounds) )
 
-            //zoom to sim flight
-            var bounds = new google.maps.LatLngBounds(
-                new google.maps.LatLng(x_min,y_min),
+            if (sim_flight_bounds) {
+
+              x_min = sim_flight_bounds['x_min']
+              y_min = sim_flight_bounds['y_min']
+              x_max = sim_flight_bounds['x_max']
+              y_max = sim_flight_bounds['y_max']
+              console.log(JSON.stringify(sim_flight_bounds))
+
+              //zoom to sim flight
+              var bounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(x_min, y_min),
                 new google.maps.LatLng(x_max, y_max)
-            );
+              );
 
-          map.fitBounds(bounds, {top:50,bottom:50,right:50,left:50});         
+              map.fitBounds(bounds, { top: 50, bottom: 50, right: 50, left: 50 });
 
-          } 
-        }
+            }
+          }
 
 
-        flightPath.addListener('click', () => {
-            
+          flightPath.addListener('click', () => {
+
             buildFlightPlanModalBody(flightPath_data, flightpath_name);
 
-        });
+          });
 
-        //info window to add new poi
-        addpoi_infowindow = new google.maps.InfoWindow;
-        map.addListener('rightclick', function(event) {
+          //info window to add new poi
+          addpoi_infowindow = new google.maps.InfoWindow;
+          map.addListener('rightclick', function (event) {
 
-          if ((currentMark) && (currentMark.title == null)) {
-            //removes the marker if user didnt close previous one down
-            currentMark.setMap(null); 
-          }
+            if ((currentMark) && (currentMark.title == null)) {
+              //removes the marker if user didnt close previous one down
+              currentMark.setMap(null);
+            }
 
-          // map.setCenter(event.latLng);
-          // map.setZoom(14);
-          currentMark = new google.maps.Marker({map: map, });
+            // map.setCenter(event.latLng);
+            // map.setZoom(14);
+            currentMark = new google.maps.Marker({ map: map, });
 
-          currentMark.setPosition(event.latLng);
-          var lat = event.latLng.lat().toFixed(6);
-          var lng = event.latLng.lng().toFixed(6);
-          var add_poi_location = lat + ', ' + lng;
+            currentMark.setPosition(event.latLng);
+            var lat = event.latLng.lat().toFixed(6);
+            var lng = event.latLng.lng().toFixed(6);
+            var add_poi_location = lat + ', ' + lng;
 
-          var waypoint_category = 'temp_waypoint';
-          waypoint_name = 'wp' + (temp_waypoint_list.length +1).toString()
-          var add_poi_iw_html_content =
-                "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
-                  "<div class='gm-style-iw' id='iw-container'>" +
+            var waypoint_category = 'temp_waypoint';
+            waypoint_name = 'wp' + (temp_waypoint_list.length + 1).toString()
+            var add_poi_iw_html_content =
+              "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+              "<div class='gm-style-iw' id='iw-container'>" +
 
-                    '<div id="btn_add_new_poi_iw" class="mt-3">' +
-                      '<a href="/poi/new/'+ add_poi_location + '" class="btn btn-primary btn-sm btn-block" role="button" aria-pressed="true">Create POI at this location</a>'+
-                    '</div>' +
-                    '<div>' +
-                      '<p class="text-sm">or</p>'+
-                    '</div>' +
-                    '<div class="add_user_waypoint_fp">' +
-                      '<div id="btn_add_new_poi_iw" class="">' +
-                        `<button class='btn btn-success btn-sm btn-block '  onclick='addWaypointToFP(` + lat + `, ` + lng +  `, "` + waypoint_name + `");'>Add waypoint to flight plan</button> `+
-                      '</div>' +
-                      "<div class=''>" +
-                        '<input required type="text" id="tempWaypoint" class="form-control my-2 input-sm tempWaypoint" onchange="waypoint_name = this.value" value="' + waypoint_name + '">' +
-                      "</div>"+
-                      "<div class=''>"+
-                        '<input type="checkbox" class="form-check-input p-1 input-sm my-1" id="temp_waypoint_airport_checkbox">'+
-                        "<label class='mr-2' >is waypoint an airport?</label>"+
-                      "</div>"+
-                    '</div>' +
-                    '<div class="my-2 p-1 border border-seconday iw_copy_latlng">'+
-                          '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  '+ lat + ', ' + lng + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
-                          '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+lat+', ' + lng+'">'+
-                    '</div>'+
-                  '</div>'
-
-
-          addpoi_infowindow.setContent(add_poi_iw_html_content);
-          addpoi_infowindow.open(map, currentMark);
-        });
+              '<div id="btn_add_new_poi_iw" class="mt-3">' +
+              '<a href="/poi/new/' + add_poi_location + '" class="btn btn-primary btn-sm btn-block" role="button" aria-pressed="true">Create POI at this location</a>' +
+              '</div>' +
+              '<div>' +
+              '<p class="text-sm">or</p>' +
+              '</div>' +
+              '<div class="add_user_waypoint_fp">' +
+              '<div id="btn_add_new_poi_iw" class="">' +
+              `<button class='btn btn-success btn-sm btn-block '  onclick='addWaypointToFP(` + lat + `, ` + lng + `, "` + waypoint_name + `");'>Add waypoint to flight plan</button> ` +
+              '</div>' +
+              "<div class=''>" +
+              '<input required type="text" id="tempWaypoint" class="form-control my-2 input-sm tempWaypoint" onchange="waypoint_name = this.value" value="' + waypoint_name + '">' +
+              "</div>" +
+              "<div class=''>" +
+              '<input type="checkbox" class="form-check-input p-1 input-sm my-1" id="temp_waypoint_airport_checkbox">' +
+              "<label class='mr-2' >is waypoint an airport?</label>" +
+              "</div>" +
+              '</div>' +
+              '<div class="my-2 p-1 border border-seconday iw_copy_latlng">' +
+              '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  ' + lat + ', ' + lng + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' + '</p>' +
+              '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="' + lat + ', ' + lng + '">' +
+              '</div>' +
+              '</div>'
 
 
-        google.maps.event.addListener(addpoi_infowindow,'closeclick',function(){
-          currentMark.setMap(null); //removes the marker
-          
-        });
-        
-        for (var i = 0, length = markerCollection.length;i < length;i++ ) {
-          
-          let feature = markerCollection[i];
-          let marker = new google.maps.Marker({
+            addpoi_infowindow.setContent(add_poi_iw_html_content);
+            addpoi_infowindow.open(map, currentMark);
+          });
+
+
+          google.maps.event.addListener(addpoi_infowindow, 'closeclick', function () {
+            currentMark.setMap(null); //removes the marker
+
+          });
+
+          for (var i = 0, length = markerCollection.length; i < length; i++) {
+
+            let feature = markerCollection[i];
+            let marker = new google.maps.Marker({
               position: feature.getGeometry().get(),
               title: feature.getProperty('name'),
               icon: feature.getProperty("icon"),
               map: map,
-          });
+            });
 
-          clusterMarkers.push(marker);
-          map.data.remove(feature);
+            clusterMarkers.push(marker);
+            map.data.remove(feature);
 
-          //Info Window on Poi
-          marker.addListener("click", function (event) {
+            //Info Window on Poi
+            marker.addListener("click", function (event) {
 
-            //close the current info window if exists
-            if (infowindow) {
-              infowindow.close();
-            }
-            
-
-            var marker_name = marker.title;
-            var id = infowindow_dict[marker_name]['id'];
-            var latitude = infowindow_dict[marker_name]['latitude'];
-            var longitude = infowindow_dict[marker_name]['longitude'];
-            var category = infowindow_dict[marker_name]['category'];
-            var country = infowindow_dict[marker_name]['country'];
-            var description = infowindow_dict[marker_name]['description'];
-            var rating = infowindow_dict[marker_name]['rating'];
-            var fp_id_list = infowindow_dict[marker_name]['fp_id_list'];
-            var showFlightPlanTours = 'style="display: none"';
-            var hiddenButtons = 'style="display: none"';
-            var hiddenDetails = 'style="display: none"';
-            var flagIconDisplay = 'style="display: none"';
-            var showAddWaypointBtn = 'd-none';
-            var showRemoveWaypointBtn = 'd-none';
-            
-            // var hiddenRatings = '';
-            var ratingRadio1 = '';
-            var ratingRadio2 = '';
-            var ratingRadio3 = '';
-            var ratingRadio4 = '';
-            var ratingRadio5 = '';
-            var favoriteCheck = 'far'
-            var visitedCheck = 'fa-square';
-            var flaggedCheck = 'fas';
-
-            // var showAddWaypointBTN  = 
-            //   '<div id="btn_addPoiToFlightPlan" class="my-2">' +
-            //     '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude + ')">Add to Flight plan</button> '+
-            //   '</div>'
-
-            //show tours html if poi has tours associated with it and user hasnt filtered only his pois
-            if (filter_user_pois !='Yes') {
-
-              if (fp_id_list.length) {
-                showFlightPlanTours = ''
-              } 
-
-            }
-       
-
-            //create flightplan tour list html
-            var flightplan_tours_html = '';
-            var flightplan_waypoints_added_list = [];
-            var tour_number = 1;
-            for (index = 0; index < fp_id_list.length; ++index) {
-              create_fp_html = true;
-
-              fp_id = fp_id_list[index];
-              flightplan = flightsplans_dic[fp_id];
-              fp_waypoints = flightplan['waypoints_list'];
-              fp_name = flightplan['name'];
-
-              //check to see if an identical waypoint list has already been added
-              for (i = 0; i < flightplan_waypoints_added_list.length; i++) {
-                current_fp_waypoints = flightplan_waypoints_added_list[i];
-
-                if (JSON.stringify(fp_waypoints) == JSON.stringify(current_fp_waypoints)) {
-                  create_fp_html = false;
-                  break;
-                } 
+              //close the current info window if exists
+              if (infowindow) {
+                infowindow.close();
               }
 
-              if (create_fp_html==true) {
-                flightplan_waypoints_added_list.push(fp_waypoints)
-                flightplan_tours_html += '<div class="d-flex justify-content-between poi_fp_details m-1 text-left">'
-                flightplan_tours_html +=   `<span class="poi_fp_text mr-4" onclick="showFlightPlanDialog(${fp_id},'${fp_name}')"  title="View Flight Plan" style="cursor: pointer">`
-                flightplan_tours_html +=     `TOUR ${tour_number}: ${fp_name}`
-                flightplan_tours_html +=   '</span>'
-                flightplan_tours_html +=   ` <span href="#" class="poi_fp_map_icon mr-1" onclick="showFlightPlanOnMap(${fp_id},'${fp_name}')" title="View on map" style="cursor: pointer">`
-                flightplan_tours_html +=   ` <i class="fas fa-globe-americas"></i>`
-                flightplan_tours_html +=   '</span>'
-                flightplan_tours_html += '</div>'
-                tour_number++
-              }
-            }
 
-            
-            if ((!flagged_pois.has(id))){
-              flagIconDisplay = '';
-            } 
+              var marker_name = marker.title;
+              var id = infowindow_dict[marker_name]['id'];
+              var latitude = infowindow_dict[marker_name]['latitude'];
+              var longitude = infowindow_dict[marker_name]['longitude'];
+              var category = infowindow_dict[marker_name]['category'];
+              var country = infowindow_dict[marker_name]['country'];
+              var description = infowindow_dict[marker_name]['description'];
+              var rating = infowindow_dict[marker_name]['rating'];
+              var fp_id_list = infowindow_dict[marker_name]['fp_id_list'];
+              var showFlightPlanTours = 'style="display: none"';
+              var hiddenButtons = 'style="display: none"';
+              var hiddenDetails = 'style="display: none"';
+              var flagIconDisplay = 'style="display: none"';
+              var showAddWaypointBtn = 'd-none';
+              var showRemoveWaypointBtn = 'd-none';
 
-            if (is_authenticated=='True') {
-              console.log("USER IS AUTHENTICATED.  POI ID IS: "+ id);
-              console.log("POI NAME IS: " + marker_name);
-              hiddenDetails ='';
-              
-              // if (user_pois_list.includes(parseInt(id))) {
-              // user_poi_infowindow_dict =  infowindow_user_dict[id]
-              if (user_pois.includes(id)) {
-                console.log("SHOWING DETAILS FOR THIS POI: "+ marker_name);
-                hiddenButtons ='';
-              }
+              // var hiddenRatings = '';
+              var ratingRadio1 = '';
+              var ratingRadio2 = '';
+              var ratingRadio3 = '';
+              var ratingRadio4 = '';
+              var ratingRadio5 = '';
+              var favoriteCheck = 'far'
+              var visitedCheck = 'fa-square';
+              var flaggedCheck = 'fas';
 
-              user_poi_rating = user_ratings_dict[id]
-              
-              //  Hide star rating if already rated??
-              // if (user_poi_rating) {
-              //   hiddenRatings = 'style="display: none"';
-              // }
+              // var showAddWaypointBTN  = 
+              //   '<div id="btn_addPoiToFlightPlan" class="my-2">' +
+              //     '<button class="btn btn-success btn-sm mx-2 py-0"  onclick="addPoiToFlightPlan(' + latitude + ', ' + longitude + ')">Add to Flight plan</button> '+
+              //   '</div>'
 
-              if (user_poi_rating ==1) {
-                ratingRadio1 = 'checked';
-              } else if (user_poi_rating ==2){
-                ratingRadio2 = 'checked';
-              } else if (user_poi_rating ==3){
-                ratingRadio3 = 'checked';
-              } else if (user_poi_rating ==4){
-                ratingRadio4 = 'checked';
-              } else if (user_poi_rating ==5){
-                ratingRadio5 = 'checked';
+              //show tours html if poi has tours associated with it and user hasnt filtered only his pois
+              if (filter_user_pois != 'Yes') {
+
+                if (fp_id_list.length) {
+                  showFlightPlanTours = ''
+                }
+
               }
 
-              if (user_visited.has(id)) {
-                visitedCheck = 'fa-check-square';
-                
+
+              //create flightplan tour list html
+              var flightplan_tours_html = '';
+              var flightplan_waypoints_added_list = [];
+              var tour_number = 1;
+              for (index = 0; index < fp_id_list.length; ++index) {
+                create_fp_html = true;
+
+                fp_id = fp_id_list[index];
+                flightplan = flightsplans_dic[fp_id];
+                fp_waypoints = flightplan['waypoints_list'];
+                fp_name = flightplan['name'];
+
+                //check to see if an identical waypoint list has already been added
+                for (i = 0; i < flightplan_waypoints_added_list.length; i++) {
+                  current_fp_waypoints = flightplan_waypoints_added_list[i];
+
+                  if (JSON.stringify(fp_waypoints) == JSON.stringify(current_fp_waypoints)) {
+                    create_fp_html = false;
+                    break;
+                  }
+                }
+
+                if (create_fp_html == true) {
+                  flightplan_waypoints_added_list.push(fp_waypoints)
+                  flightplan_tours_html += '<div class="d-flex justify-content-between poi_fp_details m-1 text-left">'
+                  flightplan_tours_html += `<span class="poi_fp_text mr-4" onclick="showFlightPlanDialog(${fp_id},'${fp_name}')"  title="View Flight Plan" style="cursor: pointer">`
+                  flightplan_tours_html += `TOUR ${tour_number}: ${fp_name}`
+                  flightplan_tours_html += '</span>'
+                  flightplan_tours_html += ` <span href="#" class="poi_fp_map_icon mr-1" onclick="showFlightPlanOnMap(${fp_id},'${fp_name}')" title="View on map" style="cursor: pointer">`
+                  flightplan_tours_html += ` <i class="fas fa-globe-americas"></i>`
+                  flightplan_tours_html += '</span>'
+                  flightplan_tours_html += '</div>'
+                  tour_number++
+                }
+              }
+
+
+              if ((!flagged_pois.has(id))) {
+                flagIconDisplay = '';
+              }
+
+              if (is_authenticated == 'True') {
+                console.log("USER IS AUTHENTICATED.  POI ID IS: " + id);
+                console.log("POI NAME IS: " + marker_name);
+                hiddenDetails = '';
+
+                // if (user_pois_list.includes(parseInt(id))) {
+                // user_poi_infowindow_dict =  infowindow_user_dict[id]
+                if (user_pois.includes(id)) {
+                  console.log("SHOWING DETAILS FOR THIS POI: " + marker_name);
+                  hiddenButtons = '';
+                }
+
+                user_poi_rating = user_ratings_dict[id]
+
+                //  Hide star rating if already rated??
+                // if (user_poi_rating) {
+                //   hiddenRatings = 'style="display: none"';
+                // }
+
+                if (user_poi_rating == 1) {
+                  ratingRadio1 = 'checked';
+                } else if (user_poi_rating == 2) {
+                  ratingRadio2 = 'checked';
+                } else if (user_poi_rating == 3) {
+                  ratingRadio3 = 'checked';
+                } else if (user_poi_rating == 4) {
+                  ratingRadio4 = 'checked';
+                } else if (user_poi_rating == 5) {
+                  ratingRadio5 = 'checked';
+                }
+
+                if (user_visited.has(id)) {
+                  visitedCheck = 'fa-check-square';
+
+                } else {
+                  visitedCheck = 'fa-square';
+                }
+
+                if ((user_favorites.has(id))) {
+                  favoriteCheck = 'fas';
+
+                } else {
+                  favoriteCheck = 'far';
+                }
+
+                // if ((!flagged_pois.has(id)) && (is_authenticated=='True')){
+                //   flagIconDisplay = '';
+                // } 
+              }
+
+              //show or hide add/remove waypoint buttons
+              if (hasWaypointBeenAdded(flightPath, latitude, longitude)) {
+                showRemoveWaypointBtn = '';
               } else {
-                visitedCheck = 'fa-square';
+                showAddWaypointBtn = '';
               }
 
-              if ((user_favorites.has(id))) {
-                favoriteCheck = 'fas';
-                
-              } else {
-                favoriteCheck = 'far';
-              }
 
-              // if ((!flagged_pois.has(id)) && (is_authenticated=='True')){
-              //   flagIconDisplay = '';
-              // } 
-            }
-
-            //show or hide add/remove waypoint buttons
-            if (hasWaypointBeenAdded(flightPath, latitude, longitude )) {
-              showRemoveWaypointBtn = '';
-              } else {
-              showAddWaypointBtn = '';
-            }
-            
-            
-            var html_content =
-              "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+              var html_content =
+                "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
 
                 "<div class='gm-style-iw' id='iw-container'>" +
 
-                    "<div class='gm-style-iw' id='iw-container'>" +
-                        '<div class="iw-poi_header">'+
-                          '<div style="cursor:pointer">'+
-                            "<a href='https://www.google.com/search?q=" + marker_name + ", "+ country +"' target='_blank'>" +
-                              '<h3 id="firstHeading">'+marker_name+'</h3>'+
-                              '<h4 id="categoryHeading" class=" font-italic ">'+category+'</h4>'+
-                            '</a>' +
-                          '</div>'+             
-                          '<div class="mb-1">'+  
-                            '<span class="iw_rating_text" style="color: black;">Community rating: '+ rating + '</span>'+
-                          '</div>'+ 
-                          '<div ' + hiddenDetails +'>' +
-                            '<div class="d-flex justify-content-center"' + hiddenDetails +'>' +
-                              '<div class="IW_Rating">'+
-                                '<form id="formIWrating" method="POST" action="/iw_post" target="dummyframe">'+
-                                '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
-                                  '<div class="poi_rating d-flex justify-content-center">'+
-                                    '<input id="ratingOptions5" name="ratingOptions" type="radio" value="5" class="radio-btn hide" onclick="this.form.submit()" />'+
-                                    '<label for="ratingOptions5" >☆</label>'+
-                                    '<input id="ratingOptions4" name="ratingOptions" type="radio" value="4" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                                    '<label for="ratingOptions4" >☆</label>'+
-                                    '<input id="ratingOptions3" name="ratingOptions" type="radio" value="3" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                                    '<label for="ratingOptions3" >☆</label>'+
-                                    '<input id="ratingOptions2" name="ratingOptions" type="radio" value="2" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                                    '<label for="ratingOptions2" >☆</label>'+
-                                    '<input id="ratingOptions1" name="ratingOptions" type="radio" value="1" class="radio-btn hide" onclick="this.form.submit()"/>'+
-                                    '<label for="ratingOptions1" >☆</label>'+
-                                    '<div class="clear"></div>'+     
-                                    '<input type="hidden" name="poi_id" value="'+id+'">'+                           
-                                  '</div>'+
-                                '</form>'+
-                              '</div>'+
-                            '</div>'+
-                          '</div>'+
-                          '<div class="iw_header_fas_icons "'+ hiddenDetails + '>' +
+                "<div class='gm-style-iw' id='iw-container'>" +
+                '<div class="iw-poi_header">' +
+                '<div style="cursor:pointer">' +
+                "<a href='https://www.google.com/search?q=" + marker_name + ", " + country + "' target='_blank'>" +
+                '<h3 id="firstHeading">' + marker_name + '</h3>' +
+                '<h4 id="categoryHeading" class=" font-italic ">' + category + '</h4>' +
+                '</a>' +
+                '</div>' +
+                '<div class="mb-1">' +
+                '<span class="iw_rating_text" style="color: black;">Community rating: ' + rating + '</span>' +
+                '</div>' +
+                '<div ' + hiddenDetails + '>' +
+                '<div class="d-flex justify-content-center"' + hiddenDetails + '>' +
+                '<div class="IW_Rating">' +
+                '<form id="formIWrating" method="POST" action="/iw_post" target="dummyframe">' +
+                '<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>' +
+                '<div class="poi_rating d-flex justify-content-center">' +
+                '<input id="ratingOptions5" name="ratingOptions" type="radio" value="5" class="radio-btn hide" onclick="this.form.submit()" />' +
+                '<label for="ratingOptions5" >☆</label>' +
+                '<input id="ratingOptions4" name="ratingOptions" type="radio" value="4" class="radio-btn hide" onclick="this.form.submit()"/>' +
+                '<label for="ratingOptions4" >☆</label>' +
+                '<input id="ratingOptions3" name="ratingOptions" type="radio" value="3" class="radio-btn hide" onclick="this.form.submit()"/>' +
+                '<label for="ratingOptions3" >☆</label>' +
+                '<input id="ratingOptions2" name="ratingOptions" type="radio" value="2" class="radio-btn hide" onclick="this.form.submit()"/>' +
+                '<label for="ratingOptions2" >☆</label>' +
+                '<input id="ratingOptions1" name="ratingOptions" type="radio" value="1" class="radio-btn hide" onclick="this.form.submit()"/>' +
+                '<label for="ratingOptions1" >☆</label>' +
+                '<div class="clear"></div>' +
+                '<input type="hidden" name="poi_id" value="' + id + '">' +
+                '</div>' +
+                '</form>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="iw_header_fas_icons "' + hiddenDetails + '>' +
 
-                              '<a style="cursor:pointer" onclick="iw_update_visited(\'' + id + '\')"><i id="iw_icon_visited" class="far ' + visitedCheck + ' fa-fw fa-lg" title="visited" style="color:#1a1a1a;"></i></a>'+
-                              '<a style="cursor:pointer" onclick="iw_update_favorite(\'' + id + '\')"><i id="iw_icon_fav" class=" ' + favoriteCheck + ' fa-heart fa-fw fa-lg" title="favorite" style="color:#9e0808;"></i></a>'+
-                              '</div>'+  
-                      '</div>'+
-                  '<div id="bodyContent">'+
-                      '<div class="my-1 p-1 border border-seconday iw_copy_latlng">'+
-                        '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  '+ latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
-                        '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+latitude+', ' + longitude+'">'+
-                      '</div>'+
-                      '<div class="my-2">'+
-                        '<p class="iw_description">'+ description + '</p>'+
-                      '</div>'+
-                      '<hr class="my-2"/>' +
-                      '<div id="poi_flight_plans" class=" my-2"'+ showFlightPlanTours + '>'+
-                        '<div class="card poi_flight_plans_card">'+
-                          '<div class="p-1 card-header poi_fp_header">'+
-  
-                              '<p class="ml-2 iw_flightplan_header" >'+
-                                'This POI is part of the following tours:'+
-                              '</p>'+
- 
-                          '</div>'+
-                          '<div class="px-2 py-1 poi_fp_body" >'+
-                            flightplan_tours_html +
-                          '</div>'+
- 
+                '<a style="cursor:pointer" onclick="iw_update_visited(\'' + id + '\')"><i id="iw_icon_visited" class="far ' + visitedCheck + ' fa-fw fa-lg" title="visited" style="color:#1a1a1a;"></i></a>' +
+                '<a style="cursor:pointer" onclick="iw_update_favorite(\'' + id + '\')"><i id="iw_icon_fav" class=" ' + favoriteCheck + ' fa-heart fa-fw fa-lg" title="favorite" style="color:#9e0808;"></i></a>' +
+                '</div>' +
+                '</div>' +
+                '<div id="bodyContent">' +
+                '<div class="my-1 p-1 border border-seconday iw_copy_latlng">' +
+                '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  ' + latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' + '</p>' +
+                '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="' + latitude + ', ' + longitude + '">' +
+                '</div>' +
+                '<div class="my-2">' +
+                '<p class="iw_description">' + description + '</p>' +
+                '</div>' +
+                '<hr class="my-2"/>' +
+                '<div id="poi_flight_plans" class=" my-2"' + showFlightPlanTours + '>' +
+                '<div class="card poi_flight_plans_card">' +
+                '<div class="p-1 card-header poi_fp_header">' +
+
+                '<p class="ml-2 iw_flightplan_header" >' +
+                'This POI is part of the following tours:' +
+                '</p>' +
+
+                '</div>' +
+                '<div class="px-2 py-1 poi_fp_body" >' +
+                flightplan_tours_html +
+                '</div>' +
 
 
-                        '</div>'+
 
-                      '</div>'+
-                    '<div>'+
-                      '<div id="btn_addPoiToFlightPlan" class="mt-3 mb-1 ' + showAddWaypointBtn + '">' +
-                          `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + latitude + `, ` + longitude +  `, "` + marker_name.replace("'", "&#39") + `", "` + category + `")'>Add to Flight plan</button> `+
-                        '</div>' +
-                      '<div id="btn_removePoiToFlightPlan" class="my-2 '+ showRemoveWaypointBtn + '">' +
-                        "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + latitude + ", " + longitude +  ", \"" + marker_name.replace("'", "&#39") + "\")'>Remove from flight plan</button> "+
-                      '</div>'+
-                    '</div>'+
-                    '<div class="iw_update_delete_fas_icons "'+ hiddenButtons + '>' +
-                      '<a style="cursor:pointer" href="/poi/'+id+'/update"><i id="iw_update_poi" class="fas fa-edit fa-fw fa-lg" title="update" style="color:#5c5b5b;"></i></a>'+
-                      '<a class="iw_delete_poi" style="cursor:pointer" href="#" data-id="'+ id +'" data-toggle="modal" data-target="#deleteModal"><i id="iw_image_delete_poi" class="far fa-trash-alt fa-fw fa-lg" title="delete" style="color:#9e0808;"></i></a>'+
-                    '</div>'+  
-                    '<div id="iw_flag_icon" class="iw_flag_icon"' + flagIconDisplay + '>' +
-                      '<a style="cursor:pointer" href="#" data-id="'+ id +'" data-toggle="modal" data-target="#flagReasonModal"><i id="iw_flagged_poi_icon" class="far fa-flag fa-fw fa-lg" title="Report POI" style="color:#f7c539;"></i></a>'+
-                    '</div>'+  
+                '</div>' +
+
+                '</div>' +
+                '<div>' +
+                '<div id="btn_addPoiToFlightPlan" class="mt-3 mb-1 ' + showAddWaypointBtn + '">' +
+                `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + latitude + `, ` + longitude + `, "` + marker_name.replace("'", "&#39") + `", "` + category + `")'>Add to Flight plan</button> ` +
+                '</div>' +
+                '<div id="btn_removePoiToFlightPlan" class="my-2 ' + showRemoveWaypointBtn + '">' +
+                "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + latitude + ", " + longitude + ", \"" + marker_name.replace("'", "&#39") + "\")'>Remove from flight plan</button> " +
+                '</div>' +
+                '</div>' +
+                '<div class="iw_update_delete_fas_icons "' + hiddenButtons + '>' +
+                '<a style="cursor:pointer" href="/poi/' + id + '/update"><i id="iw_update_poi" class="fas fa-edit fa-fw fa-lg" title="update" style="color:#5c5b5b;"></i></a>' +
+                '<a class="iw_delete_poi" style="cursor:pointer" href="#" data-id="' + id + '" data-toggle="modal" data-target="#deleteModal"><i id="iw_image_delete_poi" class="far fa-trash-alt fa-fw fa-lg" title="delete" style="color:#9e0808;"></i></a>' +
+                '</div>' +
+                '<div id="iw_flag_icon" class="iw_flag_icon"' + flagIconDisplay + '>' +
+                '<a style="cursor:pointer" href="#" data-id="' + id + '" data-toggle="modal" data-target="#flagReasonModal"><i id="iw_flagged_poi_icon" class="far fa-flag fa-fw fa-lg" title="Report POI" style="color:#f7c539;"></i></a>' +
+                '</div>' +
                 '</div>'
 
 
-            infowindow = new google.maps.InfoWindow({
-              content: html_content,
+              infowindow = new google.maps.InfoWindow({
+                content: html_content,
 
+              });
+
+              infowindow.open(map, marker);
+
+              google.maps.event.addListener(map, "click", function () {
+
+                infowindow.close();
+
+              });
             });
 
-            infowindow.open(map, marker);
-          
-            google.maps.event.addListener(map, "click", function () {
-              
-              infowindow.close();
-              
-            });            
-          });
-
-        }
-
-        // Marker Clustering
-        markerCluster = new MarkerClusterer(map, clusterMarkers,
-          { maxZoom: 10,
-            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-          });
-
-        //Create custon flight plan control
-        const flightPlanDiv = document.createElement("div");
-        styleflightPlanBtn(flightPlanDiv, map, flightPath);
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(flightPlanDiv);
-
-        //Create serach poi control
-        const searchPOIDiv = document.createElement("div");
-        styleSearchPOIBtn(searchPOIDiv, map);
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
-
-        //Create custon info - right click on map to create poi
-        // const infoDiv = document.createElement("div");
-        // styleInfoBtn(infoDiv, map);
-        // map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(infoDiv);
-
-        //Create lengend toogle button
-        const legendBtnDiv = document.createElement("div");
-        styleLegendBtn(legendBtnDiv, map);
-        map.controls[google.maps.ControlPosition.LEFT].push(legendBtnDiv);
-
-        
-        //Create lengend toogle button
-        const legendDiv = document.createElement("div");
-        styleLegend(legendDiv, map);
-        map.controls[google.maps.ControlPosition.LEFT].push(legendDiv);
-
-
-      }
-
-      function iw_update_favorite(poi_id){  
-        
-        var favorite_checked;
-
-        if ($("#iw_icon_fav").hasClass("fas")) {
-          $("#iw_icon_fav").removeClass("fas").addClass("far");
-          favorite_checked  = "";
-          user_favorites.delete(parseInt(poi_id));
-
-          // session_favorited.delete(poi_id);
-        } else {
-          $("#iw_icon_fav").removeClass("far").addClass("fas");
-          favorite_checked  = "Yes";
-          user_favorites.add(parseInt(poi_id))
-          // session_favorited.add(poi_id);
-        }
-        $.post("/iw_post", {"favoriteChecked": favorite_checked, "poi_id": poi_id})
-      }
-
-      function iw_update_visited(poi_id){
-
-        var visited_checked;
-
-        if ($("#iw_icon_visited").hasClass("fa-check-square")) {
-          $("#iw_icon_visited").removeClass("fa-check-square").addClass("fa-square");
-          visited_checked = "";
-          user_visited.delete(parseInt(poi_id));
-        } else {
-          $("#iw_icon_visited").removeClass("fa-square").addClass("fa-check-square");
-          visited_checked = "Yes";
-          user_visited.add(parseInt(poi_id))
-        }
-        $.post("/iw_post", {"visitedChecked": visited_checked, "poi_id": poi_id})
-      }
-
-
-      function showFlightPlanDialog(flightplan_id, fp_name) {
-
-        // First remove and delete previous flight plan and path
-        deleteFlightPlan();
-
-        var waypointlist = flightsplans_dic[flightplan_id]['waypoints_list'];
-
-        for (let i = 0; i < waypointlist.length; i++) {
-
-          var waypoint = waypointlist[i];
-          var latitude = parseFloat(infowindow_dict[waypoint]['latitude']);
-          var longitude = parseFloat(infowindow_dict[waypoint]['longitude']);
-          var category = infowindow_dict[waypoint]['category'];
-          addPoiToFlightPlan(latitude, longitude, waypoint, category);
-
-        }
-
-        flightpath_name = fp_name;
-
-        buildFlightPlanModalBody(flightPath_data, fp_name);
-
-      }
-
-      function showFlightPlanOnMap(flightplan_id, fp_name) {
-
-        // remove any previous flight plan if exists
-        deleteFlightPlan();
-
-        var waypointlist = flightsplans_dic[flightplan_id]['waypoints_list'];
-
-        for (let i = 0; i < waypointlist.length; i++) {
-
-          var waypoint = waypointlist[i];
-          var latitude = parseFloat(infowindow_dict[waypoint]['latitude']);
-          var longitude = parseFloat(infowindow_dict[waypoint]['longitude']);
-          var category = infowindow_dict[waypoint]['category'];
-          addPoiToFlightPlan(latitude, longitude, waypoint, category);
-
-        }
-
-        flightpath_name = fp_name;
-        
-        zoomToObject(flightPath);
-      }
-
-      //Add a new point to the FlightPath
-      function addPoiToFlightPlan(latitude, longitude, waypoint, category) {
-        const path = flightPath.getPath();
-        var latLng = [latitude, longitude]
-
-        // issue with names containing
-        waypoint.replace("'", "&#39") 
-
-        // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
-        path.push(new google.maps.LatLng(latLng[0], latLng[1]));
-
-        // We also need to add additional data to flightPath_data so we can create a flight plan
-        flightPath_data.push({'latLng': latLng, 'waypoint': waypoint, 'category': category})
-
-        //enable modal buttons if valid flight plan
-        if (flightPath_data.length > 0){
-          $('#fp_save_btn').removeAttr('disabled')
-          $('#fp_delete_btn').removeAttr('disabled')
-        } 
-
-        //hide the add button and display the remove button
-        $("#btn_addPoiToFlightPlan").addClass("d-none");
-        $("#btn_removePoiToFlightPlan").removeClass("d-none");
-
-
-        if (infowindow) {
-          infowindow.close();
-        } 
-
-        if (ap_infowindow) {
-          ap_infowindow.close();
-        }
-
-
-        // Add a new marker at the new plotted point on the polyline.
-        // new google.maps.Marker({
-        //   position: event.latLng,
-        //   title: "#" + path.getLength(),
-        //   map: map
-        // });
-      }
-
-      function removePoiToFlightPlan(latitude, longitude, iw_marker_title) {
-        const path = flightPath.getPath();  
-        var flightpath_array = path.getArray()
-        
-        for (let i = 0; i < flightpath_array.length; i++) {
-          
-          // if ((flightpath_array[i].lat() == latitude) && (flightpath_array[i].lat()  == longitude)) {
-          if (flightpath_array[i].lat() == latitude) {
-            if (flightpath_array[i].lng()  == longitude) {
-              path.removeAt(i);
-              // We also need to remove additional data to flightPath_data so we can create a flight plan
-              // flightPath_data.removeAt(i);
-              flightPath_data.splice(i, 1);
-              // delete flightPath_data[i];     //indexs wont change with this method
-              break;
-
-            }
-          }  
-        }
-
-        //disable modal buttons if not valid flight plan
-        if (flightPath_data.length < 1){
-          $('#fp_save_btn').attr('disabled', 'disabled');
-          $('#fp_delete_btn').attr('disabled', 'disabled');
-        } 
-
-        //hide the remove button and display the add button
-        $( "#btn_removePoiToFlightPlan" ).addClass("d-none");
-        $("#btn_addPoiToFlightPlan").removeClass("d-none");
-
-        infowindow.close();
-        if (ap_infowindow) {
-          ap_infowindow.close();
-        }
-
-        //removes the marker if it is a custom waypoint
-
-        for (var i = 0; i < temp_marker_list.length; i++) {
-          
-          if (temp_marker_list[i].title == iw_marker_title) {
-            temp_marker_list[i].setMap(null);
-            break;
           }
-       }
 
-      }
+          // Marker Clustering
+          markerCluster = new MarkerClusterer(map, clusterMarkers,
+            {
+              maxZoom: 10,
+              imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+            });
 
-      function deleteFlightPlan() {
-        // flightPath.setMap(null);
-        flightpath_name = "";
-        flightPath.getPath().clear()
-        flightPath_data = [];
-        $("#Flight_plan_modal").modal('hide');
-        $('#fp_save_btn').attr('disabled', 'disabled');
-        $('#fp_delete_btn').attr('disabled', 'disabled');
-        temp_waypoint_list = [];
+          //Create custon flight plan control
+          const flightPlanDiv = document.createElement("div");
+          styleflightPlanBtn(flightPlanDiv, map, flightPath);
+          map.controls[google.maps.ControlPosition.TOP_RIGHT].push(flightPlanDiv);
 
-        //remove any user created temporary waypoints
-        temp_marker_list.forEach((temp_marker) => {
-          temp_marker.setMap(null);
-        })
-        
-      }
+          //Create serach poi control
+          const searchPOIDiv = document.createElement("div");
+          styleSearchPOIBtn(searchPOIDiv, map);
+          map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
 
-      function loadFlightPlan(flightPath, map) {
+          //Create custon info - right click on map to create poi
+          // const infoDiv = document.createElement("div");
+          // styleInfoBtn(infoDiv, map);
+          // map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(infoDiv);
 
-        const path = flightPath.getPath()
+          //Create lengend toogle button
+          const legendBtnDiv = document.createElement("div");
+          styleLegendBtn(legendBtnDiv, map);
+          map.controls[google.maps.ControlPosition.LEFT].push(legendBtnDiv);
 
-        flightPath.setMap(map);
 
-        //check to see if user wants to view an existing flightplan - if so then display it on map
-        if (view_flightplan_id != 0) {  
-          flightpath_name = flightsplans_dic[view_flightplan_id]['name'];
-          var waypointlist = flightsplans_dic[view_flightplan_id]['waypoints_list'];
+          //Create lengend toogle button
+          const legendDiv = document.createElement("div");
+          styleLegend(legendDiv, map);
+          map.controls[google.maps.ControlPosition.LEFT].push(legendDiv);
+
+
+        }
+
+        function iw_update_favorite(poi_id) {
+
+          var favorite_checked;
+
+          if ($("#iw_icon_fav").hasClass("fas")) {
+            $("#iw_icon_fav").removeClass("fas").addClass("far");
+            favorite_checked = "";
+            user_favorites.delete(parseInt(poi_id));
+
+            // session_favorited.delete(poi_id);
+          } else {
+            $("#iw_icon_fav").removeClass("far").addClass("fas");
+            favorite_checked = "Yes";
+            user_favorites.add(parseInt(poi_id))
+            // session_favorited.add(poi_id);
+          }
+          $.post("/iw_post", { "favoriteChecked": favorite_checked, "poi_id": poi_id })
+        }
+
+        function iw_update_visited(poi_id) {
+
+          var visited_checked;
+
+          if ($("#iw_icon_visited").hasClass("fa-check-square")) {
+            $("#iw_icon_visited").removeClass("fa-check-square").addClass("fa-square");
+            visited_checked = "";
+            user_visited.delete(parseInt(poi_id));
+          } else {
+            $("#iw_icon_visited").removeClass("fa-square").addClass("fa-check-square");
+            visited_checked = "Yes";
+            user_visited.add(parseInt(poi_id))
+          }
+          $.post("/iw_post", { "visitedChecked": visited_checked, "poi_id": poi_id })
+        }
+
+
+        function showFlightPlanDialog(flightplan_id, fp_name) {
+
+          // First remove and delete previous flight plan and path
+          deleteFlightPlan();
+
+          var waypointlist = flightsplans_dic[flightplan_id]['waypoints_list'];
 
           for (let i = 0; i < waypointlist.length; i++) {
 
@@ -860,56 +709,211 @@ if (goto_gm) {
             var latitude = parseFloat(infowindow_dict[waypoint]['latitude']);
             var longitude = parseFloat(infowindow_dict[waypoint]['longitude']);
             var category = infowindow_dict[waypoint]['category'];
-            
-            var latLng = [latitude, longitude]
+            addPoiToFlightPlan(latitude, longitude, waypoint, category);
 
-            // issue with names containing
-            waypoint.replace("'", "&#39") 
+          }
 
-            // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
-            path.push(new google.maps.LatLng(latLng[0], latLng[1]));
+          flightpath_name = fp_name;
 
-            // We also need to add additional data to flightPath_data so we can build a flight plan
-            flightPath_data.push({'latLng': latLng, 'waypoint': waypoint, 'category': category})
+          buildFlightPlanModalBody(flightPath_data, fp_name);
 
-          }   
         }
-        
-        if (view_flightplan_id != 0) { 
+
+        function showFlightPlanOnMap(flightplan_id, fp_name) {
+
+          // remove any previous flight plan if exists
+          deleteFlightPlan();
+
+          var waypointlist = flightsplans_dic[flightplan_id]['waypoints_list'];
+
+          for (let i = 0; i < waypointlist.length; i++) {
+
+            var waypoint = waypointlist[i];
+            var latitude = parseFloat(infowindow_dict[waypoint]['latitude']);
+            var longitude = parseFloat(infowindow_dict[waypoint]['longitude']);
+            var category = infowindow_dict[waypoint]['category'];
+            addPoiToFlightPlan(latitude, longitude, waypoint, category);
+
+          }
+
+          flightpath_name = fp_name;
+
           zoomToObject(flightPath);
         }
 
-      }
+        //Add a new point to the FlightPath
+        function addPoiToFlightPlan(latitude, longitude, waypoint, category) {
+          const path = flightPath.getPath();
+          var latLng = [latitude, longitude]
 
-      function hasWaypointBeenAdded(flightPath, latitude, longitude ) {
+          // issue with names containing
+          waypoint.replace("'", "&#39")
 
-        const path = flightPath.getPath();  
-        var flightpath_array = path.getArray()
+          // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
+          path.push(new google.maps.LatLng(latLng[0], latLng[1]));
 
-        for (let i = 0; i < flightpath_array.length; i++) {
-          
-          // if ((flightpath_array[i].lat() == latitude) && (flightpath_array[i].lat()  == longitude)) {
-          if (flightpath_array[i].lat() == latitude) {
-            if (flightpath_array[i].lng()  == longitude) {
+          // We also need to add additional data to flightPath_data so we can create a flight plan
+          flightPath_data.push({ 'latLng': latLng, 'waypoint': waypoint, 'category': category })
 
-              return true;
-            }
-          }          
+          //enable modal buttons if valid flight plan
+          if (flightPath_data.length > 0) {
+            $('#fp_save_btn').removeAttr('disabled')
+            $('#fp_delete_btn').removeAttr('disabled')
+          }
+
+          //hide the add button and display the remove button
+          $("#btn_addPoiToFlightPlan").addClass("d-none");
+          $("#btn_removePoiToFlightPlan").removeClass("d-none");
+
+
+          if (infowindow) {
+            infowindow.close();
+          }
+
+          if (ap_infowindow) {
+            ap_infowindow.close();
+          }
+
+
+          // Add a new marker at the new plotted point on the polyline.
+          // new google.maps.Marker({
+          //   position: event.latLng,
+          //   title: "#" + path.getLength(),
+          //   map: map
+          // });
         }
-        return false;  
-      }
 
-      function showUsersFlightsVolanta() {
+        function removePoiToFlightPlan(latitude, longitude, iw_marker_title) {
+          const path = flightPath.getPath();
+          var flightpath_array = path.getArray()
+
+          for (let i = 0; i < flightpath_array.length; i++) {
+
+            // if ((flightpath_array[i].lat() == latitude) && (flightpath_array[i].lat()  == longitude)) {
+            if (flightpath_array[i].lat() == latitude) {
+              if (flightpath_array[i].lng() == longitude) {
+                path.removeAt(i);
+                // We also need to remove additional data to flightPath_data so we can create a flight plan
+                // flightPath_data.removeAt(i);
+                flightPath_data.splice(i, 1);
+                // delete flightPath_data[i];     //indexs wont change with this method
+                break;
+
+              }
+            }
+          }
+
+          //disable modal buttons if not valid flight plan
+          if (flightPath_data.length < 1) {
+            $('#fp_save_btn').attr('disabled', 'disabled');
+            $('#fp_delete_btn').attr('disabled', 'disabled');
+          }
+
+          //hide the remove button and display the add button
+          $("#btn_removePoiToFlightPlan").addClass("d-none");
+          $("#btn_addPoiToFlightPlan").removeClass("d-none");
+
+          infowindow.close();
+          if (ap_infowindow) {
+            ap_infowindow.close();
+          }
+
+          //removes the marker if it is a custom waypoint
+
+          for (var i = 0; i < temp_marker_list.length; i++) {
+
+            if (temp_marker_list[i].title == iw_marker_title) {
+              temp_marker_list[i].setMap(null);
+              break;
+            }
+          }
+
+        }
+
+        function deleteFlightPlan() {
+          // flightPath.setMap(null);
+          flightpath_name = "";
+          flightPath.getPath().clear()
+          flightPath_data = [];
+          $("#Flight_plan_modal").modal('hide');
+          $('#fp_save_btn').attr('disabled', 'disabled');
+          $('#fp_delete_btn').attr('disabled', 'disabled');
+          temp_waypoint_list = [];
+
+          //remove any user created temporary waypoints
+          temp_marker_list.forEach((temp_marker) => {
+            temp_marker.setMap(null);
+          })
+
+        }
+
+        function loadFlightPlan(flightPath, map) {
+
+          const path = flightPath.getPath()
+
+          flightPath.setMap(map);
+
+          //check to see if user wants to view an existing flightplan - if so then display it on map
+          if (view_flightplan_id != 0) {
+            flightpath_name = flightsplans_dic[view_flightplan_id]['name'];
+            var waypointlist = flightsplans_dic[view_flightplan_id]['waypoints_list'];
+
+            for (let i = 0; i < waypointlist.length; i++) {
+
+              var waypoint = waypointlist[i];
+              var latitude = parseFloat(infowindow_dict[waypoint]['latitude']);
+              var longitude = parseFloat(infowindow_dict[waypoint]['longitude']);
+              var category = infowindow_dict[waypoint]['category'];
+
+              var latLng = [latitude, longitude]
+
+              // issue with names containing
+              waypoint.replace("'", "&#39")
+
+              // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
+              path.push(new google.maps.LatLng(latLng[0], latLng[1]));
+
+              // We also need to add additional data to flightPath_data so we can build a flight plan
+              flightPath_data.push({ 'latLng': latLng, 'waypoint': waypoint, 'category': category })
+
+            }
+          }
+
+          if (view_flightplan_id != 0) {
+            zoomToObject(flightPath);
+          }
+
+        }
+
+        function hasWaypointBeenAdded(flightPath, latitude, longitude) {
+
+          const path = flightPath.getPath();
+          var flightpath_array = path.getArray()
+
+          for (let i = 0; i < flightpath_array.length; i++) {
+
+            // if ((flightpath_array[i].lat() == latitude) && (flightpath_array[i].lat()  == longitude)) {
+            if (flightpath_array[i].lat() == latitude) {
+              if (flightpath_array[i].lng() == longitude) {
+
+                return true;
+              }
+            }
+          }
+          return false;
+        }
+
+        function showUsersFlightsVolanta() {
 
 
           //contruct flight polygons and flight paths  for each of users flights
           var distance = 0.08 // 8km either side of path
 
-          var addListenersOnPolygon = function(polygon) {
+          var addListenersOnPolygon = function (polygon) {
             google.maps.event.addListener(polygon, 'click', function (event) {
               // alert(polygon.flight_data['Origin_name']);
               showFlightDetails(polygon.flight_data, event.latLng);
-            });  
+            });
           }
 
           for (var i = 0; i < user_flights.length; i++) {
@@ -924,11 +928,11 @@ if (goto_gm) {
             for (var j = 0; j < positional_flight_data.length; j++) {
               latitude = positional_flight_data[j]['Latitude'];
               longitude = positional_flight_data[j]['Longitude'];
-              flight_point = {'lat': parseFloat(latitude), 'lng': parseFloat(longitude)}
+              flight_point = { 'lat': parseFloat(latitude), 'lng': parseFloat(longitude) }
               flight_coordinates_poly.push([latitude, longitude]);
               // flight_coordinates_gm.push(new google.maps.LatLng(latitude, longitude));
               flight_coordinates_gm.push(flight_point);
-            
+
             }
 
             //lets create the polygon coordinates using JSTS
@@ -938,7 +942,7 @@ if (goto_gm) {
             };
 
             var geoReader = new jsts.io.GeoJSONReader()
-                geoWriter = new jsts.io.GeoJSONWriter();
+            geoWriter = new jsts.io.GeoJSONWriter();
             var geometry = geoReader.read(geoInput).buffer(distance);
             var polygon = geoWriter.write(geometry);
 
@@ -948,23 +952,23 @@ if (goto_gm) {
             for (var k = 0; k < oCoordinates.length; k++) {
               var oItem;
               oItem = oCoordinates[k];
-              flight_point = {'lat': oItem[0], 'lng': oItem[1]}
+              flight_point = { 'lat': oItem[0], 'lng': oItem[1] }
               polygonLatLng.push(flight_point);
             }
 
             //add flight polygon
             flight_polygon = new google.maps.Polygon({
-                paths: polygonLatLng,
-                strokeColor: "#FF0000",
-                strokeOpacity: 0.35,
-                strokeOpacity: 0,
-                geodesic: true,
-                // strokeWeight: 2,
-                fillColor: "#FF0000",
-                fillOpacity: 0.20,
-                map: map,
-                flight_data: compl_flight_data
-                // cursor: 'grab'
+              paths: polygonLatLng,
+              strokeColor: "#FF0000",
+              strokeOpacity: 0.35,
+              strokeOpacity: 0,
+              geodesic: true,
+              // strokeWeight: 2,
+              fillColor: "#FF0000",
+              fillOpacity: 0.20,
+              map: map,
+              flight_data: compl_flight_data
+              // cursor: 'grab'
             })
 
             //add flight path
@@ -975,9 +979,9 @@ if (goto_gm) {
               strokeOpacity: 0.5,
               strokeWeight: 1.5,
               map: map
-              
+
             });
-            
+
             // google.maps.event.addListener(flight_polygon, 'click', showFlightDetails.bind(compl_flight_data, e.latLng));
 
             addListenersOnPolygon(flight_polygon);
@@ -990,303 +994,303 @@ if (goto_gm) {
             //close flight details window if user clicks on the map
             google.maps.event.addListener(map, "click", function () {
 
-              if (flight_infowindow){
-              
+              if (flight_infowindow) {
+
                 flight_infowindow.close();
               }
-              
-            });       
-          }     
-      }
 
-      function showFlightDetails(flight_data, map_position){
-
-        //close existing flight detail IW
-        if (flight_infowindow) {
-                flight_infowindow.close()
+            });
+          }
         }
 
-        flight_infowindow = new google.maps.InfoWindow;
+        function showFlightDetails(flight_data, map_position) {
 
-        flight_id = flight_data['Flight_ID']
-        flight_date = flight_data['Date']
-        flight_time = flight_data['Flight_time']
-        flight_filename = flight_data['Filename']
-        aircraft_registration = flight_data['AircraftRegistration']
-        aircraft_title = flight_data['AircraftTitle']
-        flight_origin_name = flight_data['Origin_name']
-        if (!flight_origin_name) {
-          flight_origin_name = 'No Origin Airport';
-        }
+          //close existing flight detail IW
+          if (flight_infowindow) {
+            flight_infowindow.close()
+          }
 
-        flight_origin_icao = flight_data['Origin_icao']
-        if (!flight_origin_icao) {
-          flight_origin_icao = '';
-        } else {
-          flight_origin_icao = '(' + flight_origin_icao + ')'
-        }
+          flight_infowindow = new google.maps.InfoWindow;
 
-        flight_destination_name = flight_data['Destination_name']
-        if (!flight_destination_name) {
-          flight_destination_name = 'No Destination Airport';
-        }
+          flight_id = flight_data['Flight_ID']
+          flight_date = flight_data['Date']
+          flight_time = flight_data['Flight_time']
+          flight_filename = flight_data['Filename']
+          aircraft_registration = flight_data['AircraftRegistration']
+          aircraft_title = flight_data['AircraftTitle']
+          flight_origin_name = flight_data['Origin_name']
+          if (!flight_origin_name) {
+            flight_origin_name = 'No Origin Airport';
+          }
 
-        flight_destination_icao = flight_data['Destination_icao']
-        if (!flight_destination_icao) {
-          flight_destination_icao = '';
-        } else {
-          flight_destination_icao = '(' + flight_destination_icao + ')'
-        }
+          flight_origin_icao = flight_data['Origin_icao']
+          if (!flight_origin_icao) {
+            flight_origin_icao = '';
+          } else {
+            flight_origin_icao = '(' + flight_origin_icao + ')'
+          }
 
-        var flight_details_iw_html_content =
-          // "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
-          //   "<div class='gm-style-iw' id='iw-container'>" +
-          //     '<p class="text-sm">TEST</p>'+
+          flight_destination_name = flight_data['Destination_name']
+          if (!flight_destination_name) {
+            flight_destination_name = 'No Destination Airport';
+          }
 
-          //   '</div>'
-          "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+          flight_destination_icao = flight_data['Destination_icao']
+          if (!flight_destination_icao) {
+            flight_destination_icao = '';
+          } else {
+            flight_destination_icao = '(' + flight_destination_icao + ')'
+          }
 
-          "<div class='gm-style-iw' id='iw-container'>" +
+          var flight_details_iw_html_content =
+            // "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+            //   "<div class='gm-style-iw' id='iw-container'>" +
+            //     '<p class="text-sm">TEST</p>'+
 
-              "<div class='gm-style-iw' id='iw-container'>" +
-                  '<div class="iw_flight_header">'+
-                    '<div style="cursor:pointer">'+
-                      "<a href='https://www.google.com/search?q=" + flight_origin_name +"' target='_blank'>" +
-                        '<h5 id="">'+flight_origin_name + ' ' + flight_origin_icao + '</h4>'+
-                      '</a>' +
-                      "<a href='https://www.google.com/search?q=" + flight_destination_name +"' target='_blank'>" +
-                        '<h5 id="">to</h4>'+
-                        '<h5 id="">'+flight_destination_name + ' ' + flight_destination_icao + '</h4>'+
-                      '</a>' +
-                    '</div>'+             
-                '</div>'+
-              '<div id="bodyContent">'+
-                  '<div class="my-2">'+
-                    '<p class="iw_description mx-3">AIRCRAFT:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ aircraft_title + '</p>'+
-                    '<p class="iw_description mx-3">REGISTRATION:&nbsp&nbsp&nbsp&nbsp'+ aircraft_registration + '</p>'+
-                    '<p class="iw_description mx-3">DATE (UTC):&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ flight_date + '</p>'+
-                    '<p class="iw_description mx-3">FLIGHT TIME:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ flight_time + '</p>'+
-                    '<p class="iw_description mx-3">FILE:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ flight_filename + '</p>'+
-                  '</div>'+
-              '</div>'+
-              '<div>' +
-                '<a class="iw_delete_flight btn btn-danger btn-sm btn-block" style="cursor:pointer" href="#" role="button" data-id="'+ flight_id +'" data-toggle="modal" data-target="#deleteFlightModal">Delete Flight</a>'+
-              '</div>'+ 
+            //   '</div>'
+            "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+
+            "<div class='gm-style-iw' id='iw-container'>" +
+
+            "<div class='gm-style-iw' id='iw-container'>" +
+            '<div class="iw_flight_header">' +
+            '<div style="cursor:pointer">' +
+            "<a href='https://www.google.com/search?q=" + flight_origin_name + "' target='_blank'>" +
+            '<h5 id="">' + flight_origin_name + ' ' + flight_origin_icao + '</h4>' +
+            '</a>' +
+            "<a href='https://www.google.com/search?q=" + flight_destination_name + "' target='_blank'>" +
+            '<h5 id="">to</h4>' +
+            '<h5 id="">' + flight_destination_name + ' ' + flight_destination_icao + '</h4>' +
+            '</a>' +
+            '</div>' +
+            '</div>' +
+            '<div id="bodyContent">' +
+            '<div class="my-2">' +
+            '<p class="iw_description mx-3">AIRCRAFT:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + aircraft_title + '</p>' +
+            '<p class="iw_description mx-3">REGISTRATION:&nbsp&nbsp&nbsp&nbsp' + aircraft_registration + '</p>' +
+            '<p class="iw_description mx-3">DATE (UTC):&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + flight_date + '</p>' +
+            '<p class="iw_description mx-3">FLIGHT TIME:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + flight_time + '</p>' +
+            '<p class="iw_description mx-3">FILE:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + flight_filename + '</p>' +
+            '</div>' +
+            '</div>' +
+            '<div>' +
+            '<a class="iw_delete_flight btn btn-danger btn-sm btn-block" style="cursor:pointer" href="#" role="button" data-id="' + flight_id + '" data-toggle="modal" data-target="#deleteFlightModal">Delete Flight</a>' +
+            '</div>' +
             '</div>'
 
 
-        flight_infowindow.setContent(flight_details_iw_html_content);
-        flight_infowindow.setPosition(map_position);
-        flight_infowindow.open(map);
+          flight_infowindow.setContent(flight_details_iw_html_content);
+          flight_infowindow.setPosition(map_position);
+          flight_infowindow.open(map);
 
-        // alert(flight_id + '  ' + flight_origin_name + '   (' + flight_origin_icao + ')   '  + flight_destination_name + '   (' + flight_destination_icao + ')   '  + aircraft_registration + '  ' + aircraft_title);
+          // alert(flight_id + '  ' + flight_origin_name + '   (' + flight_origin_icao + ')   '  + flight_destination_name + '   (' + flight_destination_icao + ')   '  + aircraft_registration + '  ' + aircraft_title);
 
-      }
+        }
 
-      function styleSearchPOIBtn(controlDiv, map) {
+        function styleSearchPOIBtn(controlDiv, map) {
 
-        // Set CSS for the control border.
-        const controlUI = document.createElement('div');
-        controlUI.classList = "row"
-        // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-        // controlUI.style.cursor = "pointer";
-        controlUI.style.margin = "15px";
-        // controlUI.style.textAlign = "center";
-        controlDiv.appendChild(controlUI);
+          // Set CSS for the control border.
+          const controlUI = document.createElement('div');
+          controlUI.classList = "row"
+          // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+          // controlUI.style.cursor = "pointer";
+          controlUI.style.margin = "15px";
+          // controlUI.style.textAlign = "center";
+          controlDiv.appendChild(controlUI);
 
-        // Set CSS for the control interior.
-        const controlText = document.createElement("div");
-        controlText.classList = "input-group poi_search_field autocomplete";
-
-
-        var controlInput = document.createElement('INPUT');
-        controlInput.id = "poi_search_field_input";
-        controlInput.type = "text";
-        controlInput.className = "form-control";
-        controlInput.setAttribute("placeholder", "Search for a Point of Interest");
-
-        var controlButton = document.createElement("div");
-        controlButton.className = "input-group-append";
-
-        buttonSearchPOIInnerHTML = 
-
-                              '   <button class="btn btn-primary" type="button" disabled>'+
-                              '     <i class="fa fa-search"></i>'+
-                              '   </button>'
+          // Set CSS for the control interior.
+          const controlText = document.createElement("div");
+          controlText.classList = "input-group poi_search_field autocomplete";
 
 
+          var controlInput = document.createElement('INPUT');
+          controlInput.id = "poi_search_field_input";
+          controlInput.type = "text";
+          controlInput.className = "form-control";
+          controlInput.setAttribute("placeholder", "Search for a Point of Interest");
 
-        controlButton.innerHTML = buttonSearchPOIInnerHTML;
-        controlText.appendChild(controlInput)
-        controlText.appendChild(controlButton)
-        controlUI.appendChild(controlText)
+          var controlButton = document.createElement("div");
+          controlButton.className = "input-group-append";
 
-        var currentAutocompleteItemFocus;
+          buttonSearchPOIInnerHTML =
 
-        // autocomplete functionality
-        controlInput.addEventListener("input", () => {
-          var arr = db_poi_names;
-          
-          var divCreate,
-          b,
-          i,
-          fieldVal = controlInput.value;
-          closeAllLists();
-          if (!fieldVal) {
-            return false;
-          }
-          currentAutocompleteItemFocus = -1;
-          divCreate = document.createElement("DIV");
-          divCreate.setAttribute("id", controlInput.id + "autocomplete-list");
-          divCreate.setAttribute("class", "autocomplete-items poi-search");
-          divCreate.style.cursor = 'pointer';
-          controlInput.parentNode.appendChild(divCreate);
-          b = document.createElement("DIV");
-           
+            '   <button class="btn btn-primary" type="button" disabled>' +
+            '     <i class="fa fa-search"></i>' +
+            '   </button>'
 
-          for (i = 0; i <arr.length; i++) {
-              
 
-            if ( arr[i].toUpperCase().includes(fieldVal.toUpperCase())) {      
+
+          controlButton.innerHTML = buttonSearchPOIInnerHTML;
+          controlText.appendChild(controlInput)
+          controlText.appendChild(controlButton)
+          controlUI.appendChild(controlText)
+
+          var currentAutocompleteItemFocus;
+
+          // autocomplete functionality
+          controlInput.addEventListener("input", () => {
+            var arr = db_poi_names;
+
+            var divCreate,
+              b,
+              i,
+              fieldVal = controlInput.value;
+            closeAllLists();
+            if (!fieldVal) {
+              return false;
+            }
+            currentAutocompleteItemFocus = -1;
+            divCreate = document.createElement("DIV");
+            divCreate.setAttribute("id", controlInput.id + "autocomplete-list");
+            divCreate.setAttribute("class", "autocomplete-items poi-search");
+            divCreate.style.cursor = 'pointer';
+            controlInput.parentNode.appendChild(divCreate);
+            b = document.createElement("DIV");
+
+
+            for (i = 0; i < arr.length; i++) {
+
+
+              if (arr[i].toUpperCase().includes(fieldVal.toUpperCase())) {
 
                 b = document.createElement("DIV");
                 b.setAttribute("tabindex", "-1")
                 // b.innerHTML = "<strong>" + arr[i].substr(0, fieldVal.length) + "</strong>";
                 match_index = arr[i].toUpperCase().search(fieldVal.toUpperCase());
                 b.innerHTML += arr[i].substring(0, match_index);
-                strong_text = arr[i].substring(match_index, match_index+fieldVal.length) 
+                strong_text = arr[i].substring(match_index, match_index + fieldVal.length)
                 b.innerHTML += "<strong>" + strong_text + "</strong>";
-                b.innerHTML += arr[i].substr(match_index+fieldVal.length, arr[i].length);
+                b.innerHTML += arr[i].substr(match_index + fieldVal.length, arr[i].length);
                 // b.innerHTML += "<input disabled type='hidden' value='" + arr[i] + "'>";
                 b.innerHTML += `<input disabled type='hidden' value="` + arr[i] + `">`;
 
                 //
                 b.addEventListener("click", function (e) {
-                    
-                    controlInput.value = this.getElementsByTagName("input")[0].value;
 
-                    closeAllLists();
-                    
+                  controlInput.value = this.getElementsByTagName("input")[0].value;
 
-                    //detemine lat/lng of selected poi
-                    select_poi = infowindow_dict[controlInput.value];
-                    console.log(select_poi);
-                    poi_lat =  parseFloat(select_poi['latitude']);
-                    poi_lng =  parseFloat(select_poi['longitude']);
+                  closeAllLists();
 
-                    //set map coords and zoom in on poi
-                    map.setCenter({lat:poi_lat, lng:poi_lng});
-                    map.setZoom(10);
-                    location.hash = "#" + 'where_togo_area';
 
-                    //clear input
-                    this.blur();
-                    controlInput.value ='';
+                  //detemine lat/lng of selected poi
+                  select_poi = infowindow_dict[controlInput.value];
+                  console.log(select_poi);
+                  poi_lat = parseFloat(select_poi['latitude']);
+                  poi_lng = parseFloat(select_poi['longitude']);
+
+                  //set map coords and zoom in on poi
+                  map.setCenter({ lat: poi_lat, lng: poi_lng });
+                  map.setZoom(10);
+                  location.hash = "#" + 'where_togo_area';
+
+                  //clear input
+                  this.blur();
+                  controlInput.value = '';
                 });
                 divCreate.appendChild(b);
+              }
             }
-          }
 
-        });
+          });
 
-        controlInput.addEventListener("keydown", function (e) {
-          var autocompleteList = document.getElementById(
-            controlInput.id + "autocomplete-list"
-          );
-          if (autocompleteList)
+          controlInput.addEventListener("keydown", function (e) {
+            var autocompleteList = document.getElementById(
+              controlInput.id + "autocomplete-list"
+            );
+            if (autocompleteList)
               autocompleteList = autocompleteList.getElementsByTagName("div");
-          if (e.keyCode == 40) {
+            if (e.keyCode == 40) {
               currentAutocompleteItemFocus++;
               addActive(autocompleteList);
-          } else if (e.keyCode == 38) {
+            } else if (e.keyCode == 38) {
               //up
               currentAutocompleteItemFocus--;
               addActive(autocompleteList);
-          } else if (e.keyCode == 13) {
+            } else if (e.keyCode == 13) {
               /*If the ENTER key is pressed, prevent the form from being submitted,*/
               e.preventDefault();
               if (currentAutocompleteItemFocus > -1) {
-                   /*and simulate a click on the "active" item:*/
-                  if (autocompleteList) {
-                    autocompleteList[currentAutocompleteItemFocus].click();
-                  }
+                /*and simulate a click on the "active" item:*/
+                if (autocompleteList) {
+                  autocompleteList[currentAutocompleteItemFocus].click();
+                }
               }
-          }
-        });
-        
-        function addActive(autocompleteList) {
-          if (!autocompleteList) return false;
-          removeActive(autocompleteList);
-          if (currentAutocompleteItemFocus >= autocompleteList.length) currentAutocompleteItemFocus = 0;
-          if (currentAutocompleteItemFocus < 0) currentAutocompleteItemFocus = autocompleteList.length - 1;
-          autocompleteList[currentAutocompleteItemFocus].classList.add("autocomplete-active");
-        }
+            }
+          });
 
-        function removeActive(autocompleteList) {
-          for (var i = 0; i < autocompleteList.length; i++) {
+          function addActive(autocompleteList) {
+            if (!autocompleteList) return false;
+            removeActive(autocompleteList);
+            if (currentAutocompleteItemFocus >= autocompleteList.length) currentAutocompleteItemFocus = 0;
+            if (currentAutocompleteItemFocus < 0) currentAutocompleteItemFocus = autocompleteList.length - 1;
+            autocompleteList[currentAutocompleteItemFocus].classList.add("autocomplete-active");
+          }
+
+          function removeActive(autocompleteList) {
+            for (var i = 0; i < autocompleteList.length; i++) {
               autocompleteList[i].classList.remove("autocomplete-active");
-          }
-        }
-
-        function closeAllLists(elmnt) {
-          var autocompleteList = document.getElementsByClassName(
-            "autocomplete-items"
-          );
-          for (var i = 0; i < autocompleteList.length; i++) {
-            if (elmnt != controlInput) {
-                autocompleteList[i].parentNode.removeChild(autocompleteList[i]);
             }
           }
+
+          function closeAllLists(elmnt) {
+            var autocompleteList = document.getElementsByClassName(
+              "autocomplete-items"
+            );
+            for (var i = 0; i < autocompleteList.length; i++) {
+              if (elmnt != controlInput) {
+                autocompleteList[i].parentNode.removeChild(autocompleteList[i]);
+              }
+            }
+          }
+
+          document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+          });
+
         }
 
-      document.addEventListener("click", function(e) {
-          closeAllLists(e.target);
-      });
 
-      }
+        function styleflightPlanBtn(controlDiv, map, flightPath) {
 
+          // Set CSS for the control border.
+          const controlUI = document.createElement('div');
+          controlUI.classList = "Map_Flight_Plan_Btn btn btn-success"
+          controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+          controlUI.style.cursor = "pointer";
+          controlUI.style.margin = "15px";
+          controlUI.style.textAlign = "center";
+          controlUI.title = "Flight Plan";
+          controlDiv.appendChild(controlUI);
 
-      function styleflightPlanBtn(controlDiv, map, flightPath) {
+          // Set CSS for the control interior.
+          const controlText = document.createElement("div");
+          controlText.classList = "Map_Flight_Plan_Text"
+          controlText.innerHTML = "Flight Plan";
+          controlUI.appendChild(controlText);
 
-        // Set CSS for the control border.
-        const controlUI = document.createElement('div');
-        controlUI.classList = "Map_Flight_Plan_Btn btn btn-success"
-        controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-        controlUI.style.cursor = "pointer";
-        controlUI.style.margin = "15px";
-        controlUI.style.textAlign = "center";
-        controlUI.title = "Flight Plan";
-        controlDiv.appendChild(controlUI);
-        
-        // Set CSS for the control interior.
-        const controlText = document.createElement("div");
-        controlText.classList = "Map_Flight_Plan_Text"
-        controlText.innerHTML = "Flight Plan";
-        controlUI.appendChild(controlText);
+          // open up flight plan modal
+          controlUI.addEventListener("click", () => {
 
-        // open up flight plan modal
-        controlUI.addEventListener("click", () => {
-          
-          buildFlightPlanModalBody(flightPath_data, flightpath_name);
-        });
-      }
+            buildFlightPlanModalBody(flightPath_data, flightpath_name);
+          });
+        }
 
-      function styleInfoBtn(controlDiv, map) {
+        function styleInfoBtn(controlDiv, map) {
 
-        // Set CSS for the control border.
-        const controlUI = document.createElement('div');
-        controlUI.classList = "Map_Info_Plan_Btn btn-sm btn-secondary active"
-        // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-        controlUI.style.cursor = "default";
-        controlUI.style.margin = "15px";
-        controlUI.style.textAlign = "center";
-        controlUI.title = "Right-click on map to create POI";
-        controlDiv.appendChild(controlUI);
+          // Set CSS for the control border.
+          const controlUI = document.createElement('div');
+          controlUI.classList = "Map_Info_Plan_Btn btn-sm btn-secondary active"
+          // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+          controlUI.style.cursor = "default";
+          controlUI.style.margin = "15px";
+          controlUI.style.textAlign = "center";
+          controlUI.title = "Right-click on map to create POI";
+          controlDiv.appendChild(controlUI);
 
-        // Set CSS for the control interior.
-        const controlText = document.createElement("div");
-        controlText.innerHTML = "Right-click map to create POI";
-        controlUI.appendChild(controlText);
+          // Set CSS for the control interior.
+          const controlText = document.createElement("div");
+          controlText.innerHTML = "Right-click map to create POI";
+          controlUI.appendChild(controlText);
         }
 
         function styleLegendBtn(controlDiv, map) {
@@ -1303,7 +1307,7 @@ if (goto_gm) {
 
           // Set CSS for the control interior.
           const controlText = document.createElement("div");
-  
+
           controlText.innerHTML = "View Legend";
           controlUI.appendChild(controlText);
 
@@ -1340,20 +1344,20 @@ if (goto_gm) {
           var m3_marker = '/static/img/marker/m3.png'
 
           // Set CSS for the control border.
-          legend_details = 
-                          '<div class="my-1"><img src="' + normal_marker + '"> ' + 'Point of Interest' + '</div>' +
-                          '<div class="my-1"><img src="' + airport_marker + '"> ' + 'Airport' + '</div>' +
-                          '<div class="my-1"><img src="' + user_marker + '"> ' + 'User Created POI' + '</div>' +                          
-                          '<div class="my-1"><img src="' + visited_marker + '"> ' + 'Visited POI' + '</div>' +
-                          '<div class="my-1"><img src="' + favorite_marker + '"> ' + 'Favorited'+ '</div>' +
-                          '<div class="my-1"><img src="' + user_marker_airport + '"> ' + 'User Created Airport' + '</div>' +
-                          '<div class="my-1"><img src="' + visited_marker_airport + '"> ' + 'Visited Airport' + '</div>' +
-                          '<div class="my-1"><img src="' + favorite_marker_airport + '"> ' + 'Favorited Airport' + '</div>' +
-                          '<div class="my-1"><img src="' + m1_marker + '"> ' + 'Less than 10 POI cluster' + '</div>' +
-                          '<div class="my-1"><img src="' + m2_marker + '"> ' + 'Less than 100 POI cluster' + '</div>' +
-                          '<div class="my-1"><img src="' + m3_marker + '"> ' + 'Less than 1000 POI cluster' + '</div>';
-                          
-                 
+          legend_details =
+            '<div class="my-1"><img src="' + normal_marker + '"> ' + 'Point of Interest' + '</div>' +
+            '<div class="my-1"><img src="' + airport_marker + '"> ' + 'Airport' + '</div>' +
+            '<div class="my-1"><img src="' + user_marker + '"> ' + 'User Created POI' + '</div>' +
+            '<div class="my-1"><img src="' + visited_marker + '"> ' + 'Visited POI' + '</div>' +
+            '<div class="my-1"><img src="' + favorite_marker + '"> ' + 'Favorited' + '</div>' +
+            '<div class="my-1"><img src="' + user_marker_airport + '"> ' + 'User Created Airport' + '</div>' +
+            '<div class="my-1"><img src="' + visited_marker_airport + '"> ' + 'Visited Airport' + '</div>' +
+            '<div class="my-1"><img src="' + favorite_marker_airport + '"> ' + 'Favorited Airport' + '</div>' +
+            '<div class="my-1"><img src="' + m1_marker + '"> ' + 'Less than 10 POI cluster' + '</div>' +
+            '<div class="my-1"><img src="' + m2_marker + '"> ' + 'Less than 100 POI cluster' + '</div>' +
+            '<div class="my-1"><img src="' + m3_marker + '"> ' + 'Less than 1000 POI cluster' + '</div>';
+
+
 
           const controlUI = document.createElement('div');
           controlUI.classList = "Map_Legend"
@@ -1372,71 +1376,71 @@ if (goto_gm) {
 
         }
 
-        function addWaypointToFP(lat, lng, category ) { 
+        function addWaypointToFP(lat, lng, category) {
 
-            temp_waypoint_list.push(waypoint_name);
-            currentMark.title = waypoint_name;
-            temp_marker_list.push(currentMark);
-            var custom_waypoint_iw_html = 
-              "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+          temp_waypoint_list.push(waypoint_name);
+          currentMark.title = waypoint_name;
+          temp_marker_list.push(currentMark);
+          var custom_waypoint_iw_html =
+            "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
 
-                "<div class='gm-style-iw cust_waypoint_iw' id='iw-container'>" +
+            "<div class='gm-style-iw cust_waypoint_iw' id='iw-container'>" +
 
-                    "<div class='gm-style-iw' id='iw-container'>" +
-                        '<div class="iw-poi_header">'+
-                          '<div>'+
-                              '<h3 id="firstHeading">'+waypoint_name+'</h3>'+
-                          '</div>'+              
-                      '</div>'+
-                  '<div id="bodyContent">'+
-                      '<div class="my-1 p-1 border border-seconday iw_copy_latlng">'+
-                        '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  '+ lat + ', ' + lng + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' +'</p>'+
-                        '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="'+lat+', ' + lng+'">'+
-                      '</div>'+
-                      '<hr class="my-2"/>' +
-                    '<div>'+
-                      '<div id="btn_removePoiToFlightPlan" class="my-2">' +
-                        "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + lat + ", " + lng +  ", \"" + waypoint_name + "\")'>Remove from flight plan</button> "+
-                      '</div>'+
-                    '</div>'+
-                '</div>'
+            "<div class='gm-style-iw' id='iw-container'>" +
+            '<div class="iw-poi_header">' +
+            '<div>' +
+            '<h3 id="firstHeading">' + waypoint_name + '</h3>' +
+            '</div>' +
+            '</div>' +
+            '<div id="bodyContent">' +
+            '<div class="my-1 p-1 border border-seconday iw_copy_latlng">' +
+            '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  ' + lat + ', ' + lng + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' + '</p>' +
+            '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="' + lat + ', ' + lng + '">' +
+            '</div>' +
+            '<hr class="my-2"/>' +
+            '<div>' +
+            '<div id="btn_removePoiToFlightPlan" class="my-2">' +
+            "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + lat + ", " + lng + ", \"" + waypoint_name + "\")'>Remove from flight plan</button> " +
+            '</div>' +
+            '</div>' +
+            '</div>'
 
-            //add listener so we can add functionality such as remove from flight plan
-            google.maps.event.addListener(currentMark, 'click', function () {
-              
-              infowindow = new google.maps.InfoWindow({content: custom_waypoint_iw_html,});
-              infowindow.open(map, currentMark);
-              
-            });
+          //add listener so we can add functionality such as remove from flight plan
+          google.maps.event.addListener(currentMark, 'click', function () {
 
-            var chkBox = document.getElementById('temp_waypoint_airport_checkbox');
-            if (chkBox.checked) {
+            infowindow = new google.maps.InfoWindow({ content: custom_waypoint_iw_html, });
+            infowindow.open(map, currentMark);
 
-              category = 'Airport'
-            }
-            
-            
-            addPoiToFlightPlan(lat, lng, waypoint_name, category);
-            addpoi_infowindow.close();
+          });
+
+          var chkBox = document.getElementById('temp_waypoint_airport_checkbox');
+          if (chkBox.checked) {
+
+            category = 'Airport'
+          }
+
+
+          addPoiToFlightPlan(lat, lng, waypoint_name, category);
+          addpoi_infowindow.close();
         }
 
-        function zoomToObject(obj){
+        function zoomToObject(obj) {
           var bounds = new google.maps.LatLngBounds();
           var points = obj.getPath().getArray();
-          for (var n = 0; n < points.length ; n++){
-              bounds.extend(points[n]);
+          for (var n = 0; n < points.length; n++) {
+            bounds.extend(points[n]);
           }
           map.fitBounds(bounds);
         }
 
-        function getSimFlightBounds(user_flight_id){
+        function getSimFlightBounds(user_flight_id) {
 
           for (var k = 0; k < user_flights.length; k++) {
 
             var flight = user_flights[k];
-            if (flight['Flight_ID'] == user_flight_id){
-              
-              
+            if (flight['Flight_ID'] == user_flight_id) {
+
+
               var x_coords = []
               var y_coords = []
               var positional_flight_data = flight['Positions'];
@@ -1454,30 +1458,29 @@ if (goto_gm) {
               // var y_max = positional_flight_data[positional_flight_data.length-1]['Longitude']
 
               var bounds_dict = {
-                x_min:Math.min.apply(null, x_coords),
-                y_min:Math.min.apply(null, y_coords),
-                x_max:Math.max.apply(null, x_coords),
-                y_max:Math.max.apply(null, y_coords),
+                x_min: Math.min.apply(null, x_coords),
+                y_min: Math.min.apply(null, y_coords),
+                x_max: Math.max.apply(null, x_coords),
+                y_max: Math.max.apply(null, y_coords),
 
               }
-              
+
               return bounds_dict
-            } 
+            }
           }
           // couldnt find matching sim flight
-        
+
           return null
         }
-    
 
-        </script>
-        <!--DEVELOPMENT-->
-        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script> -->
-        <script src="https://maps.googleapis.com/maps/api/js?key={{gm_key}}&amp;callback=initMap" async
-                defer>
-        </script>
 
-        </div>
+      </script>
+      <!--DEVELOPMENT-->
+      <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script> -->
+      <script src="https://maps.googleapis.com/maps/api/js?key={{gm_key}}&amp;callback=initMap" async defer>
+      </script>
+
     </div>
+  </div>
 </div>
 {% endblock content %}
