@@ -364,8 +364,10 @@
 
           //close info window when clicked outside
           google.maps.event.addListener(map, 'click', function () {
-            currentMark.setMap(null); //removes the marker
             addpoi_infowindow.close();
+            if (currentMark) {
+              currentMark.setMap(null); //removes the marker
+            }
           });
 
           for (var i = 0, length = markerCollection.length; i < length; i++) {
