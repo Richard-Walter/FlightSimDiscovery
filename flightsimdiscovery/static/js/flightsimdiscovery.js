@@ -360,19 +360,20 @@ function getDefaultAirportIWDeatils(airport_IW_details) {
   var airport_comms_html = "";
 
   if(atis_freq > 0) {
-    airport_comms_html += '<p class="ml-2">ATIS: ' + atis_freq + '</p>';
+    
+    airport_comms_html += '<p class="ml-2">ATIS: ' + insertDecimal(atis_freq) + '</p>';
   }
   if(tower_freq >0) {
-    airport_comms_html += '<p class="ml-2">TWR: ' + tower_freq + '</p>';
+    airport_comms_html += '<p class="ml-2">TWR: ' + insertDecimal(tower_freq) + '</p>';
   }
   if(awos_freq > 0) {
-    airport_comms_html += '<p class="ml-2">AWOS: ' + awos_freq + '</p>';
+    airport_comms_html += '<p class="ml-2">AWOS: ' + insertDecimal(awos_freq) + '</p>';
   }
   if(asos_freq > 0) {
-    airport_comms_html += '<p class="ml-2">ASOS: ' + asos_freq + '</p>';
+    airport_comms_html += '<p class="ml-2">ASOS: ' + insertDecimal(asos_freq) + '</p>';
   }
   if(unicom_freq > 0) {
-    airport_comms_html += '<p class="ml-2">UNICOM: ' + unicom_freq + '</p>';
+    airport_comms_html += '<p class="ml-2">UNICOM: ' + insertDecimal(unicom_freq) + '</p>';
   }
 
   //if no airport comms found
@@ -385,4 +386,8 @@ function getDefaultAirportIWDeatils(airport_IW_details) {
   }
 
   return airport_comms_html;
+}
+
+function insertDecimal(num) {
+  return (num / 1000).toFixed(3);
 }

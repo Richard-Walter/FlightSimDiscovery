@@ -1030,6 +1030,16 @@
             flight_infowindow.close()
           }
 
+          if (addpoi_infowindow) {
+
+            addpoi_infowindow.close();
+          }
+
+          if (infowindow) {
+
+            infowindow.close();
+          }
+
           flight_infowindow = new google.maps.InfoWindow;
 
           flight_id = flight_data['Flight_ID']
