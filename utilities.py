@@ -375,9 +375,8 @@ def get_default_airports():
         if not msfs_airport_list:
 
             try:
-
-                csv_filepath = os.path.join("flightsimdiscovery/data", "msfs_airports" + "." + "csv")
-
+                
+                csv_filepath = os.path.join("flightsimdiscovery/data", "FSD_airports" + "." + "csv")
                 with open(csv_filepath, encoding="utf-8") as csv_file:
 
                     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -386,12 +385,14 @@ def get_default_airports():
                         if line_count == 0:
                             line_count += 1
                         else:
-                            airport_data = {'ICAO': row[0], 'Airport_Name': row[1], 'City': row[2], 'lat': float(row[5]), 'lon': float(row[4]), 'elev': float(row[3]), 'Elevation': row[3],}
+                           
+                            airport_data = {'ICAO': row[0], 'Airport_Name': row[1], 'City': row[2], 'lat': float(row[5]), 'lon': float(row[4]), 'elev': float(row[3]), 'Tower_Freq': row[6], 'ATIS_Freq': row[7],'AWOS_Freq': row[8],'ASOS_Freq': row[9],'UNICOM_Freq': row[10]}
                             line_count += 1
                             msfs_airport_list.append(airport_data)
 
             except Exception as e:
-                print("Can't import default airports from csv\n\n" + e)
+                print("Can't import default airports from csv")
+                print(e)
         
         return msfs_airport_list
 

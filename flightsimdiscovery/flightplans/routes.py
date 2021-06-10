@@ -4,6 +4,7 @@ from copy import deepcopy
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response
 from openpyxl import load_workbook
 from flightsimdiscovery import db
+from flightsimdiscovery.main.routes import default_airports
 from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints, FP_Ratings
 from flask_login import current_user, login_required
 from utilities import region_details, countries_details, get_nearest_airport
@@ -18,7 +19,8 @@ flightplans = Blueprint('flightplans', __name__)
 def build_flightplan():
      
     json_resp_msg = ""
-    msfs_airport_list = get_default_airports()
+    # msfs_airport_list = get_default_airports()
+    msfs_airport_list = default_airports
 
     # get the list of waypoints from the request
     waypoint_list = request.get_json()

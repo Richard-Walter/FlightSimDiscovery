@@ -297,8 +297,8 @@ var country_default = $('#countryDefaultVaule').val();
 //add change listener on region dropdown to dynamically update country
 $("#selectRegion")
   .change(function () {
-    
-    if (this.value.trim()!='Region') {
+
+    if (this.value.trim() != 'Region') {
       $('#selectCountry').empty();
       // country_default = "Country"
       $('#selectCountry').html('<option data-display="Country">Country</option>');
@@ -318,34 +318,71 @@ $("#selectRegion")
       // $('#selectCountry').val(country_default);
     } else {
 
-        $('#selectCountry').empty();
-        $('#selectCountry').html('<option data-display="Country">Country</option>');
-        $.each(countryList, function(i, p) {
+      $('#selectCountry').empty();
+      $('#selectCountry').html('<option data-display="Country">Country</option>');
+      $.each(countryList, function (i, p) {
         $('#selectCountry').append($('<option></option>').val(p).html(p));
-        });
+      });
 
-        // set default value
-        $('#selectCountry').val("Country");
+      // set default value
+      $('#selectCountry').val("Country");
 
-    }     
+    }
 
   })
 
-  // set default value
-  $('#selectCountry').val(country_default);
+// set default value
+$('#selectCountry').val(country_default);
 
-  function getCountryList(){
+function getCountryList() {
 
-    countryList = [];
-    // for (var i = 0; i < region_country.length; i++) {
-      for (const [ region, regions_countries ] of Object.entries(region_country)) {
-        // var regions_countries = value;
-        // console.log(regions_countries);
-        Array.prototype.push.apply(countryList, regions_countries);
-        countryList.sort();
-    }
-    // console.log(countryList);
-    return countryList;
+  countryList = [];
+  // for (var i = 0; i < region_country.length; i++) {
+  for (const [region, regions_countries] of Object.entries(region_country)) {
+    // var regions_countries = value;
+    // console.log(regions_countries);
+    Array.prototype.push.apply(countryList, regions_countries);
+    countryList.sort();
   }
-  
+  // console.log(countryList);
+  return countryList;
+}
 
+function getDefaultAirportIWDeatils(airport_IW_details) {
+
+
+  let tower_freq = parseFloat(airport_IW_details['Tower_Freq']);
+  let atis_freq = parseFloat(airport_IW_details['ATIS_Freq']);
+  let awos_freq = parseFloat(airport_IW_details['AWOS_Freq']);
+  let asos_freq = parseFloat(airport_IW_details['ASOS_Freq']);
+  let unicom_freq = parseFloat(airport_IW_details['UNICOM_Freq']);
+
+  var airport_comms_html = "";
+
+  if(atis_freq > 0) {
+    airport_comms_html += '<p class="ml-2">ATIS: ' + atis_freq + '</p>';
+  }
+  if(tower_freq >0) {
+    airport_comms_html += '<p class="ml-2">TWR: ' + tower_freq + '</p>';
+  }
+  if(awos_freq > 0) {
+    airport_comms_html += '<p class="ml-2">AWOS: ' + awos_freq + '</p>';
+  }
+  if(asos_freq > 0) {
+    airport_comms_html += '<p class="ml-2">ASOS: ' + asos_freq + '</p>';
+  }
+  if(unicom_freq > 0) {
+    airport_comms_html += '<p class="ml-2">UNICOM: ' + unicom_freq + '</p>';
+  }
+
+  //if no airport comms found
+  if (airport_comms_html) {
+    
+    airport_comms_html = '<div id="defaultAirportIWInfo" class="my-1 p-1 border border-seconday iw_copy_latlng" style="text-align: left">' + airport_comms_html;
+    
+  } else {
+    airport_comms_html = '<div class="" style="text-align: left">' + airport_comms_html;
+  }
+
+  return airport_comms_html;
+}
