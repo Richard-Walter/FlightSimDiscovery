@@ -26,11 +26,10 @@ main = Blueprint('main', __name__)
 # DONE map zooms in with scroll wheel - no more CTL-Mouse wheel to zoom
 
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
-# TODO add likns at bottom of POI IW to google, youtube, wiki, local radio, skyvector
+# TODO add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 # TODO in game panel-flight recorder, display position on web browser, talk about FSD waypoints
 # TODO POIs abiolity to import into game
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
-# TODO allow users to upload photo of location
 
 default_airports=get_default_airports()
 poi_categories=get_category_list()
