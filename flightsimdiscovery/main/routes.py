@@ -25,10 +25,12 @@ main = Blueprint('main', __name__)
 # DONE add airports to map with smaller icon and link to airport nav finder
 # DONE map zooms in with scroll wheel - no more CTL-Mouse wheel to zoom
 
+# TODO Excude default airports that are already POIs??? will this check make it too slow??
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 # TODO in game panel-flight recorder, display position on web browser, talk about FSD waypoints
 # TODO POIs abiolity to import into game
+# TODO Add a 'show default airports' tick box similar to 'show my flights'
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 
 default_airports=get_default_airports()

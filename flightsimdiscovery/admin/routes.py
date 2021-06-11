@@ -165,6 +165,10 @@ def update_fsd_pois_xml():
 
             # generate updates xml file in the output directory if password valid
             if form.validate_on_submit():
+
+                gm_key = Config.GM_KEY
+
+                msfs_pois = ['MSFS Enhanced Airport', 'MSFS Photogrammery City', 'MSFS Point of Interest']
                 
                 xml_text = ''
                 pois = Pois.query.all()
@@ -172,6 +176,18 @@ def update_fsd_pois_xml():
                 tree = ET.ElementTree(root)           
 
                 for poi in pois:
+                    
+                    share_poi = poi.share
+                    poi_description = poi.description
+
+                    # dont include private pois
+                    if not share_poi:
+                        continue
+
+                    # dont incluse any msfs pois
+                    if any(x in poi_description for x in msfs_pois):
+                        continue
+
                     poi_lat = str(poi.latitude)
                     poi_lng = str(poi.longitude)
                     unique_id =  str(uuid.uuid4())
