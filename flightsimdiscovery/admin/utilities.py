@@ -154,3 +154,5 @@ def backup_db():
     # dst_dir="C:\\Users\\Asus\\Desktop\\Versand Verwaltung\\fsdiscovery_"+str(now)+".bd"
     dst_dir = os.path.join(backup_dir, "fsdiscovery_" + str(now) + ".db")
     shutil.copy(src_dir, dst_dir)
+
+

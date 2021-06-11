@@ -5,9 +5,11 @@ import os
 from flask import Flask
 from openpyxl import Workbook
 import codecs
+import json
 from math import cos, asin, sqrt
 from flightsimdiscovery import db
 from geopy.geocoders import Nominatim
+from requests import get
 
 msfs_airport_list = []
 
@@ -946,6 +948,27 @@ def nominatim_lookup_country(input_country):
         country = 'Bahamas'
 
     return country
+
+def get_elevation(lat = None, long = None):
+    '''
+        script for returning elevation in m from lat, long.  Returns 0 if no elevation could be determined from open-elevation
+    '''
+    if lat is None or long is None: return None
+    
+    query = ('https://api.open-elevation.com/api/v1/lookup'
+             f'?locations={lat},{long}')
+    
+    # Request with a timeout for slow responses.  try for 2 minute as open-elevation very slow
+    r = get(query, timeout = 120)
+
+    # Only get the json response in case of 200 or 201
+    if r.status_code == 200 or r.status_code == 201:
+        # elevation = json_normalize(r.json(), 'results')['elevation'].values[0]
+        json_data = json.loads(r.text)
+        elevation = float(json_data['results'][0]['elevation'])
+    else: 
+        elevation = 0
+    return elevation
 
 if __name__ == '__main__':
     pass

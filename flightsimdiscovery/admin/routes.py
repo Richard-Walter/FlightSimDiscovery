@@ -2,13 +2,14 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint,
 from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites, Flightplan, Flightplan_Waypoints
 from flask_login import current_user, login_required
 from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm
-from utilities import get_country_list
+from utilities import get_elevation
 from flightsimdiscovery.admin.utilities import update_db, backup_db
 from flightsimdiscovery import db
 from flightsimdiscovery.flightplans.utils import checkUserFlightPlanWaypointsUnique, get_user_flightplans, updateFlightPlanNumberFlown, strip_end
 import uuid
 from xml.dom import minidom
 import xml.etree.ElementTree as ET 
+from requests import get
 
 admin = Blueprint('admin', __name__)
 
@@ -166,7 +167,7 @@ def update_fsd_pois_xml():
             # generate updates xml file in the output directory if password valid
             if form.validate_on_submit():
 
-                gm_key = Config.GM_KEY
+                # gm_key = Config.GM_KEY
 
                 msfs_pois = ['MSFS Enhanced Airport', 'MSFS Photogrammery City', 'MSFS Point of Interest']
                 
@@ -188,11 +189,19 @@ def update_fsd_pois_xml():
                     if any(x in poi_description for x in msfs_pois):
                         continue
 
+                    unique_id =  str(uuid.uuid4())
                     poi_lat = str(poi.latitude)
                     poi_lng = str(poi.longitude)
-                    unique_id =  str(uuid.uuid4())
+                    poi_alt = str(poi.altitude)
 
-                    landmark_location = ET.SubElement(root, 'LandmarkLocation', instanceId = unique_id, type="POI", name=poi.name, lat=poi_lat, lon=poi_lng, alt='0.00000000000000', offset='0.000000')
+                    # only get elevation if it doesnt alreay exist in the database
+                    if poi_alt == '0':
+                        poi_alt = str(get_elevation(poi_lat, poi_lng))
+
+                        # update poi with new elevation
+                    
+
+                    landmark_location = ET.SubElement(root, 'LandmarkLocation', instanceId = unique_id, type="POI", name=poi.name, lat=poi_lat, lon=poi_lng, alt=poi_alt, offset='0.000000')
                 
                 xmlstr = minidom.parseString(ET.tostring(root)).toprettyxml(indent="   ")
                 with open('flightsimdiscovery/output/fsd_pois.xml', 'wb') as f:
