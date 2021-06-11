@@ -6,6 +6,9 @@ from utilities import get_country_list
 from flightsimdiscovery.admin.utilities import update_db, backup_db
 from flightsimdiscovery import db
 from flightsimdiscovery.flightplans.utils import checkUserFlightPlanWaypointsUnique, get_user_flightplans, updateFlightPlanNumberFlown, strip_end
+import uuid
+from xml.dom import minidom
+import xml.etree.ElementTree as ET 
 
 admin = Blueprint('admin', __name__)
 
@@ -132,6 +135,54 @@ def run_script():
                 # db.session.commit()
 
                 flash('Script has run succesfully!', 'success')
+
+                return render_template('run_script.html', form=form)
+
+            else:
+                flash('ERROR running the script!', 'danger')
+                return render_template('run_script.html', form=form)
+
+        else:
+
+            abort(403)
+
+    else:
+        abort(403)
+
+# This function generates an xml file in output that is used by MSFS SDK to build a list of POIs to import into the game
+@admin.route("/update_fsd_pois_xml", methods=['GET', 'POST'])
+@login_required
+def update_fsd_pois_xml():
+    form = RunScriptForm()
+
+    if current_user.is_authenticated and (current_user.username == 'admin'):
+
+        if request.method == 'GET':
+
+            return render_template('run_script.html', form=form)
+
+        elif request.method == 'POST':
+
+            # generate updates xml file in the output directory if password valid
+            if form.validate_on_submit():
+                
+                xml_text = ''
+                pois = Pois.query.all()
+                root = ET.Element('FSData', version="9.0") 
+                tree = ET.ElementTree(root)           
+
+                for poi in pois:
+                    poi_lat = str(poi.latitude)
+                    poi_lng = str(poi.longitude)
+                    unique_id =  str(uuid.uuid4())
+
+                    landmark_location = ET.SubElement(root, 'LandmarkLocation', instanceId = unique_id, type="POI", name=poi.name, lat=poi_lat, lon=poi_lng, alt='0.00000000000000', offset='0.000000')
+                
+                xmlstr = minidom.parseString(ET.tostring(root)).toprettyxml(indent="   ")
+                with open('flightsimdiscovery/output/fsd_pois.xml', 'wb') as f:
+                    f.write(xmlstr.encode('utf-8'))
+
+                flash('POIS XML has run succesfully!  Please check the output folder and copy over to the MSFS SDK FSD POIS directory', 'success')
 
                 return render_template('run_script.html', form=form)
 
