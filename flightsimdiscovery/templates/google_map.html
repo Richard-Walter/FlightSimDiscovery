@@ -72,7 +72,7 @@
         var filter_user_pois = search_defaults['filter_user_pois']
 
         pois_array.forEach(function (poi, index) {
-          infowindow_dict[poi.name] = { 'id': poi.id, 'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'description': poi.description, 'rating': poi.rating, 'fp_id_list': poi.fp_id_list };
+          infowindow_dict[poi.name] = { 'id': poi.id, 'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'altitude': poi.altitude,'description': poi.description, 'rating': poi.rating, 'fp_id_list': poi.fp_id_list };
         });
 
         //Update Country Select values
@@ -402,6 +402,7 @@
               var id = infowindow_dict[marker_name]['id'];
               var latitude = infowindow_dict[marker_name]['latitude'];
               var longitude = infowindow_dict[marker_name]['longitude'];
+              var altitude = infowindow_dict[marker_name]['altitude'];
               var category = infowindow_dict[marker_name]['category'];
               var country = infowindow_dict[marker_name]['country'];
               var description = infowindow_dict[marker_name]['description'];
@@ -549,6 +550,7 @@
                 "<a href='https://www.google.com/search?q=" + marker_name + ", " + country + "' target='_blank'>" +
                 '<h3 id="firstHeading">' + marker_name + '</h3>' +
                 '<h4 id="categoryHeading" class=" font-italic ">' + category + '</h4>' +
+                '<h5 id="categoryHeading">Elevation: ' + altitude + ' ft' + '</h5>' +
                 '</a>' +
                 '</div>' +
                 '<div class="mb-1">' +

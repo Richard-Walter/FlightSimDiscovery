@@ -1,4 +1,5 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
+from sqlalchemy.sql.expression import null
 # from sqlalchemy.sql.expression import null
 from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites, Flightplan, Flightplan_Waypoints
 from flask_login import current_user, login_required
@@ -8,6 +9,7 @@ from flightsimdiscovery.admin.utilities import update_db, backup_db
 from flightsimdiscovery import db
 from flightsimdiscovery.flightplans.utils import checkUserFlightPlanWaypointsUnique, get_user_flightplans, updateFlightPlanNumberFlown, strip_end
 import uuid
+import json
 from xml.dom import minidom
 import xml.etree.ElementTree as ET 
 from requests import get
@@ -198,7 +200,7 @@ def update_fsd_pois_xml():
                     poi_alt = poi.altitude
 
                     # only get elevation if it doesnt alreay exist in the database
-                    if poi_alt is not None:
+                    if not poi_alt:
                         try:
                             print("TRYING TO GET POI ELEVATION: " + str(poi.id) + "   " + poi.name + " " + poi_lat + "  " + poi_lng)
                             poi_alt = get_elevation(poi_lat, poi_lng)
@@ -239,6 +241,66 @@ def update_fsd_pois_xml():
     else:
         abort(403)
 
+# must have a pois.json file in the input directory.  THis can be generated from DB Browser export table as JSON
+# It will read alititudes for each poi in the JSON file an update the correspoing POI in the production database
+@admin.route("/update_proudction_pois_elevation", methods=['GET', 'POST'])
+@login_required
+def update_proudction_pois_elevation():
+    form = RunScriptForm()
+
+    if current_user.is_authenticated and (current_user.username == 'admin'):
+
+        if request.method == 'GET':
+
+            return render_template('run_script.html', form=form)
+
+        elif request.method == 'POST':
+
+            # generate updates xml file in the output directory if password valid
+            if form.validate_on_submit():
+
+                pois_updated = 0
+                
+                # Opening JSON file
+                with open('flightsimdiscovery/input/pois.json', encoding="utf8") as json_file:
+                    json_pois_list = json.load(json_file)
+
+                    for json_poi in json_pois_list:
+                        json_poi_id = json_poi['id']
+                        json_poi_alt = json_poi['altitude']
+                        
+                        # update database with altitude
+                        if json_poi_alt is not null:
+                            # update database poi with new elevation
+                            print(json_poi_id)
+                            poi_to_update = Pois.query.get(json_poi_id)
+
+                            # for some reason export json file includes previous deleted pois
+                            if poi_to_update:
+
+                                # only update elevations if they are null or 0
+                                if not poi_to_update.altitude:
+                                    poi_to_update.altitude = json_poi_alt
+                                    db.session.commit()
+                                    print("UPDATED POI WITH NEW ELEVATION: " + str(json_poi_id) + "   " + str(json_poi_alt))
+                                    pois_updated += 1
+
+ 
+
+                flash('POIS elevation updated has run succesfully!  Number of pois updated with elevation is ' + str(pois_updated), 'success')
+
+                return render_template('run_script.html', form=form)
+
+            else:
+                flash('ERROR running the script!', 'danger')
+                return render_template('run_script.html', form=form)
+
+        else:
+
+            abort(403)
+
+    else:
+        abort(403)
 
 @admin.route("/user_details", methods=['GET', 'POST'])
 @login_required

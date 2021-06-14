@@ -270,6 +270,10 @@ def home(filter_poi_location):
         data_dic['icon'] = get_marker_icon(poi, user_favorites, user_visited, user_pois_list)
         data_dic['lat'] = format(poi.latitude, '.6f')
         data_dic['lng'] = format(poi.longitude, '.6f')
+        if poi.altitude:
+            data_dic['altitude'] = format(poi.altitude, '.0f')
+        else:
+            data_dic['altitude'] = 'unknown'
 
         for fp in poi_flightplans:
             flightplan_ids.append(fp.flightplan_id)
