@@ -45,6 +45,7 @@ class Pois(db.Model):
     name = db.Column(db.String(50), unique=False, nullable=False)
     latitude = db.Column(db.FLOAT, unique=False, nullable=False)
     longitude = db.Column(db.FLOAT, unique=False, nullable=False)
+    altitude = db.Column(db.FLOAT, unique=False, nullable=True, default=0)
     region = db.Column(db.String(20), unique=False, nullable=False)
     country = db.Column(db.String(60), unique=False, nullable=False)
     category = db.Column(db.String(20), unique=False, nullable=False)

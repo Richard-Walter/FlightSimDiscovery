@@ -1,4 +1,5 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
+# from sqlalchemy.sql.expression import null
 from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites, Flightplan, Flightplan_Waypoints
 from flask_login import current_user, login_required
 from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm
@@ -170,6 +171,8 @@ def update_fsd_pois_xml():
                 # gm_key = Config.GM_KEY
 
                 msfs_pois = ['MSFS Enhanced Airport', 'MSFS Photogrammery City', 'MSFS Point of Interest']
+
+                count_pois_no_elevation_retrieved = 0
                 
                 xml_text = ''
                 pois = Pois.query.all()
@@ -192,16 +195,30 @@ def update_fsd_pois_xml():
                     unique_id =  str(uuid.uuid4())
                     poi_lat = str(poi.latitude)
                     poi_lng = str(poi.longitude)
-                    poi_alt = str(poi.altitude)
+                    poi_alt = poi.altitude
 
                     # only get elevation if it doesnt alreay exist in the database
-                    if poi_alt == '0':
-                        poi_alt = str(get_elevation(poi_lat, poi_lng))
+                    if poi_alt is not None:
+                        try:
+                            print("TRYING TO GET POI ELEVATION: " + str(poi.id) + "   " + poi.name + " " + poi_lat + "  " + poi_lng)
+                            poi_alt = get_elevation(poi_lat, poi_lng)
+                        except Exception:  
+                            continue
 
-                        # update poi with new elevation
+                        if poi_alt:
+
+                            # update database poi with new elevation
+                            poi_to_update = Pois.query.get_or_404(poi.id)
+                            poi_to_update.altitude = poi_alt
+                            db.session.commit()
+                            print("ADDED POI ELEVATION: " + str(poi.id) + "   " + poi.name)
+                        else:
+                            count_pois_no_elevation_retrieved += 1
+                            
+                            print(count_pois_no_elevation_retrieved)
                     
-
-                    landmark_location = ET.SubElement(root, 'LandmarkLocation', instanceId = unique_id, type="POI", name=poi.name, lat=poi_lat, lon=poi_lng, alt=poi_alt, offset='0.000000')
+                    landmark_location = ET.SubElement(root, 'LandmarkLocation', instanceId = unique_id, type="POI", name=poi.name, lat=poi_lat, lon=poi_lng, alt=str(poi_alt), offset='0.000000')
+                
                 
                 xmlstr = minidom.parseString(ET.tostring(root)).toprettyxml(indent="   ")
                 with open('flightsimdiscovery/output/fsd_pois.xml', 'wb') as f:

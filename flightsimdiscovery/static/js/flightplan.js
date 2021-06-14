@@ -280,7 +280,7 @@ function buildFlightPlanModalBody(flightPath_data, fp_name="") {
 
       body_html = `<div class="range-slider">
                     <p>Cruise Alitude (ft):</p>
-                    <p><input id="cruise_altitude_value" class="range-slider__range" type="range" value="5000" min="1000" max="10000" step="500">
+                    <p><input id="cruise_altitude_value" class="range-slider__range" type="range" value="8000" min="1000" max="10000" step="500">
                     <span id="cruise_altitude_value" class="mx-1 mb-1 range-slider__value">0</span></p>
                   </div>`
       // body_html = "<p>";

@@ -966,8 +966,7 @@ def get_elevation(lat = None, long = None):
         # elevation = json_normalize(r.json(), 'results')['elevation'].values[0]
         json_data = json.loads(r.text)
         elevation = float(json_data['results'][0]['elevation'])
-    else: 
-        elevation = 0
+
     return elevation
 
 if __name__ == '__main__':
