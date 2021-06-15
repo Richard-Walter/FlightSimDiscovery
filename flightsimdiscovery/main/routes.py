@@ -25,6 +25,7 @@ main = Blueprint('main', __name__)
 # DONE add airports to map with smaller icon and link to airport nav finder
 # DONE map zooms in with scroll wheel - no more CTL-Mouse wheel to zoom
 
+# TODO User waypoint icon and default airport icon are both black and bend in too well
 # TODO update empty or low text descriptions by me with with wikipedia. e.g. msfs point of interest
 # TODO Excude default airports that are already POIs??? will this check make it too slow??
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
@@ -271,7 +272,7 @@ def home(filter_poi_location):
         data_dic['lat'] = format(poi.latitude, '.6f')
         data_dic['lng'] = format(poi.longitude, '.6f')
         if poi.altitude:
-            data_dic['altitude'] = format(poi.altitude, '.0f')
+            data_dic['altitude'] = format((poi.altitude*3.28), '.0f')
         else:
             data_dic['altitude'] = 'unknown'
 

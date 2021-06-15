@@ -191,8 +191,8 @@ def update_fsd_pois_xml():
                         continue
 
                     # dont incluse any msfs pois
-                    if any(x in poi_description for x in msfs_pois):
-                        continue
+                    # if any(x in poi_description for x in msfs_pois):
+                    #     continue
 
                     unique_id =  str(uuid.uuid4())
                     poi_lat = str(poi.latitude)
