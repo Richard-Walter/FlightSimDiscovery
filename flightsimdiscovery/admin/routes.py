@@ -199,21 +199,22 @@ def update_fsd_pois_xml():
                     poi_lng = str(poi.longitude)
                     poi_alt = poi.altitude
 
-                    # only get elevation if it doesnt alreay exist in the database
+                    # only get elevation if it doesnt alreay exist in the database or is 0.0
                     if not poi_alt:
                         try:
                             print("TRYING TO GET POI ELEVATION: " + str(poi.id) + "   " + poi.name + " " + poi_lat + "  " + poi_lng)
                             poi_alt = get_elevation(poi_lat, poi_lng)
-                        except Exception:  
+                        except Exception as e:  
+                            print(e)
                             continue
 
-                        if poi_alt:
+                        if poi_alt is not None:
 
                             # update database poi with new elevation
                             poi_to_update = Pois.query.get_or_404(poi.id)
                             poi_to_update.altitude = poi_alt
                             db.session.commit()
-                            print("ADDED POI ELEVATION: " + str(poi.id) + "   " + poi.name)
+                            print("ADDED POI ELEVATION: " + str(poi.id) + "   " + poi.name + "   " + str(poi_alt))
                         else:
                             count_pois_no_elevation_retrieved += 1
                             
