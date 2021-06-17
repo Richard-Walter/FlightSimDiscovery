@@ -26,10 +26,11 @@ main = Blueprint('main', __name__)
 # DONE map zooms in with scroll wheel - no more CTL-Mouse wheel to zoom
 # DONE add elevation to POI IW
 # DONE Add a 'show default airports' tick box similar to 'show my flights'
+# DONE Excude default airports that are already POIs
+# DONE aadd total distance in nm of flight plan
+
 
 # TODO ability to import POIS into MSFS
-
-# TODO Excude default airports that are already POIs??? will this check make it too slow?? 
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 # TODO update empty or low text descriptions by me with with wikipedia. e.g. msfs point of interest

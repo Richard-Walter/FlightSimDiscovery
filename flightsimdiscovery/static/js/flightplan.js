@@ -245,6 +245,7 @@ function buildATCWapoints(
 
 function buildFlightPlanModalBody(flightPath_data, fp_name="") {
 
+  var total_flight_distance = 0
 
   if (flightPath_data.length > 0) {
     $('#fp_save_btn').removeAttr('disabled')
@@ -289,6 +290,18 @@ function buildFlightPlanModalBody(flightPath_data, fp_name="") {
       
       for (var i = 0; i < flightPath_data.length; i++) {
 
+        if (i < (flightPath_data.length-1)) {
+          second_leg_latlng = flightPath_data[i+1]
+          second_lat = second_leg_latlng["latLng"][0];
+          second_lng = second_leg_latlng["latLng"][1];
+          
+          first_leg_latlng = flightPath_data[i] 
+          first_lat = first_leg_latlng["latLng"][0];
+          first_lng = first_leg_latlng["latLng"][1];
+          leg_distance = getDistanceFromLatLonInNm(first_lat, first_lng, second_lat, second_lng );
+          total_flight_distance += leg_distance
+        }
+
         //first and last POIs if airport then skip as they will be dpe and dest airports
         if ((i==0) || (i==(flightPath_data.length-1))) {
           if(flightPath_data[i]["category"].includes("Airport")){
@@ -309,6 +322,7 @@ function buildFlightPlanModalBody(flightPath_data, fp_name="") {
       // body_html = body_html.substring(0, body_html.length - 4); //remove the last -->
       body_html += "</p>";
       body_html += "<p>Destination: " + destination_id + "</p>";
+      body_html += "<label class='mt-2 font-weight-bold' >Total Distance: " + total_flight_distance + " nm</label>";
       body_html += "<hr>";
       body_html += "<form>";
       body_html += "<div class='export-filename form-group mt-3'>";
@@ -446,3 +460,22 @@ function yyyymmdd() {
   var dd = d < 10 ? "0" + d : d;
   return "" + y + mm + dd;
 }
+
+function getDistanceFromLatLonInNm(lat1, lon1, lat2, lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = Math.round(R * c * 0.539956803); // Distance in nm
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
+
