@@ -1363,6 +1363,7 @@
 
         function styleLegend(controlDiv, map) {
 
+          var default_airport_marker = '/static/img/marker/ms_airport_marker_sm.png'
           var favorite_marker = '/static/img/marker/favorite-marker_sm.png'
           var favorite_marker_airport = '/static/img/marker/favorite-marker_airport_sm.png'
           var visited_marker = '/static/img/marker/visited-marker_sm.png'
@@ -1377,18 +1378,16 @@
 
           // Set CSS for the control border.
           legend_details =
+            
             '<div class="my-1"><img src="' + normal_marker + '"> ' + 'Point of Interest' + '</div>' +
             '<div class="my-1"><img src="' + airport_marker + '"> ' + 'Airport' + '</div>' +
-            '<div class="my-1"><img src="' + user_marker + '"> ' + 'User Created POI' + '</div>' +
+            '<div class="my-1"><img src="' + user_marker + '"> ' + 'Your POI' + '</div>' +
             '<div class="my-1"><img src="' + visited_marker + '"> ' + 'Visited POI' + '</div>' +
             '<div class="my-1"><img src="' + favorite_marker + '"> ' + 'Favorited' + '</div>' +
-            '<div class="my-1"><img src="' + user_marker_airport + '"> ' + 'User Created Airport' + '</div>' +
+            '<div class="my-1"><img src="' + user_marker_airport + '"> ' + 'Your POI-Airport' + '</div>' +
             '<div class="my-1"><img src="' + visited_marker_airport + '"> ' + 'Visited Airport' + '</div>' +
             '<div class="my-1"><img src="' + favorite_marker_airport + '"> ' + 'Favorited Airport' + '</div>' +
-            '<div class="my-1"><img src="' + m1_marker + '"> ' + 'Less than 10 POI cluster' + '</div>' +
-            '<div class="my-1"><img src="' + m2_marker + '"> ' + 'Less than 100 POI cluster' + '</div>' +
-            '<div class="my-1"><img src="' + m3_marker + '"> ' + 'Less than 1000 POI cluster' + '</div>';
-
+            '<div class="my-1"><img src="' + default_airport_marker + '"> ' + 'Default MSFS Airport' + '</div>'
 
 
           const controlUI = document.createElement('div');

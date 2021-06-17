@@ -26,7 +26,6 @@ main = Blueprint('main', __name__)
 # DONE map zooms in with scroll wheel - no more CTL-Mouse wheel to zoom
 # DONE add elevation to POI IW
 
-# TODO User waypoint icon and default airport icon are both black and bend in too well
 # TODO Add a 'show default airports' tick box similar to 'show my flights'
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 # TODO update empty or low text descriptions by me with with wikipedia. e.g. msfs point of interest
