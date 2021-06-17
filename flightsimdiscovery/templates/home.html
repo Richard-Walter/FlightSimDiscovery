@@ -217,43 +217,24 @@
         <div class="row align-items-center"></div>
         <div class="d-flex flex-row-reverse mb-0">
             <div class="">
-                <form class="mt-2 ml-4 show_only_user_pois_form" method="POST" action="/home#searchTag">
+                <form class="mt-2 ml-4 show_msfs_airports_form" method="POST" action="/home#searchTag">
                     <div class="input_field">
-                        {% if current_user.username %}
-                            {% if search_defaults['filter_user_pois'] == 'Yes' %}
+
+                            {% if show_msfs_airports == 'Yes' %}
                                 <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
-                                    name="show_ony_user_pois_check" id="show_ony_user_pois_check" value="Yes" checked>
+                                    name="show_msfs_airports_check" id="show_msfs_airports_check" value="Yes" checked>
                             {% else %}
                                 <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
-                                    name="show_ony_user_pois_check" id="show_ony_user_pois_check" value="Yes">
+                                    name="show_msfs_airports_check" id="show_msfs_airports_check" value="Yes">
                             {% endif %}
-                            <input type="hidden" name="show_ony_user_pois_check" value="No" id="show_ony_user_pois_check ">
-                            <label class="form-check-label" for="show_ony_user_pois_check">show only my points of
-                                interest</label>
-                        {% endif %}
+                            <input type="hidden" name="show_msfs_airports_check" value="No" id="show_msfs_airports_check ">
+                            <label class="form-check-label" for="show_msfs_airports_check">show MSFS airports</label>
+    
                     </div>
                 </form>
             </div>
-            <!-- <div class="">
-                <form class="mt-2 ml-4 show_my_flights_check_form" method="POST" action="/home#searchTag">
-                    <div class="input_field">
-                        {% if current_user.username %}
-                            {% if search_defaults['filter_user_pois'] == 'Yes' %}
-                                <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
-                                    name="show_my_flights_check" id="show_my_flights_check" value="Yes" checked>
-                            {% else %}
-                                <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
-                                    name="show_my_flights_check" id="show_my_flights_check" value="Yes">
-                            {% endif %}
-                            <input type="hidden" name="show_ony_user_pois_check" value="No" id="show_ony_user_pois_check ">
-                            <label class="form-check-label" for="show_ony_user_pois_check">show only my points of
-                                interest</label>
-                        {% endif %}
-                    </div>
-                </form>
-            </div> -->
             <div class="">
-                <form class="mt-2 mr-4 show_my_flights_form" method="POST" action="/home#searchTag">
+                <form class="mt-2 mx-4 show_my_flights_form" method="POST" action="/home#searchTag">
                     <div class="input_field">
                         {% if current_user.username %}
                             {% if user_flights %}
@@ -271,8 +252,25 @@
                         
                     </div>
                 </form>
-            </div>   
-
+            </div>  
+            <div class="">
+                <form class="mt-2 mx-4 show_only_user_pois_form" method="POST" action="/home#searchTag">
+                    <div class="input_field">
+                        {% if current_user.username %}
+                            {% if search_defaults['filter_user_pois'] == 'Yes' %}
+                                <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
+                                    name="show_ony_user_pois_check" id="show_ony_user_pois_check" value="Yes" checked>
+                            {% else %}
+                                <input type="checkbox" class="form-check-input" onclick="this.form.submit()"
+                                    name="show_ony_user_pois_check" id="show_ony_user_pois_check" value="Yes">
+                            {% endif %}
+                            <input type="hidden" name="show_ony_user_pois_check" value="No" id="show_ony_user_pois_check ">
+                            <label class="form-check-label" for="show_ony_user_pois_check">show only my points of
+                                interest</label>
+                        {% endif %}
+                    </div>
+                </form>
+            </div> 
         </div>
     </div>
 </div>
@@ -285,17 +283,17 @@
     <!-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel"> -->
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <p class="tips-and-tricks-text text-center">Right-click on map to create POI when logged in</p>
+            <p class="tips-and-tricks-text text-center">Right-click on map to create POI or add waypoint to flightplan</p>
           </div>
           <div class="carousel-item">
-            <p class="tips-and-tricks-text text-center">Click on POI name to find detailed information about that POI</p>
+            <p class="tips-and-tricks-text text-center">Click on the POI name to find detailed information about that POI</p>
           </div>
           <div class="carousel-item">
             <p class="tips-and-tricks-text text-center">Log in and go to account details to see information about POIs you have created, visited and liked</p>
           </div>
-          <div class="carousel-item">
+          <!-- <div class="carousel-item">
             <p class="tips-and-tricks-text text-center">You can flag a POI as incorrect by clicking on the flag icon in the bottom-left corner of the POI info window.</p>
-          </div>
+          </div> -->
 
         </div>    
 </div>

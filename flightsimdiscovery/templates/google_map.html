@@ -37,6 +37,7 @@
         var view_flightplan_id = {{ view_flightplan }};
         var view_sim_flight_id = {{ view_sim_flight }};
         var show_my_flights = {{ show_my_flights| tojson}};
+        var show_msfs_airports = {{ show_msfs_airports| tojson}};
         var flights_currently_showing = false;
         const default_airport_list = {{ default_airports| tojson}};
 
@@ -124,102 +125,102 @@
 
           });
 
+          if (show_msfs_airports == 'Yes') {
+            //add deault airpot markers to flight sim
+            // var showAddWaypointBtn = '';
+            // var showRemoveWaypointBtn = 'd-none';
+            var airport_markers_list = [];
 
-          //add deault airpot markers to flight sim
-          // var showAddWaypointBtn = '';
-          // var showRemoveWaypointBtn = 'd-none';
-          var airport_markers_list = [];
+            for (var i = 0; i < default_airport_list.length; i++) {
 
-          for (var i = 0; i < default_airport_list.length; i++) {
+              //airport information
+              let airport_IW_details = default_airport_list[i];
+              let icao = default_airport_list[i]['ICAO'];
+              let airport_name = default_airport_list[i]['Airport_Name'];
+              let airport_city = default_airport_list[i]['City'];
+              let airport_title = airport_name + ' (' + icao + '), ' + airport_city
+              let lat = parseFloat(default_airport_list[i]['lat']);
+              let lng = parseFloat(default_airport_list[i]['lon']);
+              let elevation = parseFloat(default_airport_list[i]['elev']);
 
-            //airport information
-            let airport_IW_details = default_airport_list[i];
-            let icao = default_airport_list[i]['ICAO'];
-            let airport_name = default_airport_list[i]['Airport_Name'];
-            let airport_city = default_airport_list[i]['City'];
-            let airport_title = airport_name + ' (' + icao + '), ' + airport_city
-            let lat = parseFloat(default_airport_list[i]['lat']);
-            let lng = parseFloat(default_airport_list[i]['lon']);
-            let elevation = parseFloat(default_airport_list[i]['elev']);
+              const category = 'Airport';
 
-            const category = 'Airport';
-
-            let airport_marker = new google.maps.Marker({
-              position: { lat: lat, lng: lng },
-              // map: map,
-              icon: '/static/img/marker/ms_airport_marker.png',
-              title: airport_title
-            });
-
-            //add markers to a list so we can add them to the map at a certain zoom range
-            airport_markers_list.push(airport_marker);
-
-            //add listener to display info window
-            airport_marker.addListener("click", function (event) {
-
-              var showAddWaypointBtn = 'd-none';
-              var showRemoveWaypointBtn = 'd-none';
-
-              //close the current info window if exists
-              if (ap_infowindow) {
-                ap_infowindow.close();
-              }
-
-              //show or hide add/remove waypoint buttons
-              if (hasWaypointBeenAdded(flightPath, lat, lng)) {
-                showRemoveWaypointBtn = '';
-              } else {
-                showAddWaypointBtn = '';
-              }
-
-              defaults_airport_IW_HTML = getDefaultAirportIWDeatils(airport_IW_details);
-
-              var custom_waypoint_iw_html =
-                "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
-
-                "<div class='gm-style-iw cust_waypoint_iw' id='iw-container'>" +
-
-                "<div class='gm-style-iw' id='iw-container'>" +
-                '<div class="iw-poi_header">' +
-                '<div style="cursor:pointer">' +
-                "<a href='https://www.google.com/search?q=" + airport_name + " (" + icao + ")' target='_blank'>" +
-                "<a href=https://skyvector.com/airport/" + icao + " target='_blank'>" +
-                '<h3 id="firstHeading">' + airport_name + '</h3>' +
-                '<h4 id="categoryHeading" class=" font-italic ">' + " (" + icao + ')</h4>' +
-                '<h4 id="categoryHeading" class=" font-italic ">Airport Elevation: ' + elevation + ' ft' + '</h4>' +
-                '</a>' +
-                '</div>' +
-                '</div>' +
-                '<div id="bodyContent">' +
-
-                defaults_airport_IW_HTML +
-  
-                '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="' + lat + ', ' + lng + '">' +
-                '</div>' +
-                '<hr class="my-2"/>' +
-                '<div>' +
-                '<div id="btn_addPoiToFlightPlan" class="mt-2 mb-1 ' + showAddWaypointBtn + '">' +
-                `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + lat + `, ` + lng + `, "` + airport_title.replace("'", "&#39") + `", "` + category + `")'>Add to Flight plan</button> ` +
-                '</div>' +
-                '<div id="btn_removePoiToFlightPlan" class="my-2 ' + showRemoveWaypointBtn + '">' +
-                "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + lat + ", " + lng + ", \"" + airport_title.replace("'", "&#39") + "\")'>Remove from flight plan</button> " +
-                '</div>' +
-                '</div>' +
-                '</div>';
-
-              ap_infowindow = new google.maps.InfoWindow({
-                content: custom_waypoint_iw_html,
+              let airport_marker = new google.maps.Marker({
+                position: { lat: lat, lng: lng },
+                // map: map,
+                icon: '/static/img/marker/ms_airport_marker.png',
+                title: airport_title
               });
-              ap_infowindow.open(map, airport_marker);
+
+              //add markers to a list so we can add them to the map at a certain zoom range
+              airport_markers_list.push(airport_marker);
+
+              //add listener to display info window
+              airport_marker.addListener("click", function (event) {
+
+                var showAddWaypointBtn = 'd-none';
+                var showRemoveWaypointBtn = 'd-none';
+
+                //close the current info window if exists
+                if (ap_infowindow) {
+                  ap_infowindow.close();
+                }
+
+                //show or hide add/remove waypoint buttons
+                if (hasWaypointBeenAdded(flightPath, lat, lng)) {
+                  showRemoveWaypointBtn = '';
+                } else {
+                  showAddWaypointBtn = '';
+                }
+
+                defaults_airport_IW_HTML = getDefaultAirportIWDeatils(airport_IW_details);
+
+                var custom_waypoint_iw_html =
+                  "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+
+                  "<div class='gm-style-iw cust_waypoint_iw' id='iw-container'>" +
+
+                  "<div class='gm-style-iw' id='iw-container'>" +
+                  '<div class="iw-poi_header">' +
+                  '<div style="cursor:pointer">' +
+                  "<a href='https://www.google.com/search?q=" + airport_name + " (" + icao + ")' target='_blank'>" +
+                  "<a href=https://skyvector.com/airport/" + icao + " target='_blank'>" +
+                  '<h3 id="firstHeading">' + airport_name + '</h3>' +
+                  '<h4 id="categoryHeading" class=" font-italic ">' + " (" + icao + ')</h4>' +
+                  '<h4 id="categoryHeading" class=" font-italic ">Airport Elevation: ' + elevation + ' ft' + '</h4>' +
+                  '</a>' +
+                  '</div>' +
+                  '</div>' +
+                  '<div id="bodyContent">' +
+
+                  defaults_airport_IW_HTML +
+    
+                  '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="' + lat + ', ' + lng + '">' +
+                  '</div>' +
+                  '<hr class="my-2"/>' +
+                  '<div>' +
+                  '<div id="btn_addPoiToFlightPlan" class="mt-2 mb-1 ' + showAddWaypointBtn + '">' +
+                  `<button class='btn btn-primary btn-sm mx-2 py-1'  onclick='addPoiToFlightPlan(` + lat + `, ` + lng + `, "` + airport_title.replace("'", "&#39") + `", "` + category + `")'>Add to Flight plan</button> ` +
+                  '</div>' +
+                  '<div id="btn_removePoiToFlightPlan" class="my-2 ' + showRemoveWaypointBtn + '">' +
+                  "<button class='btn btn-danger btn-sm mx-2 py-1' onclick='removePoiToFlightPlan(" + lat + ", " + lng + ", \"" + airport_title.replace("'", "&#39") + "\")'>Remove from flight plan</button> " +
+                  '</div>' +
+                  '</div>' +
+                  '</div>';
+
+                ap_infowindow = new google.maps.InfoWindow({
+                  content: custom_waypoint_iw_html,
+                });
+                ap_infowindow.open(map, airport_marker);
 
 
-              //close info window when clicked outside
-              google.maps.event.addListener(map, 'click', function () {
-                ap_infowindow.close();
+                //close info window when clicked outside
+                google.maps.event.addListener(map, 'click', function () {
+                  ap_infowindow.close();
+                });
               });
-            });
+            }
           }
-
           //add a listener for map zoom so we can display airport markers at a certain zoom leve
 
           google.maps.event.addListener(map, 'zoom_changed', function () {

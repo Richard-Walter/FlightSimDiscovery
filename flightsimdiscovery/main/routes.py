@@ -91,9 +91,17 @@ def home(filter_poi_location):
     flagged_pois_list = []
     search_defaults = {'Category': 'Category', 'Region': 'Region', 'Country': 'Country', 'Rating': 'Rating'}
     show_my_flights = ''
+    show_msfs_airports = 'Yes'
     is_authenticated = False
     user_id = None
 
+    # check if user doesn't want to show default msfs airports
+    print(session.get('show_msfs_airports'))
+    if session.get('show_msfs_airports') == 'No':
+        show_msfs_airports = 'No'
+    else:
+        show_msfs_airports = 'Yes'
+        session['show_msfs_airports'] = 'Yes'
 
     if current_user.is_authenticated:
 
@@ -237,6 +245,10 @@ def home(filter_poi_location):
             else:
                 search_defaults['filter_user_pois'] = 'No'
 
+        elif 'show_msfs_airports_check' in request.form:
+            show_msfs_airports = request.form.get('show_msfs_airports_check')
+            print(show_msfs_airports)
+
         elif 'show_my_flights_check' in request.form:
             print("in show_my_flights_check")
             show_my_flights = request.form.get('show_my_flights_check')
@@ -323,7 +335,7 @@ def home(filter_poi_location):
 
     return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, view_sim_flight=view_sim_flight, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
                            user_flights=user_flights, user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
-                           search_defaults=search_defaults, show_my_flights=show_my_flights, categories=poi_categories, regions=poi_regions, countries=fsd_countries, default_airports=default_airports, goto_gm=goto_gm, _anchor=anchor)
+                           search_defaults=search_defaults, show_my_flights=show_my_flights, show_msfs_airports=show_msfs_airports, categories=poi_categories, regions=poi_regions, countries=fsd_countries, default_airports=default_airports, goto_gm=goto_gm, _anchor=anchor)
 
 @main.route("/about")
 def about():
