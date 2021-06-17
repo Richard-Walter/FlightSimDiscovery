@@ -142,6 +142,11 @@
               let lat = parseFloat(default_airport_list[i]['lat']);
               let lng = parseFloat(default_airport_list[i]['lon']);
               let elevation = parseFloat(default_airport_list[i]['elev']);
+              let show_msfs_airport_on_map = default_airport_list[i]['Show_on_map'];
+
+              if(show_msfs_airport_on_map != 1) {
+                continue
+              }
 
               const category = 'Airport';
 

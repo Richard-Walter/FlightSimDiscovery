@@ -1,5 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from sqlalchemy.sql.expression import null
+from sqlalchemy import or_
 # from sqlalchemy.sql.expression import null
 from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites, Flightplan, Flightplan_Waypoints
 from flask_login import current_user, login_required
@@ -13,6 +14,12 @@ import json
 from xml.dom import minidom
 import xml.etree.ElementTree as ET 
 from requests import get
+import csv
+import os
+from tempfile import NamedTemporaryFile
+import shutil
+import traceback
+
 
 admin = Blueprint('admin', __name__)
 
@@ -110,9 +117,12 @@ def update_database():
         abort(403)
 
 
-@admin.route("/run_script", methods=['GET', 'POST'])
+@admin.route("/update_airports_csv", methods=['GET', 'POST'])
 @login_required
-def run_script():
+def update_airports_csv():
+
+    no_airports_updated = 0
+
     form = RunScriptForm()
 
     if current_user.is_authenticated and (current_user.username == 'admin'):
@@ -125,22 +135,81 @@ def run_script():
 
             if form.validate_on_submit():
 
-                # SCRIPT DETAILS GOES HERE
+                msfs_airport_list = []
+                airport_data = {}
+                airports_updated = []
+                airports_poi_list = []
 
-                # update flightplan table so number_flown is not null
-
-                # flightplans = Flightplan.query.all()
-
-                # for flightplan in flightplans:
-                #     if flightplan.number_flown is None:
-                #         flightplan.number_flown = 1
-                #         db.session.add(flightplan)
                 
-                # db.session.commit()
+                    
+                csv_filepath = os.path.join("flightsimdiscovery/data", "FSD_airports" + "." + "csv")
+                csv_filepath_temp = os.path.join("flightsimdiscovery/data", "FSD_airports_temp" + "." + "csv")
+                fields = ['ICAO','Airport_Name','City','Elevation','Longitude','Latitude','tower_frequency','atis_frequency','awos_frequency','asos_frequency','unicom_frequency','Show_on_map']
 
-                flash('Script has run succesfully!', 'success')
+                with open(csv_filepath, encoding="utf-8") as csv_file:
 
-                return render_template('run_script.html', form=form)
+                    csv_reader = csv.DictReader(csv_file, fieldnames=fields, delimiter=',')
+                    line_count = 0
+                    for row in csv_reader:
+                        if line_count == 0:
+                            
+                            line_count += 1
+                        else:
+                        
+                            airport_data = {'ICAO': row['ICAO'], 'Airport_Name': row['Airport_Name'], 'City': row['City'], 'Elevation': float(row['Elevation']), 'Longitude': float(row['Longitude']), 'Latitude': float(row['Latitude']), 'tower_frequency': row['tower_frequency'], 'atis_frequency': row['atis_frequency'],'awos_frequency': row['awos_frequency'],'asos_frequency': row['asos_frequency'],'unicom_frequency': row['unicom_frequency'],'Show_on_map': row['Show_on_map']}
+                            line_count += 1
+                            msfs_airport_list.append(airport_data)
+
+                exluded_pois = Pois.query.filter(or_(Pois.category == 'Airport (Bush Strip)', Pois.category  == 'Airport (Famous/Interesting)'))
+
+                try:
+
+                    for poi in exluded_pois:
+                        if poi.share == 1:
+                            airports_poi_list.append(poi.name)
+                            # poi_name_first_word = poi.name.split()[0]
+
+                        # locations are similar.  If so, update csv to not show on map
+                        location_tolerance = 0.03
+
+                        for airport in msfs_airport_list:
+
+                            # if (poi.name   == 'Narsarsuaq Airport') and ('Narsarsuaq' in airport['Airport_Name']) :
+                            #     print('stop')
+                                
+                            latitude_diff = abs(float(poi.latitude) - airport['Latitude'])
+                            longitude_diff = abs(float(poi.longitude) - airport['Longitude'])
+
+                            if (latitude_diff < location_tolerance) and (longitude_diff < location_tolerance):
+                                
+                                print("Updating CSV to not show airport " + poi.name)  
+                                airport['Show_on_map'] = 0
+                                no_airports_updated +=1
+                                airports_updated.append(poi.name)
+                    
+                    #Update csv
+                    with open(csv_filepath_temp, 'w',encoding="utf-8", newline='') as csv_writer:
+                        writer = csv.DictWriter(csv_writer, fieldnames=fields)
+                        writer.writeheader()
+                        for airport in msfs_airport_list:
+                            writer.writerow(airport)
+                                    
+                except Exception as e:
+                    traceback.print_exc()
+                    flash('ERROR running the script!', 'danger')
+                    return render_template('run_script.html', form=form)
+                       
+                else:
+                    shutil.move(csv_filepath_temp, csv_filepath)
+                    print("Number of airports not showing on map is " + str(no_airports_updated))    
+                    
+                    airports_not_updated = (list(set(airports_poi_list) - set(airports_updated)))   
+                    print("\nAirports not updated:  " + str(len(airports_not_updated))) 
+                    print(airports_not_updated)
+                    print('\n')
+                    flash('Script has run succesfully!', 'success')
+
+                    return render_template('run_script.html', form=form)
 
             else:
                 flash('ERROR running the script!', 'danger')

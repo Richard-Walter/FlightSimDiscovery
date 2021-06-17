@@ -388,7 +388,7 @@ def get_default_airports():
                             line_count += 1
                         else:
                            
-                            airport_data = {'ICAO': row[0], 'Airport_Name': row[1], 'City': row[2], 'lat': float(row[5]), 'lon': float(row[4]), 'elev': float(row[3]), 'Tower_Freq': row[6], 'ATIS_Freq': row[7],'AWOS_Freq': row[8],'ASOS_Freq': row[9],'UNICOM_Freq': row[10]}
+                            airport_data = {'ICAO': row[0], 'Airport_Name': row[1], 'City': row[2], 'lat': float(row[5]), 'lon': float(row[4]), 'elev': float(row[3]), 'Tower_Freq': row[6], 'ATIS_Freq': row[7],'AWOS_Freq': row[8],'ASOS_Freq': row[9],'UNICOM_Freq': row[10],'Show_on_map': row[11]}
                             line_count += 1
                             msfs_airport_list.append(airport_data)
 

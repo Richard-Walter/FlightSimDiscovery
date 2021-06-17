@@ -91,10 +91,11 @@
                                     <a class="dropdown-item" href="{{ url_for('admin.user_details') }}">User Details</a>
                                     <a class="dropdown-item" href="{{ url_for('admin.shared_flightplans') }}">Shared Flight Plans</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ url_for('admin.update_database') }}">Update Database</a>
-                                    <a class="dropdown-item" href="{{ url_for('admin.update_fsd_pois_xml') }}">Update POIS XML</a>
-                                    <a class="dropdown-item" href="{{ url_for('admin.update_proudction_pois_elevation') }}">Update Prod Elevation</a>
-                                    <a class="dropdown-item" href="{{ url_for('admin.run_script') }}">Run Script</a>
+                                    <h5 class="dropdown-item">UPDATE SCRIPTS</h5>
+                                    <a class="dropdown-item" href="{{ url_for('admin.update_database') }}">World Update</a>
+                                    <a class="dropdown-item" href="{{ url_for('admin.update_fsd_pois_xml') }}">POIS XML</a>
+                                    <a class="dropdown-item" href="{{ url_for('admin.update_proudction_pois_elevation') }}">Production Elevation</a>
+                                    <a class="dropdown-item" href="{{ url_for('admin.update_airports_csv') }}">Airports CSV</a>
  
                                 </div>
                             {% else %}
