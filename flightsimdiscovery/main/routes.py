@@ -1,17 +1,13 @@
-import csv, os, json
-import xml.etree.ElementTree as ET
-from copy import deepcopy
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, after_this_request, make_response, send_from_directory, session
-from openpyxl import load_workbook
+from flask import render_template, url_for, flash, redirect, request, Blueprint, send_from_directory, session
 from flightsimdiscovery import db
-from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints, FP_Ratings
+from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints
 from flask_login import current_user, login_required
-from utilities import get_default_airports, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_nearest_airport
+from utilities import get_default_airports, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_default_airports_not_shown
 from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.main.forms import ContactForm
 from flightsimdiscovery.users.utitls import send_contact_email, get_user_flights
 from flightsimdiscovery.config import Config
-from flightsimdiscovery.flightplans.utils import get_user_flightplans
+
 
 main = Blueprint('main', __name__)
 
@@ -28,19 +24,18 @@ main = Blueprint('main', __name__)
 # DONE Add a 'show default airports' tick box similar to 'show my flights'
 # DONE Excude default airports that are already POIs
 # DONE aadd total distance in nm of flight plan
+# DONE ability to import POIS into MSFS
 
-
-# TODO ability to import POIS into MSFS
-# TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 # TODO update empty or low text descriptions by me with with wikipedia. e.g. msfs point of interest
-
+# TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO in game panel-flight recorder, display position on web browser, talk about FSD waypoints
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 
 
 
 default_airports=get_default_airports()
+default_airports_not_shown=get_default_airports_not_shown(default_airports)
 poi_categories=get_category_list()
 poi_regions=get_region_list()
 fsd_countries=get_country_list()
@@ -338,7 +333,8 @@ def home(filter_poi_location):
 
     return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, view_sim_flight=view_sim_flight, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
                            user_flights=user_flights, user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
-                           search_defaults=search_defaults, show_my_flights=show_my_flights, show_msfs_airports=show_msfs_airports, categories=poi_categories, regions=poi_regions, countries=fsd_countries, default_airports=default_airports, goto_gm=goto_gm, _anchor=anchor)
+                           search_defaults=search_defaults, show_my_flights=show_my_flights, show_msfs_airports=show_msfs_airports, categories=poi_categories, regions=poi_regions, countries=fsd_countries, default_airports=default_airports,
+                            default_airports_not_shown=default_airports_not_shown, goto_gm=goto_gm, _anchor=anchor)
 
 @main.route("/about")
 def about():

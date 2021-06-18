@@ -40,6 +40,7 @@
         var show_msfs_airports = {{ show_msfs_airports| tojson}};
         var flights_currently_showing = false;
         const default_airport_list = {{ default_airports| tojson}};
+        const default_airports_not_shown = {{ default_airports_not_shown| tojson}};
 
         // Parse the posted data into a GeoJSon format required by Google Maps
         var poi_data_array = [];

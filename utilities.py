@@ -398,6 +398,14 @@ def get_default_airports():
         
         return msfs_airport_list
 
+def get_default_airports_not_shown(msfs_airport_list):
+    airports_not_shown=[]
+
+    for airport in msfs_airport_list:
+        if airport['Show_on_map'] == '0':
+            airports_not_shown.append(airport)
+    
+    return airports_not_shown
 
 def get_country_list():
     countryList = []
