@@ -34,9 +34,6 @@ def update_db(file_name, country):
         name = ''
         latitude = ''
         longitude = ''
-
-        # country = ''  # change this if not country specific update
-
         description = ''
         country_set = set()
         countries_not_found = []
@@ -72,7 +69,7 @@ def update_db(file_name, country):
                         latitude = float(coordinates_list[1])
                         location_details = get_location_details(latitude, longitude)
                         city = location_details.get('city', "")
-                        # country = location_details.get('country', "")         #uncomment this for generic import
+                        country = location_details.get('country', "")         
                         state = location_details.get('state', "")
                         county = location_details.get('county', "")
                         if country:

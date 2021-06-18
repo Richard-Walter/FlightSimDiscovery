@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <Document>
+    <Folder Name="Airports Standard">
+      <Placemark>
+        <name>Bornholm Airport</name>
+        <description>EKRS</description>
+        <styleUrl>#icon-1504-880E4F</styleUrl>
+        <Point>
+          <coordinates>
+            14.761109,55.062873,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Ísafjörður Airport</name>
+        <description>BIIS</description>
+        <styleUrl>#icon-1504-880E4F</styleUrl>
+        <Point>
+          <coordinates>
+            -23.1423023,66.055413,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Svalbard Airport</name>
+        <description>ENSB</description>
+        <styleUrl>#icon-1504-880E4F</styleUrl>
+        <Point>
+          <coordinates>
+            15.4655628,78.2460841,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Stockholm Arlanda Airport</name>
+        <styleUrl>#icon-1504-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            17.9237807,59.6497622,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Vaasa Airport</name>
+        <styleUrl>#icon-1504-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            21.762713,63.0512476,0
+          </coordinates>
+        </Point>
+      </Placemark>
+	</Folder>
+	<Folder Name="Points of Interest">
+      <Placemark>
+        <name>Roskilde Cathedral</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.0804491,55.6426377,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Øresund Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.8486371,55.5706287,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Amalienborg</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.5930201,55.6840588,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Copenhagen Opera House</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.6007498,55.6819277,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Egeskov Castle</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            10.4902107,55.1761982,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Frederiksborg Castle</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.3012724,55.9349652,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Frogner Park</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            10.7034734,59.9264583,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Kronborg Castle</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.6211551,56.0390142,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>LEGO House</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            9.1149214,55.730654,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Rosenborg Castle</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.5772687,55.6858274,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Men by the Sea</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            8.4111786,55.4877624,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Aarhus Idrætspark</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            10.1937512,56.1318558,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Aalborg Portland Park</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            9.898616,57.052024,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Blue Water Arena</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            8.4395531,55.4821684,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Brǿndby Stadium</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.4175395,55.6488083,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Parken Stadium</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.572316,55.7027169,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Helsinki Cathedral</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            24.9521651,60.1704191,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The Old Church of Petäjävesi</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            25.1836443,62.2501054,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Turku Cathedral</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            22.278325,60.452473,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Uspenski Cathedral</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            24.95995,60.1685436,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Bomarsund Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            20.2424379,60.2119605,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Replot Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            21.4715028,63.2066583,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Olavinlinna</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            28.9010693,61.8639386,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Suomenlinna</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            24.9881401,60.1454,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Näsinneula</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            23.7430645,61.5049647,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Turku Castle</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            22.2286991,60.4353436,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Bolt Arena</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            24.9218425,60.187493,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Helsinki Olympic Stadium</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            24.9271537,60.1869259,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Hallgrimskirkja Church</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -21.9265494,64.1420229,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Hvitserkur (Rock Formation)</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -20.6352358,65.6063129,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Perlan</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -21.9190507,64.1292126,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Arctic Cathedral</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            18.9874922,69.6480287,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Heddal stave church</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            9.1762671,59.5795764,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Nidaros Cathedral</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            10.3969374,63.4269097,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Urnes Stave Church</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            7.3229548,61.2979772,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Fyksesund Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            6.2608485,60.4001769,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Hardanger Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            6.8297226,60.4789953,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Helgeland Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.7209235,66.0375642,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Storseisundet Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            7.3528747,63.0165899,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tromsø Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            18.9764015,69.6516057,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Bryggen</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.3245494,60.3975672,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Oslo Opera House</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            10.7531275,59.9074885,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Pulpit Rock</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            6.1904396,58.9864487,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The Royal Palace</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            10.7273769,59.9170428,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tyholttårnet</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            10.431944,63.4225,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Holmenkollbakken</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            10.667762,59.9640276,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Brann Stadion</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.3574701,60.3669423,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Intility Arena</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            10.8067241,59.9178535,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Lerkendal stadion</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            10.4044709,63.4123278,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Kristianstad Arena</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            14.1631006,56.0231931,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Ullevaal Stadion</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            10.7343663,59.9491237,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Viking Stadion</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            5.7315265,58.9146314,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Frederiks Church</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.5895665,55.6849739,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Holy Trinity Church</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            14.1526887,56.0311976,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Kiruna Pastorat</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            20.2329802,67.8520149,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Storkyrkan Stockholm Cathedral</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            18.0704205,59.3257856,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Höga Kusten Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            17.9384015,62.797576,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Öland Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            16.3916214,56.6795763,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Sölvesborg Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            14.5965704,56.0505435,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tallberg Bridges</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            19.3483325,63.7938835,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tjörn Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            11.7809158,58.0592742,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Uddevalla Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            11.844521,58.3255276,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Dragon Gate</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            17.4155666,60.4629162,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Kullen Lighthouse</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.4515361,56.3009929,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Drottningholm Palace</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            17.8868253,59.3216935,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Helsinki Ice Hall</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            24.9225114,60.1892751,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Royal Swedish Opera</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            18.0704829,59.3297318,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Stockholm City Hall</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            18.0543456,59.3274506,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Stockholm Palace</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            18.0717194,59.3268215,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Turning Torso</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.976362,55.6133242,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Borås Arena</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.9356844,57.7344417,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Eleda Stadium</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            12.9878073,55.5836426,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Friends Arena</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            18.0002317,59.3727005,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Ullevi</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            11.9873108,57.7059006,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Guldfågeln Arena</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            16.3147928,56.6911827,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tele2 Arena</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            18.0843179,59.2911191,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Svinesund Bridge</name>
+        <styleUrl>#icon-1535-E65100-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            11.2518473,59.0943911,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>

@@ -116,7 +116,8 @@ def update_database():
     else:
         abort(403)
 
-
+# this script determins if a default airport should not be shown, due to a POI for this airport already exist.
+# RUn this scrupt after each update
 @admin.route("/update_airports_csv", methods=['GET', 'POST'])
 @login_required
 def update_airports_csv():
@@ -268,8 +269,8 @@ def update_fsd_pois_xml():
                     poi_lng = str(poi.longitude)
                     poi_alt = poi.altitude
 
-                    # only get elevation if it doesnt alreay exist in the database or is 0.0
-                    if not poi_alt:
+                    # only get elevation if it doesnt alreay exist in the database
+                    if poi_alt is null:
                         try:
                             print("TRYING TO GET POI ELEVATION: " + str(poi.id) + "   " + poi.name + " " + poi_lat + "  " + poi_lng)
                             poi_alt = get_elevation(poi_lat, poi_lng)
