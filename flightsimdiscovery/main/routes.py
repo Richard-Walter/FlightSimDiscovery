@@ -282,6 +282,7 @@ def home(filter_poi_location):
         data_dic['icon'] = get_marker_icon(poi, user_favorites, user_visited, user_pois_list)
         data_dic['lat'] = format(poi.latitude, '.6f')
         data_dic['lng'] = format(poi.longitude, '.6f')
+        data_dic['nearest_icao_code'] = poi.nearest_icao_code
         if poi.altitude is not None:
             data_dic['altitude'] = format((poi.altitude*3.28), '.0f')
         else:

@@ -74,7 +74,8 @@
         var filter_user_pois = search_defaults['filter_user_pois']
 
         pois_array.forEach(function (poi, index) {
-          infowindow_dict[poi.name] = { 'id': poi.id, 'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng, 'altitude': poi.altitude,'description': poi.description, 'rating': poi.rating, 'fp_id_list': poi.fp_id_list };
+          infowindow_dict[poi.name] = { 'id': poi.id, 'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng,
+          'altitude': poi.altitude,'description': poi.description, 'rating': poi.rating, 'nearest_icao_code': poi.nearest_icao_code, 'fp_id_list': poi.fp_id_list };
         });
 
         //Update Country Select values
@@ -414,6 +415,7 @@
               var country = infowindow_dict[marker_name]['country'];
               var description = infowindow_dict[marker_name]['description'];
               var rating = infowindow_dict[marker_name]['rating'];
+              var nearest_icao_code = infowindow_dict[marker_name]['nearest_icao_code'];
               var fp_id_list = infowindow_dict[marker_name]['fp_id_list'];
               var showFlightPlanTours = 'style="display: none"';
               var hiddenButtons = 'style="display: none"';
@@ -421,6 +423,8 @@
               var flagIconDisplay = 'style="display: none"';
               var showAddWaypointBtn = 'd-none';
               var showRemoveWaypointBtn = 'd-none';
+
+              var defaults_airport_IW_HTML = '';
 
               // var hiddenRatings = '';
               var ratingRadio1 = '';
@@ -446,6 +450,17 @@
 
               }
 
+              //Create Comms info if poi is airport with an ICAO and in default_airports_not_shown and
+              if ((category.includes('Airport')) && (nearest_icao_code)) {
+                
+                for (i = 0; i < default_airports_not_shown.length; i++) {
+                  console.log(i)
+                  if (default_airports_not_shown[i]['ICAO'] == nearest_icao_code) {
+                    defaults_airport_IW_HTML = getDefaultAirportIWDeatils(default_airports_not_shown[i]);
+                    break;
+                  }
+                }
+              }
 
               //create flightplan tour list html
               var flightplan_tours_html = '';
@@ -598,7 +613,11 @@
                 '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="' + latitude + ', ' + longitude + '">' +
                 '</div>' +
                 '<div class="my-2">' +
+                
                 '<p class="iw_description">' + description + '</p>' +
+                '</div>' +
+                '<div>' +
+                defaults_airport_IW_HTML +
                 '</div>' +
                 '<hr class="my-2"/>' +
                 '<div id="poi_flight_plans" class=" my-2"' + showFlightPlanTours + '>' +

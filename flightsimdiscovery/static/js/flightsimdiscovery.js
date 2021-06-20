@@ -382,7 +382,7 @@ function getDefaultAirportIWDeatils(airport_IW_details) {
     airport_comms_html = '<div id="defaultAirportIWInfo" class="my-1 p-1 border border-seconday iw_copy_latlng" style="text-align: left">' + airport_comms_html;
     
   } else {
-    airport_comms_html = '<div class="" style="text-align: left">' + airport_comms_html;
+    airport_comms_html = '<div class="" style="text-align: left">' + airport_comms_html +'</div>';
   }
 
   return airport_comms_html;
