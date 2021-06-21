@@ -1,6 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from sqlalchemy.sql.expression import null
 from sqlalchemy import or_
+from wikipedia.exceptions import DisambiguationError
 # from sqlalchemy.sql.expression import null
 from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites, Flightplan, Flightplan_Waypoints
 from flask_login import current_user, login_required
@@ -20,6 +21,7 @@ import os
 from tempfile import NamedTemporaryFile
 import shutil
 import traceback
+import wikipedia
 
 
 admin = Blueprint('admin', __name__)
@@ -374,7 +376,7 @@ def update_proudction_pois_elevation():
     else:
         abort(403)
 
-#  update new enhanced airports/airport POIS with ICAO which is used as alookup to add coms to the infowindow
+#  update new enhanced airports/airport POIS with ICAO which is used as a lookup to add coms to the infowindow
 @admin.route("/update_icao", methods=['GET', 'POST'])
 @login_required
 def update_icao():
@@ -418,6 +420,67 @@ def update_icao():
  
 
                 flash('POIS elevation updated has run succesfully!  Number of pois updated with elevation is ' + str(no_airports_updated), 'success')
+
+                return render_template('run_script.html', form=form)
+
+            else:
+                flash('ERROR running the script!', 'danger')
+                return render_template('run_script.html', form=form)
+
+        else:
+
+            abort(403)
+
+    else:
+        abort(403)
+
+#  updates new msfs points of interest with description from wiki
+@admin.route("/update_msfs_poi_description", methods=['GET', 'POST'])
+@login_required
+def update_msfs_poi_description():
+    form = RunScriptForm()
+
+    if current_user.is_authenticated and (current_user.username == 'admin'):
+
+        if request.method == 'GET':
+
+            return render_template('run_script.html', form=form)
+
+        elif request.method == 'POST':
+
+            # generate updates xml file in the output directory if password valid
+            if form.validate_on_submit():
+                
+                no_pois_updated = 0
+                no_pois_not_updated = 0
+                
+                
+                pois = Pois.query.all()      
+
+                for poi in pois:
+                    
+                    # only update poi descriptif it is a new MSFS Point of INterst and hasn't been updated before
+                    if poi.description != 'MSFS Point of Interest':
+                        continue
+
+                    poi_name = poi.name + ', ' + poi.country
+                    try:
+                        wiki_summary = wikipedia.summary(poi_name, sentences=3)
+                        # print(wikipedia.summary(poi_name, sentences=3))
+                    except DisambiguationError:
+                        print("disamiguation error for poi no. " + str(poi.id))
+                    except wikipedia.exceptions.PageError:
+                        print("Page error for poi no. " + str(poi.id) + '  Search was ' + poi_name)
+                        no_pois_not_updated += 1
+                    else:
+                        poi_to_update = Pois.query.get(poi.id)
+                        poi_to_update.description = 'MSFS Enhanced Point of Interest.  ' + wiki_summary
+                        print('UPdating Poi ' + str(poi.id))
+                        no_pois_updated += 1
+                        db.session.commit()
+                
+
+                flash('Script has run succesfully!  Number of pois updated with new description is ' + str(no_pois_updated) + '.  Number of pois NOT updated  is ' + str(no_pois_not_updated), 'success')
 
                 return render_template('run_script.html', form=form)
 
