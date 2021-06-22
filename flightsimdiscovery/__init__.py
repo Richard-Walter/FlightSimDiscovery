@@ -58,6 +58,7 @@ def create_app(config_class=Config):
     from flightsimdiscovery.users.routes import users
     from flightsimdiscovery.pois.routes import pois
     from flightsimdiscovery.main.routes import main
+    from flightsimdiscovery.admin.commands import scriptsbp
     from flightsimdiscovery.admin.routes import admin
     from flightsimdiscovery.flightplans.routes import flightplans
     from flightsimdiscovery.errors.handlers import errors
@@ -66,6 +67,7 @@ def create_app(config_class=Config):
     app.register_blueprint(pois)
     app.register_blueprint(main)
     app.register_blueprint(admin)
+    app.register_blueprint(scriptsbp)
     app.register_blueprint(flightplans)
     app.register_blueprint(errors)
 
