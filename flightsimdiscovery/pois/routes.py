@@ -174,7 +174,9 @@ def update_poi(poi_id):
             poi.category = form.category.data
             poi.description = form.description.data        
             poi.latitude = form.latitude.data        
-            poi.longitude = form.longitude.data        
+            poi.longitude = form.longitude.data  
+            if form.altitude.data:      
+                poi.altitude = form.altitude.data        
             poi.share = form.share.data        
             db.session.commit()
 
@@ -187,6 +189,7 @@ def update_poi(poi_id):
         form.longitude.data = poi.longitude
         form.category.data = poi.category
         form.country.data = poi.country
+        form.altitude.data = poi.altitude
         form.description.data = poi.description
         # form.nearest_airport.data = poi.nearest_icao_code
         form.share.data = poi.share

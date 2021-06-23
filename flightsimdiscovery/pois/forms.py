@@ -42,6 +42,7 @@ class PoiUpdateForm(FlaskForm):
     latitude = StringField('Latitude (decimal degrees) ', render_kw={'disabled': False}, validators=[DataRequired(), Length(min=2, max=18)])
     # latitude = StringField('Latitude (decimal degrees) ', render_kw={'disabled': False})
     longitude = StringField('Longitude (decimal degrees)',render_kw={'disabled': False},  validators=[DataRequired(), Length(min=2, max=18)])
+    altitude = StringField('altitude (meter)',render_kw={'disabled': False},  validators=[Length(min=1, max=6)])
     # longitude = StringField('Longitude (decimal degrees)',render_kw={'disabled': False})
     # nearest_airport = StringField('Nearest Airpot (ICAO) (optional)', validators=[Length(min=0, max=4)])
     share = BooleanField('Share with the community')
@@ -56,6 +57,13 @@ class PoiUpdateForm(FlaskForm):
 
         if not validate_long(str(longitude.data)):
             raise ValidationError('Please enter a valid longitude (-180 and +180) in degrees decimal   e.g. 150.676888')
+
+    def validate_altitude(self, altitude):
+
+        try:
+            float(str(altitude.data))
+        except ValueError:
+            raise ValidationError('Please enter a valid number to the nearest meter   e.g. 1503')
 
     def validate_name(self, name):
 

@@ -99,6 +99,19 @@
                     {{ form.longitude(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <div class="form-group">
+                    {{ form.altitude.label(class="form-control-label") }}
+                    {% if form.altitude.errors %}
+                    {{ form.altitude(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.altitude.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.altitude(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
                 <div class="form-check">
                     {{ form.share(class="form-check-input") }}
                     {{ form.share.label(class="form-check-label") }}
