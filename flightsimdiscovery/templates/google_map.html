@@ -83,7 +83,9 @@
 
           var textBox = document.getElementById("poi_lat_long");
           textToClipboard(textBox.value);
-          $("#copylatlong").html('Copied');
+          // $("#copylatlong").html('Copied');
+          $("#copy_coords_icon").attr('title', 'Copied');
+          $("#coords_copied_txt").toggle();
 
         };
 
@@ -425,6 +427,7 @@
               var showRemoveWaypointBtn = 'd-none';
 
               var defaults_airport_IW_HTML = '';
+              var iw_icons_html = getIWIconsHTML(latitude, longitude, marker_name, country,  category, nearest_icao_code)
 
               // var hiddenRatings = '';
               var ratingRadio1 = '';
@@ -578,6 +581,7 @@
                 '<div class="mb-1">' +
                 '<span class="iw_rating_text" style="color: black;">Community rating: ' + rating + '</span>' +
                 '</div>' +
+
                 '<div ' + hiddenDetails + '>' +
                 '<div class="d-flex justify-content-center"' + hiddenDetails + '>' +
                 '<div class="IW_Rating">' +
@@ -608,14 +612,11 @@
                 '</div>' +
                 '</div>' +
                 '<div id="bodyContent">' +
-                '<div class="my-1 p-1 border border-seconday iw_copy_latlng">' +
-                '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  ' + latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' + '</p>' +
-                '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="' + latitude + ', ' + longitude + '">' +
-                '</div>' +
+                iw_icons_html +
                 '<div class="my-2">' +
-                
                 '<p class="iw_description">' + description + '</p>' +
                 '</div>' +
+
                 '<div>' +
                 defaults_airport_IW_HTML +
                 '</div>' +

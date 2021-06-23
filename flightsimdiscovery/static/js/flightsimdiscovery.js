@@ -388,6 +388,32 @@ function getDefaultAirportIWDeatils(airport_IW_details) {
   return airport_comms_html;
 }
 
+function getIWIconsHTML(latitude, longitude, marker_name, country, cateogry, nearest_icao) {
+
+  
+  var skyvectory_hmtl = ''
+
+  if ((cateogry.includes('Airport'))&&(nearest_icao))  {
+    skyvectory_hmtl = '<a href="https://skyvector.com/airport/' + nearest_icao + '" target="_blank" class="fa fai fai-plane fa-plane" title="Skyvector"></a>'
+  }
+
+  iw_icons_html = 
+  '<div class="my-1 border border-seconday ">' +
+
+  '<a href="https://www.google.com/search?q=' + marker_name + ', ' + country + '" target="_blank" class="fa fai  fa-google" title="Google"></a>'+
+  '<a href="https://en.wikipedia.org/wiki/' + marker_name + '" target="_blank" class="fa fai  fa-wikipedia-w" title="Wikipedia"></a>'+
+  '<a href="https://www.youtube.com/results?search_query=' + marker_name + ', ' + country + '" target="_blank" class="fa fai fa-youtube" title="Youtube"></a>'+
+  skyvectory_hmtl+
+  // '<a href="#" class="fa fai fai-plane fa-plane" title="Google"></a>'+
+  '<i href="" id="copy_coords_icon" class="fa fai fa-map-marker-alt" title="Copy coordinates" onclick="copy_latLon()" style="cursor:pointer"></i>'+
+  '<p id="coords_copied_txt" class="my-0" style="font-size: 0.8em; display:none" >Coorindates copied: ' + latitude + ', ' + longitude + '</p>' +
+  // '<p class="iw_latlng"><i class="mx-2 fas fa-map-marker-alt" style="color:#993426;"></i>  ' + latitude + ', ' + longitude + ' <button id="copylatlong"  class="btn btn-outline-secondary btn-sm mx-2 py-0" style="font-size: 0.8em;" onclick="copy_latLon()">Copy</button> ' + '</p>' +
+  '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="' + latitude + ', ' + longitude + '">' +
+  '</div>'
+
+  return iw_icons_html
+}
+
 function insertDecimal(num) {
   return (num / 1000).toFixed(3);
 }

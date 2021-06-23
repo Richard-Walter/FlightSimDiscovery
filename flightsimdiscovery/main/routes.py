@@ -26,9 +26,8 @@ main = Blueprint('main', __name__)
 # DONE Excude default airports that are already POIs
 # DONE aadd total distance in nm of flight plan
 # DONE ability to import POIS into MSFS
+# DONE add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 
-# TODO update empty or low text descriptions by me with with wikipedia. e.g. just msfs point of interest
-# TODO add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 # TODO in game panel-flight recorder, display position on web browser, talk about FSD waypoints
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
