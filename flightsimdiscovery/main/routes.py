@@ -7,6 +7,7 @@ from flightsimdiscovery.pois.utils import *
 from flightsimdiscovery.main.forms import ContactForm
 from flightsimdiscovery.users.utitls import send_contact_email, get_user_flights
 from flightsimdiscovery.config import Config
+from flightsimdiscovery.admin import commands
 
 
 main = Blueprint('main', __name__)
@@ -32,7 +33,8 @@ main = Blueprint('main', __name__)
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 
-
+# debug scripts - comment out after testing.  need to comment out @scriptsbp.cli.command('name') as well
+# commands.update_pois_elevation()
 
 default_airports=get_default_airports()
 default_airports_not_shown=get_default_airports_not_shown(default_airports)
