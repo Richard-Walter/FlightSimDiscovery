@@ -57,11 +57,14 @@
         var temp_marker_list = [];
         var waypoint_name = '';
 
+
+
         //create the infowindow data dictionary
         infowindow_dict = {}
         var flightsplans_dic = {{ flightsplans_dic| tojson}};
         var flightpath_name = "";
         var pois_array = {{ pois| tojson}};
+        var user_id = {{user_id}};
         var user_pois = {{ user_pois_json| tojson}};
         var user_ratings_dict = {{ user_ratings| tojson}};
         var user_favorites = new Set({{ user_favorites| tojson}});
@@ -128,6 +131,9 @@
             },
 
           });
+
+
+          
 
           if (show_msfs_airports == 'Yes') {
             //add deault airpot markers to flight sim
@@ -1490,6 +1496,15 @@
           }
           map.fitBounds(bounds);
         }
+
+        function getMap() {
+          return map;
+        }
+
+        function getUserID() {
+          return user_id;
+        }
+
 
         function getSimFlightBounds(user_flight_id) {
 

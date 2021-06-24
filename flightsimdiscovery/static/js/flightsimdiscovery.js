@@ -417,3 +417,184 @@ function getIWIconsHTML(latitude, longitude, marker_name, country, cateogry, nea
 function insertDecimal(num) {
   return (num / 1000).toFixed(3);
 }
+
+//SHOW USER FLIGHT ON MAP
+var user_id = getUserID()
+var map = getMap()
+var marker = 
+
+//create inital user marker info
+userMarkerInfo = {
+
+  id: user_id,
+  map: map,
+  marker: null,
+}
+
+var ajaxUserMarkerObj = { //Object to save cluttering the namespace.
+
+  options: {
+      type: 'POST',
+      url: "/users/get_user_location", //The resource that delivers loc data.
+      dataType: "text", //The type of data tp be returned by the server.
+      data: {user_id: user_id},
+  },
+
+  delay: 5000, //(milliseconds) the interval between successive gets.
+  errorCount: 0, //running total of ajax errors.
+  errorThreshold: 3, //the number of ajax errors beyond which the get cycle should cease.
+  ticker: null, //setTimeout reference - allows the get cycle to be cancelled with clearTimeout(ajaxUserMarkerObj.ticker);
+
+  get: function () { //a function which initiates
+
+      if (ajaxUserMarkerObj.errorCount < ajaxUserMarkerObj.errorThreshold) {
+         ajaxUserMarkerObj.ticker = setTimeout(getMarkerData, ajaxUserMarkerObj.delay);
+      }
+
+  },
+
+  fail: function (jqXHR, textStatus, errorThrown) {
+
+      console.log(errorThrown);
+      ajaxUserMarkerObj.errorCount++;
+  }
+};
+
+//Ajax master routine
+
+function getMarkerData() {
+
+  $.ajax(ajaxUserMarkerObj.options)
+      .done(updateUserMarker) //fires when ajax returns successfully
+      .fail(ajaxUserMarkerObj.fail) //fires when an ajax error occurs
+      .always(ajaxUserMarkerObj.get); //fires after ajax success or ajax error
+}
+
+function updateUserMarker(data) {
+
+  // alert(data)
+  coordinates = JSON.parse(data);
+  user_lat = coordinates['lat'];
+  user_lng = coordinates['lng'];
+  if ((user_lat == null) || (user_lng == null)) {
+    ajaxUserMarkerObj.errorCount++;
+
+  //update users location on map
+  } else {
+    
+    //create new user marker and plane trail if one doesnt already exist and info box
+    if (userMarkerInfo.marker == null) {
+      userMarkerInfo.marker = createNewUserMarker(user_lat,user_lng, map);
+      userMarkerInfo.poly = createUserPlaneTrail(user_lat,user_lng, map);
+      // var infowindow = new google.maps.InfoWindow();
+      // infowindow.setContent('<span style="color:#EA2E49;font-weight:bold">' + userMarkerInfo.user_id + '</span>')
+      
+      // //Attach click listener to marker
+
+      // google.maps.event.addListener(userMarkerInfo.marker, 'click', (function () {
+
+      //     return function () {
+
+      //         infowindow.setContent(userMarkerInfo.user_id);
+      //         infowindow.open(map, userMarkerInfo.marker);
+
+      //     }
+
+      // }));
+
+    } else {
+      //update location of existing marker
+      // userMarkerInfo.marker.setPosition(new google.maps.LatLng(-32.1, 154.0));
+      userMarkerInfo.marker.setPosition(new google.maps.LatLng(user_lat, user_lng));
+
+      //update user plane trail
+      const path = userMarkerInfo.poly.getPath();
+
+      // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
+      path.push(new google.maps.LatLng(user_lat, user_lng));
+    }
+    map.panTo(userMarkerInfo.marker.getPosition()); 
+  }
+}
+
+$("#show_positon").click(function() {
+  
+  // alert( "show position called." );
+  getMarkerData()
+
+
+  // $.ajax({
+  //   type: 'POST',
+  //   url: "/users/get_user_location",
+  //   data: {user_id: 3},
+  //   dataType: "text",
+  //   success: function(data){
+  //             coordinates = JSON.parse(data);
+  //             user_lat = coordinates['lat']
+  //             user_lng = coordinates['lng']
+  //              alert("User location is "+ user_lat  + ', ' + user_lng);
+  //   },
+  //   error: function(error) {
+  //       console.log(error);
+  //   }
+  // });
+});
+
+function createNewUserMarker(user_lat,user_lng, map) {
+
+  label_txt = user_lat.toFixed(2).toString() + ' , ' + user_lng.toFixed(2).toString()
+  marker = new google.maps.Marker({
+
+    position: new google.maps.LatLng(user_lat, user_lng),
+    icon: {
+          url:'/static/img/marker/user_marker_airplane.png', //Marker icon.
+          labelOrigin: new google.maps.Point(12, 45),
+          
+          },
+    map: map,
+    label:{
+            text:label_txt,
+            fontSize: "14px",
+            fontWeight: "bold",
+            color:'black',
+            // fontFamily: '"Courier New", Courier,Monospace',
+          },
+    opacity:0.8,
+
+  });
+
+  return marker;
+
+}
+
+function createUserPlaneTrail(user_lat,user_lng, map) {
+  // This converts a polyline to a dashed line, by
+  // setting the opacity of the polyline to 0, and drawing an opaque symbol
+  // at a regular interval on the polyline.
+  const lineSymbol = {
+    path: "M 0,-1 0,1",
+    strokeOpacity: 1,
+    scale: 4,
+  };
+
+  label_txt = user_lat.toFixed(2).toString() + ' , ' + user_lng.toFixed(2).toString()
+  poly = new google.maps.Polyline({
+    path: [
+      { lat: user_lat, lng: user_lng },
+    ],
+    strokeColor: "#000000",
+    strokeOpacity: 0,
+    strokeWeight: 3,
+    icons: [
+      {
+        icon: lineSymbol,
+        offset: "0",
+        repeat: "20px",
+      },
+    ],
+  });
+  poly.setMap(map);
+
+  return poly;
+
+}

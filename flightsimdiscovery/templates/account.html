@@ -16,13 +16,14 @@
 <!--/ bradcam_area  -->
 <div class="container">
     <div class="account_section">
-        <!-- <div class="media">
+        <div class="media mt-5">
           <img class="rounded-circle  align-self-center mr-4 " src="{{ image_file }}">
           <div class="media-body">
-            <h2 class="account-heading mt-3">{{ current_user.username }}</h2>
+            <h3 class="account-heading mt-3">{{ current_user.username }}</h3>
             <p class="text-secondary">{{ current_user.email }}</p>
+            <p class="text-secondary">User ID is {{ current_user.id }}</p>
           </div>
-        </div> -->
+        </div>
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <fieldset class="form-group mt-5">

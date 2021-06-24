@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, current_app, session
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, current_app, session, jsonify
 from flightsimdiscovery import db, bcrypt
 from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flightsimdiscovery.models import User, Pois, UserFlights, User_flight_positions
@@ -8,6 +8,9 @@ import json, os
 from json.decoder import JSONDecodeError
 
 users = Blueprint('users', __name__)
+
+#delete after testing
+poi_to_get = 0
 
 @users.route("/login", methods=['GET', 'POST'])
 def login():
@@ -192,3 +195,31 @@ def reset_token(token):
         flash('Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('users.login'))
     return render_template('reset_token.html', form=form)
+
+
+@users.route('/users/get_user_location',  methods=['GET', 'POST'])
+def get_user_location():
+
+    lat_lng_dict = {}
+    # poi_to_get = 0
+    user_id = request.form.get("user_id")
+    
+    if current_user.is_authenticated:
+        if current_user.id == int(user_id):
+            
+            # get users current location from database user_location table
+            # for now we will return the location of a poi
+
+            global poi_to_get
+            poi_to_get += 1
+
+            current_poi = Pois.query.get(poi_to_get)
+            # lat = current_poi.latitude
+            # lng = current_poi.longitude
+
+            lat_lng_dict['lat'] = current_poi.latitude
+            lat_lng_dict['lng'] = current_poi.longitude
+ 
+
+    return jsonify(lat_lng_dict)
+

@@ -28,11 +28,12 @@ main = Blueprint('main', __name__)
 # DONE ability to import POIS into MSFS
 # DONE add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 
-# TODO in game panel-flight recorder, display position on web browser, talk about FSD waypoints
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
+# TODO in game panel-flight recorder, display position on web browser, talk about FSD waypoints
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 
-# debug scripts - comment out after testing.  need to comment out @scriptsbp.cli.command('name') as well
+# DEBUGGING SCRIPTS
+# comment out after testing.  need to comment out @scriptsbp.cli.command('name') as well
 # commands.update_pois_elevation()
 
 default_airports=get_default_airports()
@@ -333,7 +334,7 @@ def home(filter_poi_location):
     view_flightplan = request.args.get('view_flightplan', 0)
     view_sim_flight = request.args.get('view_sim_flight', 0)
 
-    return render_template("home.html", is_authenticated=is_authenticated, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, view_sim_flight=view_sim_flight, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
+    return render_template("home.html", is_authenticated=is_authenticated, user_id=user_id, gm_key=gm_key, db_poi_names=poi_names, view_flightplan=view_flightplan, view_sim_flight=view_sim_flight, pois_created=pois_created, pois_updated=pois_updated, pois_found=pois_found, user_visited=user_visited,
                            user_flights=user_flights, user_favorites=user_favorites, flagged_pois=flagged_pois_list, user_ratings=user_ratings, user_pois_json=user_pois_list, pois=map_data, flightsplans_dic=flightsplans_dic, map_init=map_init,
                            search_defaults=search_defaults, show_my_flights=show_my_flights, show_msfs_airports=show_msfs_airports, categories=poi_categories, regions=poi_regions, countries=fsd_countries, default_airports=default_airports,
                             default_airports_not_shown=default_airports_not_shown, goto_gm=goto_gm, _anchor=anchor)
