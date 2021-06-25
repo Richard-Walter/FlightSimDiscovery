@@ -1,16 +1,14 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, current_app, session, jsonify
 from flightsimdiscovery import db, bcrypt
 from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
-from flightsimdiscovery.models import User, Pois, UserFlights, User_flight_positions
+from flightsimdiscovery.models import User, Pois, UserFlights, User_flight_positions, ActiveFlights
 from flask_login import login_user, current_user, logout_user, login_required
 from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois, save_flight_data_to_db, get_user_flights
 import json, os
 from json.decoder import JSONDecodeError
+from datetime import datetime
 
 users = Blueprint('users', __name__)
-
-#delete after testing
-poi_to_get = 0
 
 @users.route("/login", methods=['GET', 'POST'])
 def login():
@@ -200,26 +198,71 @@ def reset_token(token):
 @users.route('/users/get_user_location',  methods=['GET', 'POST'])
 def get_user_location():
 
-    lat_lng_dict = {}
-    # poi_to_get = 0
+    active_flight_info = {}
     user_id = request.form.get("user_id")
     
     if current_user.is_authenticated:
         if current_user.id == int(user_id):
             
             # get users current location from database user_location table
-            # for now we will return the location of a poi
 
-            global poi_to_get
-            poi_to_get += 1
+             # create sample active flight
+            # active_flight = ActiveFlights(user_id=user_id, latitude=-25.124, longitude=141.409, altitude=2000, ias=124,ground_speed=130, heading_true=20)
+            # db.session.add(active_flight)
+            # db.session.commit()
 
-            current_poi = Pois.query.get(poi_to_get)
-            # lat = current_poi.latitude
-            # lng = current_poi.longitude
+            user_active_flight = ActiveFlights.query.filter_by(user_id=user_id).first()
 
-            lat_lng_dict['lat'] = current_poi.latitude
-            lat_lng_dict['lng'] = current_poi.longitude
+            if user_active_flight:
+
+                active_flight_info['last_update'] = user_active_flight.last_update
+                active_flight_info['lat'] = user_active_flight.latitude
+                active_flight_info['lng'] = user_active_flight.longitude
+                active_flight_info['alt'] = user_active_flight.altitude
+                active_flight_info['ias'] = user_active_flight.ias
+                active_flight_info['ground_speed'] = user_active_flight.ground_speed
+                active_flight_info['heading_true'] = user_active_flight.heading_true
  
 
-    return jsonify(lat_lng_dict)
+    return jsonify(active_flight_info)
+
+@users.route('/users/update_active_flight',  methods=['GET', 'POST'])
+def update_active_flight():
+
+    # user_id = request.form.get("user_id")
+
+    sim_connect_data = json.loads(request.form.get("data"))
+    user_id = sim_connect_data['user_id']
+    lat = sim_connect_data['lat']
+    lng = sim_connect_data['lng']
+    alt = sim_connect_data['alt']
+    ias = sim_connect_data['ias']
+    ground_speed = sim_connect_data['ground_speed']
+    heading_true = sim_connect_data['heading_true']
+    
+    if current_user.is_authenticated:
+        if current_user.id == int(user_id):
+            
+            user_active_flight = ActiveFlights.query.filter_by(user_id=user_id).first()
+
+            if user_active_flight:
+                user_active_flight.last_update = datetime.utcnow()
+                user_active_flight.latitude = lat
+                user_active_flight.longitude = lng
+                user_active_flight.altitude = alt
+                user_active_flight.ias = ias
+                user_active_flight.ground_speed = ground_speed
+                user_active_flight.heading_true = heading_true
+                
+            else:
+
+                #  create new user active flight
+                active_flight = ActiveFlights(user_id=user_id, latitude=lat, longitude=lng, altitude=alt, ias=ias,ground_speed=ground_speed, heading_true=heading_true)
+                db.session.add(active_flight)
+
+            db.session.commit()
+
+            return 'Success'
+
+    return 'Failed'
 

@@ -449,8 +449,9 @@ var ajaxUserMarkerObj = { //Object to save cluttering the namespace.
 
       if (ajaxUserMarkerObj.errorCount < ajaxUserMarkerObj.errorThreshold) {
          ajaxUserMarkerObj.ticker = setTimeout(getMarkerData, ajaxUserMarkerObj.delay);
+      } else {
+        console.log("tried to get active flight 3 times.  stopping now")
       }
-
   },
 
   fail: function (jqXHR, textStatus, errorThrown) {
@@ -460,8 +461,7 @@ var ajaxUserMarkerObj = { //Object to save cluttering the namespace.
   }
 };
 
-//Ajax master routine
-
+//Ajax routine to get users active flight
 function getMarkerData() {
 
   $.ajax(ajaxUserMarkerObj.options)
@@ -474,82 +474,72 @@ function updateUserMarker(data) {
 
   // alert(data)
   coordinates = JSON.parse(data);
+  if (jQuery.isEmptyObject(data)) {
+    console.log("no active flight")
+    ajaxUserMarkerObj.errorCount++;
+    return
+  }
+  
+  last_update = coordinates['last_update'];
   user_lat = coordinates['lat'];
   user_lng = coordinates['lng'];
-  if ((user_lat == null) || (user_lng == null)) {
-    ajaxUserMarkerObj.errorCount++;
+  altitude = coordinates['alt'];
+  ground_speed = coordinates['ground_speed'];
+  ias = coordinates['ias'];
+  heading_true = coordinates['heading_true'];
 
-  //update users location on map
+  var last_update_ms = new Date(last_update).getTime();
+  var current_date_ms = Date.now();
+  const diff_millis = current_date_ms - last_update_ms;
+  console.log(console.log(`seconds elapsed = ${Math.floor(diff_millis / 1000)}`));
+
+  //create new user marker and plane trail if one doesnt already exist and info box
+  if (userMarkerInfo.marker == null) {
+    userMarkerInfo.marker = createNewUserMarker(user_lat,user_lng, ground_speed, heading_true, map);
+    userMarkerInfo.poly = createUserPlaneTrail(user_lat,user_lng, map);
+
   } else {
-    
-    //create new user marker and plane trail if one doesnt already exist and info box
-    if (userMarkerInfo.marker == null) {
-      userMarkerInfo.marker = createNewUserMarker(user_lat,user_lng, map);
-      userMarkerInfo.poly = createUserPlaneTrail(user_lat,user_lng, map);
-      // var infowindow = new google.maps.InfoWindow();
-      // infowindow.setContent('<span style="color:#EA2E49;font-weight:bold">' + userMarkerInfo.user_id + '</span>')
-      
-      // //Attach click listener to marker
+    //update location of existing marker
+    userMarkerInfo.marker.setPosition(new google.maps.LatLng(user_lat, user_lng));
+    var icon = marker.getIcon();
+    icon.rotation = 135;
+    marker.setIcon(icon);
 
-      // google.maps.event.addListener(userMarkerInfo.marker, 'click', (function () {
+    return marker;
 
-      //     return function () {
-
-      //         infowindow.setContent(userMarkerInfo.user_id);
-      //         infowindow.open(map, userMarkerInfo.marker);
-
-      //     }
-
-      // }));
-
-    } else {
-      //update location of existing marker
-      // userMarkerInfo.marker.setPosition(new google.maps.LatLng(-32.1, 154.0));
-      userMarkerInfo.marker.setPosition(new google.maps.LatLng(user_lat, user_lng));
-
-      //update user plane trail
-      const path = userMarkerInfo.poly.getPath();
-
-      // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
-      path.push(new google.maps.LatLng(user_lat, user_lng));
-    }
-    map.panTo(userMarkerInfo.marker.getPosition()); 
+    //update user plane trail
+    const path = userMarkerInfo.poly.getPath();
+    // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
+    path.push(new google.maps.LatLng(user_lat, user_lng));
   }
+  map.panTo(userMarkerInfo.marker.getPosition()); 
 }
 
+//temp for testing
 $("#show_positon").click(function() {
-  
-  // alert( "show position called." );
+
   getMarkerData()
-
-
-  // $.ajax({
-  //   type: 'POST',
-  //   url: "/users/get_user_location",
-  //   data: {user_id: 3},
-  //   dataType: "text",
-  //   success: function(data){
-  //             coordinates = JSON.parse(data);
-  //             user_lat = coordinates['lat']
-  //             user_lng = coordinates['lng']
-  //              alert("User location is "+ user_lat  + ', ' + user_lng);
-  //   },
-  //   error: function(error) {
-  //       console.log(error);
-  //   }
-  // });
 });
 
-function createNewUserMarker(user_lat,user_lng, map) {
+function createNewUserMarker(user_lat,user_lng, ground_speed, heading_true, map) {
 
-  label_txt = user_lat.toFixed(2).toString() + ' , ' + user_lng.toFixed(2).toString()
+  label_txt = 'GS ' + ground_speed.toString() + 'kts, Alt ' + altitude.toString() + 'ft';
   marker = new google.maps.Marker({
 
     position: new google.maps.LatLng(user_lat, user_lng),
     icon: {
-          url:'/static/img/marker/user_marker_airplane.png', //Marker icon.
-          labelOrigin: new google.maps.Point(12, 45),
+          // url:'/static/img/marker/user_marker_airplane1.png', //Marker icon.
+          path:google.maps.SymbolPath.FORWARD_CLOSED_ARROW,//Marker icon.
+          scale: 5,
+          strokeWeight: 2,
+          strokeColor: '#000',
+          // strokeColor: '#00F',
           
+          labelOrigin: new google.maps.Point(0, 10),
+
+          // url:'/static/img/marker/user_marker_airplane1.png', //Marker icon.
+          // labelOrigin: new google.maps.Point(12, 45),
+          rotation: 0,
           },
     map: map,
     label:{
@@ -562,19 +552,17 @@ function createNewUserMarker(user_lat,user_lng, map) {
     opacity:0.8,
 
   });
-
   return marker;
-
 }
 
 function createUserPlaneTrail(user_lat,user_lng, map) {
-  // This converts a polyline to a dashed line, by
-  // setting the opacity of the polyline to 0, and drawing an opaque symbol
-  // at a regular interval on the polyline.
+
+  // This converts a polyline to a dashed line, by setting the opacity of the polyline to 0,
+  // and drawing an opaque symbol at a regular interval on the polyline.
   const lineSymbol = {
     path: "M 0,-1 0,1",
     strokeOpacity: 1,
-    scale: 4,
+    scale: 2,
   };
 
   label_txt = user_lat.toFixed(2).toString() + ' , ' + user_lng.toFixed(2).toString()
@@ -589,7 +577,7 @@ function createUserPlaneTrail(user_lat,user_lng, map) {
       {
         icon: lineSymbol,
         offset: "0",
-        repeat: "20px",
+        repeat: "10px",
       },
     ],
   });

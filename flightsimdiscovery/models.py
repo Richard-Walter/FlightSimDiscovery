@@ -145,6 +145,7 @@ class UserFlights(db.Model):
     def __repr__(self):
         return f"User Flgihts('{self.filename}', '{self.origin_name}', '{self.destination_name}')"  
 
+#imported from volanta
 class User_flight_positions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     flight_id = db.Column(db.Integer, db.ForeignKey('flightplan.id'), nullable=False)
@@ -155,4 +156,19 @@ class User_flight_positions(db.Model):
     OnGround = db.Column(db.Boolean(), nullable=False, default=False)
 
     def __repr__(self):
-        return f"User_flight_positions ('{self.flight_id}', '{self.position}')"  
+        return f"User_flight_positions ('{self.flight_id}', '{self.position}')" 
+
+class ActiveFlights(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    last_update = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    latitude = db.Column(db.FLOAT, unique=False, nullable=False)
+    longitude = db.Column(db.FLOAT, unique=False, nullable=False)
+    altitude = db.Column(db.Integer, unique=False, nullable=False, default=0)
+    heading_true = db.Column(db.Integer, unique=False, nullable=False, default=0)
+    ias = db.Column(db.Integer, unique=False, nullable=False, default=0)
+    ground_speed = db.Column(db.Integer, unique=False, nullable=False, default=0)
+    # OnGround = db.Column(db.Boolean(), nullable=False, default=False)
+
+    def __repr__(self):
+        return f"Active flight ('{self.user_id}', '{self.latitude}', '{self.longitude}')" 
