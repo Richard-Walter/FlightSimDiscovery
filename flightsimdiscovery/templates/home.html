@@ -266,15 +266,22 @@
                                     name="show_ony_user_pois_check" id="show_ony_user_pois_check" value="Yes">
                             {% endif %}
                             <input type="hidden" name="show_ony_user_pois_check" value="No" id="show_ony_user_pois_check ">
-                            <label class="form-check-label" for="show_ony_user_pois_check">show only my points of
-                                interest</label>
+                            <label class="form-check-label" for="show_ony_user_pois_check">show only my POI's</label>
                         {% endif %}
                     </div>
                 </form>
             </div> 
             <div class="">
-                <button type="button" id="show_positon">Show position</button>
-            </div>
+                <form class="mt-2 mx-4 show_only_user_pois_form" method="POST" action="/home#searchTag">
+                    <div class="input_field">
+                        {% if current_user.id == 3 %}
+                            <input type="checkbox" id="get_active_flights_checkbox" class="form-check-input" name="get_active_flights" >
+                            <label class="form-check-label">show active flight</label>
+                        {% endif %}
+                    </div>
+                </form>
+            </div> 
+
         </div>
     </div>
 </div>

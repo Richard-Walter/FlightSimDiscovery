@@ -7,6 +7,7 @@ from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_
 import json, os
 from json.decoder import JSONDecodeError
 from datetime import datetime
+from flask_cors import cross_origin
 
 users = Blueprint('users', __name__)
 
@@ -226,43 +227,55 @@ def get_user_location():
 
     return jsonify(active_flight_info)
 
-@users.route('/users/update_active_flight',  methods=['GET', 'POST'])
-def update_active_flight():
+@users.route('/users/update_active_flight',  methods=['GET', 'POST', 'OPTIONS'])
 
+# this decorator is requeired to accepted posts from external clients such as MSFS
+@cross_origin()
+def update_active_flight():
+    sim_connect_data = None
     # user_id = request.form.get("user_id")
 
-    sim_connect_data = json.loads(request.form.get("data"))
-    user_id = sim_connect_data['user_id']
-    lat = sim_connect_data['lat']
-    lng = sim_connect_data['lng']
-    alt = sim_connect_data['alt']
-    ias = sim_connect_data['ias']
-    ground_speed = sim_connect_data['ground_speed']
-    heading_true = sim_connect_data['heading_true']
-    
-    if current_user.is_authenticated:
-        if current_user.id == int(user_id):
+    # if current_user.is_authenticated:
+        
+    sim_connect_data = request.get_json()
+    # nearly always we will have a user id, but may not have any simConnect data
+    if len(sim_connect_data) >1:
+        user_id = sim_connect_data['user_id']
+        msfs_username = sim_connect_data['username']
+        msfs_password = sim_connect_data['password']
+        
+        # if current_user.id == int(user_id):
+        lat = sim_connect_data['lat']
+        lng = sim_connect_data['lng']
+        alt = sim_connect_data['alt']
+        ias = sim_connect_data['ias']
+        ground_speed = sim_connect_data['ground_speed']
+        heading_true = sim_connect_data['heading_true']
+
+        # else:
+        #     print("USer ID from MSFS does not match user logged in from browser")     
+        
+        user_active_flight = ActiveFlights.query.filter_by(user_id=user_id).first()
+
+        if user_active_flight:
+            user_active_flight.last_update = datetime.utcnow()
+            user_active_flight.latitude = lat
+            user_active_flight.longitude = lng
+            user_active_flight.altitude = alt
+            user_active_flight.ias = ias
+            user_active_flight.ground_speed = ground_speed
+            user_active_flight.heading_true = heading_true
             
-            user_active_flight = ActiveFlights.query.filter_by(user_id=user_id).first()
+        else:
 
-            if user_active_flight:
-                user_active_flight.last_update = datetime.utcnow()
-                user_active_flight.latitude = lat
-                user_active_flight.longitude = lng
-                user_active_flight.altitude = alt
-                user_active_flight.ias = ias
-                user_active_flight.ground_speed = ground_speed
-                user_active_flight.heading_true = heading_true
-                
-            else:
+            #  create new user active flight
+            active_flight = ActiveFlights(user_id=user_id, latitude=lat, longitude=lng, altitude=alt, ias=ias,ground_speed=ground_speed, heading_true=heading_true)
+            db.session.add(active_flight)
 
-                #  create new user active flight
-                active_flight = ActiveFlights(user_id=user_id, latitude=lat, longitude=lng, altitude=alt, ias=ias,ground_speed=ground_speed, heading_true=heading_true)
-                db.session.add(active_flight)
+        db.session.commit()
+        print("SAVING ACTIVE FLIGHT FROM MSFS!!!!!")
 
-            db.session.commit()
-
-            return 'Success'
+        return ('', 200)
 
     return 'Failed'
 

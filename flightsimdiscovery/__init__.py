@@ -7,6 +7,7 @@ from flask_mail import Mail
 from flightsimdiscovery.config import Config
 from logging import FileHandler, WARNING
 from flightsimdiscovery.config import support_dir
+from flask_cors import CORS
 
 # app = Flask(__name__)
 # # PUT THIS IN IN A ENVIRON VARIABLE DONE DIFFERENTLY ON WINDOWS AND LINUX
@@ -40,6 +41,7 @@ mail = Mail()
 def create_app(config_class=Config):
 
     app = Flask(__name__)
+    CORS(app)
 
     # set up logging
     error_log_file_path  = str(support_dir) + '//error_log.txt'
