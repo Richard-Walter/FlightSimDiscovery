@@ -288,7 +288,7 @@
 <!-- where_togo_area_end  -->
 
 <!-- tips and tricks START-->
-<div class="tips-and-tricks p-2 m-0 carousel slide" data-ride="carousel" data-interval=15000>
+<div id='tips-and-tricks_flash' class="tips-and-tricks p-2 m-0 carousel slide" data-ride="carousel" data-interval=15000>
     
 
     <!-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel"> -->
@@ -321,31 +321,29 @@
     No POIs found that match your search criteria.
     {% endif %}
 </div>
-
 <!-- no search result flash end-->
 
 <!-- POI CREATED flash start-->
 <div id="poi_created_flash" class="alert alert-success text-center my-0" style="display: none;" role="alert">
-
     A new point of interest has been created!
-
 </div>
 
 <!-- POI UPDATED flash start-->
 <div id="poi_updated_flash" class="alert alert-success text-center my-0" style="display: none;" role="alert">
-
     Your point of interest has been updated!
-
 </div>
 
 <!-- POI flagged flash start-->
 <div id="poi_flagged_flash" class="alert alert-info text-center my-0" style="display: none;" role="alert">
-
     Thanks for your feedback. This POI has been flagged for review
-
 </div>
-
 <!-- no search result flash end -->
+
+<!-- Active flight flash info start-->
+<div id="active_flight_flash" class="alert bg-warning text-center p-2 m-0" style="display: none;" role="alert">
+    <p id="active_flight_flash_text" class="my-0 text-dark" ></p>
+</div>
+<!-- Active flight flash info end-->
 
 <!-- google_map_area_start  -->
 {% include 'google_map.html' %}

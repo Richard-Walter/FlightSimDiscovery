@@ -28,6 +28,7 @@ main = Blueprint('main', __name__)
 # DONE ability to import POIS into MSFS
 # DONE add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 
+# TODO accounbt option to hide tips-and-tricks flash
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO in game panel-flight recorder, display position on web browser, talk about FSD waypoints
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans

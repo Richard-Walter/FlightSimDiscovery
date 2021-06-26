@@ -21,7 +21,7 @@ var ajaxUserMarkerObj = { //Object to save cluttering the namespace.
 
   delay: 5000, // 5s the interval between successive gets.
   errorCount: 0, //running total of ajax errors.
-  errorThreshold: 3, //the number of ajax errors beyond which the get cycle should cease.
+  errorThreshold: 2, //the number of ajax errors beyond which the get cycle should cease.
   ticker: null, //setTimeout reference - allows the get cycle to be cancelled with clearTimeout(ajaxUserMarkerObj.ticker);
 
   get: function () { //a function which initiates
@@ -29,7 +29,9 @@ var ajaxUserMarkerObj = { //Object to save cluttering the namespace.
       if (ajaxUserMarkerObj.errorCount < ajaxUserMarkerObj.errorThreshold) {
          ajaxUserMarkerObj.ticker = setTimeout(getActiveFlightData, ajaxUserMarkerObj.delay);
       } else {
-        console.log("tried to get active flight 3 times.  stopping now")
+        console.log("tried to get active flight 3 times.  stopping now");
+        active_flight_flash("No active flight detected");
+        // $('#get_active_flights_checkbox').prop('checked', false);
       }
   },
 
@@ -57,10 +59,18 @@ $("#get_active_flights_checkbox").click(function() {
 
 //stop tracking flight and remove marker/trail from map
 function removeActiveFlight(){
-    clearTimeout(ajaxUserMarkerObj.ticker);
-    userMarkerInfo.marker.setMap(null);
-    userMarkerInfo.poly.setMap(null);
 
+    
+    console.log("removing active flight")
+
+    if(userMarkerInfo.marker) {
+        userMarkerInfo.marker.setMap(null);
+    }
+    if(userMarkerInfo.poly) {
+        userMarkerInfo.poly.setMap(null);
+    }
+    clearTimeout(ajaxUserMarkerObj.ticker);
+    $("#active_flight_flash").hide()
 }
 
 //Ajax routine to get users active flight
@@ -75,12 +85,12 @@ function getActiveFlightData() {
 
 function updateUserMarker(data) {
 
-
   // alert(data)
   coordinates = JSON.parse(data);
   if (jQuery.isEmptyObject(data)) {
     console.log("no active flight")
-    ajaxUserMarkerObj.errorCount++;
+    active_flight_flash("No connection with MSFS.  Please login into FSD from within MSFS via the FSD toolbar panel.");
+    ajaxUserMarkerObj.errorCount = ajaxUserMarkerObj.errorThreshold;
     return
   }
   
@@ -97,7 +107,14 @@ function updateUserMarker(data) {
   var last_update_ms = new Date(last_update).getTime();
   var current_date_ms = Date.now();
   const diff_millis = current_date_ms - last_update_ms;
-  console.log(console.log(`seconds elapsed = ${Math.floor(diff_millis / 1000)}`));
+  console.log(`seconds elapsed = ${Math.floor(diff_millis / 1000)}`);
+
+  //check timestamp to see if flight data is being update from msfs
+  if (diff_millis > 9000) {
+    active_flight_flash("No connection with MSFS.  Please login into FSD from within MSFS via the FSD toolbar panel.");
+    ajaxUserMarkerObj.errorCount = ajaxUserMarkerObj.errorThreshold;
+    return
+  }
 
   //create new user marker and plane trail if one doesnt already exist and info box
   if (userMarkerInfo.marker == null) {
@@ -126,7 +143,8 @@ function updateUserMarker(data) {
     map.setZoom(9);
     defaultZoomSet = true;
   }
-  
+
+  active_flight_flash("Tracking active flight");
   
 }
 
@@ -195,4 +213,14 @@ function createUserPlaneTrail(user_lat,user_lng, map) {
 
   return poly;
 
+}
+
+function active_flight_flash(display_text) {
+
+    //remove info flash html
+    $('#tips-and-tricks_flash').hide();
+
+    $('#active_flight_flash_text').text(display_text);
+    $("#active_flight_flash").show();
+      setTimeout(function() { $("#active_flight_flash").hide(); }, 10000);
 }

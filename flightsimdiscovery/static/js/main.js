@@ -114,10 +114,11 @@ $(document).ready(function(){
     $('#flaggedModalFormReasonTextArea').val("");
   })
 
+
   function flash_poi_flagged() {
 
-  $("#poi_flagged_flash").show();
-  setTimeout(function() { $("#poi_flagged_flash").hide(); }, 10000);
+    $("#poi_flagged_flash").show();
+      setTimeout(function() { $("#poi_flagged_flash").hide(); }, 10000);
   }
 
   //Update Country Select values
