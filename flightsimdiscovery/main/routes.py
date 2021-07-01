@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, send_from_directory, session
 from flightsimdiscovery import db
-from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints
+from flightsimdiscovery.models import Favorites, Visited, User, Flagged, Flightplan, Flightplan_Waypoints, ActiveFlights
 from flask_login import current_user, login_required
 from utilities import get_default_airports, get_country_list, get_region_list, get_category_list, region_details, countries_details, get_default_airports_not_shown
 from flightsimdiscovery.pois.utils import *
@@ -28,6 +28,7 @@ main = Blueprint('main', __name__)
 # DONE ability to import POIS into MSFS
 # DONE add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 
+# TODO scale default airports based on size (i.e. has tower frequency, number of runways)
 # TODO accounbt option to hide tips-and-tricks flash
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO in game panel-flight recorder, display position on web browser, talk about FSD waypoints
@@ -111,6 +112,12 @@ def home(filter_poi_location):
         # get and store user sim flights and show if applicable
         user_flights = get_user_flights()
         # session['user_flights'] = user_flights
+
+        # disable flight tracking by default since user could close browser mid flight with tracking enabled
+        user_active_flight = ActiveFlights.query.filter_by(user_id=current_user.id).first()
+        if user_active_flight:
+            user_active_flight.show_checked = False
+            db.session.commit()
 
         if user_flights:
             if session.get('show_my_flights') == 'No':

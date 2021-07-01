@@ -291,3 +291,14 @@ def get_user_flights():
         
     else:
         return flights
+
+def msfs_encrypt(num):
+
+    times_number = num*34
+    return 'rjw' + str(times_number)
+
+def msfs_decrypt(string_num_rep):
+
+    times_number  = int(string_num_rep[3:])
+    return int(times_number/34)
+

@@ -168,6 +168,7 @@ class ActiveFlights(db.Model):
     heading_true = db.Column(db.Integer, unique=False, nullable=False, default=0)
     ias = db.Column(db.Integer, unique=False, nullable=False, default=0)
     ground_speed = db.Column(db.Integer, unique=False, nullable=False, default=0)
+    show_checked = db.Column(db.Boolean(), nullable=False, default=False)
     # OnGround = db.Column(db.Boolean(), nullable=False, default=False)
 
     def __repr__(self):

@@ -1,9 +1,11 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, current_app, session, jsonify
+from sqlalchemy.sql.expression import true
+from sqlalchemy.sql.functions import user
 from flightsimdiscovery import db, bcrypt
 from flightsimdiscovery.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flightsimdiscovery.models import User, Pois, UserFlights, User_flight_positions, ActiveFlights
 from flask_login import login_user, current_user, logout_user, login_required
-from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois, save_flight_data_to_db, get_user_flights
+from flightsimdiscovery.users.utitls import save_picture, send_reset_email, get_user_pois_dict_inc_favorites_visited, get_user_favorited_pois, get_user_visited_pois, get_user_flagged_pois, save_flight_data_to_db, get_user_flights, msfs_encrypt, msfs_decrypt
 import json, os
 from json.decoder import JSONDecodeError
 from datetime import datetime
@@ -205,13 +207,6 @@ def get_user_location():
     if current_user.is_authenticated:
         if current_user.id == int(user_id):
             
-            # get users current location from database user_location table
-
-             # create sample active flight
-            # active_flight = ActiveFlights(user_id=user_id, latitude=-25.124, longitude=141.409, altitude=2000, ias=124,ground_speed=130, heading_true=20)
-            # db.session.add(active_flight)
-            # db.session.commit()
-
             user_active_flight = ActiveFlights.query.filter_by(user_id=user_id).first()
 
             if user_active_flight:
@@ -223,49 +218,85 @@ def get_user_location():
                 active_flight_info['ias'] = user_active_flight.ias
                 active_flight_info['ground_speed'] = user_active_flight.ground_speed
                 active_flight_info['heading_true'] = user_active_flight.heading_true
+
+            else:
+                print("no active flight in database for this user: " + user_id)
+
+        else:
+             # current user and msfs user id dont match.
+            abort(403) 
  
 
     return jsonify(active_flight_info)
 
-@users.route('/users/update_active_flight',  methods=['GET', 'POST', 'OPTIONS'])
+@users.route('/users/show_active_flight_checkbox',  methods=['GET', 'POST'])
+def show_active_flight_checkbox():
 
-# this decorator is requeired to accepted posts from external clients such as MSFS
-@cross_origin()
+    # show_active_flight = request.get_json()
+    show_active_flight = request.form.get("showChecked")
+
+    if show_active_flight == 'true':
+        show_active_flight = True
+    else:
+        show_active_flight = False
+    
+    if current_user.is_authenticated:
+            
+            user_active_flight = ActiveFlights.query.filter_by(user_id=current_user.id).first()
+
+            if user_active_flight:
+
+                user_active_flight.show_checked = show_active_flight
+                db.session.commit()
+                return ('Success', 200)
+    else:
+        return ('User not logged into FSD browser - can not update database', 401)
+ 
+
+
+####################################################################
+###########   THESE ROUTES COME FROM WITH IN MSFS!   ###############
+####################################################################
+
+@users.route('/users/update_active_flight',  methods=['GET', 'POST'])
+@cross_origin()  # this decorator is requeired to accepted posts from external clients such as MSFS
 def update_active_flight():
-    sim_connect_data = None
-    # user_id = request.form.get("user_id")
-
-    # if current_user.is_authenticated:
-        
+       
     sim_connect_data = request.get_json()
-    # nearly always we will have a user id, but may not have any simConnect data
+
+    if not sim_connect_data:
+        print('Failed-No User ID')
+        return ('Failed-No User ID', 401)
+
+    # Check to see if we have any simConnect data, given we have a user_id
     if len(sim_connect_data) >1:
-        user_id = sim_connect_data['user_id']
-        msfs_username = sim_connect_data['username']
-        msfs_password = sim_connect_data['password']
+
+
+        encrpted_user_id = sim_connect_data['user_id']
+        user_id = msfs_decrypt(encrpted_user_id)
         
-        # if current_user.id == int(user_id):
         lat = sim_connect_data['lat']
         lng = sim_connect_data['lng']
         alt = sim_connect_data['alt']
         ias = sim_connect_data['ias']
         ground_speed = sim_connect_data['ground_speed']
-        heading_true = sim_connect_data['heading_true']
-
-        # else:
-        #     print("USer ID from MSFS does not match user logged in from browser")     
+        heading_true = sim_connect_data['heading_true'] 
         
         user_active_flight = ActiveFlights.query.filter_by(user_id=user_id).first()
 
         if user_active_flight:
-            user_active_flight.last_update = datetime.utcnow()
-            user_active_flight.latitude = lat
-            user_active_flight.longitude = lng
-            user_active_flight.altitude = alt
-            user_active_flight.ias = ias
-            user_active_flight.ground_speed = ground_speed
-            user_active_flight.heading_true = heading_true
-            
+            if user_active_flight.show_checked:
+                user_active_flight.last_update = datetime.utcnow()
+                user_active_flight.latitude = lat
+                user_active_flight.longitude = lng
+                user_active_flight.altitude = alt
+                user_active_flight.ias = ias
+                user_active_flight.ground_speed = ground_speed
+                user_active_flight.heading_true = heading_true
+            else:
+                #user has not check show active flight on browser
+                print('user has not check show active flight on browser')
+                return ('Fail', 204)
         else:
 
             #  create new user active flight
@@ -273,9 +304,32 @@ def update_active_flight():
             db.session.add(active_flight)
 
         db.session.commit()
+
         print("SAVING ACTIVE FLIGHT FROM MSFS!!!!!")
+        return ('Success', 200)
+    
+    else:
+        print("NO SIMCONNECT DATA")
+        return('NO SIMCONNECT DATA', 401)
 
-        return ('', 200)
 
-    return 'Failed'
+# validates a MSFS loggin and returns a encrpyted user_id
+@users.route('/users/msfs_login',  methods=['GET', 'POST'])
+@cross_origin()  # this decorator is requeired to accepted posts from external clients such as MSFS
+def msfs_login():
+
+    user_credentials = request.get_json()
+    msfs_username = user_credentials['username']
+    msfs_password = user_credentials['password']
+    user = User.query.filter_by(email=msfs_username).first()
+
+    if user and bcrypt.check_password_hash(user.password, msfs_password):
+
+        #flask automatically converts user_id to json and adds 200 respone code
+        encrypted_user_id = msfs_encrypt(user.id)
+        return (encrypted_user_id, 200)
+
+    else:
+        print("usename and password dont authenticate")
+        return ('Failed', 401)
 
