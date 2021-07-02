@@ -705,8 +705,7 @@
           const legendBtnDiv = document.createElement("div");
           styleLegendBtn(legendBtnDiv, map);
           map.controls[google.maps.ControlPosition.LEFT].push(legendBtnDiv);
-
-
+          
           //Create lengend toogle button
           const legendDiv = document.createElement("div");
           styleLegend(legendDiv, map);
@@ -1390,6 +1389,18 @@
 
               $(".Map_Legend").show();
               $(".Map_Legend_Btn").text('Hide Legend');
+
+              //listener for legend click
+              // $(".Map_Legend").addEventListener("click", testLengendHandler, false);
+              $(".Map_Legend_details").on("click", (e) => {
+                alert("test successful")
+                console.log(e);
+                testFunction();
+              });
+            
+                // function testLengendHandler(e) {
+                //   alert("test success")
+                // }
             }
           });
         }
@@ -1412,7 +1423,7 @@
           // Set CSS for the control border.
           legend_details =
             
-            '<div class="my-1"><img src="' + normal_marker + '"> ' + 'Point of Interest' + '</div>' +
+            '<div id="legend_poi" class="my-1"><img src="' + normal_marker + '"> ' + 'Point of Interest' + '</div>' +
             '<div class="my-1"><img src="' + airport_marker + '"> ' + 'Airport' + '</div>' +
             '<div class="my-1"><img src="' + user_marker + '"> ' + 'Your POI' + '</div>' +
             '<div class="my-1"><img src="' + visited_marker + '"> ' + 'Visited POI' + '</div>' +

@@ -1,6 +1,7 @@
 // initial variables
 var user_id = getUserID();
 var map = getMap();
+var user_panned_map = false;
 var defaultZoomSet = false;
 var updateInterval = 5000;
 var updateIntervalID = null;
@@ -55,12 +56,16 @@ $("#get_active_flights_checkbox").click(function() {
 
     if ($('#get_active_flights_checkbox').is(':checked')) {
         
-      //reset marker info if user tries to re-establish tracking
-      userMarkerInfo = {
-        id: user_id,
-        map: map,
-        marker: null,
-        poly: null
+      user_panned_map = false;
+
+      //reset marker info if user disconnected
+      if (userMarkerInfo == null) {
+        userMarkerInfo = {
+          id: user_id,
+          map: map,
+          marker: null,
+          poly: null
+        }
       }
 
       updateDBShowChecked(true);
@@ -76,6 +81,14 @@ $("#get_active_flights_checkbox").click(function() {
         updateDBShowChecked(false);
         removeActiveFlight();
     }
+
+    //add listener in case user is trying to pan map so we can stop the autocentering when tracking a live flight
+    google.maps.event.addListener(map, 'dragend', function (event) {
+      
+      user_panned_map=true;
+      
+    })
+  
 });
 
 //updates flask database that notifies other functions that the user wants to track flight
@@ -143,6 +156,9 @@ function removeActiveFlight(){
         userMarkerInfo.poly.setMap(null);
         userMarkerInfo.poly = null;
     }
+
+    userMarkerInfo = null;
+    user_panned_map=false;
     
     clearInterval(updateIntervalID);
 
@@ -156,6 +172,7 @@ function removeSetInterval(flash_message='', timeout=null) {
   console.log("removing set interval")
   clearInterval(updateIntervalID);
   $('#get_active_flights_checkbox').prop('checked', false);
+  user_panned_map=false;
   active_flight_flash(flash_message, timeout);
 }
 
@@ -221,7 +238,10 @@ function updateMap(data) {
     // return marker;
   }
   
-  map.panTo(userMarkerInfo.marker.getPosition());
+  // auto pan to map only if user hasn't manuall pan map previous
+  if (user_panned_map == false) {
+    map.panTo(userMarkerInfo.marker.getPosition());
+  }
   
   //only do this intitally-let user decide afterwards
   if (defaultZoomSet == false) {
@@ -245,8 +265,10 @@ function createNewUserMarker(user_lat,user_lng, ground_speed, heading_true, map)
     icon: {
           // url:'/static/img/marker/user_marker_airplane1.png', //Marker icon.
           path:google.maps.SymbolPath.FORWARD_CLOSED_ARROW,//Marker icon.
+          fillColor: "blue",
+          fillOpacity: 0.8,
           scale: 5,
-          strokeWeight: 2,
+          strokeWeight: 1,
           strokeColor: '#000',
           // strokeColor: '#00F',
           
@@ -285,8 +307,9 @@ function createUserPlaneTrail(user_lat,user_lng, map) {
     path: [
       { lat: user_lat, lng: user_lng },
     ],
-    strokeColor: "#000000",
-    strokeOpacity: 0,
+    strokeColor: "blue",
+    // strokeColor: "#000000",
+    strokeOpacity: 0.8,
     strokeWeight: 3,
     icons: [
       {
@@ -312,4 +335,8 @@ function active_flight_flash(display_text, timeout=null) {
     if (timeout) {
       setTimeout(function() { $("#active_flight_flash").hide(); }, timeout);
     }
+}
+
+function testFunction(){
+  alert("YES")
 }
