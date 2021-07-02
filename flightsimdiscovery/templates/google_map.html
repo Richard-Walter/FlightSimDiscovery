@@ -20,6 +20,10 @@
         overflow: hidden;
       "></div>
       <script>
+        var gestureHandling = 'greedy';
+        if (/Mobi/.test(navigator.userAgent)) {
+          gestureHandling = '';
+        }
 
         //Create the Google Map
         var map;
@@ -116,7 +120,8 @@
               strictBounds: false,
             },
             options: {
-              gestureHandling: 'greedy'
+              // gestureHandling: 'greedy'
+              gestureHandling: gestureHandling
             },
             fullscreenControl: false,
             streetViewControl: false,

@@ -20,7 +20,7 @@ main = Blueprint('main', __name__)
 # DONE add account setting that bypasses banner and goes straight to map
 # DONE can't remove custom waypoint from flight plan
 # DONE add airports to map with smaller icon and link to airport nav finder
-# DONE map zooms in with scroll wheel - no more CTL-Mouse wheel to zoom
+# TEST map zooms in with scroll wheel - no more CTL-Mouse wheel to zoom just for PC
 # DONE add elevation to POI IW
 # DONE Add a 'show default airports' tick box similar to 'show my flights'
 # DONE Excude default airports that are already POIs
