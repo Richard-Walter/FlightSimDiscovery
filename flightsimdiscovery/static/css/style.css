@@ -34,7 +34,7 @@
 }
 
 @media (max-width: 767px) {
-  .Map_Legend_Btn {
+  .Map_ActiveFlight {
     display: none;
   }
 
@@ -118,7 +118,7 @@
   font-size: 15px;
 }
 
-.Map_Legend {
+.Map_ActiveFlight {
   font-family: Arial, sans-serif;
   background: #e6e6e6ef;
   padding: 10px;
@@ -130,13 +130,13 @@
   font-size: 15px;
 }
 
-.Map_Legend h3 {
+.Map_ActiveFlight h3 {
   margin-top: 0;
   color: #040E27;
 
 }
 
-.Map_Legend img {
+.Map_ActiveFlight img {
   vertical-align: left;
 }
 
@@ -147,7 +147,7 @@
 } */
 
 @media (max-width: 767px) {
-  .Map_Legend_Btn {
+  .Map_ActiveFlight {
     display: none;
   }
 }
@@ -1884,13 +1884,126 @@ h3 {
   transition: 0.3s;
 }
 
+
+/*style active flight menu     */
+.sliderWrapper div{
+  display: inline-block;
+  }
+
+.switch {
+  position: relative;
+  display: inline-block;
+  vertical-align:middle;
+  width: 45px;
+  height: 17px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ca2222;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2ab934;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(28px);
+  -ms-transform: translateX(28px);
+  transform: translateX(28px);
+}
+
+
+/*------ ADDED CSS ---------*/
+
+.on {
+  display: none;
+}
+
+.on,
+.off {
+  color: white;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 25%;
+  left: 25%;
+  font-size: 10px;
+  font-family: Verdana, sans-serif;
+}
+
+.on {
+  top: 8px;
+}
+
+.off {
+  left: auto;
+  right: -5px;
+  top: 8px;
+}
+
+input:checked+ .slider .on {
+  display: block;
+}
+
+input:checked + .slider .off {
+  display: none;
+}
+
+
+/*--------- END --------*/
+
+
+/* Rounded sliders */
+
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+
+
+
+
+
+
 /* line 2, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_testmonial.scss */
 .testimonial_area {
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   position: relative;
-  padding: 50px 0 50px 0;
+  padding: 20px 0 50px 0;
   background: #f7fafd;
 }
 

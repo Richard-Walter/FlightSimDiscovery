@@ -707,14 +707,14 @@
           // map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(infoDiv);
 
           //Create lengend toogle button
-          const legendBtnDiv = document.createElement("div");
-          styleLegendBtn(legendBtnDiv, map);
-          map.controls[google.maps.ControlPosition.LEFT].push(legendBtnDiv);
+          const activeFlightBtnDiv = document.createElement("div");
+          styleActiveFlightdBtn(activeFlightBtnDiv, map);
+          map.controls[google.maps.ControlPosition.LEFT].push(activeFlightBtnDiv);
           
-          //Create lengend toogle button
-          const legendDiv = document.createElement("div");
-          styleLegend(legendDiv, map);
-          map.controls[google.maps.ControlPosition.LEFT].push(legendDiv);
+          //Create lengend toogle text
+          const activeFlightDiv = document.createElement("div");
+          styleActiveFlight(activeFlightDiv, map);
+          map.controls[google.maps.ControlPosition.LEFT].push(activeFlightDiv);
 
 
         }
@@ -1362,45 +1362,45 @@
           controlUI.appendChild(controlText);
         }
 
-        function styleLegendBtn(controlDiv, map) {
+        function styleActiveFlightdBtn(controlDiv, map) {
 
           // Set CSS for the control border.
           const controlUI = document.createElement('div');
-          controlUI.classList = "Map_Legend_Btn btn btn-dark"
+          controlUI.classList = "Map_ActiveFlight_Btn btn btn-dark"
           controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
           controlUI.style.cursor = "pointer";
           controlUI.style.margin = "15px";
           controlUI.style.textAlign = "center";
-          controlUI.title = "View Legend";
+          controlUI.title = "Active Flight Options";
           controlDiv.appendChild(controlUI);
 
           // Set CSS for the control interior.
           const controlText = document.createElement("div");
 
-          controlText.innerHTML = "View Legend";
+          controlText.innerHTML = "Active Flight";
           controlUI.appendChild(controlText);
 
           // show legend
           controlUI.addEventListener("click", () => {
 
-            button_text = $(".Map_Legend_Btn").text();
+            button_text = $(".Map_ActiveFlight_Btn").text();
             console.log(button_text);
 
-            if (button_text == 'Hide Legend') {
-              $(".Map_Legend").hide();
-              $(".Map_Legend_Btn").text('Show Legend');
+            if (button_text == 'Hide Options') {
+              $(".Map_ActiveFlight").hide();
+              $(".Map_ActiveFlight_Btn").text('Active Flight');
 
             } else {
 
-              $(".Map_Legend").show();
-              $(".Map_Legend_Btn").text('Hide Legend');
+              $(".Map_ActiveFlight").show();
+              $(".Map_ActiveFlight_Btn").text('Hide Options');
 
               //listener for legend click
-              // $(".Map_Legend").addEventListener("click", testLengendHandler, false);
-              $(".Map_Legend_details").on("click", (e) => {
-                alert("test successful")
-                console.log(e);
-                testFunction();
+              // $(".Map_ActiveFlight").addEventListener("click", testLengendHandler, false);
+              $(".Map_ActiveFlight_details").on("click", (e) => {
+                // alert("test successful")
+                // console.log(e);
+                // testFunction();
               });
             
                 // function testLengendHandler(e) {
@@ -1410,37 +1410,48 @@
           });
         }
 
-        function styleLegend(controlDiv, map) {
+        function styleActiveFlight(controlDiv, map) {
 
-          var default_airport_marker = '/static/img/marker/ms_airport_marker_sm.png'
-          var favorite_marker = '/static/img/marker/favorite-marker_sm.png'
-          var favorite_marker_airport = '/static/img/marker/favorite-marker_airport_sm.png'
-          var visited_marker = '/static/img/marker/visited-marker_sm.png'
-          var visited_marker_airport = '/static/img/marker/visited-marker_airport_sm.png'
-          var user_marker = '/static/img/marker/user-marker_sm.png'
-          var user_marker_airport = '/static/img/marker/user-marker_airport_sm.png'
-          var airport_marker = '/static/img/marker/airport-marker_sm.png'
-          var normal_marker = '/static/img/marker/normal-marker_sm.png'
-          var m1_marker = '/static/img/marker/m1.png'
-          var m2_marker = '/static/img/marker/m2.png'
-          var m3_marker = '/static/img/marker/m3.png'
-
+          var normal_marker = 'test';
           // Set CSS for the control border.
-          legend_details =
+          active_flight_details =
             
-            '<div id="legend_poi" class="my-1"><img src="' + normal_marker + '"> ' + 'Point of Interest' + '</div>' +
-            '<div class="my-1"><img src="' + airport_marker + '"> ' + 'Airport' + '</div>' +
-            '<div class="my-1"><img src="' + user_marker + '"> ' + 'Your POI' + '</div>' +
-            '<div class="my-1"><img src="' + visited_marker + '"> ' + 'Visited POI' + '</div>' +
-            '<div class="my-1"><img src="' + favorite_marker + '"> ' + 'Favorited' + '</div>' +
-            '<div class="my-1"><img src="' + user_marker_airport + '"> ' + 'Your POI-Airport' + '</div>' +
-            '<div class="my-1"><img src="' + visited_marker_airport + '"> ' + 'Visited Airport' + '</div>' +
-            '<div class="my-1"><img src="' + favorite_marker_airport + '"> ' + 'Favorited Airport' + '</div>' +
-            '<div class="my-1"><img src="' + default_airport_marker + '"> ' + 'Default MSFS Airport' + '</div>'
+           '<div class="sliderWrapper">'+
+              '<div class="mr-2 m-1">Auto-Center</div>'+
+              '<label class="switch mb-0">'+
+                '<input type="checkbox" id="togBtn">'+
+                '<div class="slider round">'+
+                  '<span class="on">ON</span>'+
+                  '<span class="off">OFF</span>'+
+                '</div>'+
+              '</label>'+
+            '</div>'+
+            '<div class="sliderWrapper">'+
+              '<div class="mr-2 m-1">Show Trail&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>'+
+              '<label class="switch mb-0">'+
+                '<input type="checkbox" id="togBtn">'+
+                '<div class="slider round">'+
+                  '<span class="on">ON</span>'+
+                  '<span class="off">OFF</span>'+
+                '</div>'+
+              '</label>'+
+            '</div>'+
 
+            // '<div class="my-1">Favorited Airport</div>' +
+
+            '<div class="sliderWrapper">'+
+              '<div class="mr-2 m-1">POI Audio&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>'+
+              '<label class="switch mb-0">'+
+                '<input type="checkbox" id="togBtn">'+
+                '<div class="slider round">'+
+                  '<span class="on">ON</span>'+
+                  '<span class="off">OFF</span>'+
+                '</div>'+
+              '</label>'+
+            '</div>'
 
           const controlUI = document.createElement('div');
-          controlUI.classList = "Map_Legend"
+          controlUI.classList = "Map_ActiveFlight"
           // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
           controlUI.style.margin = "15px";
           controlUI.style.textAlign = "left";
@@ -1450,8 +1461,8 @@
 
           // Set CSS for the control interior.
           const controlText = document.createElement("div");
-          controlText.classList = "Map_Legend_details d-flex flex-column justify-content-start"
-          controlText.innerHTML = legend_details;
+          controlText.classList = "Map_ActiveFlight_details d-flex flex-column justify-content-start"
+          controlText.innerHTML = active_flight_details;
           controlUI.appendChild(controlText);
 
         }
