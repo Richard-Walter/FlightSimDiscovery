@@ -92,10 +92,10 @@ function getActiveFlightData() {
       update_text = updateMap(response);
 
       if (update_text == "error"){
-        removeSetInterval("No active flight detected.  Check that you connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to) and try again");
+        removeSetInterval("No active flight detected.  Check that you connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
         
       } else if (update_text == "timestamp_threshold_exceeded")
-        removeSetInterval("No active flight detected.  Check that you connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to) and try again");
+        removeSetInterval("No active flight detected.  Check that you connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
 
     }).fail(function(){
       console.log('AJAX call to get_user_location from database failed.  Cant update database to show active flight checked');
@@ -161,7 +161,7 @@ function updateMap(data) {
   var last_update_ms = new Date(last_update).getTime();
   var current_date_ms = Date.now();
   const diff_millis = current_date_ms - last_update_ms;
-  console.log(`seconds elapsed = ${Math.floor(diff_millis / 1000)}`);
+  // console.log(`seconds elapsed = ${Math.floor(diff_millis / 1000)}`);
 
   //check timestamp to see if flight data is being update from msfs
   if (diff_millis > 9000) {

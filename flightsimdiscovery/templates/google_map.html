@@ -704,20 +704,19 @@
           styleSearchPOIBtn(searchPOIDiv, map);
           map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
 
-          //Create custon info - right click on map to create poi
-          // const infoDiv = document.createElement("div");
-          // styleInfoBtn(infoDiv, map);
-          // map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(infoDiv);
 
-          //Create lengend toogle button
-          const activeFlightBtnDiv = document.createElement("div");
-          styleActiveFlightdBtn(activeFlightBtnDiv, map);
-          map.controls[google.maps.ControlPosition.LEFT].push(activeFlightBtnDiv);
+          //just for testing
+          if (user_id==3){
+            //Create lengend toogle button
+            const activeFlightBtnDiv = document.createElement("div");
+            styleActiveFlightdBtn(activeFlightBtnDiv, map);
+            map.controls[google.maps.ControlPosition.LEFT].push(activeFlightBtnDiv);
 
-          //Create lengend toogle text
-          const activeFlightDiv = document.createElement("div");
-          styleActiveFlight(activeFlightDiv, map);
-          map.controls[google.maps.ControlPosition.LEFT].push(activeFlightDiv);
+            //Create lengend toogle text
+            const activeFlightDiv = document.createElement("div");
+            styleActiveFlight(activeFlightDiv, map);
+            map.controls[google.maps.ControlPosition.LEFT].push(activeFlightDiv);
+          }
 
 
         }
