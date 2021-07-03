@@ -2,6 +2,8 @@
 var user_id = getUserID();
 var map = getMap();
 var user_panned_map = false;
+var show_plane_trail = true;
+var auto_center = true;
 var defaultZoomSet = false;
 var updateInterval = 5000;
 var updateIntervalID = null;
@@ -9,47 +11,7 @@ var updateIntervalID = null;
 //create inital user marker info
 var userMarkerInfo = null;
 
-
-
-// var ajaxUserMarkerObj = { //Object to save cluttering the namespace.
-
-//   options: {
-//       type: 'POST',
-//       url: "/users/get_user_location", //The resource that delivers loc data.
-//       dataType: "text", //The type of data tp be returned by the server.
-//       data: {user_id: user_id},
-//   },
-
-//   delay: 5000, // 5s the interval between successive gets.
-//   errorCount: 0, //running total of ajax errors.
-//   errorThreshold: 3, //the number of ajax errors beyond which the get cycle should cease.
-//   ticker: null, //setTimeout reference - allows the get cycle to be cancelled with clearTimeout(ajaxUserMarkerObj.ticker);
-
-//   get: function () { //a function which initiates
-
-//       if (ajaxUserMarkerObj.errorCount < ajaxUserMarkerObj.errorThreshold) {
-//          ajaxUserMarkerObj.ticker = setTimeout(getActiveFlightData, ajaxUserMarkerObj.delay);
-//       } else {
-//         console.log("tried to get active flight 3 times.  stopping now.  errorCount is:  ");
-//         console.log(ajaxUserMarkerObj.errorCount);
-//         // active_flight_flash("No active flight detected", false);
-//         //rest error count in case user
-//         ajaxUserMarkerObj.errorCount = 0;
-//         clearTimeout(ajaxUserMarkerObj.ticker);
-//         $('#get_active_flights_checkbox').prop('checked', false);
-//         active_flight_flash("Cannot establish a connection to the server.  Please try again later", false);
-//       }
-//   },
-
-//   fail: function (errorThrown) {
-
-//       console.log('ajax error occured:   ' + errorThrown);
-//       ajaxUserMarkerObj.errorCount++;
-//       // active_flight_flash("No active flight detected", false);
-//   }
-// };
-
-
+//add listeners to
 
 //checkbox on main web page
 $("#get_active_flights_checkbox").click(function() {
@@ -86,6 +48,9 @@ $("#get_active_flights_checkbox").click(function() {
     google.maps.event.addListener(map, 'dragend', function (event) {
       
       user_panned_map=true;
+
+      //turn off autocenter if user has manually panned the map
+      $('#af_autocenter').val("off");
       
     })
   
@@ -127,7 +92,7 @@ function getActiveFlightData() {
       update_text = updateMap(response);
 
       if (update_text == "error"){
-        removeSetInterval("No active flight detected.  Check that you connected via the Flight Sim Discovery toolbar panel within MSFS and try again");
+        removeSetInterval("No active flight detected.  Check that you connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
         
       } else if (update_text == "timestamp_threshold_exceeded")
         removeSetInterval("No active flight detected.  Check that you connected via the Flight Sim Discovery toolbar panel within MSFS and try again");
@@ -137,10 +102,6 @@ function getActiveFlightData() {
       removeSetInterval("No active flight detected.  Check that you connected via the Flight Sim Discovery toolbar panel within MSFS and try again");
   });
 
-  // $.ajax(ajaxUserMarkerObj.options)
-  //     .done(updateMap) //fires when ajax returns successfully
-  //     .fail(ajaxUserMarkerObj.fail) //fires when an ajax error occurs
-  //     .always(ajaxUserMarkerObj.get); //fires after ajax success or ajax error
 }
 
 //stop tracking flight and remove marker/trail from map
@@ -212,12 +173,13 @@ function updateMap(data) {
   //We have an active flight that is being updated!
   active_flight_flash("Tracking active flight");
 
-  //create new user marker and plane trail if one doesnt already exist and info box
+  //create new user marker and plane trail if one doesnt already exist and info box if user wants
   if (userMarkerInfo.marker == null) {
     userMarkerInfo.marker = createNewUserMarker(user_lat,user_lng, ground_speed, heading_true, map);
     userMarkerInfo.poly = createUserPlaneTrail(user_lat,user_lng, map);
 
   } else {
+
     //update location of existing marker
     userMarkerInfo.marker.setPosition(new google.maps.LatLng(user_lat, user_lng));
     var icon = marker.getIcon();
@@ -229,18 +191,35 @@ function updateMap(data) {
     label.text = label_txt;
     userMarkerInfo.marker.setLabel(label);
 
-
     //update user plane trail
-    const path = userMarkerInfo.poly.getPath();
-    // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
-    path.push(new google.maps.LatLng(user_lat, user_lng));
+    if (userMarkerInfo.poly!= null){
+      if (show_plane_trail==false) {
+        //clear trail
+        userMarkerInfo.poly.setMap(null);
+        userMarkerInfo.poly = null;
+      } else{
+       
+        const path = userMarkerInfo.poly.getPath();
+        // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
+        path.push(new google.maps.LatLng(user_lat, user_lng));
+      }
+    } else {
+      if (show_plane_trail==true) {
+       //create trail
+       userMarkerInfo.poly = createUserPlaneTrail(user_lat,user_lng, map);
+      }
+    }
+    
+
 
     // return marker;
   }
   
-  // auto pan to map only if user hasn't manuall pan map previous
-  if (user_panned_map == false) {
-    map.panTo(userMarkerInfo.marker.getPosition());
+  // auto pan to map only if user hasn't manually pan map previous
+  if (user_panned_map == false){
+    if(auto_center==true) {
+      map.panTo(userMarkerInfo.marker.getPosition());
+    }
   }
   
   //only do this intitally-let user decide afterwards
@@ -337,6 +316,47 @@ function active_flight_flash(display_text, timeout=null) {
     }
 }
 
-function testFunction(){
-  alert("YES")
+//handles and distributes events from the active flight panel on the map
+function activeFlightPanelHandler(e){
+
+  element_target = e.target;
+  element_id = element_target.id;
+  element_value = element_target.value;
+  
+  if (element_id == "af_autocenter") {
+    if (element_value=="off"){
+      element_target.value="on";
+      auto_center=true;
+      user_panned_map=false;
+    } else {
+      element_target.value="off";
+      auto_center=false;
+    }
+
+  } else if (element_id == "af_show_trail") {
+    if (element_value=="off"){
+      element_target.value="on";
+      show_plane_trail = true;
+    } else {
+      element_target.value="off";
+      show_plane_trail = false;
+    }
+  } else if (element_id == "af_poi_audio") {
+
+    if (element_value=="off"){
+      element_target.value="on";
+    } else {
+      element_target.value="off";
+    }
+    activeFlightPoiAudio(element_target.value);
+  }
+}
+ 
+//handler for in-flight audio
+function activeFlightPoiAudio(show_flag){
+
+  if (show_flag=='on'){
+    alert('POI audio is coming soon');
+
+  }
 }

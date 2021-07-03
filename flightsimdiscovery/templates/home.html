@@ -274,7 +274,7 @@
             <div class="">
                 <form class="mt-2 mx-4 show_only_user_pois_form" method="POST" action="/home#searchTag">
                     <div class="input_field">
-                        {% if current_user.id == 3 %}
+                        {% if current_user.username %}
                             <input type="checkbox" id="get_active_flights_checkbox" class="form-check-input" name="get_active_flights" >
                             <label class="form-check-label">show active flight</label>
                         {% endif %}

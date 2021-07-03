@@ -28,7 +28,7 @@ main = Blueprint('main', __name__)
 # DONE ability to import POIS into MSFS
 # DONE add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 
-# TODO add ctrl-mouse for map panning for mobile devices
+# TODO reduce data imported from volanta
 # TODO scale default airports based on size (i.e. has tower frequency, number of runways)
 # TODO accounbt option to hide tips-and-tricks flash
 # TODO add open infowindow for pois and airports when hovering at certain zoom level

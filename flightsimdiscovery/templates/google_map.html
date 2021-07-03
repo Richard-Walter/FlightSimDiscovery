@@ -20,6 +20,7 @@
         overflow: hidden;
       "></div>
       <script>
+        //enable ctrl-mouse wheel to zoom map for mobile devices
         var gestureHandling = 'greedy';
         if (/Mobi/.test(navigator.userAgent)) {
           gestureHandling = '';
@@ -68,7 +69,7 @@
         var flightsplans_dic = {{ flightsplans_dic| tojson}};
         var flightpath_name = "";
         var pois_array = {{ pois| tojson}};
-        var user_id = {{user_id}};
+        var user_id = {{ user_id }};
         var user_pois = {{ user_pois_json| tojson}};
         var user_ratings_dict = {{ user_ratings| tojson}};
         var user_favorites = new Set({{ user_favorites| tojson}});
@@ -81,8 +82,10 @@
         var filter_user_pois = search_defaults['filter_user_pois']
 
         pois_array.forEach(function (poi, index) {
-          infowindow_dict[poi.name] = { 'id': poi.id, 'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng,
-          'altitude': poi.altitude,'description': poi.description, 'rating': poi.rating, 'nearest_icao_code': poi.nearest_icao_code, 'fp_id_list': poi.fp_id_list };
+          infowindow_dict[poi.name] = {
+            'id': poi.id, 'category': poi.category, 'country': poi.country, 'latitude': poi.lat, 'longitude': poi.lng,
+            'altitude': poi.altitude, 'description': poi.description, 'rating': poi.rating, 'nearest_icao_code': poi.nearest_icao_code, 'fp_id_list': poi.fp_id_list
+          };
         });
 
         //Update Country Select values
@@ -138,7 +141,7 @@
           });
 
 
-          
+
 
           if (show_msfs_airports == 'Yes') {
             //add deault airpot markers to flight sim
@@ -159,7 +162,7 @@
               let elevation = parseFloat(default_airport_list[i]['elev']);
               let show_msfs_airport_on_map = default_airport_list[i]['Show_on_map'];
 
-              if(show_msfs_airport_on_map != 1) {
+              if (show_msfs_airport_on_map != 1) {
                 continue
               }
 
@@ -214,7 +217,7 @@
                   '<div id="bodyContent">' +
 
                   defaults_airport_IW_HTML +
-    
+
                   '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="' + lat + ', ' + lng + '">' +
                   '</div>' +
                   '<hr class="my-2"/>' +
@@ -438,7 +441,7 @@
               var showRemoveWaypointBtn = 'd-none';
 
               var defaults_airport_IW_HTML = '';
-              var iw_icons_html = getIWIconsHTML(latitude, longitude, marker_name, country,  category, nearest_icao_code)
+              var iw_icons_html = getIWIconsHTML(latitude, longitude, marker_name, country, category, nearest_icao_code)
 
               // var hiddenRatings = '';
               var ratingRadio1 = '';
@@ -466,7 +469,7 @@
 
               //Create Comms info if poi is airport with an ICAO and in default_airports_not_shown and
               if ((category.includes('Airport')) && (nearest_icao_code)) {
-                
+
                 for (i = 0; i < default_airports_not_shown.length; i++) {
                   console.log(i)
                   if (default_airports_not_shown[i]['ICAO'] == nearest_icao_code) {
@@ -710,7 +713,7 @@
           const activeFlightBtnDiv = document.createElement("div");
           styleActiveFlightdBtn(activeFlightBtnDiv, map);
           map.controls[google.maps.ControlPosition.LEFT].push(activeFlightBtnDiv);
-          
+
           //Create lengend toogle text
           const activeFlightDiv = document.createElement("div");
           styleActiveFlight(activeFlightDiv, map);
@@ -1395,17 +1398,16 @@
               $(".Map_ActiveFlight").show();
               $(".Map_ActiveFlight_Btn").text('Hide Options');
 
-              //listener for legend click
+              //listener for active flight click
               // $(".Map_ActiveFlight").addEventListener("click", testLengendHandler, false);
-              $(".Map_ActiveFlight_details").on("click", (e) => {
-                // alert("test successful")
-                // console.log(e);
-                // testFunction();
+              $(".af_checkbox").on("click", (e) => {
+                
+                activeFlightPanelHandler(e);
               });
-            
-                // function testLengendHandler(e) {
-                //   alert("test success")
-                // }
+
+              // function testLengendHandler(e) {
+              //   alert("test success")
+              // }
             }
           });
         }
@@ -1415,39 +1417,36 @@
           var normal_marker = 'test';
           // Set CSS for the control border.
           active_flight_details =
-            
-           '<div class="sliderWrapper">'+
-              '<div class="mr-2 m-1">Auto-Center</div>'+
-              '<label class="switch mb-0">'+
-                '<input type="checkbox" id="togBtn">'+
-                '<div class="slider round">'+
-                  '<span class="on">ON</span>'+
-                  '<span class="off">OFF</span>'+
-                '</div>'+
-              '</label>'+
-            '</div>'+
-            '<div class="sliderWrapper">'+
-              '<div class="mr-2 m-1">Show Trail&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>'+
-              '<label class="switch mb-0">'+
-                '<input type="checkbox" id="togBtn">'+
-                '<div class="slider round">'+
-                  '<span class="on">ON</span>'+
-                  '<span class="off">OFF</span>'+
-                '</div>'+
-              '</label>'+
-            '</div>'+
 
-            // '<div class="my-1">Favorited Airport</div>' +
-
-            '<div class="sliderWrapper">'+
-              '<div class="mr-2 m-1">POI Audio&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>'+
-              '<label class="switch mb-0">'+
-                '<input type="checkbox" id="togBtn">'+
-                '<div class="slider round">'+
-                  '<span class="on">ON</span>'+
-                  '<span class="off">OFF</span>'+
-                '</div>'+
-              '</label>'+
+            '<div class="af_sliderWrapper">' +
+              '<div class="mr-2 m-1">Auto-Center</div>' +
+              '<label class="af_switch mb-0">' +
+              '<input class="af_checkbox" type="checkbox" value="on" id="af_autocenter" checked>' +
+              '<div class="slider round">' +
+              '<span class="on">ON</span>' +
+              '<span class="off">OFF</span>' +
+              '</div>' +
+              '</label>' +
+              '</div>' +
+            '<div class="af_sliderWrapper">' +
+              '<div class="mr-2 m-1">Show Trail&nbsp&nbsp&nbsp&nbsp&nbsp</div>' +
+              '<label class="af_switch mb-0">' +
+              '<input class="af_checkbox" type="checkbox" value="on" id="af_show_trail" checked>' +
+              '<div class="slider round">' +
+              '<span class="on">ON</span>' +
+              '<span class="off">OFF</span>' +
+              '</div>' +
+              '</label>' +
+              '</div>' +
+            '<div class="af_sliderWrapper">' +
+              '<div class="mr-2 m-1">POI Audio&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>' +
+              '<label class="af_switch mb-0">' +
+              '<input class="af_checkbox" type="checkbox" value="off" id="af_poi_audio">' +
+              '<div class="slider round">' +
+              '<span class="on">ON</span>' +
+              '<span class="off">OFF</span>' +
+              '</div>' +
+              '</label>' +
             '</div>'
 
           const controlUI = document.createElement('div');
@@ -1575,8 +1574,6 @@
 
 
       </script>
-      <!--DEVELOPMENT-->
-      <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap" async defer></script> -->
       <script src="https://maps.googleapis.com/maps/api/js?key={{gm_key}}&amp;callback=initMap" async defer>
       </script>
 
