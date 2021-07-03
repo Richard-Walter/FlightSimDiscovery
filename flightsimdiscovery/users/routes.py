@@ -221,6 +221,7 @@ def get_user_location():
 
             else:
                 print("no active flight in database for this user: " + user_id)
+                
 
         else:
              # current user and msfs user id dont match.

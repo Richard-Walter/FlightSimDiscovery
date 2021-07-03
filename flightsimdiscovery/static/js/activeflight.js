@@ -92,14 +92,14 @@ function getActiveFlightData() {
       update_text = updateMap(response);
 
       if (update_text == "error"){
-        removeSetInterval("No active flight detected.  Check that you connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
+        removeSetInterval("No active flight detected.  Check that you are connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
         
       } else if (update_text == "timestamp_threshold_exceeded")
-        removeSetInterval("No active flight detected.  Check that you connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
+        removeSetInterval("No active flight detected.  Check that you are connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
 
     }).fail(function(){
       console.log('AJAX call to get_user_location from database failed.  Cant update database to show active flight checked');
-      removeSetInterval("No active flight detected.  Check that you connected via the Flight Sim Discovery toolbar panel within MSFS and try again");
+      removeSetInterval("No active flight detected.  Check that you are connected via the Flight Sim Discovery toolbar panel within MSFS and try again");
   });
 
 }
@@ -141,8 +141,8 @@ function removeSetInterval(flash_message='', timeout=null) {
 function updateMap(data) {
 
   coordinates = JSON.parse(data);
-  if (jQuery.isEmptyObject(data)) {
-    console.log("In updateMap - no data.  Probably no active flight")
+  if (jQuery.isEmptyObject(coordinates)) {
+    console.log("In updateMap - no data.  Probably user has never had an active flight and hasnt go the ingame panel installed")
     return "error"
   }
   
