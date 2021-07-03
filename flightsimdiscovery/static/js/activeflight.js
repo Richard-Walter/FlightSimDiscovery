@@ -50,7 +50,7 @@ $("#get_active_flights_checkbox").click(function() {
       user_panned_map=true;
 
       //turn off autocenter if user has manually panned the map
-      $('#af_autocenter').val("off");
+      $('#af_autocenter').click();
       
     })
   
@@ -277,7 +277,7 @@ function createUserPlaneTrail(user_lat,user_lng, map) {
   // and drawing an opaque symbol at a regular interval on the polyline.
   const lineSymbol = {
     path: "M 0,-1 0,1",
-    strokeOpacity: 1,
+    strokeOpacity: 0.8,
     scale: 2,
   };
 
