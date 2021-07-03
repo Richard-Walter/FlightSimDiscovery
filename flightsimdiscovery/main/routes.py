@@ -29,6 +29,7 @@ main = Blueprint('main', __name__)
 # DONE add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 
 # TODO reduce data imported from volanta
+# TODO add FAQ about active flight when panel uploaded to flightsim.io
 # TODO scale default airports based on size (i.e. has tower frequency, number of runways)
 # TODO accounbt option to hide tips-and-tricks flash
 # TODO add open infowindow for pois and airports when hovering at certain zoom level

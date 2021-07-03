@@ -150,7 +150,7 @@ function updateMap(data) {
   user_lat = coordinates['lat'];
   user_lng = coordinates['lng'];
   altitude_m = Math.round(coordinates['alt']);
-  altitude = Math.round(altitude_m*3.28);
+  altitude = Math.round(altitude_m*3.281);
   ground_speed = Math.round(coordinates['ground_speed']);
 
   ias = coordinates['ias'];
@@ -277,7 +277,7 @@ function createUserPlaneTrail(user_lat,user_lng, map) {
   // and drawing an opaque symbol at a regular interval on the polyline.
   const lineSymbol = {
     path: "M 0,-1 0,1",
-    strokeOpacity: 0.8,
+    strokeOpacity: 1,
     scale: 2,
   };
 
@@ -288,7 +288,7 @@ function createUserPlaneTrail(user_lat,user_lng, map) {
     ],
     strokeColor: "blue",
     // strokeColor: "#000000",
-    strokeOpacity: 0.8,
+    strokeOpacity: 0,
     strokeWeight: 3,
     icons: [
       {
@@ -340,7 +340,13 @@ function activeFlightPanelHandler(e){
     } else {
       element_target.value="off";
       show_plane_trail = false;
+      if (userMarkerInfo.poly!= null){
+        //clear trail
+        userMarkerInfo.poly.setMap(null);
+        userMarkerInfo.poly = null;
+      }
     }
+    
   } else if (element_id == "af_poi_audio") {
 
     if (element_value=="off"){
