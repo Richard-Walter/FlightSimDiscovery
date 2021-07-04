@@ -27,8 +27,10 @@ main = Blueprint('main', __name__)
 # DONE aadd total distance in nm of flight plan
 # DONE ability to import POIS into MSFS
 # DONE add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
+# TODO in game panel to display position on web browser,
 
 # TODO reduce data imported from volanta
+# TODO add moving map with default airports and POIS in the ingmae panel
 # TODO add FAQ about active flight when panel uploaded to flightsim.io
 # TODO scale default airports based on size (i.e. has tower frequency, number of runways)
 # TODO add my own recording functionality

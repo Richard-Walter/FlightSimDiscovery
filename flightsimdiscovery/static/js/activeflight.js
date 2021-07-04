@@ -47,11 +47,14 @@ $("#get_active_flights_checkbox").click(function() {
     //add listener in case user is trying to pan map so we can stop the autocentering when tracking a live flight
     google.maps.event.addListener(map, 'dragend', function (event) {
       
-      user_panned_map=true;
+      if (user_panned_map==false) {
+        user_panned_map=true;
+        //turn off autocenter if user has manually panned the map
+        $('#af_autocenter').click();
 
-      //turn off autocenter if user has manually panned the map
-      $('#af_autocenter').click();
-      
+      } else {
+
+      }
     })
   
 });
@@ -251,7 +254,8 @@ function createNewUserMarker(user_lat,user_lng, ground_speed, heading_true, map)
           strokeColor: '#000',
           // strokeColor: '#00F',
           
-          labelOrigin: new google.maps.Point(0, 15),
+          labelOrigin: new google.maps.Point(0, 13),
+          anchor: new google.maps.Point(0, 2),
 
           // url:'/static/img/marker/user_marker_airplane1.png', //Marker icon.
           // labelOrigin: new google.maps.Point(12, 45),
@@ -278,7 +282,7 @@ function createUserPlaneTrail(user_lat,user_lng, map) {
   const lineSymbol = {
     path: "M 0,-1 0,1",
     strokeOpacity: 1,
-    scale: 2,
+    scale: 3,
   };
 
   label_txt = user_lat.toFixed(2).toString() + ' , ' + user_lng.toFixed(2).toString()
