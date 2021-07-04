@@ -32,15 +32,12 @@ main = Blueprint('main', __name__)
 
 # TODO update FAQ about active flight when panel uploaded to flightsim.io
 
-# TODO account option to hide tips-and-tricks flash
 # TODO scale default airports based on size (i.e. has tower frequency, number of runways)
-
-# TODO add moving map with default airports and POIS in the ingmae panel
-
-# TODO add my own recording functionality
-
-# TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO FSD audio
+# TODO add moving map with default airports and POIS in the ingmae panel
+# TODO add my own recording functionality
+# TODO add open infowindow for pois and airports when hovering at certain zoom level
+
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 
 # DEBUGGING SCRIPTS

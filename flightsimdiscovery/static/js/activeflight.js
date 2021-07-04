@@ -1,7 +1,7 @@
 // initial variables
 var user_id = getUserID();
 var map = getMap();
-var user_panned_map = false;
+let user_panned_map = false;
 var show_plane_trail = true;
 var auto_center = true;
 var defaultZoomSet = false;
@@ -47,14 +47,17 @@ $("#get_active_flights_checkbox").click(function() {
     //add listener in case user is trying to pan map so we can stop the autocentering when tracking a live flight
     google.maps.event.addListener(map, 'dragend', function (event) {
       
+      testest = $('#af_autocenter').val();
+      console.log(testest);
+
       if (user_panned_map==false) {
         user_panned_map=true;
         //turn off autocenter if user has manually panned the map
         $('#af_autocenter').click();
-
-      } else {
-
-      }
+        console.log($('#af_autocenter').val());
+        // $('#af_autocenter').val('off');
+        // console.log($('#af_autocenter').val());
+      } 
     })
   
 });
