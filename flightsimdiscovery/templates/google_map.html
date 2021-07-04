@@ -22,7 +22,8 @@
       <script>
         //enable ctrl-mouse wheel to zoom map for mobile devices
         var gestureHandling = 'greedy';
-        if (/Mobi/.test(navigator.userAgent)) {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+        // if (/Mobi/.test(navigator.userAgent)) {
           gestureHandling = '';
         }
 
