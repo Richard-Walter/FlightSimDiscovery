@@ -216,19 +216,20 @@ def save_flight_data_to_db(json_flight_data, flight_recorder):
 
         # create flight lat-lng positions
         positions = flight['Positions']
-        for position in positions:
-            latitude = position['Latitude']
-            longitude = position['Longitude']
-            altitude = position['Altitude']
-            altitude_agl = position['AltitudeAgl']
-            altitude_agl = position['AltitudeAgl']
-            on_ground = position['OnGround']
-            OnGround = 1 if position['OnGround'] == True else 0
-            flight_positions_db = User_flight_positions(flight_id=user_flight_db.flight_id,latitude=latitude, longitude=longitude,altitude=altitude, altitude_agl=altitude_agl, OnGround=OnGround)
+        for index, position in enumerate(positions):
+            # only get every 4th position and the last position
+            if (index % 4 == 0) or (index == (len(positions)-1)):
+                latitude = position['Latitude']
+                longitude = position['Longitude']
+                altitude = position['Altitude']
+                altitude_agl = position['AltitudeAgl']
+                altitude_agl = position['AltitudeAgl']
+                on_ground = position['OnGround']
+                OnGround = 1 if position['OnGround'] == True else 0
+                flight_positions_db = User_flight_positions(flight_id=user_flight_db.flight_id,latitude=latitude, longitude=longitude,altitude=altitude, altitude_agl=altitude_agl, OnGround=OnGround)
 
-            db.session.add(flight_positions_db)
-
-       
+                db.session.add(flight_positions_db)
+            
 
     try:
         db.session.commit()
