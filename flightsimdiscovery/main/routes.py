@@ -28,16 +28,19 @@ main = Blueprint('main', __name__)
 # DONE ability to import POIS into MSFS
 # DONE add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 # DONE reduce data imported from volanta
-# DONE in game panel to display position on web browser,
+# DONE in game panel to display position on web browser
 
+# TODO update FAQ about active flight when panel uploaded to flightsim.io
+
+# TODO account option to hide tips-and-tricks flash
+# TODO scale default airports based on size (i.e. has tower frequency, number of runways)
 
 # TODO add moving map with default airports and POIS in the ingmae panel
-# TODO add FAQ about active flight when panel uploaded to flightsim.io
-# TODO scale default airports based on size (i.e. has tower frequency, number of runways)
+
 # TODO add my own recording functionality
-# TODO account option to hide tips-and-tricks flash
+
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
-# TODO in game panel-flight recorder, display position on web browser, talk about FSD waypoints
+# TODO FSD audio
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 
 # DEBUGGING SCRIPTS
