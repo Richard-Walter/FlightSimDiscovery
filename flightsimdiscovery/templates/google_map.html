@@ -162,9 +162,17 @@
               let lng = parseFloat(default_airport_list[i]['lon']);
               let elevation = parseFloat(default_airport_list[i]['elev']);
               let show_msfs_airport_on_map = default_airport_list[i]['Show_on_map'];
+              let tower_freq = default_airport_list[i]['Tower_Freq'];
 
               if (show_msfs_airport_on_map != 1) {
                 continue
+              }
+
+              let icon ='/static/img/marker/ms_airport_marker.png';
+              let icon_large ='/static/img/marker/ms_airport_marker_large.png';
+
+              if (tower_freq) {
+                icon = icon_large;
               }
 
               const category = 'Airport';
@@ -172,7 +180,7 @@
               let airport_marker = new google.maps.Marker({
                 position: { lat: lat, lng: lng },
                 // map: map,
-                icon: '/static/img/marker/ms_airport_marker.png',
+                icon: icon,
                 title: airport_title
               });
 
