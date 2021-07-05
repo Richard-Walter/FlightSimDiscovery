@@ -1,66 +1,103 @@
 // initial variables
-var user_id = getUserID();
+// var user_id = getUserID();
 var map = getMap();
 let user_panned_map = false;
 var show_plane_trail = true;
 var auto_center = true;
 var defaultZoomSet = false;
 var updateInterval = 5000;
-var updateIntervalID = null;
+let updateIntervalID = null;
 
 //create inital user marker info
 var userMarkerInfo = null;
 
-//add listeners to
 
-//checkbox on main web page
-$("#get_active_flights_checkbox").click(function() {
+// //checkbox on main web page
+// $("#get_active_flights_checkbox").click(function() {
 
-    if ($('#get_active_flights_checkbox').is(':checked')) {
+//     if ($('#get_active_flights_checkbox').is(':checked')) {
         
-      user_panned_map = false;
+//       user_panned_map = false;
 
-      //reset marker info if user disconnected
-      if (userMarkerInfo == null) {
-        userMarkerInfo = {
-          id: user_id,
-          map: map,
-          marker: null,
-          poly: null
-        }
+//       //reset marker info if user disconnected
+//       if (userMarkerInfo == null) {
+//         userMarkerInfo = {
+//           id: getUserID(),
+//           map: map,
+//           marker: null,
+//           poly: null
+//         }
+//       }
+
+//       updateDBShowChecked(true);
+//       active_flight_flash("Establishing connection...please wait", 15000);
+
+//       // //GET ACTIVE FLIGHT DATA FROM DATABASE EVERY 5S
+//       updateIntervalID =setInterval(() => {
+//           getActiveFlightData();
+//       }, 5000 );
+
+//     } else {
+        
+//         updateDBShowChecked(false);
+//         removeActiveFlight();
+//     }
+
+//     //add listener in case user is trying to pan map so we can stop the autocentering when tracking a live flight
+//     google.maps.event.addListener(map, 'dragend', function (event) {
+      
+//       if (user_panned_map==false) {
+//         user_panned_map=true;
+//         //turn off autocenter if user has manually panned the map
+//         $('#af_autocenter').click();
+//       } 
+//     })
+  
+// });
+
+function showActiveFlights() {
+
+  
+  // if ($('#get_active_flights_checkbox').is(':checked')) {
+  if($('#af_show').val()=='on'){
+        
+    user_panned_map = false;
+
+    //reset marker info if user disconnected
+    if (userMarkerInfo == null) {
+      userMarkerInfo = {
+        id: getUserID(),
+        map: map,
+        marker: null,
+        poly: null
       }
-
-      updateDBShowChecked(true);
-      active_flight_flash("Establishing connection...please wait", 15000);
-
-      // //GET ACTIVE FLIGHT DATA FROM DATABASE EVERY 5S
-      updateIntervalID =setInterval(() => {
-          getActiveFlightData();
-      }, 5000 );
-
-    } else {
-        
-        updateDBShowChecked(false);
-        removeActiveFlight();
     }
 
-    //add listener in case user is trying to pan map so we can stop the autocentering when tracking a live flight
-    google.maps.event.addListener(map, 'dragend', function (event) {
-      
-      testest = $('#af_autocenter').val();
-      console.log(testest);
+    updateDBShowChecked(true);
+    active_flight_flash("Establishing connection...please wait", 15000);
 
-      if (user_panned_map==false) {
-        user_panned_map=true;
-        //turn off autocenter if user has manually panned the map
-        $('#af_autocenter').click();
-        console.log($('#af_autocenter').val());
-        // $('#af_autocenter').val('off');
-        // console.log($('#af_autocenter').val());
-      } 
-    })
-  
-});
+    // //GET ACTIVE FLIGHT DATA FROM DATABASE EVERY 5S
+    updateIntervalID =setInterval(() => {
+        getActiveFlightData();
+    }, 5000 );
+
+  } else {
+      
+      updateDBShowChecked(false);
+      removeActiveFlight();
+  }
+
+  //add listener in case user is trying to pan map so we can stop the autocentering when tracking a live flight
+  google.maps.event.addListener(map, 'dragend', function (event) {
+    
+    if (user_panned_map==false) {
+      user_panned_map=true;
+      //turn off autocenter if user has manually panned the map
+      $('#af_autocenter').click();
+    } 
+  })
+
+}
 
 //updates flask database that notifies other functions that the user wants to track flight
 function updateDBShowChecked(showChecked){
@@ -90,7 +127,7 @@ function getActiveFlightData() {
     url: "/users/get_user_location",
     method:"POST", 
     dataType: "text",
-    data: {user_id: user_id},
+    data: {user_id: getUserID()},
   }).done(function(response) {
 
       console.log("get user location returned data")
@@ -129,7 +166,7 @@ function removeActiveFlight(){
     
     clearInterval(updateIntervalID);
 
-    $('#get_active_flights_checkbox').prop('checked', false);
+    // $('#get_active_flights_checkbox').prop('checked', false);
     $("#active_flight_flash").hide()
 }
 
@@ -138,7 +175,11 @@ function removeSetInterval(flash_message='', timeout=null) {
 
   console.log("removing set interval")
   clearInterval(updateIntervalID);
-  $('#get_active_flights_checkbox').prop('checked', false);
+  // $('#get_active_flights_checkbox').prop('checked', false);
+  $('.af_options').prop('hidden', true);
+  $('#af_show').click();
+  $('#af_show').val('off');
+
   user_panned_map=false;
   active_flight_flash(flash_message, timeout);
 }
@@ -230,7 +271,7 @@ function updateMap(data) {
   
   //only do this intitally-let user decide afterwards
   if (defaultZoomSet == false) {
-    map.setZoom(9);
+    map.setZoom(10);
     defaultZoomSet = true;
   }
 
@@ -285,7 +326,7 @@ function createUserPlaneTrail(user_lat,user_lng, map) {
   const lineSymbol = {
     path: "M 0,-1 0,1",
     strokeOpacity: 1,
-    scale: 3,
+    scale: 2,
   };
 
   label_txt = user_lat.toFixed(2).toString() + ' , ' + user_lng.toFixed(2).toString()
@@ -330,7 +371,22 @@ function activeFlightPanelHandler(e){
   element_id = element_target.id;
   element_value = element_target.value;
   
-  if (element_id == "af_autocenter") {
+  if (element_id == "af_show") {
+
+
+
+    if (element_value=="off"){
+      element_target.value="on";
+      $('.af_options').removeProp('hidden');
+      showActiveFlights();
+
+    } else {
+      $('.af_options').prop('hidden', true);
+      element_target.value="off";
+      removeActiveFlight();
+    }
+
+  } else if (element_id == "af_autocenter") {
     if (element_value=="off"){
       element_target.value="on";
       auto_center=true;
@@ -339,7 +395,6 @@ function activeFlightPanelHandler(e){
       element_target.value="off";
       auto_center=false;
     }
-
   } else if (element_id == "af_show_trail") {
     if (element_value=="off"){
       element_target.value="on";
@@ -350,7 +405,7 @@ function activeFlightPanelHandler(e){
       if (userMarkerInfo.poly!= null){
         //clear trail
         userMarkerInfo.poly.setMap(null);
-        userMarkerInfo.poly = null;
+        // userMarkerInfo.poly = null;
       }
     }
     
@@ -363,6 +418,7 @@ function activeFlightPanelHandler(e){
     }
     activeFlightPoiAudio(element_target.value);
   }
+  
 }
  
 //handler for in-flight audio

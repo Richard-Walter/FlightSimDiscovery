@@ -63,7 +63,7 @@
         var temp_marker_list = [];
         var waypoint_name = '';
 
-
+        let activeFlightPanelHandlerAdded = false;
 
         //create the infowindow data dictionary
         infowindow_dict = {}
@@ -1372,7 +1372,7 @@
           controlUI.classList = "Map_ActiveFlight_Btn btn btn-dark"
           controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
           controlUI.style.cursor = "pointer";
-          controlUI.style.margin = "15px";
+          controlUI.style.margin = "10px 15px";
           controlUI.style.textAlign = "center";
           controlUI.title = "Active Flight Options";
           controlDiv.appendChild(controlUI);
@@ -1380,35 +1380,45 @@
           // Set CSS for the control interior.
           const controlText = document.createElement("div");
 
-          controlText.innerHTML = "Active Flight";
+          controlText.innerHTML = "Active Flight &vellip;";
           controlUI.appendChild(controlText);
 
+    
           // show legend
           controlUI.addEventListener("click", () => {
 
-            button_text = $(".Map_ActiveFlight_Btn").text();
-            console.log(button_text);
+            // button_text = $(".Map_ActiveFlight_Btn").text();
+            // console.log(button_text);
+            $(".Map_ActiveFlight").toggle()
 
-            if (button_text == 'Hide Options') {
-              $(".Map_ActiveFlight").hide();
-              $(".Map_ActiveFlight_Btn").text('Active Flight');
-
-            } else {
-
-              $(".Map_ActiveFlight").show();
-              $(".Map_ActiveFlight_Btn").text('Hide Options');
+            if(activeFlightPanelHandlerAdded==false){
 
               //listener for active flight click
-              // $(".Map_ActiveFlight").addEventListener("click", testLengendHandler, false);
               $(".af_checkbox").on("click", (e) => {
-                
                 activeFlightPanelHandler(e);
+                activeFlightPanelHandlerAdded = true;
               });
-
-              // function testLengendHandler(e) {
-              //   alert("test success")
-              // }
             }
+
+            // if (button_text == 'Hide Options') {
+            //   $(".Map_ActiveFlight").hide();
+            //   $(".Map_ActiveFlight_Btn").text('Active Flight');
+
+            // } else {
+
+            //   $(".Map_ActiveFlight").show();
+            //   $(".Map_ActiveFlight_Btn").text('Hide Options');
+              
+            //   if(activeFlightPanelHandlerAdded==false){
+            //     //listener for active flight click
+            //     $(".af_checkbox").on("click", (e) => {
+            //       activeFlightPanelHandler(e);
+            //       activeFlightPanelHandlerAdded = true;
+
+            //     });
+            //   }
+  
+            // }
           });
         }
 
@@ -1419,26 +1429,36 @@
           active_flight_details =
 
             '<div class="af_sliderWrapper">' +
+              '<div class="mr-2 m-1">Show Active Flight</div>' +
+              '<label class="af_switch mb-0">' +
+              '<input class="af_checkbox" type="checkbox" value="off" id="af_show" >' +
+              '<div class="slider round">' +
+              '<span class="on">ON</span>' +
+              '<span class="off">OFF</span>' +
+              '</div>' +
+              '</label>' +
+              '</div>' +
+            '<div class="af_sliderWrapper af_options" hidden >' +
               '<div class="mr-2 m-1">Auto-Center</div>' +
               '<label class="af_switch mb-0">' +
-              '<input class="af_checkbox" type="checkbox" value="on" id="af_autocenter" checked>' +
+              '<input class="af_checkbox" type="checkbox" value="on" id="af_autocenter" checked >' +
               '<div class="slider round">' +
               '<span class="on">ON</span>' +
               '<span class="off">OFF</span>' +
               '</div>' +
               '</label>' +
               '</div>' +
-            '<div class="af_sliderWrapper">' +
+            '<div class="af_sliderWrapper af_options" hidden>' +
               '<div class="mr-2 m-1">Show Trail&nbsp&nbsp&nbsp&nbsp&nbsp</div>' +
               '<label class="af_switch mb-0">' +
-              '<input class="af_checkbox" type="checkbox" value="on" id="af_show_trail" checked>' +
+              '<input class="af_checkbox" type="checkbox" value="on" id="af_show_trail" checked >' +
               '<div class="slider round">' +
               '<span class="on">ON</span>' +
               '<span class="off">OFF</span>' +
               '</div>' +
               '</label>' +
               '</div>' +
-            '<div class="af_sliderWrapper">' +
+            '<div class="af_sliderWrapper af_options" hidden>' +
               '<div class="mr-2 m-1">POI Audio&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>' +
               '<label class="af_switch mb-0">' +
               '<input class="af_checkbox" type="checkbox" value="off" id="af_poi_audio">' +
@@ -1452,7 +1472,7 @@
           const controlUI = document.createElement('div');
           controlUI.classList = "Map_ActiveFlight"
           // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-          controlUI.style.margin = "15px";
+          controlUI.style.margin = "0px 15px";
           controlUI.style.textAlign = "left";
           controlUI.style.display = "none";
           controlUI.title = "Legend";
