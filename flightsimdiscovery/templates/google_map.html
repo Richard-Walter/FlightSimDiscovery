@@ -254,19 +254,18 @@
             }
           }
           //add a listener for map zoom so we can display airport markers at a certain zoom leve
-
           google.maps.event.addListener(map, 'zoom_changed', function () {
 
             var zoom = map.getZoom();
 
 
 
-            if (zoom > 7) {
+            if (zoom > 8) {
 
               for (var i = 0; i < airport_markers_list.length; i++) {
                 airport_markers_list[i].setMap(map);
               }
-            } else if (zoom <= 7) {
+            } else if (zoom <= 8) {
               for (var i = 0; i < airport_markers_list.length; i++) {
                 airport_markers_list[i].setMap(null);
               }

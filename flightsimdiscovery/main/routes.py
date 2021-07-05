@@ -19,7 +19,7 @@ main = Blueprint('main', __name__)
 # DONE add photogrammetry as a category
 # DONE add account setting that bypasses banner and goes straight to map
 # DONE can't remove custom waypoint from flight plan
-# DONE add airports to map with smaller icon and link to airport nav finder
+# DONE add airports to map with smaller icon and link to airport nav finder.  Larger airports with tower have larger icon
 # TEST map zooms in with scroll wheel - no more CTL-Mouse wheel to zoom just for PC
 # DONE add elevation to POI IW
 # DONE Add a 'show default airports' tick box similar to 'show my flights'
@@ -32,7 +32,7 @@ main = Blueprint('main', __name__)
 
 # TODO update FAQ about active flight when panel uploaded to flightsim.io
 
-# TODO scale default airports based on size (i.e. has tower frequency, number of runways)
+
 # TODO FSD audio
 # TODO add moving map with default airports and POIS in the ingmae panel
 # TODO add my own recording functionality
