@@ -112,7 +112,7 @@ function updateDBShowChecked(showChecked){
       showChecked: showChecked
     },
     }).done(function(response) {
-      console.log(response);
+      // console.log(response);
     }).fail(function(){
       console.log('couldnt update database to show active flight checked');
    });
