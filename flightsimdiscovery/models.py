@@ -141,6 +141,7 @@ class UserFlights(db.Model):
     network = db.Column(db.Text, nullable=False, default="")
     flight_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     real_flight_time = db.Column(db.Numeric(8,12), nullable=False, default=0)
+    show_flight = db.Column(db.Boolean(), nullable=False, default=True)
 
     def __repr__(self):
         return f"User Flgihts('{self.filename}', '{self.origin_name}', '{self.destination_name}')"  

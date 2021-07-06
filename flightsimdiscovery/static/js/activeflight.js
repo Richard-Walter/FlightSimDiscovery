@@ -243,9 +243,12 @@ function updateMap(data) {
       if (show_plane_trail==false) {
         //clear trail
         userMarkerInfo.poly.setMap(null);
-        userMarkerInfo.poly = null;
+        // userMarkerInfo.poly = null;
       } else{
-       
+        //re-add poly to map if null
+        if (userMarkerInfo.poly.map == null){
+          poly.setMap(map);
+        }
         const path = userMarkerInfo.poly.getPath();
         // Because path is an MVCArray, we can simply append a new coordinate and it will automatically appear.
         path.push(new google.maps.LatLng(user_lat, user_lng));

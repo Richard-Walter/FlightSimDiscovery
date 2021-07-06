@@ -33,10 +33,13 @@ main = Blueprint('main', __name__)
 # TODO update FAQ about active flight when panel uploaded to flightsim.io
 
 
+# TODO Change Panel text to Login-->connected
 # TODO FSD audio
-# TODO add moving map with default airports and POIS in the ingmae panel
 # TODO add my own recording functionality
+# TODO select-all to dlete flights
+# TODO add moving map with default airports and POIS in the ingmae panel see Leaflet
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
+# TODO add 'create POI' option when clicking on airplane icon?
 
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 

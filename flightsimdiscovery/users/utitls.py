@@ -163,7 +163,7 @@ def get_user_flagged_pois(user_id):
 
 def save_flight_data_to_db(json_flight_data, flight_recorder):
 
-
+    
     for flight in json_flight_data:
 
         aircraft_title = ""
@@ -254,6 +254,11 @@ def get_user_flights():
         flights= []
         
         for flight in user_flights:
+
+            # dont show flight if it has been flagged as not show.  THis happens when user deletes a flight
+            if flight.show_flight is False:
+                continue
+            
             flight_positions = []
             flight_data = {}
             flight_data['Flight_ID'] = flight.flight_id

@@ -172,7 +172,9 @@
               let icon_large ='/static/img/marker/ms_airport_marker_large.png';
 
               if (tower_freq) {
-                icon = icon_large;
+                if(tower_freq != '0'){
+                  icon = icon_large;
+                }
               }
 
               const category = 'Airport';
@@ -1018,10 +1020,11 @@
             var polygonLatLng = [];
             var oCoordinates;
             oCoordinates = polygon.coordinates[0];
+
             for (var k = 0; k < oCoordinates.length; k++) {
               var oItem;
               oItem = oCoordinates[k];
-              flight_point = { 'lat': oItem[0], 'lng': oItem[1] }
+              flight_point = { 'lat': parseFloat(oItem[0]), 'lng': parseFloat(oItem[1]) }
               polygonLatLng.push(flight_point);
             }
 

@@ -132,7 +132,9 @@ def delete_flight(flight_id):
     if (current_user.username != 'admin'):
         if (flight.user_id != current_user.id):
             abort(403)
-    db.session.delete(flight)
+    # dont actually delete the flight but set a flag to not show.  THis way when volanta importing in future the deleted flight is not shown
+    flight.show_flight = False
+    db.session.commit()
 
     for waypoint_poi in flight_waypoint_list:
         db.session.delete(waypoint_poi)
