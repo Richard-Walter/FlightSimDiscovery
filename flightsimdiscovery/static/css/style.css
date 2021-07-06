@@ -14,6 +14,25 @@
   justify-content: start;
 }
 
+
+/*  STYLE POI AUDION TOOLBAR - START    */
+.pa_toolbar{
+ 
+  color: #f3f3f3;
+  /* border-style: inset;
+  border-color: rgb(35, 157, 194) */
+  
+}
+
+.pa_toolbar p{
+  color: #161616;
+  
+}
+
+/*  STYLE POI AUDION TOOLBAR - end    */
+
+
+
 .tips-and-tricks{
   background-color: #19682c;
   
@@ -104,12 +123,6 @@
 }
 
 
-.card-header.collapsed {
-  
-}
-.card-header:not(.collapsed) {
-  
-}
 
 .new_poi_msg{
 

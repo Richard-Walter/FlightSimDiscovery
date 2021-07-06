@@ -69,7 +69,7 @@
         infowindow_dict = {}
         var flightsplans_dic = {{ flightsplans_dic| tojson}};
         var flightpath_name = "";
-        var pois_array = {{ pois| tojson}};
+        let pois_array = {{ pois| tojson}};
         var user_id = {{ user_id }};
         var user_pois = {{ user_pois_json| tojson}};
         var user_ratings_dict = {{ user_ratings| tojson}};
@@ -1466,7 +1466,7 @@
               '</div>' +
               '</label>' +
               '</div>' +
-            '<div class="af_sliderWrapper af_options" hidden>' +
+            '<div class="af_sliderWrapper ">' +
               '<div class="mr-2 m-1">POI Audio&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>' +
               '<label class="af_switch mb-0">' +
               '<input class="af_checkbox" type="checkbox" value="off" id="af_poi_audio">' +

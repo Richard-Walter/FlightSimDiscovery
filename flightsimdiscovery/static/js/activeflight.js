@@ -427,8 +427,14 @@ function activeFlightPanelHandler(e){
 //handler for in-flight audio
 function activeFlightPoiAudio(show_flag){
 
-  if (show_flag=='on'){
-    alert('POI audio is coming soon');
 
+  if (show_flag=='on'){
+    $('.pa_toolbar').removeClass("d-none");
+    $('.pa_toolbar').addClass("d-flex");
+    $('.tips-and-tricks').addClass("d-none");
+    tips-and-tricks
+  } else {
+    $('.pa_toolbar').addClass("d-none");
+    $('.pa_toolbar').removeClass("d-flex");
   }
 }

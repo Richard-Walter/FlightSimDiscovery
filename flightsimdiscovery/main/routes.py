@@ -14,7 +14,6 @@ main = Blueprint('main', __name__)
 
 # NOTE Bug in MSFS that doesn't display flightpath to waypoints if ATCWaypoint ID > 6 chars for G3X & G1000
 
-
 # DONE Fix bug where Clicking on Map ICon ina top ten page gives 404
 # DONE add photogrammetry as a category
 # DONE add account setting that bypasses banner and goes straight to map
