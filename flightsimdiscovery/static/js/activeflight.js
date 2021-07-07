@@ -432,7 +432,7 @@ function activeFlightPoiAudio(show_flag){
     $('.pa_toolbar').removeClass("d-none");
     $('.pa_toolbar').addClass("d-flex");
     $('.tips-and-tricks').addClass("d-none");
-    tips-and-tricks
+
   } else {
     $('.pa_toolbar').addClass("d-none");
     $('.pa_toolbar').removeClass("d-flex");
