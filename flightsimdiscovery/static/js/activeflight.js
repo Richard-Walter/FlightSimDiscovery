@@ -59,7 +59,7 @@ function showActiveFlights() {
 
   
   // if ($('#get_active_flights_checkbox').is(':checked')) {
-  if($('#af_show').val()=='on'){
+  if($('#Map_ActiveFlight_Btn').val()=='on'){
         
     user_panned_map = false;
 
@@ -176,10 +176,11 @@ function removeSetInterval(flash_message='', timeout=null) {
   console.log("removing set interval")
   clearInterval(updateIntervalID);
   // $('#get_active_flights_checkbox').prop('checked', false);
-  $('.af_options').prop('hidden', true);
-  $('#af_show').click();
-  $('#af_show').val('off');
-
+  // $('.af_options').prop('hidden', true);
+  // $('#af_show').click();
+  $('#Map_ActiveFlight_Btn').val('off');
+  $(".af_btn-text").html('Show Active Flight');
+  $(".Map_ActiveFlight").hide();
   user_panned_map=false;
   active_flight_flash(flash_message, timeout);
 }
@@ -438,3 +439,6 @@ function activeFlightPoiAudio(show_flag){
     $('.pa_toolbar').removeClass("d-flex");
   }
 }
+
+
+

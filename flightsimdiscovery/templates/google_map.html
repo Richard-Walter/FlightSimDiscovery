@@ -724,7 +724,7 @@
 
             //Create lengend toogle text
             const activeFlightDiv = document.createElement("div");
-            styleActiveFlight(activeFlightDiv, map);
+            styleActiveFlightOptions(activeFlightDiv, map);
             map.controls[google.maps.ControlPosition.LEFT].push(activeFlightDiv);
           }
 
@@ -1379,33 +1379,72 @@
 
           // Set CSS for the control border.
           const controlUI = document.createElement('div');
-          controlUI.classList = "Map_ActiveFlight_Btn btn btn-dark"
+          // controlUI.classList = "Map_ActiveFlight_Btn btn btn-dark"
+          // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+          // controlUI.style.cursor = "pointer";
+          // controlUI.style.margin = "10px 15px";
+          // controlUI.style.textAlign = "center";
+          // controlUI.title = "Active Flight Options";
+          
+          controlUI.classList = "Map_ActiveFlight_Btn btn btn-dark af_sliderWrapper"
+          controlUI.id = "Map_ActiveFlight_Btn"
           controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
           controlUI.style.cursor = "pointer";
           controlUI.style.margin = "10px 15px";
           controlUI.style.textAlign = "center";
           controlUI.title = "Active Flight Options";
+          controlUI.value = "off";
+
+
           controlDiv.appendChild(controlUI);
 
           // Set CSS for the control interior.
           const controlText = document.createElement("div");
 
-          controlText.innerHTML = "Active Flight &vellip;";
+          // controlText.innerHTML = "Active Flight &vellip;";
+          controlText.innerHTML = 
+          '<div class="mr-2 m-1 af_btn-text">Show Active Flight</div>' +
+              // '<label class="af_switch mb-0">' +
+              // '<input id="af_checkbox"class="af_checkbox" type="checkbox" value="off" id="af_show" >' +
+              // '<div class="slider round">' +
+              // '<span class="on">ON</span>' +
+              // '<span class="off">OFF</span>' +
+              // '</div>' +
+              // '</label>' +
+          '</div>';
+          
+  
           controlUI.appendChild(controlText);
 
     
           // show legend
-          controlUI.addEventListener("click", () => {
+          controlText.addEventListener("click", () => {
 
-            $(".Map_ActiveFlight").toggle()
-
+            //only ever want to add the listern once
             if(activeFlightPanelHandlerAdded==false){
 
-              //listener for active flight click
+              activeFlightPanelHandlerAdded = true;
+
               $(".af_checkbox").on("click", (e) => {
                 activeFlightPanelHandler(e);
-                activeFlightPanelHandlerAdded = true;
               });
+            }
+
+            btn_state = $("#Map_ActiveFlight_Btn").val();
+            if (btn_state == 'off') {
+
+              $(".Map_ActiveFlight").show();
+              $(".af_btn-text").html('Stop Active Flight');
+              $("#Map_ActiveFlight_Btn").val('on');
+              
+              showActiveFlights();
+              
+
+            } else if (btn_state == 'on') {
+              $(".Map_ActiveFlight").hide();
+              $(".af_btn-text").html('Show Active Flight');
+              $("#Map_ActiveFlight_Btn").val('off');
+              removeActiveFlight();
             }
 
             // if (button_text == 'Hide Options') {
@@ -1430,23 +1469,23 @@
           });
         }
 
-        function styleActiveFlight(controlDiv, map) {
+        function styleActiveFlightOptions(controlDiv, map) {
 
           var normal_marker = 'test';
           // Set CSS for the control border.
           active_flight_details =
 
-            '<div class="af_sliderWrapper">' +
-              '<div class="mr-2 m-1">Show Active Flight</div>' +
-              '<label class="af_switch mb-0">' +
-              '<input class="af_checkbox" type="checkbox" value="off" id="af_show" >' +
-              '<div class="slider round">' +
-              '<span class="on">ON</span>' +
-              '<span class="off">OFF</span>' +
-              '</div>' +
-              '</label>' +
-              '</div>' +
-            '<div class="af_sliderWrapper af_options" hidden >' +
+            // '<div class="af_sliderWrapper">' +
+            //   '<div class="mr-2 m-1">Show Active Flight</div>' +
+            //   '<label class="af_switch mb-0">' +
+            //   '<input class="af_checkbox" type="checkbox" value="off" id="af_show" >' +
+            //   '<div class="slider round">' +
+            //   '<span class="on">ON</span>' +
+            //   '<span class="off">OFF</span>' +
+            //   '</div>' +
+            //   '</label>' +
+            //   '</div>' +
+            '<div class="af_sliderWrapper af_options"  >' +
               '<div class="mr-2 m-1">Auto-Center</div>' +
               '<label class="af_switch mb-0">' +
               '<input class="af_checkbox" type="checkbox" value="on" id="af_autocenter" checked >' +
@@ -1456,7 +1495,7 @@
               '</div>' +
               '</label>' +
               '</div>' +
-            '<div class="af_sliderWrapper af_options" hidden>' +
+            '<div class="af_sliderWrapper af_options" >' +
               '<div class="mr-2 m-1">Show Trail&nbsp&nbsp&nbsp&nbsp&nbsp</div>' +
               '<label class="af_switch mb-0">' +
               '<input class="af_checkbox" type="checkbox" value="on" id="af_show_trail" checked >' +

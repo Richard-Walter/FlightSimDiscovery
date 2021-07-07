@@ -61,36 +61,30 @@
   width: 400px;
 }
 
-@media (max-width: 767px) {
-  .Map_ActiveFlight {
+@media (max-width: 900px) {
+  /* .Map_ActiveFlight {
     display: none;
-  }
+  } */
 
   .poi_search_field{
-    width: 300px;
+    width: 250px;
   }
 }
 
-@media (max-width: 580px) {
+@media (max-width: 750px) {
 
   .poi_search_field{
     width: 200px;
   }
 }
 
-@media (max-width: 480px) {
-
-  .poi_search_field{
-    width: 150px;
-  }
-}
-
-@media (max-width: 410px) {
+@media (max-width: 680px) {
 
   .poi_search_field{
     display: none;
   }
 }
+
 
 
 .autocomplete-items {
@@ -1913,6 +1907,7 @@ h3 {
 .af_sliderWrapper div{
   display: inline-block;
   }
+  
 
 .af_switch {
   position: relative;
