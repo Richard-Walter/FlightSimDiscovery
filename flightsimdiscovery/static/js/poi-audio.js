@@ -37,6 +37,7 @@ let speech = new SpeechSynthesisUtterance();
 let defaultBlurb = "The Amazon River in South America is the largest river by discharge volume of water in the world, and the disputed longest river in the world.";
 let allVoices, allLanguages, primaryLanguages, langtags, langhash, langcodehash;
 let txtFld, playBtn, pauseBtn, resumeBtn, stopBtn, speakerMenu, languageMenu, blurbs;
+let currentPoiSelect;
 let voiceIndex = 0;
 let initialSetup = true;
 
@@ -53,6 +54,11 @@ playBtn.addEventListener("click", paPlayPause, false);
 // resumeBtn.addEventListener("click", pa_resume, false);
 stopBtn = qs("#pa_stop");
 stopBtn.addEventListener("click", paStop, false);
+
+currentPoiSelect = qs("#select_poi_play");
+setUpNearbyPOIsSelect();
+// currentPoiSelect.addEventListener("change", selectPOI, false);
+$('#select_poi_play').on( "change", selectPOI );
 
 txtFld = qs("#textFld");
 speakerMenu = qs("#speakerMenu");
@@ -138,6 +144,28 @@ function paPlayPause() {
 function paStop()  {
 
     window.speechSynthesis.cancel();
+}
+
+function setUpNearbyPOIsSelect() {
+
+    let html = `<option selected value="all" selected>No POIs within 5km</option>`;
+    let pois_array = ['Test'];
+
+    pois_array.forEach(function (pois, i) {
+        html += `<option value=${i}>${pois}</option>`;
+        html += `</option>`;
+    });
+    
+    document.getElementById('select_poi_play').innerHTML = html;
+}
+
+function getNearbyPOIs() {
+
+    console.log('get pois');
+}
+
+function selectPOI() {
+    console.log('select poi')
 }
 
 function createLanguageMenu() {
