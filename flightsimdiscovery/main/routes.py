@@ -39,8 +39,10 @@ main = Blueprint('main', __name__)
 # TODO add moving map with default airports and POIS in the ingmae panel see Leaflet
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO add 'create POI' option when clicking on airplane icon?
+# TODO add ability to import and dispaly flight plan on map
 
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
+# TODO Translate poi description text with users gm key
 
 # DEBUGGING SCRIPTS
 # comment out after testing.  need to comment out @scriptsbp.cli.command('name') as well

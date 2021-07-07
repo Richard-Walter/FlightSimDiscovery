@@ -1,39 +1,4 @@
 let speech = new SpeechSynthesisUtterance();
-// speech.lang = "en"
-
-// let voices = [];
-// window.speechSynthesis.onvoiceschanged = () => {
-//   voices = window.speechSynthesis.getVoices();
-//   speech.voice = voices[0];
-//   let voiceSelect = document.querySelector("#voices");
-//   voices.forEach((voice, i) => (voiceSelect.options[i] = new Option(voice.name, i)));
-// };
-
-
-// document.querySelector("#voices").addEventListener("change", () => {
-//   speech.voice = voices[document.querySelector("#voices").value];
-// });
-
-// document.querySelector("#start").addEventListener("click", () => {
-//   speech.text = document.querySelector("#textFld").value;
-//   window.speechSynthesis.speak(speech);
-// });
-
-// document.querySelector("#pause").addEventListener("click", () => {
-//   window.speechSynthesis.pause();
-// });
-
-// document.querySelector("#resume").addEventListener("click", () => {
-//   window.speechSynthesis.resume();
-// });
-
-// document.querySelector("#cancel").addEventListener("click", () => {
-//   window.speechSynthesis.cancel();
-// });
-
-
-
-
 let defaultBlurb = "The Amazon River in South America is the largest river by discharge volume of water in the world, and the disputed longest river in the world.";
 let allVoices, allLanguages, primaryLanguages, langtags, langhash, langcodehash;
 let txtFld, playBtn, pauseBtn, resumeBtn, stopBtn, speakerMenu, languageMenu, blurbs;
@@ -41,17 +6,9 @@ let currentPoiSelect;
 let voiceIndex = 0;
 let initialSetup = true;
 
-// //populate list of supported languages
-// let languageSelect = qs("#pa_languages");
-// supported_languages.forEach((supported_language, i) => (languageSelect.options[i] = new Option(supported_language['name'], i)));
-
 
 playBtn = qs("#pa_play_pause");
 playBtn.addEventListener("click", paPlayPause, false);
-// pauseBtn = qs("#pa_pause");
-// pauseBtn.addEventListener("click", pa_pause, false);
-// resumeBtn = qs("#pa_resume");
-// resumeBtn.addEventListener("click", pa_resume, false);
 stopBtn = qs("#pa_stop");
 stopBtn.addEventListener("click", paStop, false);
 
@@ -93,6 +50,13 @@ speech.onend = function(event) {
     $('#pa_play_pause_icon').removeClass('fa-pause fa-resume');
 }
 
+//main entry 
+function pa_init(){
+
+    
+
+
+}
 
 function setUpVoices() {
     allVoices = getAllVoices();

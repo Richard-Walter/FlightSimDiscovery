@@ -11,6 +11,9 @@ let updateIntervalID = null;
 //create inital user marker info
 var userMarkerInfo = null;
 
+//active flight current details dictionary
+af_details = {'last_update_ms':0};
+
 
 // //checkbox on main web page
 // $("#get_active_flights_checkbox").click(function() {
@@ -34,7 +37,7 @@ var userMarkerInfo = null;
 
 //       // //GET ACTIVE FLIGHT DATA FROM DATABASE EVERY 5S
 //       updateIntervalID =setInterval(() => {
-//           getActiveFlightData();
+//           updateActiveFlightData();
 //       }, 5000 );
 
 //     } else {
@@ -78,7 +81,21 @@ function showActiveFlights() {
 
     // //GET ACTIVE FLIGHT DATA FROM DATABASE EVERY 5S
     updateIntervalID =setInterval(() => {
-        getActiveFlightData();
+
+        //THis updates cvlient-side active flight details from server side
+        updateActiveFlightData(updateMap);
+
+        //get client side details
+
+        //update map
+        // update_text = updateMap();
+
+        // if (update_text == "error"){
+        //   removeSetInterval("No active flight detected.  Check that you are connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
+          
+        // } else if (update_text == "timestamp_threshold_exceeded")
+        //   removeSetInterval("No active flight detected.  Check that you are connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
+  
     }, 5000 );
 
   } else {
@@ -119,7 +136,7 @@ function updateDBShowChecked(showChecked){
 }
 
 //Ajax routine to get users active flight
-function getActiveFlightData() {
+function updateActiveFlightData(callback) {
 
   console.log("getting active flight data");
   
@@ -128,23 +145,47 @@ function getActiveFlightData() {
     method:"POST", 
     dataType: "text",
     data: {user_id: getUserID()},
-  }).done(function(response) {
-
+  }).success(function(response) {
+      
       console.log("get user location returned data")
+      updateAFDict(response);
+      callback();
 
-      update_text = updateMap(response);
-
-      if (update_text == "error"){
-        removeSetInterval("No active flight detected.  Check that you are connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
-        
-      } else if (update_text == "timestamp_threshold_exceeded")
-        removeSetInterval("No active flight detected.  Check that you are connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
-
-    }).fail(function(){
+    }).error(function(){
       console.log('AJAX call to get_user_location from database failed.  Cant update database to show active flight checked');
       removeSetInterval("No active flight detected.  Check that you are connected via the Flight Sim Discovery toolbar panel within MSFS and try again");
   });
 
+}
+
+function updateAFDict(response){
+
+  coordinates = JSON.parse(response);
+  if (jQuery.isEmptyObject(coordinates)) {
+    console.log("In updateMap - no data.  Probably user has never had an active flight and hasnt go the ingame panel installed")
+    af_details['last_update_ms'] = 0;
+    return;
+  }
+
+  last_update = coordinates['last_update'];
+  user_lat = coordinates['lat'];
+  user_lng = coordinates['lng'];
+  altitude_m = Math.round(coordinates['alt']);
+  altitude = Math.round(altitude_m*3.281);
+  ground_speed = Math.round(coordinates['ground_speed']);
+  ias = coordinates['ias'];
+  heading_true = coordinates['heading_true'];
+  last_update_ms = new Date(last_update).getTime();
+
+  //update client side active flight details dictioary
+  af_details['last_update'] = last_update;
+  af_details['user_lat'] = user_lat;
+  af_details['user_lng'] = user_lng;
+  af_details['altitude'] = altitude;
+  af_details['ground_speed'] = ground_speed;
+  af_details['ias'] = ias;
+  af_details['heading_true'] = heading_true;
+  af_details['last_update_ms'] = last_update_ms;
 }
 
 //stop tracking flight and remove marker/trail from map
@@ -186,37 +227,28 @@ function removeSetInterval(flash_message='', timeout=null) {
 }
 
 //update map active flight marker, text and line.
-function updateMap(data) {
+function updateMap() {
 
-  coordinates = JSON.parse(data);
-  if (jQuery.isEmptyObject(coordinates)) {
-    console.log("In updateMap - no data.  Probably user has never had an active flight and hasnt go the ingame panel installed")
-    return "error"
-  }
-  
-  last_update = coordinates['last_update'];
-  user_lat = coordinates['lat'];
-  user_lng = coordinates['lng'];
-  altitude_m = Math.round(coordinates['alt']);
-  altitude = Math.round(altitude_m*3.281);
-  ground_speed = Math.round(coordinates['ground_speed']);
-
-  ias = coordinates['ias'];
-  heading_true = coordinates['heading_true'];
-
-  label_txt = ground_speed.toString() + 'kts  ' + altitude.toString() + 'ft';
-
-  var last_update_ms = new Date(last_update).getTime();
-  var current_date_ms = Date.now();
-  const diff_millis = current_date_ms - last_update_ms;
+  last_update = af_details['last_update'];
+  user_lat = af_details['user_lat'];
+  user_lng = af_details['user_lng'];
+  altitude = af_details['altitude'];
+  ground_speed = af_details['ground_speed'];
+  ias = af_details['ias'];
+  heading_true = af_details['heading_true'];
+  last_update_ms = af_details['last_update_ms'];
+  current_date_ms = Date.now();
+  diff_millis = current_date_ms - last_update_ms;
   // console.log(`seconds elapsed = ${Math.floor(diff_millis / 1000)}`);
 
   //check timestamp to see if flight data is being update from msfs
   if (diff_millis > 9000) {
     console.log('timestamp has not been updated for at least 9s' )
 
-    return "timestamp_threshold_exceeded"
+    removeSetInterval("No active flight detected.  Check that you are connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
+    return;
   }
+
 
   //We have an active flight that is being updated!
   active_flight_flash("Tracking active flight");
@@ -236,7 +268,7 @@ function updateMap(data) {
 
     //update label
     var label = userMarkerInfo.marker.getLabel();
-    label.text = label_txt;
+    label.text = ground_speed.toString() + 'kts  ' + altitude.toString() + 'ft';;
     userMarkerInfo.marker.setLabel(label);
 
     //update user plane trail
@@ -284,7 +316,6 @@ function updateMap(data) {
   // active_flight_flash("Tracking active flight");
   
 }
-
 
 function createNewUserMarker(user_lat,user_lng, ground_speed, heading_true, map) {
 
