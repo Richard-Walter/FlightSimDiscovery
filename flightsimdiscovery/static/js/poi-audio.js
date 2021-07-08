@@ -6,6 +6,8 @@ let currentPoiSelect;
 let voiceIndex = 0;
 let initialSetup = true;
 
+let updatePAIntervalID = null;
+
 
 playBtn = qs("#pa_play_pause");
 playBtn.addEventListener("click", paPlayPause, false);
@@ -13,7 +15,7 @@ stopBtn = qs("#pa_stop");
 stopBtn.addEventListener("click", paStop, false);
 
 currentPoiSelect = qs("#select_poi_play");
-setUpNearbyPOIsSelect();
+setUpNearbyPOIsSelect([]);
 // currentPoiSelect.addEventListener("change", selectPOI, false);
 $('#select_poi_play').on( "change", selectPOI );
 
@@ -53,10 +55,50 @@ speech.onend = function(event) {
 //main entry 
 function pa_init(){
 
+    //test populate options with first 5 pois in pois array
+    play_list = [];
+
+    pois_array.forEach(function (poi, i) {
+        if (i < 6) {
+
+            poi_dict = {};
+            poi_dict['id'] = poi['id'];
+            poi_dict['name'] = poi['name'];
+            poi_dict['description'] = poi['description'];
+            play_list.push(poi_dict)
+
+        } else {
+            return;
+        }
+    });
+
+    setUpNearbyPOIsSelect(play_list); 
+
+    //get active flight details every 10 seconds
+    updatePAIntervalID =setInterval(() => {
+        
+        pa_update_play_list() 
+    }, 8000 );
     
 
 
 }
+
+function pa_update_play_list(){
+
+    let af_details_dict = getAFDetails();
+    current_lat = af_details_dict['user_lat'];
+    current_lng = af_details_dict['user_lng'];
+
+    //find POIs within 5nm and update play list
+}
+
+function pa_diosconnect(){
+    console.log("discommectopm frp, poi audio");
+    clearInterval(updatePAIntervalID);
+
+}
+
 
 function setUpVoices() {
     allVoices = getAllVoices();
@@ -110,15 +152,23 @@ function paStop()  {
     window.speechSynthesis.cancel();
 }
 
-function setUpNearbyPOIsSelect() {
+function setUpNearbyPOIsSelect(play_list) {
 
-    let html = `<option selected value="all" selected>No POIs within 5km</option>`;
-    let pois_array = ['Test'];
 
-    pois_array.forEach(function (pois, i) {
-        html += `<option value=${i}>${pois}</option>`;
-        html += `</option>`;
-    });
+    let html = ``;
+
+    //add to play list if nearby pois are found
+    if(play_list.length > 0) {
+
+        play_list.forEach(function (poi, i) {
+            poi_id = poi['id'];
+            poi_name = poi['name'];
+            html += `<option value=${poi_id}>${poi_name}</option>`;
+            html += `</option>`;
+        });
+    } else {
+        html = `<option selected value="all" selected>No POIs within 5nm</option>`;
+    }
     
     document.getElementById('select_poi_play').innerHTML = html;
 }

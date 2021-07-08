@@ -12,7 +12,7 @@ let updateIntervalID = null;
 var userMarkerInfo = null;
 
 //active flight current details dictionary
-af_details = {'last_update_ms':0};
+let af_details = {'last_update_ms':0};
 
 
 // //checkbox on main web page
@@ -186,6 +186,10 @@ function updateAFDict(response){
   af_details['ias'] = ias;
   af_details['heading_true'] = heading_true;
   af_details['last_update_ms'] = last_update_ms;
+}
+
+function getAFDetails() {
+  return af_details;
 }
 
 //stop tracking flight and remove marker/trail from map
@@ -464,10 +468,12 @@ function activeFlightPoiAudio(show_flag){
     $('.pa_toolbar').removeClass("d-none");
     $('.pa_toolbar').addClass("d-flex");
     $('.tips-and-tricks').addClass("d-none");
+    pa_init();
 
   } else {
     $('.pa_toolbar').addClass("d-none");
     $('.pa_toolbar').removeClass("d-flex");
+    pa_diosconnect();
   }
 }
 
