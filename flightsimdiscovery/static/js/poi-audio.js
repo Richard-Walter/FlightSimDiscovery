@@ -17,7 +17,7 @@ stopBtn = qs("#pa_stop");
 stopBtn.addEventListener("click", paStop, false);
 currentPoiSelect = qs("#select_poi_play");
 
-// setUpNearbyPOIsSelect([]);
+setUpNearbyPOIsSelect([]);
 // currentPoiSelect.addEventListener("change", selectPOI, false);
 $('#select_poi_play').on( "change", selectPOI );
 
@@ -147,7 +147,7 @@ function setUpNearbyPOIsSelect(play_list) {
 
     //add to play list if nearby pois are found
     if(play_list.length > 0) {
-
+        $('#select_poi_play').prop('disabled', false);
         play_list.forEach(function (poi, i) {
             poi_id = poi['id'];
             poi_name = poi['name'];
@@ -155,6 +155,7 @@ function setUpNearbyPOIsSelect(play_list) {
             html += `</option>`;
         });
     } else {
+        $('#select_poi_play').prop('disabled', 'disabled');
         html = `<option selected value="all" selected>No POIs within 5nm</option>`;
     }
     
