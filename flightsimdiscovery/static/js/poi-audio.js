@@ -7,15 +7,16 @@ let voiceIndex = 0;
 let initialSetup = true;
 
 let updatePAIntervalID = null;
+const SEARCH_RADIUS = 5000;   //meters
 
-
+//html config
 playBtn = qs("#pa_play_pause");
 playBtn.addEventListener("click", paPlayPause, false);
 stopBtn = qs("#pa_stop");
 stopBtn.addEventListener("click", paStop, false);
-
 currentPoiSelect = qs("#select_poi_play");
-setUpNearbyPOIsSelect([]);
+
+// setUpNearbyPOIsSelect([]);
 // currentPoiSelect.addEventListener("change", selectPOI, false);
 $('#select_poi_play').on( "change", selectPOI );
 
@@ -55,42 +56,24 @@ speech.onend = function(event) {
 //main entry 
 function pa_init(){
 
-    //test populate options with first 5 pois in pois array
-    play_list = [];
 
-    pois_array.forEach(function (poi, i) {
-        if (i < 6) {
-
-            poi_dict = {};
-            poi_dict['id'] = poi['id'];
-            poi_dict['name'] = poi['name'];
-            poi_dict['description'] = poi['description'];
-            play_list.push(poi_dict)
-
-        } else {
-            return;
-        }
-    });
-
-    setUpNearbyPOIsSelect(play_list); 
-
-    //get active flight details every 10 seconds
     updatePAIntervalID =setInterval(() => {
-        
         pa_update_play_list() 
     }, 8000 );
-    
-
 
 }
 
 function pa_update_play_list(){
 
     let af_details_dict = getAFDetails();
-    current_lat = af_details_dict['user_lat'];
-    current_lng = af_details_dict['user_lng'];
+    // current_lat = af_details_dict['user_lat'];
+    // current_lng = af_details_dict['user_lng'];
+    current_lat = 51.508407;
+    current_lng = -0.101282;
 
     //find POIs within 5nm and update play list
+    play_list = getPoisToPlay(new google.maps.LatLng(current_lat, current_lng));
+    setUpNearbyPOIsSelect(play_list);
 }
 
 function pa_diosconnect(){
@@ -270,3 +253,58 @@ function qs(selectorText) {
 function getLookupTable(objectsArray, propname) {
     return objectsArray.reduce((accumulator, currentValue) => (accumulator[currentValue[propname]] = currentValue, accumulator), {});
 }
+
+function getPoisToPlay(current_position) {
+
+    //test
+    var closestMarker = -1;
+    var closestPOI = '';
+    var closestDistance = Number.MAX_VALUE;
+
+    pois_within_search = [];
+    pois_array = pois_array;
+    pois_array.forEach(function (poi, i) {
+
+        poi_lat =parseFloat(poi['lat']);
+        poi_lng =parseFloat(poi['lng']);
+
+
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(poi_lat, poi_lng), current_position );
+        
+        //test
+        if ( distance < closestDistance ) {
+            closestMarker = i;
+            closestDistance = distance;
+            closestPOI = poi['name'];
+        }
+        
+        if ( distance < SEARCH_RADIUS ) {
+            poi_dict = {};
+            poi_dict['id'] = poi['id'];
+            poi_dict['name'] = poi['name'];
+            poi_dict['description'] = poi['description'];
+            poi_dict['distance_from_current_position'] = distance;
+            pois_within_search.push(poi_dict)
+        }
+    });
+
+    console.log(closestDistance);
+    console.log(closestPOI);
+
+    sorted_play_list = pois_within_search.sort( sortPlaylist );
+    return sorted_play_list
+    // return pois_within_search;
+ 
+}
+
+function sortPlaylist( a, b ) {
+    if ( a.distance_from_current_position < b.distance_from_current_position ){
+      return -1;
+    }
+    if ( a.distance_from_current_position > b.distance_from_current_position ){
+      return 1;
+    }
+    return 0;
+}
+  
+

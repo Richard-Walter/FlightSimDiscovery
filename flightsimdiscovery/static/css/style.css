@@ -21,6 +21,7 @@
 .pa_toolbar{
  
   color: #f3f3f3;
+  display: none;
   /* border-style: inset;
   border-color: rgb(35, 157, 194) */
   
@@ -31,7 +32,7 @@
   
 }
 
-.pa_toolbar selec{
+.pa_toolbar select{
    /* max-width: 50px !important;  */
    display: block;
 }
