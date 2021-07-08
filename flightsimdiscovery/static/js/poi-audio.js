@@ -8,6 +8,7 @@ let initialSetup = true;
 
 let updatePAIntervalID = null;
 const SEARCH_RADIUS = 5000;   //meters
+let sorted_play_list = null;   //meters
 
 //html config
 playBtn = qs("#pa_play_pause");
@@ -104,7 +105,11 @@ function paPlayPause() {
         speech.voice = allVoices[sval];
         speech.lang = speech.voice.lang;
         console.log(speech.lang);
-        speech.text = txtFld.value;
+
+        textTo_play = getPOItoPlayText();
+        txtFld.value = textTo_play;
+        speech.text = textTo_play;
+
         window.speechSynthesis.speak(speech);
         $('#pa_play_pause').val('pause');
         $('#pa_play_pause_icon').toggleClass('fa-play fa-pause');
@@ -295,6 +300,21 @@ function getPoisToPlay(current_position) {
     return sorted_play_list
     // return pois_within_search;
  
+}
+
+function getPOItoPlayText (){
+
+    selectValue = document.getElementById('select_poi_play').value;
+    play_text = null;
+
+    for (let poi of sorted_play_list) { 
+        if (poi['id']==selectValue){
+            play_text = poi['description'];
+            break;
+        }
+    }
+
+    return play_text;
 }
 
 function sortPlaylist( a, b ) {
