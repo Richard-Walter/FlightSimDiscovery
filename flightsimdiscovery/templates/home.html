@@ -314,15 +314,15 @@
 <!-- <div id="poi_audio_toolbar" class="d-none justify-content-center pa_toolbar " > -->
 <div class="container my-2">
     <p id="warning" class="warning">Sorry, your web browser does not support the Speech Synthesis API.</p>
-    <p class="lead text-dark mt-1">Select Language</p>
+    <!-- <p class="lead text-dark mt-1">Select Language</p>
     <select id="languageMenu" class="mb-1 form-select bg-secondary text-light"></select>
     <p class="lead text-dark mt-1">Select Voice</p>
-    <select id="speakerMenu" class="form-select bg-secondary text-light"></select>
+    <select id="speakerMenu" class="form-select bg-secondary text-light"></select> -->
     <!-- <p class="lead text-dark mt-1">Select Voice Test</p>
     <select id="voices" class="form-select bg-secondary text-light"></select> -->
 
     <textarea id="textFld" class="form-control bg-dark text-light my-1 " cols="30" rows="6" placeholder="Type here..."></textarea>
-    <div id="poi_audio_toolbar" class="justify-content-center pa_toolbar" >
+    <div id="pa_toolbar" class="justify-content-center pa_toolbar" >
         <p class="p-1">Currently playing: </p>
         <p id="current_poi_playing" class="p-1"></p>
         <div class="w-50">
@@ -333,6 +333,21 @@
             <button id="pa_play_pause" class="btn btn-success btn-sm m-1" value="play" ><i id="pa_play_pause_icon" class="fas fa-play"></i></button>
             <button id="pa_stop" class="btn btn-danger btn-sm m-1"><i id="pa_stop_icon" class="fas fa-stop"></i></button>
             <button id="pa_step_foward" class="btn btn-info btn-sm m-1"><i id="pa_step_foward" class="fas fa-step-forward"></i></button>
+            <button id="pa_settings" class="ml-3 btn btn-secondary btn-sm my-1"><i id="pa_settings" class="fas fa-bars"></i></button>
+        </div>
+    </div>
+    <div id="pa_audio_toolbar" class="justify-content-center pa_audio_toolbar mt-2" >
+        <div class="row">
+            <div class="col-sm">
+                <p class=" text-dark mt-1 text-right">Select Language: </p>
+            </div>  
+            <div class="col-sm">
+                <select id="languageMenu" class="mb-1 form-select bg-secondary text-light"></select>
+            </div>
+            <p class=" text-dark mt-1 text-right">Select Voice: </p>
+            <div class="col-sm">
+                <select id="speakerMenu" class="form-select bg-secondary text-light"></select>
+            </div>
         </div>
     </div>
 </div>

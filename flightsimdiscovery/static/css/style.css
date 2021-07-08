@@ -15,8 +15,6 @@
 }
 
 
-
-
 /*  STYLE POI AUDION TOOLBAR - START    */
 .pa_toolbar{
  
@@ -37,10 +35,27 @@
    display: block;
 }
 
+.pa_audio_toolbar{
+ 
+  color: #f3f3f3;
+  display: none;
+  /* border-style: inset;
+  border-color: rgb(35, 157, 194) */
+  
+}
+
+.pa_audio_toolbar p{
+  color: #161616;
+  
+}
+
+.pa_audio_toolbar select{
+   /* max-width: 50px !important;  */
+   display: block;
+}
+
+
 /*  STYLE POI AUDION TOOLBAR - end    */
-
-
-
 
 
 .tips-and-tricks{

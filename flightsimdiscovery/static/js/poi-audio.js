@@ -1,25 +1,30 @@
 let speech = new SpeechSynthesisUtterance();
 let defaultBlurb = "The Amazon River in South America is the largest river by discharge volume of water in the world, and the disputed longest river in the world.";
 let allVoices, allLanguages, primaryLanguages, langtags, langhash, langcodehash;
-let txtFld, playBtn, pauseBtn, resumeBtn, stopBtn, speakerMenu, languageMenu, blurbs;
-let currentPoiSelect;
+let txtFld, playBtn, pauseBtn, resumeBtn, stopBtn, settingsBtn, speakerMenu, languageMenu, blurbs;
+let currentPoiQuerySelect;
 let voiceIndex = 0;
 let initialSetup = true;
 
 let updatePAIntervalID = null;
-const SEARCH_RADIUS = 5000;   //meters
-let sorted_play_list = null;   //meters
+const SEARCH_RADIUS = 9300;   //meters
+
+//play list details
+let sorted_play_list = null;
+let current_poi_playing = null;
 
 //html config
 playBtn = qs("#pa_play_pause");
 playBtn.addEventListener("click", paPlayPause, false);
 stopBtn = qs("#pa_stop");
 stopBtn.addEventListener("click", paStop, false);
-currentPoiSelect = qs("#select_poi_play");
+settingsBtn = qs("#pa_settings");
+settingsBtn.addEventListener("click", paSettings, false);
+currentPoiQuerySelect = qs("#select_poi_play");
 
 setUpNearbyPOIsSelect([]);
-// currentPoiSelect.addEventListener("change", selectPOI, false);
-$('#select_poi_play').on( "change", selectPOI );
+// currentPoiQuerySelect.addEventListener("change", selectPOI, false);
+$('#select_poi_play').on("change", selectPOI);
 
 txtFld = qs("#textFld");
 speakerMenu = qs("#speakerMenu");
@@ -37,36 +42,55 @@ if (window.speechSynthesis) {
     if (window.speechSynthesis.onvoiceschanged !== undefined) {
         //Chrome gets the voices asynchronously so this is needed
         window.speechSynthesis.onvoiceschanged = setUpVoices;
-        $("#warning").attr("hidden",true);
+        $("#warning").attr("hidden", true);
     }
     setUpVoices(); //for all the other browsers
 } else {
     playBtn.disabled = true;
     speakerMenu.disabled = true;
     languageMenu.disabled = true;
-    $("#warning").attr("hidden",false);
+    $("#warning").attr("hidden", false);
 }
 
-speech.onend = function(event) {
-    
+speech.onend = function (event) {
+
     $('#pa_play_pause').val('play');
     $('#pa_play_pause_icon').addClass('fas fa-play');
     $('#pa_play_pause_icon').removeClass('fa-pause fa-resume');
+    current_poi_playing = null;
 }
 
 //main entry 
-function pa_init(){
+function pa_init() {
 
-
-    updatePAIntervalID =setInterval(() => {
-        pa_update_play_list() 
-    }, 8000 );
+    //update play list every 10 seconds
+    updatePAIntervalID = setInterval(() => {
+        pa_update_play_list()
+    }, 5000);
 
 }
 
-function pa_update_play_list(){
+function pa_update_play_list() {
+
+    //only update play list if play poi if not currently playing
+    if (current_poi_playing != null) {
+
+        return;
+    }
 
     let af_details_dict = getAFDetails();
+    let last_update_ms = af_details['last_update_ms'];
+    current_date_ms = Date.now();
+    diff_millis = current_date_ms - last_update_ms;
+
+    //disconnect from pa
+    if (diff_millis > 20000) {
+
+        pa_disconnect();
+        return;
+    }
+
+
     // current_lat = af_details_dict['user_lat'];
     // current_lng = af_details_dict['user_lng'];
     current_lat = 51.508407;
@@ -74,10 +98,17 @@ function pa_update_play_list(){
 
     //find POIs within 5nm and update play list
     play_list = getPoisToPlay(new google.maps.LatLng(current_lat, current_lng));
+
+
     setUpNearbyPOIsSelect(play_list);
+
+    if (play_list.length > 0) {
+
+        paPlayPause();
+    }
 }
 
-function pa_diosconnect(){
+function pa_disconnect() {
     console.log("discommectopm frp, poi audio");
     clearInterval(updatePAIntervalID);
 
@@ -94,9 +125,12 @@ function setUpVoices() {
         createLanguageMenu();
         $('#languageMenu').val('en').trigger('click');
         filterVoices();
-   
+
     }
 }
+
+
+//PLAY - PAUSE - RESUME FUNCTIONALITY
 function paPlayPause() {
     btn_val = $('#pa_play_pause').val();
 
@@ -105,8 +139,8 @@ function paPlayPause() {
         speech.voice = allVoices[sval];
         speech.lang = speech.voice.lang;
         console.log(speech.lang);
-
-        textTo_play = getPOItoPlayText();
+        current_poi_playing = getPOIPlaying();
+        textTo_play = current_poi_playing['description'];
         txtFld.value = textTo_play;
         speech.text = textTo_play;
 
@@ -124,20 +158,27 @@ function paPlayPause() {
         $('#pa_play_pause').val('pause');
         $('#pa_play_pause_icon').toggleClass('fa-pause fa-play');
         window.speechSynthesis.resume();
-    } 
+    }
 }
 
-// function pa_pause()  {
-//     window.speechSynthesis.pause();
-// }
 
-// function pa_resume()  {
-//     window.speechSynthesis.resume();
-// }
-
-function paStop()  {
+function paStop() {
 
     window.speechSynthesis.cancel();
+    current_poi_playing = null;
+}
+
+function paSettings() {
+
+    // alert('sucess');
+    // $("pa_audio_toolbar").toggle();
+    is_visible = $('#pa_audio_toolbar').is(":visible");
+    alert(is_visible);
+    if(is_visible){
+        $("#pa_audio_toolbar").attr("style", "display:none");
+    } else {
+        $("#pa_audio_toolbar").attr("style", "display:block");
+    }
 }
 
 function setUpNearbyPOIsSelect(play_list) {
@@ -145,20 +186,27 @@ function setUpNearbyPOIsSelect(play_list) {
 
     let html = ``;
 
+    //do not update select statement until play has finished.
+    if (current_poi_playing) {
+        return;
+    }
+
     //add to play list if nearby pois are found
-    if(play_list.length > 0) {
+    if (play_list.length > 0) {
+
         $('#select_poi_play').prop('disabled', false);
         play_list.forEach(function (poi, i) {
             poi_id = poi['id'];
+
             poi_name = poi['name'];
             html += `<option value=${poi_id}>${poi_name}</option>`;
-            html += `</option>`;
+            // html += `</option>`;
         });
     } else {
         $('#select_poi_play').prop('disabled', 'disabled');
-        html = `<option selected value="all" selected>No POIs within 5nm</option>`;
+        html = `<option selected value="all" selected>Searching for POIs within 5nm ...</option>`;
     }
-    
+
     document.getElementById('select_poi_play').innerHTML = html;
 }
 
@@ -175,7 +223,17 @@ function createLanguageMenu() {
     let code = `<option selected value="all">Show All</option>`;
     let langnames = [];
     primaryLanguages.forEach(function (lobj, i) {
-        langnames.push(langcodehash[lobj.substring(0, 2)].name);
+
+        two_letter_lng_code = lobj.substring(0, 2);
+        full_name_lng_dict = langcodehash[two_letter_lng_code];
+
+        //continue if code isnt in the langcodehash
+        if (full_name_lng_dict == null) {
+            return true;
+        }
+        full_name_lng = full_name_lng_dict['name'];
+        // langnames.push(langcodehash[lobj.substring(0, 2)].name);
+        langnames.push(full_name_lng);
     });
     langnames.sort();
     langnames.forEach(function (lname, i) {
@@ -253,7 +311,7 @@ function getLanguageTags() {
 }
 // Generic Utility Functions
 function qs(selectorText) {
-    
+
     return document.querySelector(selectorText);
 }
 function getLookupTable(objectsArray, propname) {
@@ -271,20 +329,20 @@ function getPoisToPlay(current_position) {
     pois_array = pois_array;
     pois_array.forEach(function (poi, i) {
 
-        poi_lat =parseFloat(poi['lat']);
-        poi_lng =parseFloat(poi['lng']);
+        poi_lat = parseFloat(poi['lat']);
+        poi_lng = parseFloat(poi['lng']);
 
 
-        var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(poi_lat, poi_lng), current_position );
-        
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(poi_lat, poi_lng), current_position);
+
         //test
-        if ( distance < closestDistance ) {
+        if (distance < closestDistance) {
             closestMarker = i;
             closestDistance = distance;
             closestPOI = poi['name'];
         }
-        
-        if ( distance < SEARCH_RADIUS ) {
+
+        if (distance < SEARCH_RADIUS) {
             poi_dict = {};
             poi_dict['id'] = poi['id'];
             poi_dict['name'] = poi['name'];
@@ -297,35 +355,36 @@ function getPoisToPlay(current_position) {
     console.log(closestDistance);
     console.log(closestPOI);
 
-    sorted_play_list = pois_within_search.sort( sortPlaylist );
+    sorted_play_list = pois_within_search.sort(sortPlaylist);
+
     return sorted_play_list
     // return pois_within_search;
- 
+
 }
 
-function getPOItoPlayText (){
+function getPOIPlaying() {
 
     selectValue = document.getElementById('select_poi_play').value;
-    play_text = null;
+    poi_to_play = null;
 
-    for (let poi of sorted_play_list) { 
-        if (poi['id']==selectValue){
-            play_text = poi['description'];
+    for (let poi of sorted_play_list) {
+        if (poi['id'] == selectValue) {
+            poi_to_play = poi;
             break;
         }
     }
 
-    return play_text;
+    return poi_to_play;
 }
 
-function sortPlaylist( a, b ) {
-    if ( a.distance_from_current_position < b.distance_from_current_position ){
-      return -1;
+function sortPlaylist(a, b) {
+    if (a.distance_from_current_position < b.distance_from_current_position) {
+        return -1;
     }
-    if ( a.distance_from_current_position > b.distance_from_current_position ){
-      return 1;
+    if (a.distance_from_current_position > b.distance_from_current_position) {
+        return 1;
     }
     return 0;
 }
-  
+
 
