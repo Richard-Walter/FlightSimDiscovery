@@ -1,19 +1,10 @@
-let speech = new SpeechSynthesisUtterance();
-let defaultBlurb = "The Amazon River in South America is the largest river by discharge volume of water in the world, and the disputed longest river in the world.";
+//html config
+
 let allVoices, allLanguages, primaryLanguages, langtags, langhash, langcodehash;
 let txtFld, playBtn, pauseBtn, resumeBtn, stopBtn, settingsBtn, speakerMenu, languageMenu, blurbs;
 let currentPoiQuerySelect;
 let voiceIndex = 0;
 let initialSetup = true;
-
-let updatePAIntervalID = null;
-const SEARCH_RADIUS = 9300;   //meters
-
-//play list details
-let sorted_play_list = null;
-let current_poi_playing = null;
-
-//html config
 playBtn = qs("#pa_play_pause");
 playBtn.addEventListener("click", paPlayPause, false);
 stopBtn = qs("#pa_stop");
@@ -21,6 +12,16 @@ stopBtn.addEventListener("click", paStop, false);
 settingsBtn = qs("#pa_settings");
 settingsBtn.addEventListener("click", paSettings, false);
 currentPoiQuerySelect = qs("#select_poi_play");
+
+
+let speech = new SpeechSynthesisUtterance();
+let updatePAIntervalID = null;
+const SEARCH_RADIUS = 9300;   //meters
+
+//play list details
+let sorted_play_list = null;
+let current_poi_playing = null;
+let pois_played = new Set();
 
 setUpNearbyPOIsSelect([]);
 // currentPoiQuerySelect.addEventListener("change", selectPOI, false);
@@ -57,6 +58,12 @@ speech.onend = function (event) {
     $('#pa_play_pause').val('play');
     $('#pa_play_pause_icon').addClass('fas fa-play');
     $('#pa_play_pause_icon').removeClass('fa-pause fa-resume');
+
+    if(current_poi_playing){
+        pois_played.add(current_poi_playing['id']);
+    }
+    
+
     current_poi_playing = null;
 }
 
@@ -83,12 +90,12 @@ function pa_update_play_list() {
     current_date_ms = Date.now();
     diff_millis = current_date_ms - last_update_ms;
 
-    //disconnect from pa
-    if (diff_millis > 20000) {
+    // //disconnect from pa
+    // if (diff_millis > 20000) {
 
-        pa_disconnect();
-        return;
-    }
+    //     pa_disconnect();
+    //     return;
+    // }
 
 
     // current_lat = af_details_dict['user_lat'];
@@ -111,6 +118,7 @@ function pa_update_play_list() {
 function pa_disconnect() {
     console.log("discommectopm frp, poi audio");
     clearInterval(updatePAIntervalID);
+    $( "#select_poi_play option:selected" ).text(current_poi_playing_name );
 
 }
 
@@ -140,11 +148,19 @@ function paPlayPause() {
         speech.lang = speech.voice.lang;
         console.log(speech.lang);
         current_poi_playing = getPOIPlaying();
+        current_poi_playing_id = current_poi_playing['id'];
+        current_poi_playing_name = current_poi_playing['name'];
         textTo_play = current_poi_playing['description'];
         txtFld.value = textTo_play;
         speech.text = textTo_play;
 
         window.speechSynthesis.speak(speech);
+        //add quick pasue and resume due to chrome sometimes not playing at start
+        window.speechSynthesis.pause();
+        window.speechSynthesis.resume();
+        //change select statement text by appending 'Playing'
+        $( "#select_poi_play option:selected" ).text( 'Playing: ' + current_poi_playing_name );
+
         $('#pa_play_pause').val('pause');
         $('#pa_play_pause_icon').toggleClass('fa-play fa-pause');
 
@@ -153,11 +169,14 @@ function paPlayPause() {
         $('#pa_play_pause').val('resume');
         $('#pa_play_pause_icon').toggleClass('fa-pause fa-play');
         window.speechSynthesis.pause();
+        $( "#select_poi_play option:selected" ).text( 'Paused: ' + current_poi_playing_name );
+
     } else if (btn_val == 'resume') {
 
         $('#pa_play_pause').val('pause');
         $('#pa_play_pause_icon').toggleClass('fa-pause fa-play');
         window.speechSynthesis.resume();
+        $( "#select_poi_play option:selected" ).text( 'Playing: ' + current_poi_playing_name );
     }
 }
 
@@ -165,7 +184,9 @@ function paPlayPause() {
 function paStop() {
 
     window.speechSynthesis.cancel();
+    pois_played.add(current_poi_playing['id']);
     current_poi_playing = null;
+    $( "#select_poi_play option:selected" ).text(current_poi_playing_name );
 }
 
 function paSettings() {
@@ -173,7 +194,6 @@ function paSettings() {
     // alert('sucess');
     // $("pa_audio_toolbar").toggle();
     is_visible = $('#pa_audio_toolbar').is(":visible");
-    alert(is_visible);
     if(is_visible){
         $("#pa_audio_toolbar").attr("style", "display:none");
     } else {
@@ -196,15 +216,18 @@ function setUpNearbyPOIsSelect(play_list) {
 
         $('#select_poi_play').prop('disabled', false);
         play_list.forEach(function (poi, i) {
-            poi_id = poi['id'];
 
-            poi_name = poi['name'];
-            html += `<option value=${poi_id}>${poi_name}</option>`;
-            // html += `</option>`;
+            //only add to list if POI has NOT been played previously
+            if(!pois_played.has(poi['id'])){
+                html += `<option value=${poi['id']}>${poi['name']}</option>`;
+            } else {
+                console.log('poi already played: ' + poi['id']);
+                
+            }
         });
     } else {
         $('#select_poi_play').prop('disabled', 'disabled');
-        html = `<option selected value="all" selected>Searching for POIs within 5nm ...</option>`;
+        html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
     }
 
     document.getElementById('select_poi_play').innerHTML = html;
@@ -278,7 +301,6 @@ function filterVoices() {
         return langcode === "all" ? true : voice.lang.indexOf(langcode + "-") >= 0;
     });
     createSpeakerMenu(voices);
-    txtFld.value = defaultBlurb;
     speakerMenu.selectedIndex = voiceIndex;
 }
 
