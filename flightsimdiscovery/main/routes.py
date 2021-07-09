@@ -32,6 +32,7 @@ main = Blueprint('main', __name__)
 # TODO update FAQ about active flight when panel uploaded to flightsim.io - scramble javascript
 
 # TODO FSD audio
+# TODO add all world cities as pois.  see the author of pois on the flight.to website also
 # TODO add my own recording functionality
 # TODO select-all to dlete flights
 # TODO add moving map with default airports and POIS in the ingmae panel see Leaflet

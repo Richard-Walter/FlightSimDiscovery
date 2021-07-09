@@ -1,12 +1,19 @@
 //html config
 
 let allVoices, allLanguages, primaryLanguages, langtags, langhash, langcodehash;
-let txtFld, playBtn, pauseBtn, resumeBtn, stopBtn, settingsBtn, speakerMenu, languageMenu, blurbs;
+let txtFld, playBtn, pauseBtn, resumeBtn, stopBtn, replayBtn, next,Btn, settingsBtn, speakerMenu, languageMenu, blurbs;
 let currentPoiQuerySelect;
 let voiceIndex = 0;
 let initialSetup = true;
+
 playBtn = qs("#pa_play_pause");
 playBtn.addEventListener("click", paPlayPause, false);
+
+replayBtn = qs("#pa_replay_btn");
+replayBtn.addEventListener("click", paReplay, false);
+nextBtn = qs("#pa_next_btn");
+nextBtn.addEventListener("click", paNext, false);
+
 stopBtn = qs("#pa_stop");
 stopBtn.addEventListener("click", paStop, false);
 settingsBtn = qs("#pa_settings");
@@ -22,7 +29,7 @@ const SEARCH_RADIUS = 9300;   //meters
 //play list details
 let sorted_play_list = null;
 let current_poi_playing = null;
-let pois_played = new Set();
+let pois_played = [];
 
 setUpNearbyPOIsSelect([]);
 // currentPoiQuerySelect.addEventListener("change", selectPOI, false);
@@ -61,7 +68,7 @@ speech.onend = function (event) {
     $('#pa_play_pause_icon').removeClass('fa-pause fa-resume');
 
     if(current_poi_playing){
-        pois_played.add(current_poi_playing['id']);
+        pois_played.push(current_poi_playing['id']);
     }
     clearTimeout(myTimeout);
 
@@ -99,10 +106,10 @@ function pa_update_play_list() {
     // }
 
 
-    // current_lat = af_details_dict['user_lat'];
-    // current_lng = af_details_dict['user_lng'];
-    current_lat = 51.508407;
-    current_lng = -0.101282;
+    current_lat = af_details_dict['user_lat'];
+    current_lng = af_details_dict['user_lng'];
+    // current_lat = 51.508407;
+    // current_lng = -0.101282;
 
     //find POIs within 5nm and update play list
     play_list = getPoisToPlay(new google.maps.LatLng(current_lat, current_lng));
@@ -123,32 +130,28 @@ function paPlayPause() {
     btn_val = $('#pa_play_pause').val();
 
     if (btn_val == 'play') {
-        let sval = Number(speakerMenu.value);
-        speech.voice = allVoices[sval];
-        speech.lang = speech.voice.lang;
-        console.log(speech.lang);
-        current_poi_playing = getPOIPlaying();
-        current_poi_playing_id = current_poi_playing['id'];
-        current_poi_playing_name = current_poi_playing['name'];
-        textTo_play = current_poi_playing['description'];
-        txtFld.value = textTo_play;
-        speech.text = textTo_play;
+        // let sval = Number(speakerMenu.value);
+        // speech.voice = allVoices[sval];
+        // speech.lang = speech.voice.lang;
+        // console.log(speech.lang);
+        poi_to_play = getPOIPlaying();
+        if(poi_to_play){
+            paPlayAudio(poi_to_play);
+        } else{
+            return;
+        }
+        // current_poi_playing_id = current_poi_playing['id'];
+        // current_poi_playing_name = current_poi_playing['name'];
+        // textTo_play = current_poi_playing['description'];
+        // txtFld.value = textTo_play;
+        // speech.text = textTo_play;
 
-        //cancel solves strange bugs
-        window.speechSynthesis.cancel();
+        // //cancel solves strange bugs
+        // window.speechSynthesis.cancel();
 
-        //timer needed as chrome will stop playing text after about 15s
-        myTimeout = setTimeout(myTimer, 10000);
-        window.speechSynthesis.speak(speech);
-
-        // speechUtteranceChunker(speech, {
-        //     chunkLength: 120
-        // }, function () {
-        //     //some code to execute when done
-        //     console.log('done');
-        // });
-
-
+        // //timer needed as chrome will stop playing text after about 15s
+        // myTimeout = setTimeout(myTimer, 10000);
+        // window.speechSynthesis.speak(speech);
 
         //change select statement text by appending 'Playing'
         $( "#select_poi_play option:selected" ).text( 'Playing: ' + current_poi_playing_name );
@@ -174,32 +177,53 @@ function paPlayPause() {
     }
 }
 
+function paPlayAudio(poi_to_play) {
+    
+    let sval = Number(speakerMenu.value);
+    speech.voice = allVoices[sval];
+    speech.lang = speech.voice.lang;
+    current_poi_playing = poi_to_play;
+    current_poi_playing_id = current_poi_playing['id'];
+    current_poi_playing_name = current_poi_playing['name'];
+    textTo_play = current_poi_playing['description'];
+    txtFld.value = textTo_play;
+    speech.text = textTo_play;
+
+    //cancel solves strange bugs
+    window.speechSynthesis.cancel();
+
+    //timer needed as chrome will stop playing text after about 15s
+    myTimeout = setTimeout(myTimer, 10000);
+    window.speechSynthesis.speak(speech);
+}
+
+
 
 function paStop() {
 
     //user may hit stop button af
     if (current_poi_playing) {
-        pois_played.add(current_poi_playing['id']);
+        pois_played.push(current_poi_playing['id']);
     }
     
     clearTimeout(myTimeout);
     window.speechSynthesis.cancel();
-    $( "#select_poi_play option:selected" ).text(current_poi_playing['name'] );
+    // $( "#select_poi_play option:selected" ).text(current_poi_playing['name'] );
     current_poi_playing = null;
+    clearInterval(updatePAIntervalID);
 }
 
 function pa_disconnect() {
     console.log("discommectopm frp, poi audio");
     paStop();
-    clearInterval(updatePAIntervalID);
+    // clearInterval(updatePAIntervalID);
 
 
 }
 
 function paSettings() {
 
-    // alert('sucess');
-    // $("pa_audio_toolbar").toggle();
+
     is_visible = $('#pa_audio_toolbar').is(":visible");
     if(is_visible){
         $("#pa_audio_toolbar").attr("style", "display:none");
@@ -208,6 +232,58 @@ function paSettings() {
     }
 }
 
+function paNext() {
+
+    //play the next poi if there is one
+    try {
+
+        paPlayAudio(play_list[2]);
+        $( "#select_poi_play option:selected" ).text( 'Playing: ' + play_list[2]['name'] );
+        $('#pa_play_pause').val('pause');
+        $('#pa_play_pause_icon').removeClass('fa-play');
+        $('#pa_play_pause_icon').addClass('fa-pause');
+
+    }
+    catch(err) {
+        console.log('no next poi in play list...should really disable the next button');
+    }
+}
+
+function paReplay() {
+
+    var poi_to_play = current_poi_playing;
+
+    //rewind to previous played poi
+    if (current_poi_playing == null) {
+        if(pois_played.length >0) {
+            poi_to_play_id = pois_played.slice(-1)[0];
+            for (let i = 0; i < pois_array.length; i++) {
+                if (pois_array[i]['id']==poi_to_play_id){
+                    poi_to_play =pois_array[i];
+                    select_text = "Playing: " + poi_to_play['name'];
+                    $('#select_poi_play').prepend('<option selected value="'+poi_to_play_id+'">'+select_text+'</option>');
+                    
+                    break;
+                }
+            }
+
+        } else {
+            console.log("no poi played so cant rewind.  should disable the button")
+            return;   
+        }
+    } else {
+        //reqind to beginning of the current poi playing
+        console.log('playing current poi')
+        $( "#select_poi_play option:selected" ).text( 'Playing: ' + poi_to_play['name'] );
+    }
+    
+    paPlayAudio(poi_to_play);
+    
+    $('#pa_play_pause').val('pause');
+    $('#pa_play_pause_icon').removeClass('fa-play');
+    $('#pa_play_pause_icon').addClass('fa-pause');
+
+}
 
 function setUpVoices() {
     allVoices = getAllVoices();
@@ -240,11 +316,14 @@ function setUpNearbyPOIsSelect(play_list) {
         play_list.forEach(function (poi, i) {
 
             //only add to list if POI has NOT been played previously
-            if(!pois_played.has(poi['id'])){
+            if(!pois_played.includes(poi['id'])){
                 html += `<option value=${poi['id']}>${poi['name']}</option>`;
             } else {
                 console.log('poi already played: ' + poi['id']);
-                
+                if (play_list.length == 1) {
+                    $('#select_poi_play').prop('disabled', 'disabled');
+                    html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
+                }              
             }
         });
     } else {
