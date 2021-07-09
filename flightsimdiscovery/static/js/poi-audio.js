@@ -27,11 +27,13 @@ var myTimeout;
 const SEARCH_RADIUS = 9300;   //meters
 
 //play list details
-let sorted_play_list = null;
+let selectMenuPlayList = null;
+let poisWithinArea = null;
 let current_poi_playing = null;
-let pois_played = [];
+pois_played = [];
+// let nextPoiIndex = 1;  //trackig index which is required when users hits next button multiple times 
 
-setUpNearbyPOIsSelect([]);
+populateSelectMenu([]);
 // currentPoiQuerySelect.addEventListener("change", selectPOI, false);
 $('#select_poi_play').on("change", selectPOI);
 
@@ -106,18 +108,17 @@ function pa_update_play_list() {
     // }
 
 
-    current_lat = af_details_dict['user_lat'];
-    current_lng = af_details_dict['user_lng'];
-    // current_lat = 51.508407;
-    // current_lng = -0.101282;
+    // current_lat = af_details_dict['user_lat'];
+    // current_lng = af_details_dict['user_lng'];
+    current_lat = 51.508407;
+    current_lng = -0.101282;
 
     //find POIs within 5nm and update play list
-    play_list = getPoisToPlay(new google.maps.LatLng(current_lat, current_lng));
+    poisWithinArea = getPoisWithinArea(new google.maps.LatLng(current_lat, current_lng));
 
+    populateSelectMenu(poisWithinArea);
 
-    setUpNearbyPOIsSelect(play_list);
-
-    if (play_list.length > 0) {
+    if (selectMenuPlayList.length > 0) {
 
         // //cancel before playing to stop bug in chrome sometimes wont play
         // window.speechSynthesis.cancel();
@@ -211,6 +212,8 @@ function paStop() {
     // $( "#select_poi_play option:selected" ).text(current_poi_playing['name'] );
     current_poi_playing = null;
     clearInterval(updatePAIntervalID);
+    populateSelectMenu(poisWithinArea);
+    pois_played = [];
 }
 
 function pa_disconnect() {
@@ -234,18 +237,36 @@ function paSettings() {
 
 function paNext() {
 
-    //play the next poi if there is one
+    nextPOISelectIndex = null;
+    
+    // only play next if currently playing a poi and there is more than one poi to play in select lilst
+    if ((!current_poi_playing) && (selectMenuPlayList.length<2)) {
+        return;
+    }
+
+    current_poi_playing_id = current_poi_playing['id'];
+
     try {
 
-        paPlayAudio(play_list[2]);
-        $( "#select_poi_play option:selected" ).text( 'Playing: ' + play_list[2]['name'] );
+        //lets find that poi in the select list and play the next one
+        for (const [index, selectMenuPlayPOI] of selectMenuPlayList.entries()) {
+            if (selectMenuPlayPOI['id']==current_poi_playing_id){
+                nextPOISelectIndex = index + 1;
+                break;
+            }
+        }
+           
+        paPlayAudio(selectMenuPlayList[nextPOISelectIndex]);
+        console.log('PLAYING NEXT POI')
+        $( "#select_poi_play option:selected" ).text( 'Playing: ' + selectMenuPlayList[nextPOISelectIndex]['name'] );
         $('#pa_play_pause').val('pause');
         $('#pa_play_pause_icon').removeClass('fa-play');
         $('#pa_play_pause_icon').addClass('fa-pause');
-
+            // nextPoiIndex++;
     }
     catch(err) {
         console.log('no next poi in play list...should really disable the next button');
+        console.log(err);
     }
 }
 
@@ -261,8 +282,8 @@ function paReplay() {
                 if (pois_array[i]['id']==poi_to_play_id){
                     poi_to_play =pois_array[i];
                     select_text = "Playing: " + poi_to_play['name'];
-                    $('#select_poi_play').prepend('<option selected value="'+poi_to_play_id+'">'+select_text+'</option>');
-                    
+                    // $('#select_poi_play').prepend('<option selected value="'+poi_to_play_id+'">'+select_text+'</option>');
+                    $( "#select_poi_play option:selected" ).text( 'Playing: ' + poi_to_play['name'] );
                     break;
                 }
             }
@@ -272,8 +293,8 @@ function paReplay() {
             return;   
         }
     } else {
-        //reqind to beginning of the current poi playing
-        console.log('playing current poi')
+        //rewind to beginning of the current poi playing
+        console.log('REPLAYING CURRENT POI')
         $( "#select_poi_play option:selected" ).text( 'Playing: ' + poi_to_play['name'] );
     }
     
@@ -299,10 +320,10 @@ function setUpVoices() {
     }
 }
 
-function setUpNearbyPOIsSelect(play_list) {
+function populateSelectMenu(poisWithinArea) {
 
-
-    let html = ``;
+    var tempPoiPlayList = [];
+    var html = ``;
 
     //do not update select statement until play has finished.
     if (current_poi_playing) {
@@ -310,17 +331,18 @@ function setUpNearbyPOIsSelect(play_list) {
     }
 
     //add to play list if nearby pois are found
-    if (play_list.length > 0) {
+    if (poisWithinArea.length > 0) {
 
         $('#select_poi_play').prop('disabled', false);
-        play_list.forEach(function (poi, i) {
+        poisWithinArea.forEach(function (poi, i) {
 
             //only add to list if POI has NOT been played previously
             if(!pois_played.includes(poi['id'])){
                 html += `<option value=${poi['id']}>${poi['name']}</option>`;
+                tempPoiPlayList.push(poi);
             } else {
                 console.log('poi already played: ' + poi['id']);
-                if (play_list.length == 1) {
+                if (poisWithinArea.length == 1) {
                     $('#select_poi_play').prop('disabled', 'disabled');
                     html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
                 }              
@@ -332,6 +354,11 @@ function setUpNearbyPOIsSelect(play_list) {
     }
 
     document.getElementById('select_poi_play').innerHTML = html;
+    //re-set the next indexct counter
+    // nextPoiIndex = 1;
+
+    //update select menu play list which is used by replay and next functions
+    selectMenuPlayList = tempPoiPlayList;
 }
 
 function getNearbyPOIs() {
@@ -441,7 +468,7 @@ function getLookupTable(objectsArray, propname) {
     return objectsArray.reduce((accumulator, currentValue) => (accumulator[currentValue[propname]] = currentValue, accumulator), {});
 }
 
-function getPoisToPlay(current_position) {
+function getPoisWithinArea(current_position) {
 
     //test
     var closestMarker = -1;
