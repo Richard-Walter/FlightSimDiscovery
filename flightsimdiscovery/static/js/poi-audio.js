@@ -16,6 +16,7 @@ currentPoiQuerySelect = qs("#select_poi_play");
 
 let speech = new SpeechSynthesisUtterance();
 let updatePAIntervalID = null;
+var myTimeout;
 const SEARCH_RADIUS = 9300;   //meters
 
 //play list details
@@ -62,7 +63,7 @@ speech.onend = function (event) {
     if(current_poi_playing){
         pois_played.add(current_poi_playing['id']);
     }
-    
+    clearTimeout(myTimeout);
 
     current_poi_playing = null;
 }
@@ -111,32 +112,11 @@ function pa_update_play_list() {
 
     if (play_list.length > 0) {
 
+        // //cancel before playing to stop bug in chrome sometimes wont play
+        // window.speechSynthesis.cancel();
         paPlayPause();
     }
 }
-
-function pa_disconnect() {
-    console.log("discommectopm frp, poi audio");
-    clearInterval(updatePAIntervalID);
-    $( "#select_poi_play option:selected" ).text(current_poi_playing_name );
-
-}
-
-
-function setUpVoices() {
-    allVoices = getAllVoices();
-    allLanguages = getAllLanguages(allVoices);
-    primaryLanguages = getPrimaryLanguages(allLanguages);
-    filterVoices();
-    if (initialSetup && allVoices.length) {
-        initialSetup = false;
-        createLanguageMenu();
-        $('#languageMenu').val('en').trigger('click');
-        filterVoices();
-
-    }
-}
-
 
 //PLAY - PAUSE - RESUME FUNCTIONALITY
 function paPlayPause() {
@@ -154,10 +134,22 @@ function paPlayPause() {
         txtFld.value = textTo_play;
         speech.text = textTo_play;
 
+        //cancel solves strange bugs
+        window.speechSynthesis.cancel();
+
+        //timer needed as chrome will stop playing text after about 15s
+        myTimeout = setTimeout(myTimer, 10000);
         window.speechSynthesis.speak(speech);
-        //add quick pasue and resume due to chrome sometimes not playing at start
-        window.speechSynthesis.pause();
-        window.speechSynthesis.resume();
+
+        // speechUtteranceChunker(speech, {
+        //     chunkLength: 120
+        // }, function () {
+        //     //some code to execute when done
+        //     console.log('done');
+        // });
+
+
+
         //change select statement text by appending 'Playing'
         $( "#select_poi_play option:selected" ).text( 'Playing: ' + current_poi_playing_name );
 
@@ -166,6 +158,7 @@ function paPlayPause() {
 
     } else if (btn_val == 'pause') {
 
+        clearTimeout(myTimeout);
         $('#pa_play_pause').val('resume');
         $('#pa_play_pause_icon').toggleClass('fa-pause fa-play');
         window.speechSynthesis.pause();
@@ -176,6 +169,7 @@ function paPlayPause() {
         $('#pa_play_pause').val('pause');
         $('#pa_play_pause_icon').toggleClass('fa-pause fa-play');
         window.speechSynthesis.resume();
+        myTimeout = setTimeout(myTimer, 10000);
         $( "#select_poi_play option:selected" ).text( 'Playing: ' + current_poi_playing_name );
     }
 }
@@ -183,10 +177,23 @@ function paPlayPause() {
 
 function paStop() {
 
+    //user may hit stop button af
+    if (current_poi_playing) {
+        pois_played.add(current_poi_playing['id']);
+    }
+    
+    clearTimeout(myTimeout);
     window.speechSynthesis.cancel();
-    pois_played.add(current_poi_playing['id']);
+    $( "#select_poi_play option:selected" ).text(current_poi_playing['name'] );
     current_poi_playing = null;
-    $( "#select_poi_play option:selected" ).text(current_poi_playing_name );
+}
+
+function pa_disconnect() {
+    console.log("discommectopm frp, poi audio");
+    paStop();
+    clearInterval(updatePAIntervalID);
+
+
 }
 
 function paSettings() {
@@ -198,6 +205,21 @@ function paSettings() {
         $("#pa_audio_toolbar").attr("style", "display:none");
     } else {
         $("#pa_audio_toolbar").attr("style", "display:block");
+    }
+}
+
+
+function setUpVoices() {
+    allVoices = getAllVoices();
+    allLanguages = getAllLanguages(allVoices);
+    primaryLanguages = getPrimaryLanguages(allLanguages);
+    filterVoices();
+    if (initialSetup && allVoices.length) {
+        initialSetup = false;
+        createLanguageMenu();
+        $('#languageMenu').val('en').trigger('click');
+        filterVoices();
+
     }
 }
 
@@ -410,3 +432,8 @@ function sortPlaylist(a, b) {
 }
 
 
+function myTimer() {
+    window.speechSynthesis.pause();
+    window.speechSynthesis.resume();
+    myTimeout = setTimeout(myTimer, 10000);
+}

@@ -29,10 +29,8 @@ main = Blueprint('main', __name__)
 # DONE reduce data imported from volanta
 # DONE in game panel to display position on web browser
 
-# TODO update FAQ about active flight when panel uploaded to flightsim.io
+# TODO update FAQ about active flight when panel uploaded to flightsim.io - scramble javascript
 
-
-# TODO Change Panel text to Login-->connected
 # TODO FSD audio
 # TODO add my own recording functionality
 # TODO select-all to dlete flights
