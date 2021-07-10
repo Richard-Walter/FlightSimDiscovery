@@ -114,6 +114,7 @@ function pa_update_play_list() {
     //TESTING ONLY - SEE ABOVE
     current_lat = 51.508407;
     current_lng = -0.101282;
+    // current_lng = 32;
 
     //find POIs within 5nm and update play list
     poisWithinArea = getPoisWithinArea(new google.maps.LatLng(current_lat, current_lng));
@@ -209,6 +210,7 @@ function paNext() {
     
     // only play next if currently playing a poi and there is more than one poi to play in select lilst
     if ((!current_poi_playing) || (selectMenuPlayList.length<2)) {
+        console.log('NO NEXT POI TO PLAY')
         paStop();
         return;
     }
@@ -335,6 +337,7 @@ function populateSelectMenu(poisWithinArea) {
 
     var tempPoiPlayList = [];
     var html = ``;
+    var enableAllButtons = true;
 
     //do not update select statement until play has finished.
     if (current_poi_playing) {
@@ -356,16 +359,21 @@ function populateSelectMenu(poisWithinArea) {
                 if (poisWithinArea.length == 1) {
                     $('#select_poi_play').prop('disabled', 'disabled');
                     html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
+                    enableAllButtons = false;
                 }              
             }
         });
     } else {
         $('#select_poi_play').prop('disabled', 'disabled');
         html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
+        enableAllButtons = false;
     }
 
     document.getElementById('select_poi_play').innerHTML = html;
 
+    //disable buttons if searching for pois
+    changeBtnState(enableAllButtons);
+ 
     //update select menu play list which is used by replay and next functions
     selectMenuPlayList = tempPoiPlayList;
 }
@@ -542,6 +550,21 @@ function sortPlaylist(a, b) {
     return 0;
 }
 
+function changeBtnState(toEnable) {
+
+    if (toEnable) {
+        $('#pa_replay_btn').removeAttr('disabled');
+        $('#pa_play_pause').removeAttr('disabled');
+        $('#pa_stop').removeAttr('disabled');
+        $('#pa_next_btn').removeAttr('disabled');
+    } else {
+        $("#pa_replay_btn").attr('disabled', 'disabled');
+        $("#pa_play_pause").attr('disabled', 'disabled');
+        $("#pa_stop").attr('disabled', 'disabled');
+        $("#pa_next_btn").attr('disabled', 'disabled');
+
+    }
+}
 
 function myTimer() {
     window.speechSynthesis.pause();

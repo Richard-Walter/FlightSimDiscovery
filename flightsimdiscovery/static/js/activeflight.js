@@ -175,15 +175,18 @@ function removeActiveFlight() {
 function removeSetInterval(flash_message = '', timeout = null) {
 
   console.log("removing set interval")
+  active_flight_flash(flash_message, timeout);
   clearInterval(updateIntervalID);
-  // $('#get_active_flights_checkbox').prop('checked', false);
+
+  //hide poi_audio slide
+  $("#poi_audio_div").prop('hidden', 'true');
   // $('.af_options').prop('hidden', true);
   // $('#af_show').click();
   $('#Map_ActiveFlight_Btn').val('off');
   $(".af_btn-text").html('Show Active Flight');
   $(".Map_ActiveFlight").hide();
   user_panned_map = false;
-  active_flight_flash(flash_message, timeout);
+ 
 }
 
 //update map active flight marker, text and line.
@@ -212,6 +215,7 @@ function updateMap() {
 
   //We have an active flight that is being updated!
   active_flight_flash("Tracking active flight");
+  $("#poi_audio_div").removeProp('hidden');
 
   //create new user marker and plane trail if one doesnt already exist and info box if user wants
   if (userMarkerInfo.marker == null) {
