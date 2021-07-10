@@ -208,7 +208,8 @@ function paNext() {
     nextPOISelectIndex = null;
     
     // only play next if currently playing a poi and there is more than one poi to play in select lilst
-    if ((!current_poi_playing) && (selectMenuPlayList.length<2)) {
+    if ((!current_poi_playing) || (selectMenuPlayList.length<2)) {
+        paStop();
         return;
     }
 
@@ -266,7 +267,7 @@ function paReplay() {
         console.log('REPLAYING CURRENT POI')
         $( "#select_poi_play option:selected" ).text( 'Playing: ' + poi_to_play['name'] );
     }
-    
+
     //clear the current timeout
     clearTimeout(myTimeout);  
     paPlayAudio(poi_to_play);
