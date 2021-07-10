@@ -102,18 +102,18 @@ function pa_update_play_list() {
     diff_millis = current_date_ms - last_update_ms;
 
     /*  UNCOMMENT OUT THESE WHEN NOT TESTING */
-    // if (diff_millis > 20000) {
+    if (diff_millis > 20000) {
 
-    //     pa_disconnect();
-    //     return;
-    // }
+        pa_disconnect();
+        return;
+    }
 
-    // current_lat = af_details_dict['user_lat'];
-    // current_lng = af_details_dict['user_lng'];
+    current_lat = af_details_dict['user_lat'];
+    current_lng = af_details_dict['user_lng'];
 
     //TESTING ONLY - SEE ABOVE
-    current_lat = 51.508407;
-    current_lng = -0.101282;
+    // current_lat = 51.508407;
+    // current_lng = -0.101282;
 
     //find POIs within 5nm and update play list
     poisWithinArea = getPoisWithinArea(new google.maps.LatLng(current_lat, current_lng));
@@ -180,7 +180,7 @@ function paPlayAudio(poi_to_play) {
     current_poi_playing = poi_to_play;
     current_poi_playing_id = current_poi_playing['id'];
     current_poi_playing_name = current_poi_playing['name'];
-    textTo_play = current_poi_playing['description'];
+    textTo_play = current_poi_playing_name + '\n' + current_poi_playing['description'];
     txtFld.value = textTo_play;
     speech.text = textTo_play;
 
@@ -239,12 +239,16 @@ function paNext() {
 
         //clear the current timeout
         clearTimeout(myTimeout);   
-        paPlayAudio(selectMenuPlayList[nextPOISelectIndex]);
         console.log('PLAYING NEXT POI')
+
+        //play next poit in list
         $( "#select_poi_play option:selected" ).text( 'Playing: ' + selectMenuPlayList[nextPOISelectIndex]['name'] );
+        $( "#select_poi_play option:selected" ).val(selectMenuPlayList[nextPOISelectIndex]['id']);
         $('#pa_play_pause').val('pause');
         $('#pa_play_pause_icon').removeClass('fa-play');
         $('#pa_play_pause_icon').addClass('fa-pause');
+        nextPOItoPlay = selectMenuPlayList[nextPOISelectIndex]; 
+        paPlayAudio(nextPOItoPlay);
 
     }
     catch(err) {
@@ -300,11 +304,11 @@ function playPOIFromSelectMenu() {
     }
     
     poi_id = $(select_poi_play).find(":selected").val();
-    poiToPlay = getSelectedPoi(poi_id)
-    paPlayAudio(poiToPlay);
+    poiToPlay = getSelectedPoi(poi_id);
     $( "#select_poi_play option:selected" ).text( 'Playing: ' + poiToPlay['name'] );
     $('#pa_play_pause').val('pause');
     $('#pa_play_pause_icon').toggleClass('fa-play fa-pause');
+    paPlayAudio(poiToPlay);
 }
 
 function pa_disconnect() {

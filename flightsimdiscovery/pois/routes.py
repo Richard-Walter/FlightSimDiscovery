@@ -140,7 +140,7 @@ def update_poi(poi_id):
     poi = Pois.query.get_or_404(poi_id)
     print('current poi ID is ', poi.id)
     print(current_user.username)
-    if (current_user.username != 'admin') and (poi.user_id != current_user.id):
+    if (current_user.id not in [1,3]) and (poi.user_id != current_user.id):
         abort(403)
 
     form = PoiUpdateForm()
@@ -169,7 +169,7 @@ def update_poi(poi_id):
             else:
                 poi.country = form.country.data  # incase lookup failed fall back to user entry
 
-            poi.user_id = current_user.id
+            # poi.user_id = current_user.id
             poi.name = form.name.data
             poi.category = form.category.data
             poi.description = form.description.data        

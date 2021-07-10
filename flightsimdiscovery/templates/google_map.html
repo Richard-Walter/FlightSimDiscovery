@@ -537,7 +537,7 @@
 
                 // if (user_pois_list.includes(parseInt(id))) {
                 // user_poi_infowindow_dict =  infowindow_user_dict[id]
-                if (user_pois.includes(id)) {
+                if ((user_pois.includes(id))||(user_id==1)||(user_id==3)) {
                   console.log("SHOWING DETAILS FOR THIS POI: " + marker_name);
                   hiddenButtons = '';
                 }
@@ -709,26 +709,27 @@
           styleflightPlanBtn(flightPlanDiv, map, flightPath);
           map.controls[google.maps.ControlPosition.TOP_RIGHT].push(flightPlanDiv);
 
-          //Create serach poi control
+          //Create search poi control
           const searchPOIDiv = document.createElement("div");
           styleSearchPOIBtn(searchPOIDiv, map);
           map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
+          // map.controls[google.maps.ControlPosition.TOP_CENTER].pop(searchPOIDiv);
 
+          //Create poi_radio control element
+          // const paToolbarDiv = document.createElement("div");
+          // stylePaToolbarDiv(paToolbarDiv, map);
+          // map.controls[google.maps.ControlPosition.TOP_CENTER].push(paToolbarDiv);
+          // map.controls[google.maps.ControlPosition.TOP_CENTER].pop(searchPOIDiv);
 
-          //just for testing
-          if (user_id==3){
-            //Create lengend toogle button
-            const activeFlightBtnDiv = document.createElement("div");
-            styleActiveFlightdBtn(activeFlightBtnDiv, map);
-            map.controls[google.maps.ControlPosition.LEFT].push(activeFlightBtnDiv);
+          //Create show active flight toogle button
+          const activeFlightBtnDiv = document.createElement("div");
+          styleActiveFlightdBtn(activeFlightBtnDiv, map);
+          map.controls[google.maps.ControlPosition.LEFT].push(activeFlightBtnDiv);
 
-            //Create lengend toogle text
-            const activeFlightDiv = document.createElement("div");
-            styleActiveFlightOptions(activeFlightDiv, map);
-            map.controls[google.maps.ControlPosition.LEFT].push(activeFlightDiv);
-          }
-
-
+          //Create show active flight  text
+          const activeFlightDiv = document.createElement("div");
+          styleActiveFlightOptions(activeFlightDiv, map);
+          map.controls[google.maps.ControlPosition.LEFT].push(activeFlightDiv);
         }
 
         function iw_update_favorite(poi_id) {
@@ -1169,11 +1170,15 @@
 
         }
 
+
+        
+
         function styleSearchPOIBtn(controlDiv, map) {
 
           // Set CSS for the control border.
           const controlUI = document.createElement('div');
-          controlUI.classList = "row"
+          controlUI.classList = "row";
+          controlUI.attributes = "hidden";
           // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
           // controlUI.style.cursor = "pointer";
           controlUI.style.margin = "15px";
@@ -1328,6 +1333,40 @@
           document.addEventListener("click", function (e) {
             closeAllLists(e.target);
           });
+
+        }
+
+        function stylePaToolbarDiv(controlDiv, map) {
+          // Set CSS for the control border.
+          // Create outer div
+          const controlUI = document.createElement('pa_toolbar');
+          controlUI.classList = "justify-content-center pa_toolbar";
+          controlDiv.appendChild(controlUI);
+
+          // create select inner div
+          const selectDiv = document.createElement("div");
+          selectDiv.classList = "w-50";
+
+          selectInnerHTML = '<select id="select_poi_play" class="form-select bg-dark text-light p-2 "></select>';
+
+          // create play controls inner div
+          const playControlsDiv = document.createElement("div");
+          playControlsDiv.classList = "mx-2";
+
+          playControlsInnerHTML = 
+
+          '<button id="pa_replay_btn" class="btn btn-info btn-sm m-1" title="replay" value="play" ><i id="pa_replay_icon" class="fas fa-step-backward"></i></button>'+
+          '<button id="pa_play_pause" class="btn btn-success btn-sm m-1" value="play" ><i id="pa_play_pause_icon" class="fas fa-play"></i></button>'+
+          '<button id="pa_stop" class="btn btn-danger btn-sm m-1"><i id="pa_stop_icon" class="fas fa-stop"></i></button>'+
+          '<button id="pa_next_btn" class="btn btn-info btn-sm m-1" title="next poi"><i id="pa_next_icon" class="fas fa-step-forward"></i></button>'+
+          '<button id="pa_settings" class="btn btn-secondary btn-sm m-1" title="settings"><i id="pa_settings" class="fas fa-bars"></i></button>';
+
+          selectDiv.innerHTML =selectInnerHTML;
+          playControlsDiv.innerHTML = playControlsInnerHTML;
+          controlUI.appendChild(selectDiv);
+          // controlUI.appendChild(playControlsDiv);
+
+          //NEED TO ADD LISTENER???
 
         }
 
