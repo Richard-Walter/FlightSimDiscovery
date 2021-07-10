@@ -15,51 +15,7 @@ var userMarkerInfo = null;
 let af_details = { 'last_update_ms': 0 };
 
 
-// //checkbox on main web page
-// $("#get_active_flights_checkbox").click(function() {
-
-//     if ($('#get_active_flights_checkbox').is(':checked')) {
-
-//       user_panned_map = false;
-
-//       //reset marker info if user disconnected
-//       if (userMarkerInfo == null) {
-//         userMarkerInfo = {
-//           id: getUserID(),
-//           map: map,
-//           marker: null,
-//           poly: null
-//         }
-//       }
-
-//       updateDBShowChecked(true);
-//       active_flight_flash("Establishing connection...please wait", 15000);
-
-//       // //GET ACTIVE FLIGHT DATA FROM DATABASE EVERY 5S
-//       updateIntervalID =setInterval(() => {
-//           updateActiveFlightData();
-//       }, 5000 );
-
-//     } else {
-
-//         updateDBShowChecked(false);
-//         removeActiveFlight();
-//     }
-
-//     //add listener in case user is trying to pan map so we can stop the autocentering when tracking a live flight
-//     google.maps.event.addListener(map, 'dragend', function (event) {
-
-//       if (user_panned_map==false) {
-//         user_panned_map=true;
-//         //turn off autocenter if user has manually panned the map
-//         $('#af_autocenter').click();
-//       } 
-//     })
-
-// });
-
 function showActiveFlights() {
-
 
   // if ($('#get_active_flights_checkbox').is(':checked')) {
   if ($('#Map_ActiveFlight_Btn').val() == 'on') {

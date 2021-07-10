@@ -100,16 +100,17 @@ function pa_update_play_list() {
     current_date_ms = Date.now();
     diff_millis = current_date_ms - last_update_ms;
 
+    /*  UNCOMMENT OUT THESE WHEN NOT TESTING */
     // //disconnect from pa
     // if (diff_millis > 20000) {
 
     //     pa_disconnect();
     //     return;
     // }
-
-
     // current_lat = af_details_dict['user_lat'];
     // current_lng = af_details_dict['user_lng'];
+
+    //TESTING ONLY - SEE ABOVE
     current_lat = 51.508407;
     current_lng = -0.101282;
 
@@ -131,28 +132,14 @@ function paPlayPause() {
     btn_val = $('#pa_play_pause').val();
 
     if (btn_val == 'play') {
-        // let sval = Number(speakerMenu.value);
-        // speech.voice = allVoices[sval];
-        // speech.lang = speech.voice.lang;
-        // console.log(speech.lang);
-        poi_to_play = getPOIPlaying();
+
+        poi_to_play = getSelectedPoi();
         if(poi_to_play){
             paPlayAudio(poi_to_play);
         } else{
             return;
         }
-        // current_poi_playing_id = current_poi_playing['id'];
-        // current_poi_playing_name = current_poi_playing['name'];
-        // textTo_play = current_poi_playing['description'];
-        // txtFld.value = textTo_play;
-        // speech.text = textTo_play;
 
-        // //cancel solves strange bugs
-        // window.speechSynthesis.cancel();
-
-        // //timer needed as chrome will stop playing text after about 15s
-        // myTimeout = setTimeout(myTimer, 10000);
-        // window.speechSynthesis.speak(speech);
 
         //change select statement text by appending 'Playing'
         $( "#select_poi_play option:selected" ).text( 'Playing: ' + current_poi_playing_name );
@@ -216,25 +203,6 @@ function paStop() {
     pois_played = [];
 }
 
-function pa_disconnect() {
-    console.log("discommectopm frp, poi audio");
-    paStop();
-    // clearInterval(updatePAIntervalID);
-
-
-}
-
-function paSettings() {
-
-
-    is_visible = $('#pa_audio_toolbar').is(":visible");
-    if(is_visible){
-        $("#pa_audio_toolbar").attr("style", "display:none");
-    } else {
-        $("#pa_audio_toolbar").attr("style", "display:block");
-    }
-}
-
 function paNext() {
 
     nextPOISelectIndex = null;
@@ -255,7 +223,8 @@ function paNext() {
                 break;
             }
         }
-           
+        //clear the current timeout
+        clearTimeout(myTimeout);   
         paPlayAudio(selectMenuPlayList[nextPOISelectIndex]);
         console.log('PLAYING NEXT POI')
         $( "#select_poi_play option:selected" ).text( 'Playing: ' + selectMenuPlayList[nextPOISelectIndex]['name'] );
@@ -298,12 +267,33 @@ function paReplay() {
         $( "#select_poi_play option:selected" ).text( 'Playing: ' + poi_to_play['name'] );
     }
     
+    //clear the current timeout
+    clearTimeout(myTimeout);  
     paPlayAudio(poi_to_play);
     
     $('#pa_play_pause').val('pause');
     $('#pa_play_pause_icon').removeClass('fa-play');
     $('#pa_play_pause_icon').addClass('fa-pause');
 
+}
+
+function pa_disconnect() {
+    console.log("discommectopm frp, poi audio");
+    paStop();
+    // clearInterval(updatePAIntervalID);
+
+
+}
+
+function paSettings() {
+
+
+    is_visible = $('#pa_audio_toolbar').is(":visible");
+    if(is_visible){
+        $("#pa_audio_toolbar").attr("style", "display:none");
+    } else {
+        $("#pa_audio_toolbar").attr("style", "display:block");
+    }
 }
 
 function setUpVoices() {
@@ -354,8 +344,6 @@ function populateSelectMenu(poisWithinArea) {
     }
 
     document.getElementById('select_poi_play').innerHTML = html;
-    //re-set the next indexct counter
-    // nextPoiIndex = 1;
 
     //update select menu play list which is used by replay and next functions
     selectMenuPlayList = tempPoiPlayList;
@@ -512,12 +500,12 @@ function getPoisWithinArea(current_position) {
 
 }
 
-function getPOIPlaying() {
+function getSelectedPoi() {
 
     selectValue = document.getElementById('select_poi_play').value;
     poi_to_play = null;
 
-    for (let poi of sorted_play_list) {
+    for (let poi of selectMenuPlayList) {
         if (poi['id'] == selectValue) {
             poi_to_play = poi;
             break;
