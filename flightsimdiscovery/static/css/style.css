@@ -51,6 +51,7 @@
 
 .pa_audio_toolbar select{
    /* max-width: 50px !important;  */
+   text-indent: 5px;
    display: block;
 }
 

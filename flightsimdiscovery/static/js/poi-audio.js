@@ -35,7 +35,7 @@ pois_played = [];
 
 populateSelectMenu([]);
 // currentPoiQuerySelect.addEventListener("change", selectPOI, false);
-$('#select_poi_play').on("change", selectPOI);
+$('#select_poi_play').on("change", playPOIFromSelectMenu);
 
 txtFld = qs("#textFld");
 speakerMenu = qs("#speakerMenu");
@@ -63,6 +63,7 @@ if (window.speechSynthesis) {
     $("#warning").attr("hidden", false);
 }
 
+//function called when speech finishes reading text
 speech.onend = function (event) {
 
     $('#pa_play_pause').val('play');
@@ -143,7 +144,6 @@ function paPlayPause() {
 
         //change select statement text by appending 'Playing'
         $( "#select_poi_play option:selected" ).text( 'Playing: ' + current_poi_playing_name );
-
         $('#pa_play_pause').val('pause');
         $('#pa_play_pause_icon').toggleClass('fa-play fa-pause');
 
@@ -224,6 +224,10 @@ function paNext() {
                 break;
             }
         }
+
+        //Remove current poi playing 'playing' text 
+        $('#select_poi_play option[value="'+current_poi_playing_id+'"]').text( current_poi_playing['name'] );
+
         //clear the current timeout
         clearTimeout(myTimeout);   
         paPlayAudio(selectMenuPlayList[nextPOISelectIndex]);
@@ -232,7 +236,7 @@ function paNext() {
         $('#pa_play_pause').val('pause');
         $('#pa_play_pause_icon').removeClass('fa-play');
         $('#pa_play_pause_icon').addClass('fa-pause');
-            // nextPoiIndex++;
+
     }
     catch(err) {
         console.log('no next poi in play list...should really disable the next button');
@@ -276,6 +280,22 @@ function paReplay() {
     $('#pa_play_pause_icon').removeClass('fa-play');
     $('#pa_play_pause_icon').addClass('fa-pause');
 
+}
+
+function playPOIFromSelectMenu() {
+    console.log('playing poi from select menu');
+
+    //we need to remove current poi playing 'playing' text 
+    if(current_poi_playing){
+        $('#select_poi_play option[value="'+current_poi_playing['id']+'"]').text( current_poi_playing['name'] );
+    }
+    
+    poi_id = $(select_poi_play).find(":selected").val();
+    poiToPlay = getSelectedPoi(poi_id)
+    paPlayAudio(poiToPlay);
+    $( "#select_poi_play option:selected" ).text( 'Playing: ' + poiToPlay['name'] );
+    $('#pa_play_pause').val('pause');
+    $('#pa_play_pause_icon').toggleClass('fa-play fa-pause');
 }
 
 function pa_disconnect() {
@@ -353,10 +373,6 @@ function populateSelectMenu(poisWithinArea) {
 function getNearbyPOIs() {
 
     console.log('get pois');
-}
-
-function selectPOI() {
-    console.log('select poi')
 }
 
 function createLanguageMenu() {
