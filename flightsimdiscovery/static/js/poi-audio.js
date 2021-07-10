@@ -102,19 +102,18 @@ function pa_update_play_list() {
     diff_millis = current_date_ms - last_update_ms;
 
     /*  UNCOMMENT OUT THESE WHEN NOT TESTING */
-    //disconnect from pa
-    if (diff_millis > 20000) {
+    // if (diff_millis > 20000) {
 
-        pa_disconnect();
-        return;
-    }
-    current_lat = af_details_dict['user_lat'];
-    current_lng = af_details_dict['user_lng'];
+    //     pa_disconnect();
+    //     return;
+    // }
+
+    // current_lat = af_details_dict['user_lat'];
+    // current_lng = af_details_dict['user_lng'];
 
     //TESTING ONLY - SEE ABOVE
-    // current_lat = 51.508407;
-    // current_lng = -0.101282;
-    // current_lng = 32;
+    current_lat = 51.508407;
+    current_lng = -0.101282;
 
     //find POIs within 5nm and update play list
     poisWithinArea = getPoisWithinArea(new google.maps.LatLng(current_lat, current_lng));
