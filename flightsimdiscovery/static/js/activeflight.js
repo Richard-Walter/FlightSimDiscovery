@@ -178,14 +178,22 @@ function removeSetInterval(flash_message = '', timeout = null) {
   active_flight_flash(flash_message, timeout);
   clearInterval(updateIntervalID);
 
-  //hide poi_audio slide
-  $("#poi_audio_div").prop('hidden', 'true');
+
   // $('.af_options').prop('hidden', true);
   // $('#af_show').click();
   $('#Map_ActiveFlight_Btn').val('off');
   $(".af_btn-text").html('Show Active Flight');
   $(".Map_ActiveFlight").hide();
   user_panned_map = false;
+
+  //need to disconnect form poi audio if playing and hide toggle button
+  $("#poi_audio_div").attr("hidden",true)
+  $('.pa_toolbar').addClass("d-none");
+  $('.pa_toolbar').removeClass("d-flex");
+  $('#af_poi_audio').val('off');
+  $("#af_poi_audio").removeAttr("checked");
+  pa_disconnect();
+
  
 }
 
@@ -215,9 +223,8 @@ function updateMap() {
 
   //We have an active flight that is being updated!
   active_flight_flash("Tracking active flight");
-  $("#poi_audio_div").removeProp('hidden');
-  //active poi_audio
-  $('#af_poi_audio').trigger('click');
+  $('#poi_audio_div').removeAttr('hidden');
+
 
   //create new user marker and plane trail if one doesnt already exist and info box if user wants
   if (userMarkerInfo.marker == null) {

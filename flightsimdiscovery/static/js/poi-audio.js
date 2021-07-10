@@ -102,18 +102,18 @@ function pa_update_play_list() {
     diff_millis = current_date_ms - last_update_ms;
 
     /*  UNCOMMENT OUT THESE WHEN NOT TESTING */
-    // //disconnect from pa
-    // if (diff_millis > 20000) {
+    //disconnect from pa
+    if (diff_millis > 20000) {
 
-    //     pa_disconnect();
-    //     return;
-    // }
-    // current_lat = af_details_dict['user_lat'];
-    // current_lng = af_details_dict['user_lng'];
+        pa_disconnect();
+        return;
+    }
+    current_lat = af_details_dict['user_lat'];
+    current_lng = af_details_dict['user_lng'];
 
     //TESTING ONLY - SEE ABOVE
-    current_lat = 51.508407;
-    current_lng = -0.101282;
+    // current_lat = 51.508407;
+    // current_lng = -0.101282;
     // current_lng = 32;
 
     //find POIs within 5nm and update play list
@@ -135,6 +135,13 @@ function paPlayPause() {
 
     if (btn_val == 'play') {
 
+        //check to see if user had previsouly stopped.  if so we need to re-initialise the timeout
+        if(updatePAIntervalID == null) {
+
+            pa_init();
+            return;
+        }
+        
         poi_to_play = getSelectedPoi();
         if(poi_to_play){
             paPlayAudio(poi_to_play);
@@ -200,6 +207,7 @@ function paStop() {
     // $( "#select_poi_play option:selected" ).text(current_poi_playing['name'] );
     current_poi_playing = null;
     clearInterval(updatePAIntervalID);
+    updatePAIntervalID= null;
     populateSelectMenu(poisWithinArea);
     pois_played = [];
 }
@@ -304,8 +312,6 @@ function pa_disconnect() {
     console.log("discommectopm frp, poi audio");
     paStop();
     // clearInterval(updatePAIntervalID);
-
-
 }
 
 function paSettings() {
