@@ -7,21 +7,27 @@ let voiceIndex = 0;
 let initialSetup = true;
 
 
-let speech = new SpeechSynthesisUtterance();
-let updatePAIntervalID = null;
+speech = new SpeechSynthesisUtterance();
+let updatePAIntervalID;
 var myTimeout;
 const SEARCH_RADIUS = 9300;   //meters
 
 //play list details
-let selectMenuPlayList = null;
-let poisWithinArea = null;
-let current_poi_playing = null;
-pois_played = [];
+let selectMenuPlayList;
+let poisWithinArea;
+let current_poi_playing;
+let pois_played;
 
 //main entry 
 function pa_init() {
 
     configureHTML();
+
+    //re-set play/pause button value
+    $('#pa_play_pause').val('play');
+    $('#pa_play_pause_icon').removeClass('fa-pause');
+    $('#pa_play_pause_icon').addClass('fa-play');
+    $('#pa_replay_btn').val('play');
 
     //update play list every 10 seconds
     updatePAIntervalID = setInterval(() => {
@@ -31,6 +37,16 @@ function pa_init() {
 }
 
 function configureHTML() {
+
+    // speech = new SpeechSynthesisUtterance();
+    updatePAIntervalID = null;
+    myTimeout = null;
+
+    //play list details
+    selectMenuPlayList = null;
+    poisWithinArea = null;
+    current_poi_playing = null;
+    pois_played = [];
 
     playBtn = qs("#pa_play_pause");
     playBtn.addEventListener("click", paPlayPause, false);
@@ -67,7 +83,6 @@ function configureHTML() {
         if (window.speechSynthesis.onvoiceschanged !== undefined) {
             //Chrome gets the voices asynchronously so this is needed
             window.speechSynthesis.onvoiceschanged = setUpVoices;
-            $('#active_flight_flash_text').text("Your browser doesn't support windows speech synthesis");
         }
         setUpVoices(); //for all the other browsers
     } else {
@@ -76,6 +91,7 @@ function configureHTML() {
         languageMenu.disabled = true;
         pa_disconnect();
         $("#warning").attr("hidden", false);
+        $('#active_flight_flash_text').text("Your browser doesn't support windows speech synthesis");
     }
 
 
@@ -216,12 +232,13 @@ function paStop() {
     clearTimeout(myTimeout);
     clearInterval(updatePAIntervalID);
     current_poi_playing = null;
-    // pois_played = [];
-    populateSelectMenu(poisWithinArea);
+
+    // populateSelectMenu(poisWithinArea);
     window.speechSynthesis.cancel();
-    // $( "#select_poi_play option:selected" ).text(current_poi_playing['name'] );
-     
+    $('#select_poi_play').prop('disabled', 'disabled');
+    $('#select_poi_play').append(`<option selected value="all" selected>Press 'Play' to resume</option>`);
     updatePAIntervalID= null;
+    pois_played = [];
     console.log("stopping POI audio")
 }
 
