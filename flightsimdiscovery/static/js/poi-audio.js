@@ -67,13 +67,14 @@ function configureHTML() {
         if (window.speechSynthesis.onvoiceschanged !== undefined) {
             //Chrome gets the voices asynchronously so this is needed
             window.speechSynthesis.onvoiceschanged = setUpVoices;
-            $("#warning").attr("hidden", true);
+            $('#active_flight_flash_text').text("Your browser doesn't support windows speech synthesis");
         }
         setUpVoices(); //for all the other browsers
     } else {
         playBtn.disabled = true;
         speakerMenu.disabled = true;
         languageMenu.disabled = true;
+        pa_disconnect();
         $("#warning").attr("hidden", false);
     }
 
@@ -81,7 +82,6 @@ function configureHTML() {
 }
 
 
-//function called when speech finishes reading text
 speech.onend = function (event) {
 
     $('#pa_play_pause').val('play');
