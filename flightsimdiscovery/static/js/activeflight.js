@@ -431,17 +431,19 @@ function activeFlightPanelHandler(e) {
 //handler for in-flight audio
 function activeFlightPoiAudio(show_flag) {
 
-
   if (show_flag == 'on') {
-  // if (true) {
-    $('.pa_toolbar').removeClass("d-none");
-    // $('.pa_toolbar').addClass("d-flex");
+    
+    // $('.pa_toolbar').removeClass("d-none");
     $('.tips-and-tricks').addClass("d-none");
+    map.controls[google.maps.ControlPosition.TOP_CENTER].pop(searchPOIDiv);
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(paToolbarDiv);
+
     pa_init();
 
   } else {
-    $('.pa_toolbar').addClass("d-none");
-    // $('.pa_toolbar').removeClass("d-flex");
+    // $('.pa_toolbar').addClass("d-none");
+    map.controls[google.maps.ControlPosition.TOP_CENTER].pop(paToolbarDiv);
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
     pa_disconnect();
   }
 }

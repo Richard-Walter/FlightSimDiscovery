@@ -212,12 +212,12 @@ function paStop() {
     }
     
     clearTimeout(myTimeout);
+    populateSelectMenu(poisWithinArea);
     window.speechSynthesis.cancel();
     // $( "#select_poi_play option:selected" ).text(current_poi_playing['name'] );
-    current_poi_playing = null;
     clearInterval(updatePAIntervalID);
+    current_poi_playing = null;
     updatePAIntervalID= null;
-    populateSelectMenu(poisWithinArea);
     pois_played = [];
 }
 

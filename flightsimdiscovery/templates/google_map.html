@@ -52,6 +52,10 @@
         var poi_data_array = [];
         var poi_data = {};
 
+        //control DIV elements
+        let paToolbarDiv;
+        let searchPOIDiv;
+
         // let user_pois_list = [];
         var gm_key = '{{gm_key}}';
         var map_zoom = {{ map_init['zoom']}};
@@ -710,15 +714,15 @@
           map.controls[google.maps.ControlPosition.TOP_RIGHT].push(flightPlanDiv);
 
           //Create search poi control
-          const searchPOIDiv = document.createElement("div");
+          searchPOIDiv = document.createElement("div");
           styleSearchPOIBtn(searchPOIDiv, map);
-          // map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
+          map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
           // map.controls[google.maps.ControlPosition.TOP_CENTER].pop(searchPOIDiv);
 
           //Create poi_radio control and options panel
-          const paToolbarDiv = document.createElement("div");
+          paToolbarDiv = document.createElement("div");
           stylePaToolbarDiv(paToolbarDiv, map);
-          map.controls[google.maps.ControlPosition.TOP_CENTER].push(paToolbarDiv);
+          // map.controls[google.maps.ControlPosition.TOP_CENTER].push(paToolbarDiv);
           // map.controls[google.maps.ControlPosition.TOP_CENTER].pop(searchPOIDiv);
           
 
@@ -1471,6 +1475,12 @@
               $(".af_btn-text").html('Show Active Flight');
               $("#Map_ActiveFlight_Btn").val('off');
               removeActiveFlight();
+              pa_disconnect();
+              $('#af_poi_audio').val('off');
+              $('#af_poi_audio').removeAttr('checked');
+              map.controls[google.maps.ControlPosition.TOP_CENTER].pop(paToolbarDiv);
+              map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
+              
             }
 
             // if (button_text == 'Hide Options') {
