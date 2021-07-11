@@ -16,31 +16,38 @@
 
 
 /*  STYLE POI AUDION TOOLBAR - START    */
-.pa_toolbar{
+.pam_toolbar{
  
   color: #f3f3f3;
-  display: none;
-  
-  /* border-style: inset;
-  border-color: rgb(35, 157, 194) */
+  /* display: none; */
   
 }
 
-.pa_toolbar p{
+.pam_toolbar p{
   color: #161616;
   
 }
 
-.pa_toolbar select{
-   /* max-width: 50px !important;  */
+.pam_toolbar select{
+  font-family: inherit;
+   width: 400px !important; 
+   font-size: 1.3em !important; 
    display: block;
+   color: #161616;
 
 }
+
+.pam_toolbar option {
+
+  font-size: 1em !important; 
+
+}
+
 
 .pa_audio_toolbar{
  
   color: #f3f3f3;
-  display: none;
+  /* display: none; */
   /* border-style: inset;
   border-color: rgb(35, 157, 194) */
   
@@ -48,13 +55,29 @@
 
 .pa_audio_toolbar p{
   color: #161616;
+  font-size: 14px !important; 
   
 }
 
 .pa_audio_toolbar select{
-   /* max-width: 50px !important;  */
-   text-indent: 5px;
-   display: block;
+   min-width: 130px !important; 
+   text-indent: 12px;
+   font-size: 14px !important; 
+   /* display: block; */
+}
+
+.pa_audio_toolbar select.form-select{
+
+  height:30px !important;
+
+}
+
+
+.pa_audio_toolbar option{
+  /* max-width: 50px !important;  */
+
+  font-size: 14px !important; 
+  /* display: block; */
 }
 
 

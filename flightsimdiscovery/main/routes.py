@@ -31,7 +31,7 @@ main = Blueprint('main', __name__)
 
 # TODO update FAQ about active flight when panel uploaded to flightsim.io - scramble javascript
 
-# TODO allow user 3 to update and delete POI's
+# TODO allow user 3 to delete POI's
 # TODO FSD audio
 # TODO add all world cities as pois.  see the author of pois on the flight.to website also
 # TODO add my own recording functionality

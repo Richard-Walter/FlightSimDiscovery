@@ -1,5 +1,3 @@
-// initial variables
-// var user_id = getUserID();
 var map = getMap();
 let user_panned_map = false;
 var show_plane_trail = true;
@@ -109,7 +107,7 @@ function updateActiveFlightData(callback) {
 
   }).error(function () {
     console.log('AJAX call to get_user_location from database failed.  Cant update database to show active flight checked');
-    removeSetInterval("No active flight detected.  Check that you are connected via the Flight Sim Discovery toolbar panel within MSFS and try again");
+    // removeSetInterval("No active flight detected.  Check that you are connected via the Flight Sim Discovery toolbar panel within MSFS and try again");
   });
 
 }
@@ -216,7 +214,7 @@ function updateMap() {
   if (diff_millis > 9000) {
     console.log('timestamp has not been updated for at least 9s')
 
-    removeSetInterval("No active flight detected.  Check that you are connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
+    // removeSetInterval("No active flight detected.  Check that you are connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
     return;
   }
 
@@ -435,14 +433,15 @@ function activeFlightPoiAudio(show_flag) {
 
 
   if (show_flag == 'on') {
+  // if (true) {
     $('.pa_toolbar').removeClass("d-none");
-    $('.pa_toolbar').addClass("d-flex");
+    // $('.pa_toolbar').addClass("d-flex");
     $('.tips-and-tricks').addClass("d-none");
     pa_init();
 
   } else {
     $('.pa_toolbar').addClass("d-none");
-    $('.pa_toolbar').removeClass("d-flex");
+    // $('.pa_toolbar').removeClass("d-flex");
     pa_disconnect();
   }
 }

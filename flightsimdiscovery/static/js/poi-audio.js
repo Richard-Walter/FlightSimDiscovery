@@ -6,20 +6,6 @@ let currentPoiQuerySelect;
 let voiceIndex = 0;
 let initialSetup = true;
 
-playBtn = qs("#pa_play_pause");
-playBtn.addEventListener("click", paPlayPause, false);
-
-replayBtn = qs("#pa_replay_btn");
-replayBtn.addEventListener("click", paReplay, false);
-nextBtn = qs("#pa_next_btn");
-nextBtn.addEventListener("click", paNext, false);
-
-stopBtn = qs("#pa_stop");
-stopBtn.addEventListener("click", paStop, false);
-settingsBtn = qs("#pa_settings");
-settingsBtn.addEventListener("click", paSettings, false);
-currentPoiQuerySelect = qs("#select_poi_play");
-
 
 let speech = new SpeechSynthesisUtterance();
 let updatePAIntervalID = null;
@@ -31,37 +17,69 @@ let selectMenuPlayList = null;
 let poisWithinArea = null;
 let current_poi_playing = null;
 pois_played = [];
-// let nextPoiIndex = 1;  //trackig index which is required when users hits next button multiple times 
 
-populateSelectMenu([]);
-// currentPoiQuerySelect.addEventListener("change", selectPOI, false);
-$('#select_poi_play').on("change", playPOIFromSelectMenu);
+//main entry 
+function pa_init() {
 
-txtFld = qs("#textFld");
-speakerMenu = qs("#speakerMenu");
-langtags = getLanguageTags();
+    configureHTML();
 
-speakerMenu.addEventListener("change", selectSpeaker, false);
+    //update play list every 10 seconds
+    updatePAIntervalID = setInterval(() => {
+        pa_update_play_list()
+    }, 5000);
 
-// rateFld = qs("#rateFld");
-languageMenu = qs("#languageMenu");
-languageMenu.addEventListener("change", selectLanguage, false);
-langhash = getLookupTable(langtags, "name");
-langcodehash = getLookupTable(langtags, "code");
-
-if (window.speechSynthesis) {
-    if (window.speechSynthesis.onvoiceschanged !== undefined) {
-        //Chrome gets the voices asynchronously so this is needed
-        window.speechSynthesis.onvoiceschanged = setUpVoices;
-        $("#warning").attr("hidden", true);
-    }
-    setUpVoices(); //for all the other browsers
-} else {
-    playBtn.disabled = true;
-    speakerMenu.disabled = true;
-    languageMenu.disabled = true;
-    $("#warning").attr("hidden", false);
 }
+
+function configureHTML() {
+
+    playBtn = qs("#pa_play_pause");
+    playBtn.addEventListener("click", paPlayPause, false);
+
+    replayBtn = qs("#pa_replay_btn");
+    replayBtn.addEventListener("click", paReplay, false);
+    nextBtn = qs("#pa_next_btn");
+    nextBtn.addEventListener("click", paNext, false);
+
+    stopBtn = qs("#pa_stop");
+    stopBtn.addEventListener("click", paStop, false);
+    settingsBtn = qs("#pa_settings");
+    settingsBtn.addEventListener("click", paSettings, false);
+    currentPoiQuerySelect = qs("#select_poi_play");
+
+    populateSelectMenu([]);
+
+    // currentPoiQuerySelect.addEventListener("change", selectPOI, false);
+    $('#select_poi_play').on("change", playPOIFromSelectMenu);
+
+    txtFld = qs("#textFld");
+    speakerMenu = qs("#speakerMenu");
+    langtags = getLanguageTags();
+
+    speakerMenu.addEventListener("change", selectSpeaker, false);
+
+    // rateFld = qs("#rateFld");
+    languageMenu = qs("#languageMenu");
+    languageMenu.addEventListener("change", selectLanguage, false);
+    langhash = getLookupTable(langtags, "name");
+    langcodehash = getLookupTable(langtags, "code");
+
+    if (window.speechSynthesis) {
+        if (window.speechSynthesis.onvoiceschanged !== undefined) {
+            //Chrome gets the voices asynchronously so this is needed
+            window.speechSynthesis.onvoiceschanged = setUpVoices;
+            $("#warning").attr("hidden", true);
+        }
+        setUpVoices(); //for all the other browsers
+    } else {
+        playBtn.disabled = true;
+        speakerMenu.disabled = true;
+        languageMenu.disabled = true;
+        $("#warning").attr("hidden", false);
+    }
+
+
+}
+
 
 //function called when speech finishes reading text
 speech.onend = function (event) {
@@ -78,15 +96,6 @@ speech.onend = function (event) {
     current_poi_playing = null;
 }
 
-//main entry 
-function pa_init() {
-
-    //update play list every 10 seconds
-    updatePAIntervalID = setInterval(() => {
-        pa_update_play_list()
-    }, 5000);
-
-}
 
 function pa_update_play_list() {
 
@@ -102,18 +111,18 @@ function pa_update_play_list() {
     diff_millis = current_date_ms - last_update_ms;
 
     /*  UNCOMMENT OUT THESE WHEN NOT TESTING */
-    if (diff_millis > 20000) {
+    // if (diff_millis > 20000) {
 
-        pa_disconnect();
-        return;
-    }
+    //     pa_disconnect();
+    //     return;
+    // }
 
-    current_lat = af_details_dict['user_lat'];
-    current_lng = af_details_dict['user_lng'];
+    // current_lat = af_details_dict['user_lat'];
+    // current_lng = af_details_dict['user_lng'];
 
     //TESTING ONLY - SEE ABOVE
-    // current_lat = 51.508407;
-    // current_lng = -0.101282;
+    current_lat = 51.508407;
+    current_lng = -0.101282;
 
     //find POIs within 5nm and update play list
     poisWithinArea = getPoisWithinArea(new google.maps.LatLng(current_lat, current_lng));
@@ -177,6 +186,7 @@ function paPlayAudio(poi_to_play) {
     let sval = Number(speakerMenu.value);
     speech.voice = allVoices[sval];
     speech.lang = speech.voice.lang;
+    speech.rate = 0.9;
     current_poi_playing = poi_to_play;
     current_poi_playing_id = current_poi_playing['id'];
     current_poi_playing_name = current_poi_playing['name'];
@@ -319,12 +329,11 @@ function pa_disconnect() {
 
 function paSettings() {
 
-
     is_visible = $('#pa_audio_toolbar').is(":visible");
     if(is_visible){
-        $("#pa_audio_toolbar").attr("style", "display:none");
+        $("#pa_audio_toolbar").prop('hidden', true);
     } else {
-        $("#pa_audio_toolbar").attr("style", "display:block");
+        $("#pa_audio_toolbar").removeProp('hidden');
     }
 }
 

@@ -712,14 +712,15 @@
           //Create search poi control
           const searchPOIDiv = document.createElement("div");
           styleSearchPOIBtn(searchPOIDiv, map);
-          map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
+          // map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
           // map.controls[google.maps.ControlPosition.TOP_CENTER].pop(searchPOIDiv);
 
-          //Create poi_radio control element
-          // const paToolbarDiv = document.createElement("div");
-          // stylePaToolbarDiv(paToolbarDiv, map);
-          // map.controls[google.maps.ControlPosition.TOP_CENTER].push(paToolbarDiv);
+          //Create poi_radio control and options panel
+          const paToolbarDiv = document.createElement("div");
+          stylePaToolbarDiv(paToolbarDiv, map);
+          map.controls[google.maps.ControlPosition.TOP_CENTER].push(paToolbarDiv);
           // map.controls[google.maps.ControlPosition.TOP_CENTER].pop(searchPOIDiv);
+          
 
           //Create show active flight toogle button
           const activeFlightBtnDiv = document.createElement("div");
@@ -1170,9 +1171,6 @@
 
         }
 
-
-        
-
         function styleSearchPOIBtn(controlDiv, map) {
 
           // Set CSS for the control border.
@@ -1255,7 +1253,6 @@
                 b.addEventListener("click", function (e) {
 
                   controlInput.value = this.getElementsByTagName("input")[0].value;
-
                   closeAllLists();
 
 
@@ -1337,23 +1334,30 @@
         }
 
         function stylePaToolbarDiv(controlDiv, map) {
-          // Set CSS for the control border.
-          // Create outer div
-          const controlUI = document.createElement('pa_toolbar');
-          controlUI.classList = "justify-content-center pa_toolbar";
-          controlDiv.appendChild(controlUI);
 
-          // create select inner div
-          const selectDiv = document.createElement("div");
-          selectDiv.classList = "w-50";
+          // Create main div
+          mainDiv = document.createElement('div')
+          controlDiv.appendChild(mainDiv);
 
-          selectInnerHTML = '<select id="select_poi_play" class="form-select bg-dark text-light p-2 "></select>';
+          const paToolbar = document.createElement('div');
+          paToolbar.classList = "row pam_toolbar";
+          paToolbar.attributes = "hidden";
+          paToolbar.style.margin = "15px";
+  
 
-          // create play controls inner div
-          const playControlsDiv = document.createElement("div");
-          playControlsDiv.classList = "mx-2";
+          // Set CSS for the control interior.
+          const controlText = document.createElement("div");
+          controlText.classList = "input-group  input-sm";
 
-          playControlsInnerHTML = 
+          var controlSelect = document.createElement('Select');
+          controlSelect.id = "select_poi_play";
+          controlSelect.className = "form-control input-sm ";
+
+          //playback toolbar
+          var controlPlayBackToolbar = document.createElement("div");
+          controlPlayBackToolbar.className = "mx-2";
+
+          controlPlayBackToolbarInnerHTML =
 
           '<button id="pa_replay_btn" class="btn btn-info btn-sm m-1" title="replay" value="play" ><i id="pa_replay_icon" class="fas fa-step-backward"></i></button>'+
           '<button id="pa_play_pause" class="btn btn-success btn-sm m-1" value="play" ><i id="pa_play_pause_icon" class="fas fa-play"></i></button>'+
@@ -1361,15 +1365,13 @@
           '<button id="pa_next_btn" class="btn btn-info btn-sm m-1" title="next poi"><i id="pa_next_icon" class="fas fa-step-forward"></i></button>'+
           '<button id="pa_settings" class="btn btn-secondary btn-sm m-1" title="settings"><i id="pa_settings" class="fas fa-bars"></i></button>';
 
-          selectDiv.innerHTML =selectInnerHTML;
-          playControlsDiv.innerHTML = playControlsInnerHTML;
-          controlUI.appendChild(selectDiv);
-          // controlUI.appendChild(playControlsDiv);
-
-          //NEED TO ADD LISTENER???
+          controlPlayBackToolbar.innerHTML = controlPlayBackToolbarInnerHTML;
+          controlText.appendChild(controlSelect)
+          controlText.appendChild(controlPlayBackToolbar)
+          paToolbar.appendChild(controlText)
+          mainDiv.appendChild(paToolbar)       
 
         }
-
 
         function styleflightPlanBtn(controlDiv, map, flightPath) {
 
@@ -1418,12 +1420,7 @@
 
           // Set CSS for the control border.
           const controlUI = document.createElement('div');
-          // controlUI.classList = "Map_ActiveFlight_Btn btn btn-dark"
-          // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-          // controlUI.style.cursor = "pointer";
-          // controlUI.style.margin = "10px 15px";
-          // controlUI.style.textAlign = "center";
-          // controlUI.title = "Active Flight Options";
+
           
           controlUI.classList = "Map_ActiveFlight_Btn btn btn-dark af_sliderWrapper"
           controlUI.id = "Map_ActiveFlight_Btn"
@@ -1442,20 +1439,10 @@
 
           // controlText.innerHTML = "Active Flight &vellip;";
           controlText.innerHTML = 
-          '<div class="mr-2 m-1 af_btn-text">Show Active Flight</div>' +
-              // '<label class="af_switch mb-0">' +
-              // '<input id="af_checkbox"class="af_checkbox" type="checkbox" value="off" id="af_show" >' +
-              // '<div class="slider round">' +
-              // '<span class="on">ON</span>' +
-              // '<span class="off">OFF</span>' +
-              // '</div>' +
-              // '</label>' +
-          '</div>';
-          
-  
+          '<div class="mr-2 m-1 af_btn-text">Show Active Flight</div>';
+
           controlUI.appendChild(controlText);
 
-    
           // show legend
           controlText.addEventListener("click", () => {
 
@@ -1544,7 +1531,7 @@
               '</div>' +
               '</label>' +
               '</div>' +
-            '<div id="poi_audio_div" class="af_sliderWrapper" hidden>' +
+            '<div id="poi_audio_div" class="af_sliderWrapper">' +
               '<div class="mr-2 m-1">POI Audio&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>' +
               '<label class="af_switch mb-0">' +
               '<input class="af_checkbox" type="checkbox" value="off" id="af_poi_audio" >' +
