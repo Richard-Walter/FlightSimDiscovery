@@ -121,8 +121,10 @@ function pa_update_play_list() {
     // current_lng = af_details_dict['user_lng'];
 
     //TESTING ONLY - SEE ABOVE
-    current_lat = 51.508407;
-    current_lng = -0.101282;
+    // current_lat = 51.508407;
+    // current_lng = -0.101282;
+    current_lat = -23.529724;
+    current_lng = -69.609087;
 
     //find POIs within 5nm and update play list
     poisWithinArea = getPoisWithinArea(new google.maps.LatLng(current_lat, current_lng));
@@ -212,13 +214,15 @@ function paStop() {
     }
     
     clearTimeout(myTimeout);
+    clearInterval(updatePAIntervalID);
+    current_poi_playing = null;
+    // pois_played = [];
     populateSelectMenu(poisWithinArea);
     window.speechSynthesis.cancel();
     // $( "#select_poi_play option:selected" ).text(current_poi_playing['name'] );
-    clearInterval(updatePAIntervalID);
-    current_poi_playing = null;
+     
     updatePAIntervalID= null;
-    pois_played = [];
+    console.log("stopping POI audio")
 }
 
 function paNext() {
@@ -377,7 +381,7 @@ function populateSelectMenu(poisWithinArea) {
                 if (poisWithinArea.length == 1) {
                     $('#select_poi_play').prop('disabled', 'disabled');
                     html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
-                    enableAllButtons = false;
+                    // enableAllButtons = false;
                 }              
             }
         });
