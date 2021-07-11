@@ -37,6 +37,54 @@
 
 }
 
+
+@media (max-width: 1100px) {
+
+  .pam_toolbar select{
+    width: 300px !important;
+  }
+}
+
+@media (max-width: 950px) {
+
+  .pam_toolbar select{
+    width: 200px !important;
+  }
+}
+
+@media (max-width: 950px) {
+
+  .pam_toolbar select{
+    width: 200px !important;
+  }
+}
+
+@media (max-width: 800px) {
+
+  .pam_toolbar select{
+
+    width: 150px !important;
+  }
+}
+
+@media (max-width: 700px) {
+
+  .pam_toolbar select{
+
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+
+  .poiPlaybackToolbar{
+
+    display: none;
+  }
+}
+
+
+
 .pam_toolbar option {
 
   font-size: 1em !important; 
@@ -103,7 +151,7 @@
   width: 400px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 850px) {
   /* .Map_ActiveFlight {
     display: none;
   } */
@@ -113,21 +161,26 @@
   }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 650px) {
 
   .poi_search_field{
     width: 200px;
   }
 }
 
-@media (max-width: 680px) {
+@media (max-width: 600px) {
+
+  .poi_search_field{
+    width: 150px;
+  }
+}
+
+@media (max-width: 500px) {
 
   .poi_search_field{
     display: none;
   }
 }
-
-
 
 .autocomplete-items {
   position: absolute;

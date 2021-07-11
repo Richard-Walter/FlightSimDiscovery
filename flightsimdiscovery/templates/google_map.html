@@ -1183,7 +1183,7 @@
           controlUI.attributes = "hidden";
           // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
           // controlUI.style.cursor = "pointer";
-          controlUI.style.margin = "15px";
+          controlUI.style.margin = "10px";
           // controlUI.style.textAlign = "center";
           controlDiv.appendChild(controlUI);
 
@@ -1346,7 +1346,7 @@
           const paToolbar = document.createElement('div');
           paToolbar.classList = "row pam_toolbar";
           paToolbar.attributes = "hidden";
-          paToolbar.style.margin = "15px";
+          paToolbar.style.margin = "10px";
   
 
           // Set CSS for the control interior.
@@ -1359,7 +1359,7 @@
 
           //playback toolbar
           var controlPlayBackToolbar = document.createElement("div");
-          controlPlayBackToolbar.className = "mx-2";
+          controlPlayBackToolbar.className = "mx-2 poiPlaybackToolbar";
 
           controlPlayBackToolbarInnerHTML =
 
@@ -1381,10 +1381,10 @@
 
           // Set CSS for the control border.
           const controlUI = document.createElement('div');
-          controlUI.classList = "Map_Flight_Plan_Btn btn btn-success"
+          controlUI.classList = "Map_Flight_Plan_Btn btn btn-sm btn-success"
           controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
           controlUI.style.cursor = "pointer";
-          controlUI.style.margin = "15px";
+          controlUI.style.margin = "10px";
           controlUI.style.textAlign = "center";
           controlUI.title = "Flight Plan";
           controlDiv.appendChild(controlUI);
@@ -1426,11 +1426,11 @@
           const controlUI = document.createElement('div');
 
           
-          controlUI.classList = "Map_ActiveFlight_Btn btn btn-dark af_sliderWrapper"
+          controlUI.classList = "Map_ActiveFlight_Btn btn btn-sm btn-dark af_sliderWrapper"
           controlUI.id = "Map_ActiveFlight_Btn"
           controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
           controlUI.style.cursor = "pointer";
-          controlUI.style.margin = "10px 15px";
+          controlUI.style.margin = "10px";
           controlUI.style.textAlign = "center";
           controlUI.title = "Active Flight Options";
           controlUI.value = "off";
