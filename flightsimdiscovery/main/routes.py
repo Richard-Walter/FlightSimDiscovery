@@ -28,22 +28,26 @@ main = Blueprint('main', __name__)
 # DONE add links at bottom of POI IW to google, youtube, wiki, local radio, skyvector
 # DONE reduce data imported from volanta
 # DONE in game panel to display position on web browser
+# DONE FSD audio
 
 # TODO update FAQ about active flight when panel uploaded to flightsim.io - scramble javascript
 
 # TODO allow user 3 to delete POI's
-# TODO FSD audio
-# TODO add all world cities as pois.  see the author of pois on the flight.to website also
+
+# TODO screenscapte wiki-pedia for more audio if POI description text is limited - or update manually?
+# TODO test if you can browse my site from in-game
 # TODO add my own recording functionality
 # TODO select-all to delete flights
-# TODO allow user 3 to update and delete POI's
-# TODO add moving map with default airports and POIS in the ingmae panel see Leaflet
-# TODO add open infowindow for pois and airports when hovering at certain zoom level
+
+# TODO add moving map with default airports and POIS in the ingmae panel see Leaflet - or just stream my website
+# TODO add favorite, visited airports 
 # TODO add 'create POI' option when clicking on airplane icon?
 # TODO add ability to import and dispaly flight plan on map
 
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
-# TODO Translate poi description text with users gm key
+# TODO add open infowindow for pois and airports when hovering at certain zoom level
+# TODO add all world cities as pois.  Wait and see MSFS POIS - see the author of pois on the flight.to website also.
+# TODO Translate poi description text with users own gm key
 
 # DEBUGGING SCRIPTS
 # comment out after testing.  need to comment out @scriptsbp.cli.command('name') as well

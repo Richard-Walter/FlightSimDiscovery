@@ -248,9 +248,9 @@ function paNext() {
     
     // only play next if currently playing a poi and there is more than one poi to play in select lilst
     if ((!current_poi_playing) || (selectMenuPlayList.length<2)) {
-        console.log('NO NEXT POI TO PLAY')
-        paStop();
-        return;
+        console.log('NO NEXT POI TO PLAY.  Playing current one')
+        nextPOISelectIndex = 0;
+        
     }
 
     current_poi_playing_id = current_poi_playing['id'];
@@ -378,6 +378,10 @@ function populateSelectMenu(poisWithinArea) {
     var html = ``;
     var enableAllButtons = true;
 
+    //disable select menu by default
+    $('#select_poi_play').prop('disabled', 'disabled');
+   
+
     //do not update select statement until play has finished.
     if (current_poi_playing) {
         return;
@@ -393,26 +397,35 @@ function populateSelectMenu(poisWithinArea) {
             if(!pois_played.includes(poi['id'])){
                 html += `<option value=${poi['id']}>${poi['name']}</option>`;
                 tempPoiPlayList.push(poi);
-            } else {
-                console.log('poi already played: ' + poi['id']);
-                if (poisWithinArea.length == 1) {
-                    $('#select_poi_play').prop('disabled', 'disabled');
-                    html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
+            } 
+                // console.log('poi already played: ' + poi['id']);
+                // if (poisWithinArea.length == 1) {
+                //     $('#select_poi_play').prop('disabled', 'disabled');
+                    // html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
+                    // return;
                     // enableAllButtons = false;
-                }              
-            }
+                // }              
+            
         });
     } else {
         $('#select_poi_play').prop('disabled', 'disabled');
-        html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
+        // html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
         enableAllButtons = false;
+    }
+ 
+    //Allow user to select from list as there is at least one option
+    if(tempPoiPlayList.length > 0) {
+        $("input").prop('disabled', false);
+    } else {
+        $('#select_poi_play').prop('disabled', 'disabled');
+        html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
     }
 
     document.getElementById('select_poi_play').innerHTML = html;
 
     //disable buttons if searching for pois
     changeBtnState(enableAllButtons);
- 
+    
     //update select menu play list which is used by replay and next functions
     selectMenuPlayList = tempPoiPlayList;
 }
