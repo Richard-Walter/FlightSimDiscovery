@@ -4,7 +4,7 @@ from sqlalchemy import or_
 from wikipedia.exceptions import DisambiguationError
 from flightsimdiscovery.models import User, Pois, Ratings, Flagged, Visited, Favorites, Flightplan, Flightplan_Waypoints
 from flask_login import current_user, login_required
-from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm
+from flightsimdiscovery.admin.forms import UpdateDatabaseForm, RunScriptForm, UpdatePOIDescriptionSelectCriteriaForm
 from utilities import get_elevation
 from flightsimdiscovery.admin.utilities import update_db, backup_db
 from flightsimdiscovery import db
@@ -365,6 +365,65 @@ def update_proudction_pois_elevation():
                 flash('POIS elevation updated has run succesfully!  Number of pois updated with elevation is ' + str(pois_updated), 'success')
 
                 return render_template('run_script.html', form=form)
+
+            else:
+                flash('ERROR running the script!', 'danger')
+                return render_template('run_script.html', form=form)
+
+        else:
+
+            abort(403)
+
+    else:
+        abort(403)
+
+
+#  this method filters pois that may need there descriptions updated based on certain criteria that can be specified in a form
+@admin.route("/update_poi_description", methods=['GET', 'POST'])
+@login_required
+def update_poi_description():
+
+    form = UpdatePOIDescriptionSelectCriteriaForm()
+
+    if current_user.is_authenticated and (current_user.username == 'admin'):
+
+        if request.method == 'GET':
+
+            return render_template('update_poi_description_criteria.html', form=form)
+
+        elif request.method == 'POST':
+
+            # generate updates xml file in the output directory if password valid
+            if form.validate_on_submit():
+                
+                location_tolerance = 0.03
+                no_airports_updated = 0
+                airports_updated = []
+                
+                pois = Pois.query.all()      
+
+                for poi in pois:
+                    if ('Airport' in poi.category) and (not poi.nearest_icao_code):
+                        pass
+                        
+                        # # look up ICAO from MSFS default airports and update
+                        # for airport in default_airports:
+
+                        #     latitude_diff = abs(float(poi.latitude) - airport['lat'])
+                        #     longitude_diff = abs(float(poi.longitude) - airport['lon'])
+
+                        #     if (latitude_diff < location_tolerance) and (longitude_diff < location_tolerance):
+                                
+                        #         poi_to_update = Pois.query.get(poi.id)
+                        #         poi_to_update.nearest_icao_code = airport['ICAO']
+                        #         db.session.commit()
+                        #         print("Updating ICAO of airport " + poi.name + "  " + airport['ICAO'])  
+                        #         no_airports_updated +=1
+                        #         airports_updated.append(poi.name)
+
+ 
+
+                return render_template('update_poi_description_criteria.html', form=form)
 
             else:
                 flash('ERROR running the script!', 'danger')
