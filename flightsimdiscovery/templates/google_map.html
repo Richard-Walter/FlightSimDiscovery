@@ -722,19 +722,22 @@
           //Create poi_radio control and options panel
           paToolbarDiv = document.createElement("div");
           stylePaToolbarDiv(paToolbarDiv, map);
-          // map.controls[google.maps.ControlPosition.TOP_CENTER].push(paToolbarDiv);
-          // map.controls[google.maps.ControlPosition.TOP_CENTER].pop(searchPOIDiv);
           
 
           //Create show active flight toogle button
-          const activeFlightBtnDiv = document.createElement("div");
-          styleActiveFlightdBtn(activeFlightBtnDiv, map);
-          map.controls[google.maps.ControlPosition.LEFT].push(activeFlightBtnDiv);
+          //FOR TESTING ONLY
+          if ([1,3].includes(user_id)) {
 
-          //Create show active flight  text
-          const activeFlightDiv = document.createElement("div");
-          styleActiveFlightOptions(activeFlightDiv, map);
-          map.controls[google.maps.ControlPosition.LEFT].push(activeFlightDiv);
+            const activeFlightBtnDiv = document.createElement("div");
+            styleActiveFlightdBtn(activeFlightBtnDiv, map);
+            map.controls[google.maps.ControlPosition.LEFT].push(activeFlightBtnDiv);
+
+            //Create show active flight  text
+            const activeFlightDiv = document.createElement("div");
+            styleActiveFlightOptions(activeFlightDiv, map);
+            map.controls[google.maps.ControlPosition.LEFT].push(activeFlightDiv);
+          }
+
         }
 
         function iw_update_favorite(poi_id) {
