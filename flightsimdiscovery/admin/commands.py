@@ -118,7 +118,7 @@ def world_update(xml_filename, country):
 @scriptsbp.cli.command('update_pois_elevation')
 def update_pois_elevation():
 
-    msfs_pois = ['MSFS Enhanced Airport', 'MSFS Photogrammery City', 'MSFS Point of Interest']
+    msfs_pois = ['MSFS Enhanced Airport', 'MSFS Photogrammetry City', 'MSFS Point of Interest']
 
     count_pois_no_elevation_retrieved = 0
     

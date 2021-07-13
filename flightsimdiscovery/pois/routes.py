@@ -7,6 +7,7 @@ from flightsimdiscovery.pois.utils import location_exists, get_rating, validate_
 from flask_login import current_user, login_required
 from utilities import get_country_region, continents_by_region, get_location_details
 
+
 pois = Blueprint('pois', __name__)
 anonymous_username = 'anonymous'
 
@@ -164,6 +165,7 @@ def update_poi(poi_id):
             # determine country from user coordinates not from the country they input in the form
             location_details = get_location_details(float(form.latitude.data), float(form.longitude.data))
             country = location_details.get('country', "")
+            current_time = datetime.utcnow
             if country:
                 poi.country = country
             else:

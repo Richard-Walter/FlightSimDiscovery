@@ -18,9 +18,8 @@ from requests import get
 import csv
 import os
 from tempfile import NamedTemporaryFile
-import shutil
-import traceback
-import wikipedia
+import time
+from datetime import datetime, timedelta
 
 
 admin = Blueprint('admin', __name__)
@@ -246,7 +245,7 @@ def shared_flightplans():
 
 #                 # gm_key = Config.GM_KEY
 
-#                 msfs_pois = ['MSFS Enhanced Airport', 'MSFS Photogrammery City', 'MSFS Point of Interest']
+#                 msfs_pois = ['MSFS Enhanced Airport', 'MSFS Photogrammetry City', 'MSFS Point of Interest']
 
 #                 count_pois_no_elevation_retrieved = 0
                 
@@ -396,34 +395,41 @@ def update_poi_description():
             # generate updates xml file in the output directory if password valid
             if form.validate_on_submit():
                 
-                location_tolerance = 0.03
-                no_airports_updated = 0
-                airports_updated = []
-                
+                filtered_pois = []
+
+                category = form.category.data
+                word_limit = form.word_limit.data
+
+                time_exclusion = int(form.time_exclusion.data)
+                current_time_utc = datetime.utcnow
+
                 pois = Pois.query.all()      
 
                 for poi in pois:
-                    if ('Airport' in poi.category) and (not poi.nearest_icao_code):
-                        pass
+
+                    poi_description = poi.description
+                    poi_description_word_count = len(poi_description.split())
+
+                    # exclude private pois
+                    # if (not poi.share) or (poi.category != category) or (poi_description_word_count > word_limit):
+                    if (not poi.share):
+                        continue
+
+                    if poi.category != category:
+                        if (category == 'MSFS Point of Interest') or (category == 'MSFS Photogrammetry City') :
+                            if (category not in poi_description):
+                               if ('MSFS Photogrammery City' not in poi_description):
+                                    continue
+                        else:
+                            continue
+
+                    if poi_description_word_count > word_limit:
+                        continue
                         
-                        # # look up ICAO from MSFS default airports and update
-                        # for airport in default_airports:
+                    poi_data = {'id': poi.id,'name': poi.name,'category': poi.category,'description': poi.description}
+                    filtered_pois.append(poi_data)
 
-                        #     latitude_diff = abs(float(poi.latitude) - airport['lat'])
-                        #     longitude_diff = abs(float(poi.longitude) - airport['lon'])
-
-                        #     if (latitude_diff < location_tolerance) and (longitude_diff < location_tolerance):
-                                
-                        #         poi_to_update = Pois.query.get(poi.id)
-                        #         poi_to_update.nearest_icao_code = airport['ICAO']
-                        #         db.session.commit()
-                        #         print("Updating ICAO of airport " + poi.name + "  " + airport['ICAO'])  
-                        #         no_airports_updated +=1
-                        #         airports_updated.append(poi.name)
-
- 
-
-                return render_template('update_poi_description_criteria.html', form=form)
+                return render_template('filtered_pois.html', filtered_pois=filtered_pois)
 
             else:
                 flash('ERROR running the script!', 'danger')

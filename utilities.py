@@ -345,7 +345,7 @@ continents_by_region = {
 categoryList = [
     "Airport (Bush Strip)",
     "Airport (Famous/Interesting)",
-    "MSFS Photogrammery City",
+    "MSFS Photogrammetry City",
     "MSFS Point of Interest",
     "Beach",
     "Canyon",
@@ -426,7 +426,7 @@ def get_category_list():
 
 def get_new_poi_category_list():
 
-    return [e for e in categoryList if e not in ("MSFS Photogrammery City", "MSFS Point of Interest")]
+    return [e for e in categoryList if e not in ("MSFS Photogrammetry City", "MSFS Point of Interest")]
 
 
 def get_country_region(country):
