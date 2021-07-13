@@ -36,7 +36,7 @@ main = Blueprint('main', __name__)
 
 # TODO add favorite, visited to default airports 
 # TODO add ability to import and dispaly flight plan on map
-# TODO add my own recording functionality
+# TODO add my own recording functionality - check app on flight.to store
 # TODO add moving map with default airports and POIS in the ingmae panel see Leaflet
 
 # TODO add all world cities as pois.  Wait and see MSFS POIS - see the author of pois on the flight.to website also.

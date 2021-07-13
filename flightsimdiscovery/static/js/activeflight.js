@@ -84,7 +84,8 @@ function updateDBShowChecked(showChecked) {
     },
   }).done(function (response) {
     // console.log(response);
-  }).fail(function () {
+  }).fail(function (err) {
+    console.log(err)
     console.log('couldnt update database to show active flight checked');
   });
 }
@@ -443,8 +444,8 @@ function activeFlightPoiAudio(show_flag) {
     pa_init();
 
   } else {
-    // $('.pa_toolbar').addClas
-    s("d-none");
+
+    $('.pa_toolbar').addClass("d-none");
     map.controls[google.maps.ControlPosition.TOP_CENTER].pop(paToolbarDiv);
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
     pa_disconnect();

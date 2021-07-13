@@ -287,6 +287,11 @@ def update_active_flight():
         
         user_active_flight = ActiveFlights.query.filter_by(user_id=user_id).first()
 
+
+
+
+
+
         if user_active_flight:
             if user_active_flight.show_checked:
                 user_active_flight.last_update = datetime.utcnow()
