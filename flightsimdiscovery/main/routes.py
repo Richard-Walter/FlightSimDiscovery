@@ -35,18 +35,18 @@ main = Blueprint('main', __name__)
 # TODO allow user 3 to delete POI's
 
 # TODO screenscapte wiki-pedia for more audio if POI description text is limited - or update manually?
-# TODO test if you can browse my site from in-game
 # TODO add my own recording functionality
 # TODO select-all to delete flights
 
 # TODO add moving map with default airports and POIS in the ingmae panel see Leaflet - or just stream my website
-# TODO add favorite, visited airports 
+# TODO add favorite, visited to default airports 
 # TODO add 'create POI' option when clicking on airplane icon?
 # TODO add ability to import and dispaly flight plan on map
 
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 # TODO add open infowindow for pois and airports when hovering at certain zoom level
 # TODO add all world cities as pois.  Wait and see MSFS POIS - see the author of pois on the flight.to website also.
+# TODO with active flight,mark off as visited all the POIs and airports landed
 # TODO Translate poi description text with users own gm key
 
 # DEBUGGING SCRIPTS

@@ -212,9 +212,9 @@ def delete_poi(poi_id):
     favorited_pois_list = Favorites.query.filter_by(poi_id=poi_id).all()
     ratings_poi_list = Ratings.query.filter_by(poi_id=poi_id).all()
 
-    if (current_user.username != 'admin'):
-        if (poi.user_id != current_user.id):
-            abort(403)
+    if (current_user.id not in [1,3]) and (poi.user_id != current_user.id):
+        abort(403)
+
     db.session.delete(poi)
     if flagged_poi:
         db.session.delete(flagged_poi)
