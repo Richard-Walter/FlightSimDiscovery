@@ -92,7 +92,7 @@
         </Point>
       </Placemark>
 	</Folder>
-    <Folder Name="Photogrammery Cities"> 
+    <Folder Name="Photogrammetry Cities"> 
 	  <Placemark>
         <name>Sendai</name>
         <description><![CDATA[3D photogrammetry City<br>Part of Japan World Update]]></description>

@@ -20,6 +20,7 @@ import os
 from tempfile import NamedTemporaryFile
 import time
 from datetime import datetime, timedelta
+import wikipedia
 
 
 admin = Blueprint('admin', __name__)
@@ -396,6 +397,7 @@ def update_poi_description():
             if form.validate_on_submit():
                 
                 filtered_pois = []
+                
 
                 category = form.category.data
                 word_limit = form.word_limit.data
@@ -414,14 +416,15 @@ def update_poi_description():
                     # if (not poi.share) or (poi.category != category) or (poi_description_word_count > word_limit):
                     if (not poi.share):
                         continue
-
-                    if poi.category != category:
-                        if (category == 'MSFS Point of Interest') or (category == 'MSFS Photogrammetry City') :
-                            if (category not in poi_description):
-                               if ('MSFS Photogrammery City' not in poi_description):
-                                    continue
-                        else:
-                            continue
+                    
+                    if form.category.data != 'All':
+                        if poi.category != category:
+                            if (category == 'MSFS Point of Interest') or (category == 'MSFS Photogrammetry City') :
+                                if (category not in poi_description):
+                                    if ('MSFS Photogrammery City' not in poi_description):
+                                        continue
+                            else:
+                                continue
 
                     if poi_description_word_count > word_limit:
                         continue
@@ -429,7 +432,7 @@ def update_poi_description():
                     poi_data = {'id': poi.id,'name': poi.name,'category': poi.category,'description': poi.description}
                     filtered_pois.append(poi_data)
 
-                return render_template('filtered_pois.html', filtered_pois=filtered_pois)
+                return render_template('filtered_pois.html', filtered_pois=filtered_pois, count = len(filtered_pois))
 
             else:
                 flash('ERROR running the script!', 'danger')
@@ -716,3 +719,59 @@ def stats():
 #     db.create_all()
 
 #     return "success"
+
+@admin.route("/update_msfs_poi_descriptions")
+@login_required
+def update_msfs_poi_descriptions():
+
+    no_pois_updated = 0
+    no_pois_not_updated = 0
+    updated_pois = []
+
+
+    pois = Pois.query.all()      
+
+    for poi in pois:
+
+        poi_name = ''
+        
+        # only update poi descriptif it is a new MSFS Point of INterst and hasn't been updated before
+        if (poi.description  not in ['MSFS Photogrammery City', 'MSFS Photogrammery City', 'MSFS Point of Interest']):
+            continue
+
+        if (poi.description == 'MSFS Photogrammery City'):
+            poi.description = 'MSFS Photogrammery City'
+            poi_name_list = poi.name.split(',')
+            # exlcude county from name as wiki returns county detail rather that the city
+            for part_name in poi_name_list:
+                if 'County' in part_name:
+                    continue
+                
+                poi_name = poi_name + part_name + ' '
+
+        poi_name = poi_name + ', ' + poi.country
+        poi_category = poi.category
+        search_name = poi_name + ' ' + poi_category
+
+        try:
+            wiki_summary = wikipedia.summary(search_name, sentences=4)
+
+            # wiki search sometimes returns this string for city/town descriptions
+            if ('The following is a list of the most populous incorporated places' in wiki_summary):
+                continue
+            # print(wikipedia.summary(poi_name, sentences=4))
+        except wikipedia.exceptions.DisambiguationError:
+            print("disamiguation error for poi no. " + str(poi.id))
+        except wikipedia.exceptions.PageError:
+            print("Page error for poi no. " + str(poi.id) + '  Search was ' + poi_name)
+            no_pois_not_updated += 1
+        else:
+
+            poi_to_update = Pois.query.get(poi.id)
+            poi_to_update.description = 'This is a microsoft flight simulator enhanced ' + poi.description +  '. ' + wiki_summary
+            print('UPdating Poi ' + str(poi.id))
+            no_pois_updated += 1
+            db.session.commit()
+            updated_pois.append(poi_to_update)
+
+    return render_template('filtered_pois.html', filtered_pois=updated_pois, count = len(updated_pois))

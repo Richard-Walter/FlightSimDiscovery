@@ -52,7 +52,7 @@
 		  </Point>
 		</Placemark>
 	</Folder>
-    <Folder Name="Photogrammery Cities"> 
+    <Folder Name="Photogrammetry Cities"> 
 		<Placemark>
 		  <name>London</name>
 		  <description>3D Photogrammetry</description>

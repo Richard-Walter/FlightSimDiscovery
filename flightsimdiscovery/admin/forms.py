@@ -38,8 +38,11 @@ class RunScriptForm(FlaskForm):
 class UpdatePOIDescriptionSelectCriteriaForm(FlaskForm):
 
     exclude_time_period_hrs = [0, 1,2,3,8,24]
+    category_list = get_category_list()
+    category_list.insert(0,'All')
 
-    category = SelectField('Category', choices=get_category_list())
+    category = SelectField('Category', choices=category_list)
+    
     time_exclusion = SelectField('Exclude recent updates (hrs)', choices=exclude_time_period_hrs, default=0,)
     word_limit = IntegerField('Set Word Limit (integer)', default=20)
 

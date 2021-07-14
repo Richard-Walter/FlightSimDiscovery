@@ -93,7 +93,7 @@ function updateDBShowChecked(showChecked) {
 //Ajax routine to get users active flight
 function updateActiveFlightData(callback) {
 
-  console.log("getting active flight data");
+  // console.log("getting active flight data");
 
   $.ajax({
     url: "/users/get_user_location",
@@ -102,7 +102,7 @@ function updateActiveFlightData(callback) {
     data: { user_id: getUserID() },
   }).success(function (response) {
 
-    console.log("get user location returned data")
+    // console.log("get user location returned data")
     updateAFDict(response);
     callback();
 

@@ -567,8 +567,7 @@ function getPoisWithinArea(current_position) {
         }
     });
 
-    console.log(closestDistance);
-    console.log(closestPOI);
+    console.log('Nearest POI is ' + closestPOI + ' (' + (closestDistance / 1000).toFixed(1) + 'km)');
 
     sorted_play_list = pois_within_search.sort(sortPlaylist);
 

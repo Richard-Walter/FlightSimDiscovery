@@ -52,7 +52,8 @@ def update_db(file_name, country):
             description = 'MSFS Point of Interest'
             category = 'Landmark: Man-Made'
 
-        elif folder.attrib['Name'] == 'Photogrammery Cities':
+        # elif folder.attrib['Name'] == 'Photogrammery Cities':
+        elif folder.attrib['Name'] == 'Photogrammetry Cities':
             description = 'MSFS Photogrammetry City'
             category = 'City/Town'
         elif folder.attrib['Name'] == 'Airports Standard':

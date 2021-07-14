@@ -25,7 +25,9 @@ scriptsbp = Blueprint('scripts', __name__)
 
 # LOCAL ONLY!!! #
 
-# Test world update first as this will add new enhanced aiprots to exclude.  This script determines if a default airport should not be shown, due to a POI for this airport already exist.
+# Test world update first as this will add new enhanced aiprots to exclude.  This script determines if
+# a default airport should not be shown, due to a POI for this airport already exist.
+#
 # RUn this script LOCALLY after each update
 @scriptsbp.cli.command('update_airports_csv')
 def update_airports_csv():
@@ -178,37 +180,59 @@ def update_pois_elevation():
     print('POIS XML has run succesfully!  Please check the output folder and copy over to the MSFS SDK FSD POIS directory')
 
 
-# script to a detailed description to msfs pois
+# script to add detailed description to msfs pois
 @scriptsbp.cli.command('update_msfs_poi_descriptions')
 def update_msfs_poi_descriptions():
 
     no_pois_updated = 0
     no_pois_not_updated = 0
+    updated_pois = []
 
 
     pois = Pois.query.all()      
 
     for poi in pois:
+
+        poi_name = ''
         
         # only update poi descriptif it is a new MSFS Point of INterst and hasn't been updated before
-        if poi.description != 'MSFS Point of Interest':
+        if (poi.description  not in ['MSFS Photogrammery City', 'MSFS Photogrammery City', 'MSFS Point of Interest']):
             continue
 
-        poi_name = poi.name + ', ' + poi.country
+        if (poi.description == 'MSFS Photogrammery City'):
+            poi.description = 'MSFS Photogrammery City'
+            poi_name_list = poi.name.split(',')
+            # exlcude county from name as wiki returns county detail rather that the city
+            for part_name in poi_name_list:
+                if 'County' in part_name:
+                    continue
+                
+                poi_name = poi_name + part_name + ' '
+
+        poi_name = poi_name + ', ' + poi.country
+        poi_category = poi.category
+        search_name = poi_name + ' ' + poi_category
+
         try:
-            wiki_summary = wikipedia.summary(poi_name, sentences=3)
-            # print(wikipedia.summary(poi_name, sentences=3))
+            wiki_summary = wikipedia.summary(search_name, sentences=4)
+
+            # wiki search sometimes returns this string for city/town descriptions
+            if ('The following is a list of the most populous incorporated places' in wiki_summary):
+                continue
+            # print(wikipedia.summary(poi_name, sentences=4))
         except wikipedia.exceptions.DisambiguationError:
             print("disamiguation error for poi no. " + str(poi.id))
         except wikipedia.exceptions.PageError:
             print("Page error for poi no. " + str(poi.id) + '  Search was ' + poi_name)
             no_pois_not_updated += 1
         else:
+
             poi_to_update = Pois.query.get(poi.id)
-            poi_to_update.description = 'MSFS Enhanced Point of Interest.  ' + wiki_summary
+            poi_to_update.description = 'This is a microsoft flight simulator enhanced ' + poi.description +  '. ' + wiki_summary
             print('UPdating Poi ' + str(poi.id))
             no_pois_updated += 1
             db.session.commit()
+            updated_pois.append(poi_to_update)
 
 
 # update new enhanced airports/airport POIS with ICAO which is used as a lookup to add coms to the infowindow

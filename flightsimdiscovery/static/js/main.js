@@ -223,7 +223,7 @@ $(document).ready(function(){
     // "scrollY":        "800px",
     "scrollCollapse": true,
     "paging":         false,
-    "order": [[ 0, "desc" ]]
+    "order": [[ 2, "asc" ]],
     // "pagingType": "full_numbers"
   } );
 
