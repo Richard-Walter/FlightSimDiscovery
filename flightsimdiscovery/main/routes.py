@@ -32,15 +32,14 @@ main = Blueprint('main', __name__)
 
 # TODO update FAQ about active flight when panel uploaded to flightsim.io - scramble javascript
 
-# TODO screenscapte wiki-pedia for more audio if POI description text is limited - or update manually?
-
+# TODO add 'create POI' option when clicking on airplane icon?
 # TODO add favorite, visited to default airports 
 # TODO add ability to import and dispaly flight plan on map
 # TODO add my own recording functionality - check app on flight.to store
 # TODO add moving map with default airports and POIS in the ingmae panel see Leaflet
 
 # TODO add all world cities as pois.  Wait and see MSFS POIS - see the author of pois on the flight.to website also.
-# TODO add 'create POI' option when clicking on airplane icon?
+
 # TODO select-all to delete flights
 # TODO Exported flight plan with custom waypoints not showing Saved Flight Plans
 # TODO add open infowindow for pois and airports when hovering at certain zoom level

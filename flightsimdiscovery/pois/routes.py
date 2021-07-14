@@ -6,7 +6,7 @@ from flightsimdiscovery.models import Pois, User, Ratings, Flagged, Visited, Fav
 from flightsimdiscovery.pois.utils import location_exists, get_rating, validate_updated_poi_name
 from flask_login import current_user, login_required
 from utilities import get_country_region, continents_by_region, get_location_details
-
+from datetime import date, datetime, timedelta
 
 pois = Blueprint('pois', __name__)
 anonymous_username = 'anonymous'
