@@ -252,6 +252,9 @@ def show_active_flight_checkbox():
                 user_active_flight.show_checked = show_active_flight
                 db.session.commit()
                 return ('Success', 200)
+
+            else:
+               return ('User logged in - but has no active flight in database', 401)
     else:
         return ('User not logged into FSD browser - can not update database', 401)
  
@@ -286,10 +289,6 @@ def update_active_flight():
         heading_true = sim_connect_data['heading_true'] 
         
         user_active_flight = ActiveFlights.query.filter_by(user_id=user_id).first()
-
-
-
-
 
 
         if user_active_flight:
