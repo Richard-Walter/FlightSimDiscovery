@@ -1,10 +1,11 @@
-var map = getMap();
+// var map = getMap();
 let user_panned_map = false;
 var show_plane_trail = true;
 var auto_center = true;
 var defaultZoomSet = false;
 var updateInterval = 5000;
 let updateIntervalID = null;
+let airport_infowindow;
 
 //create inital user marker info
 var userMarkerInfo = null;
@@ -26,7 +27,7 @@ function showActiveFlights() {
         id: getUserID(),
         map: map,
         marker: null,
-        poly: null
+        poly: null,
       }
     }
 
@@ -52,6 +53,7 @@ function showActiveFlights() {
 
     }, 5000);
 
+
   } else {
 
     updateDBShowChecked(false);
@@ -67,6 +69,8 @@ function showActiveFlights() {
       $('#af_autocenter').click();
     }
   })
+
+ 
 
 }
 
@@ -233,6 +237,31 @@ function updateMap() {
   //create new user marker and plane trail if one doesnt already exist and info box if user wants
   if (userMarkerInfo.marker == null) {
     userMarkerInfo.marker = createNewUserMarker(user_lat, user_lng, ground_speed, heading_true, map);
+
+    // build marker info window
+    airport_infowindow = new google.maps.InfoWindow({
+      content: 'test',
+    });
+
+      //add listener on marker to display infowindow
+      if (userMarkerInfo.marker){
+        google.maps.event.addListener(userMarkerInfo.marker, 'click', function (evt) { // the click event function is called with the "event" as an argument
+          showMarkerInfoWindow(evt, userMarkerInfo.marker, airport_infowindow);
+        });
+      }
+
+      google.maps.event.addListener(map, "click", function () {
+
+        airport_infowindow.close();
+
+      });
+
+      // if (userMarkerInfo.marker){
+      //   google.maps.event.addListener(userMarkerInfo.marker, 'mouseout', function (evt) { // the click event function is called with the "event" as an argument
+      //     airport_infowindow.close()
+      //   });
+      // }
+
     userMarkerInfo.poly = createUserPlaneTrail(user_lat, user_lng, map);
 
   } else {
@@ -328,6 +357,8 @@ function createNewUserMarker(user_lat, user_lng, ground_speed, heading_true, map
     opacity: 0.8,
 
   });
+
+
   return marker;
 }
 
@@ -455,5 +486,43 @@ function activeFlightPoiAudio(show_flag) {
   }
 }
 
+function showMarkerInfoWindow(evt, marker, infowindow) {
+
+
+  flight_details_dict = getAFDetails();
+
+  user_lat = af_details['user_lat'];
+  user_lng = af_details['user_lng'];
+  altitude = af_details['altitude'];
+  ground_speed = af_details['ground_speed'];
+  ias = af_details['ias'];
+  heading_true = af_details['heading_true'];
+  last_update_ms = af_details['last_update_ms'];
+
+  waypoint_name = 'test'
+
+  flight_location = String(user_lat) + ', ' + String(user_lng);
+
+  iw_content = 
+  "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+  "<div class='gm-style-iw' id='iw-container'>" +
+    // '<div" class="">' +
+    //   '<p class="">Latitude is ' + user_lat +'</p>'+
+    //   '<p class="">Longitude is ' + user_lng +'</p>'+
+    //   '<p class="">altitude is ' + altitude +'</p>'+
+    // '</div>' +
+    '<div id="btn_add_new_poi_airport_iw" class="">' +
+      '<a href="/poi/new/' + flight_location + '" class="btn btn-primary btn-sm btn-block" role="button" aria-pressed="true">Create POI at this location</a>' +
+    '</div>' +
+  '</div>'
+
+  infowindow.setContent(iw_content);
+  infowindow.open({
+
+    anchor: marker,
+    map,
+  });
+
+}
 
 

@@ -30,11 +30,12 @@ main = Blueprint('main', __name__)
 # DONE in game panel to display position on web browser
 # DONE FSD audio
 # DONE add wiki, youtube icons to deafult airport infowindow
+# DONE add 'create POI' option when clicking on airplane icon
 
 # TODO update FAQ about active flight when panel uploaded to flightsim.io - scramble javascript
 
-# TODO add 'create POI' option when clicking on airplane icon?
-# TODO add favorite, visited to default airports 
+
+# TODO add favorite, visited, falg to default airports 
 # TODO add ability to import and dispaly flight plan on map
 # TODO add my own recording functionality - check app on flight.to store
 # TODO add moving map with default airports and POIS in the ingmae panel see Leaflet
