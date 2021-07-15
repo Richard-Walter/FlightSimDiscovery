@@ -310,18 +310,19 @@ def update_active_flight():
             else:
                 #user has not check show active flight on browser
                 print('user has not check show active flight on browser')
-                return ('Fail', 204)
+                html_return_code = 204
 
         else:
             #  create new user active flight
             user_active_flight = ActiveFlights(user_id=user_id, latitude=lat, longitude=lng, altitude=alt, ias=ias,ground_speed=ground_speed, heading_true=heading_true)
             html_return_code = 2000
+            print('html_return_code' is + html_return_code)
 
         db.session.add(user_active_flight)
         db.session.commit()
 
         print("SAVING ACTIVE FLIGHT FROM MSFS!!!!!")
-        return ('Success', 200)
+        return ('Success', html_return_code)
     
     else:
         print("NO SIMCONNECT DATA")
