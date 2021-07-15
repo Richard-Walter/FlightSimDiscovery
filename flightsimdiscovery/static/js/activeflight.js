@@ -53,6 +53,11 @@ function showActiveFlights() {
 
     }, 5000);
 
+    //enable poi audio by default
+    //set a timeout so we have active flight data before turning on the audio
+    setTimeout(function() { activeFlightPoiAudio('on'); }, 200);
+
+    // setTimeout(activeFlightPoiAudio('on'), 7000);
 
   } else {
 
@@ -70,7 +75,7 @@ function showActiveFlights() {
     }
   })
 
- 
+
 
 }
 
@@ -191,18 +196,20 @@ function removeSetInterval(flash_message = '', timeout = null) {
   $(".Map_ActiveFlight").hide();
   user_panned_map = false;
 
-  //need to disconnect form poi audio if playing and hide toggle button
-  $("#poi_audio_div").attr("hidden",true)
+  //need to disconnect form poi audio if playing and hide toggle button and audio settings
+  // $("#poi_audio_div").attr("hidden", true)
   $('.pa_toolbar').addClass("d-none");
   $('.pa_toolbar').removeClass("d-flex");
-  $('#af_poi_audio').val('off');
-  $("#af_poi_audio").removeAttr("checked");
+  // $('#af_poi_audio').val('off');
+  // $("#af_poi_audio").removeAttr("checked");
+  $("#pa_audio_toolbar").prop('hidden', true);
   map.controls[google.maps.ControlPosition.TOP_CENTER].pop(paToolbarDiv);
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
   pa_disconnect();
+  console.log('removing active flight set interval - disconnecting from poi audio also');
   updateDBShowChecked(false);
 
- 
+
 }
 
 //update map active flight marker, text and line.
@@ -231,8 +238,8 @@ function updateMap() {
 
   //We have an active flight that is being updated!
   active_flight_flash("Tracking active flight");
-  $('#poi_audio_div').removeAttr('hidden');
-
+  // $('#poi_audio_div').removeAttr('hidden');
+  
 
   //create new user marker and plane trail if one doesnt already exist and info box if user wants
   if (userMarkerInfo.marker == null) {
@@ -243,24 +250,24 @@ function updateMap() {
       content: 'test',
     });
 
-      //add listener on marker to display infowindow
-      if (userMarkerInfo.marker){
-        google.maps.event.addListener(userMarkerInfo.marker, 'click', function (evt) { // the click event function is called with the "event" as an argument
-          showMarkerInfoWindow(evt, userMarkerInfo.marker, airport_infowindow);
-        });
-      }
-
-      google.maps.event.addListener(map, "click", function () {
-
-        airport_infowindow.close();
-
+    //add listener on marker to display infowindow
+    if (userMarkerInfo.marker) {
+      google.maps.event.addListener(userMarkerInfo.marker, 'click', function (evt) { // the click event function is called with the "event" as an argument
+        showMarkerInfoWindow(evt, userMarkerInfo.marker, airport_infowindow);
       });
+    }
 
-      // if (userMarkerInfo.marker){
-      //   google.maps.event.addListener(userMarkerInfo.marker, 'mouseout', function (evt) { // the click event function is called with the "event" as an argument
-      //     airport_infowindow.close()
-      //   });
-      // }
+    google.maps.event.addListener(map, "click", function () {
+
+      airport_infowindow.close();
+
+    });
+
+    // if (userMarkerInfo.marker){
+    //   google.maps.event.addListener(userMarkerInfo.marker, 'mouseout', function (evt) { // the click event function is called with the "event" as an argument
+    //     airport_infowindow.close()
+    //   });
+    // }
 
     userMarkerInfo.poly = createUserPlaneTrail(user_lat, user_lng, map);
 
@@ -414,22 +421,23 @@ function activeFlightPanelHandler(e) {
   element_id = element_target.id;
   element_value = element_target.value;
 
-  if (element_id == "af_show") {
+  // if (element_id == "af_show") {
 
 
 
-    if (element_value == "off") {
-      element_target.value = "on";
-      $('.af_options').removeProp('hidden');
-      showActiveFlights();
+  //   if (element_value == "off") {
+  //     element_target.value = "on";
+  //     $('.af_options').removeProp('hidden');
+  //     showActiveFlights();
 
-    } else {
-      $('.af_options').prop('hidden', true);
-      element_target.value = "off";
-      removeActiveFlight();
-    }
+  //   } else {
+  //     $('.af_options').prop('hidden', true);
+  //     element_target.value = "off";
+  //     removeActiveFlight();
+  //   }
 
-  } else if (element_id == "af_autocenter") {
+  // } else if (element_id == "af_autocenter") {
+  if (element_id == "af_autocenter") {
     if (element_value == "off") {
       element_target.value = "on";
       auto_center = true;
@@ -458,10 +466,11 @@ function activeFlightPanelHandler(e) {
       element_target.value = "on";
     } else {
       element_target.value = "off";
+
     }
     activeFlightPoiAudio(element_target.value);
 
-  } 
+  }
 
 }
 
@@ -469,7 +478,7 @@ function activeFlightPanelHandler(e) {
 function activeFlightPoiAudio(show_flag) {
 
   if (show_flag == 'on') {
-    
+
     $('.pa_toolbar').removeClass("d-none");
     $('.tips-and-tricks').addClass("d-none");
     map.controls[google.maps.ControlPosition.TOP_CENTER].pop(searchPOIDiv);
@@ -483,6 +492,7 @@ function activeFlightPoiAudio(show_flag) {
     map.controls[google.maps.ControlPosition.TOP_CENTER].pop(paToolbarDiv);
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
     pa_disconnect();
+    console.log('activate poi audio flag was off - disconnecting');
   }
 }
 
@@ -503,18 +513,18 @@ function showMarkerInfoWindow(evt, marker, infowindow) {
 
   flight_location = String(user_lat) + ', ' + String(user_lng);
 
-  iw_content = 
-  "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
-  "<div class='gm-style-iw' id='iw-container'>" +
+  iw_content =
+    "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
+    "<div class='gm-style-iw' id='iw-container'>" +
     // '<div" class="">' +
     //   '<p class="">Latitude is ' + user_lat +'</p>'+
     //   '<p class="">Longitude is ' + user_lng +'</p>'+
     //   '<p class="">altitude is ' + altitude +'</p>'+
     // '</div>' +
     '<div id="btn_add_new_poi_airport_iw" class="">' +
-      '<a href="/poi/new/' + flight_location + '" class="btn btn-primary btn-sm btn-block" role="button" aria-pressed="true">Create POI at this location</a>' +
+    '<a href="/poi/new/' + flight_location + '" class="btn btn-primary btn-sm btn-block" role="button" aria-pressed="true">Create POI at this location</a>' +
     '</div>' +
-  '</div>'
+    '</div>'
 
   infowindow.setContent(iw_content);
   infowindow.open({

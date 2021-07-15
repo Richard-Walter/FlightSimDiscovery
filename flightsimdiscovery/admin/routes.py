@@ -768,7 +768,7 @@ def update_msfs_poi_descriptions():
         else:
 
             poi_to_update = Pois.query.get(poi.id)
-            poi_to_update.description = 'This is a microsoft flight simulator enhanced ' + poi.description +  '. ' + wiki_summary
+            poi_to_update.description = 'This is a Microsoft flight simulator enhanced ' + poi.description +  '. ' + wiki_summary
             print('UPdating Poi ' + str(poi.id))
             no_pois_updated += 1
             db.session.commit()

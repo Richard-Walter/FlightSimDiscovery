@@ -1,7 +1,7 @@
 //html config
 
 let allVoices, allLanguages, primaryLanguages, langtags, langhash, langcodehash;
-let txtFld, playBtn, pauseBtn, resumeBtn, stopBtn, replayBtn, next,Btn, settingsBtn, speakerMenu, languageMenu, blurbs;
+let txtFld, playBtn, pauseBtn, resumeBtn, stopBtn, replayBtn, next, Btn, settingsBtn, speakerMenu, languageMenu, blurbs;
 let currentPoiQuerySelect;
 let voiceIndex = 0;
 let initialSetup = true;
@@ -31,7 +31,7 @@ function pa_init() {
 
     //update play list every 10 seconds
     updatePAIntervalID = setInterval(() => {
-        pa_update_play_list()
+        pa_update_play_list();
     }, 5000);
 
 }
@@ -90,6 +90,7 @@ function configureHTML() {
         speakerMenu.disabled = true;
         languageMenu.disabled = true;
         pa_disconnect();
+        console.log('no uspeech synthesis on this browser - disconnecting');
         $("#warning").attr("hidden", false);
         $('#active_flight_flash_text').text("Your browser doesn't support windows speech synthesis");
     }
@@ -104,7 +105,7 @@ speech.onend = function (event) {
     $('#pa_play_pause_icon').addClass('fas fa-play');
     $('#pa_play_pause_icon').removeClass('fa-pause fa-resume');
 
-    if(current_poi_playing){
+    if (current_poi_playing) {
         pois_played.push(current_poi_playing['id']);
     }
     clearTimeout(myTimeout);
@@ -128,7 +129,7 @@ function pa_update_play_list() {
 
     /*  UNCOMMENT OUT THESE WHEN NOT TESTING */
     if (diff_millis > 20000) {
-
+        console.log('no update for 20 seconds - disconnecting');
         pa_disconnect();
         return;
     }
@@ -162,22 +163,22 @@ function paPlayPause() {
     if (btn_val == 'play') {
 
         //check to see if user had previsouly stopped.  if so we need to re-initialise the timeout
-        if(updatePAIntervalID == null) {
+        if (updatePAIntervalID == null) {
 
             pa_init();
             return;
         }
-        
+
         poi_to_play = getSelectedPoi();
-        if(poi_to_play){
+        if (poi_to_play) {
             paPlayAudio(poi_to_play);
-        } else{
+        } else {
             return;
         }
 
 
         //change select statement text by appending 'Playing'
-        $( "#select_poi_play option:selected" ).text( 'Playing: ' + current_poi_playing_name );
+        $("#select_poi_play option:selected").text('Playing: ' + current_poi_playing_name);
         $('#pa_play_pause').val('pause');
         $('#pa_play_pause_icon').toggleClass('fa-play fa-pause');
 
@@ -187,7 +188,7 @@ function paPlayPause() {
         $('#pa_play_pause').val('resume');
         $('#pa_play_pause_icon').toggleClass('fa-pause fa-play');
         window.speechSynthesis.pause();
-        $( "#select_poi_play option:selected" ).text( 'Paused: ' + current_poi_playing_name );
+        $("#select_poi_play option:selected").text('Paused: ' + current_poi_playing_name);
 
     } else if (btn_val == 'resume') {
 
@@ -195,12 +196,12 @@ function paPlayPause() {
         $('#pa_play_pause_icon').toggleClass('fa-pause fa-play');
         window.speechSynthesis.resume();
         myTimeout = setTimeout(myTimer, 10000);
-        $( "#select_poi_play option:selected" ).text( 'Playing: ' + current_poi_playing_name );
+        $("#select_poi_play option:selected").text('Playing: ' + current_poi_playing_name);
     }
 }
 
 function paPlayAudio(poi_to_play) {
-    
+
     let sval = Number(speakerMenu.value);
     speech.voice = allVoices[sval];
     speech.lang = speech.voice.lang;
@@ -208,7 +209,7 @@ function paPlayAudio(poi_to_play) {
     current_poi_playing = poi_to_play;
     current_poi_playing_id = current_poi_playing['id'];
     current_poi_playing_name = current_poi_playing['name'];
-    textTo_play = current_poi_playing_name + '\n' + current_poi_playing['description'];
+    textTo_play = current_poi_playing['description'];
     txtFld.value = textTo_play;
     speech.text = textTo_play;
 
@@ -220,15 +221,13 @@ function paPlayAudio(poi_to_play) {
     window.speechSynthesis.speak(speech);
 }
 
-
-
 function paStop() {
 
     //user may hit stop button af
     if (current_poi_playing) {
         pois_played.push(current_poi_playing['id']);
     }
-    
+
     clearTimeout(myTimeout);
     clearInterval(updatePAIntervalID);
     current_poi_playing = null;
@@ -237,7 +236,9 @@ function paStop() {
     window.speechSynthesis.cancel();
     $('#select_poi_play').prop('disabled', 'disabled');
     $('#select_poi_play').append(`<option selected value="all" selected>Press 'Play' to resume</option>`);
-    updatePAIntervalID= null;
+    $("#pa_audio_toolbar").prop('hidden', true);
+
+    updatePAIntervalID = null;
     pois_played = [];
     console.log("stopping POI audio")
 }
@@ -245,12 +246,12 @@ function paStop() {
 function paNext() {
 
     nextPOISelectIndex = null;
-    
+
     // only play next if currently playing a poi and there is more than one poi to play in select lilst
-    if ((!current_poi_playing) || (selectMenuPlayList.length<2)) {
+    if ((!current_poi_playing) || (selectMenuPlayList.length < 2)) {
         console.log('NO NEXT POI TO PLAY.  Playing current one')
         nextPOISelectIndex = 0;
-        
+
     }
 
     current_poi_playing_id = current_poi_playing['id'];
@@ -259,30 +260,30 @@ function paNext() {
 
         //lets find that poi in the select list and play the next one
         for (const [index, selectMenuPlayPOI] of selectMenuPlayList.entries()) {
-            if (selectMenuPlayPOI['id']==current_poi_playing_id){
+            if (selectMenuPlayPOI['id'] == current_poi_playing_id) {
                 nextPOISelectIndex = index + 1;
                 break;
             }
         }
 
         //Remove current poi playing 'playing' text 
-        $('#select_poi_play option[value="'+current_poi_playing_id+'"]').text( current_poi_playing['name'] );
+        $('#select_poi_play option[value="' + current_poi_playing_id + '"]').text(current_poi_playing['name']);
 
         //clear the current timeout
-        clearTimeout(myTimeout);   
+        clearTimeout(myTimeout);
         console.log('PLAYING NEXT POI')
 
         //play next poit in list
-        $( "#select_poi_play option:selected" ).text( 'Playing: ' + selectMenuPlayList[nextPOISelectIndex]['name'] );
-        $( "#select_poi_play option:selected" ).val(selectMenuPlayList[nextPOISelectIndex]['id']);
+        $("#select_poi_play option:selected").text('Playing: ' + selectMenuPlayList[nextPOISelectIndex]['name']);
+        $("#select_poi_play option:selected").val(selectMenuPlayList[nextPOISelectIndex]['id']);
         $('#pa_play_pause').val('pause');
         $('#pa_play_pause_icon').removeClass('fa-play');
         $('#pa_play_pause_icon').addClass('fa-pause');
-        nextPOItoPlay = selectMenuPlayList[nextPOISelectIndex]; 
+        nextPOItoPlay = selectMenuPlayList[nextPOISelectIndex];
         paPlayAudio(nextPOItoPlay);
 
     }
-    catch(err) {
+    catch (err) {
         console.log('no next poi in play list...should really disable the next button');
         console.log(err);
     }
@@ -294,32 +295,32 @@ function paReplay() {
 
     //rewind to previous played poi
     if (current_poi_playing == null) {
-        if(pois_played.length >0) {
+        if (pois_played.length > 0) {
             poi_to_play_id = pois_played.slice(-1)[0];
             for (let i = 0; i < pois_array.length; i++) {
-                if (pois_array[i]['id']==poi_to_play_id){
-                    poi_to_play =pois_array[i];
+                if (pois_array[i]['id'] == poi_to_play_id) {
+                    poi_to_play = pois_array[i];
                     select_text = "Playing: " + poi_to_play['name'];
                     // $('#select_poi_play').prepend('<option selected value="'+poi_to_play_id+'">'+select_text+'</option>');
-                    $( "#select_poi_play option:selected" ).text( 'Playing: ' + poi_to_play['name'] );
+                    $("#select_poi_play option:selected").text('Playing: ' + poi_to_play['name']);
                     break;
                 }
             }
 
         } else {
             console.log("no poi played so cant rewind.  should disable the button")
-            return;   
+            return;
         }
     } else {
         //rewind to beginning of the current poi playing
         console.log('REPLAYING CURRENT POI')
-        $( "#select_poi_play option:selected" ).text( 'Playing: ' + poi_to_play['name'] );
+        $("#select_poi_play option:selected").text('Playing: ' + poi_to_play['name']);
     }
 
     //clear the current timeout
-    clearTimeout(myTimeout);  
+    clearTimeout(myTimeout);
     paPlayAudio(poi_to_play);
-    
+
     $('#pa_play_pause').val('pause');
     $('#pa_play_pause_icon').removeClass('fa-play');
     $('#pa_play_pause_icon').addClass('fa-pause');
@@ -330,20 +331,20 @@ function playPOIFromSelectMenu() {
     console.log('playing poi from select menu');
 
     //we need to remove current poi playing 'playing' text 
-    if(current_poi_playing){
-        $('#select_poi_play option[value="'+current_poi_playing['id']+'"]').text( current_poi_playing['name'] );
+    if (current_poi_playing) {
+        $('#select_poi_play option[value="' + current_poi_playing['id'] + '"]').text(current_poi_playing['name']);
     }
-    
+
     poi_id = $(select_poi_play).find(":selected").val();
     poiToPlay = getSelectedPoi(poi_id);
-    $( "#select_poi_play option:selected" ).text( 'Playing: ' + poiToPlay['name'] );
+    $("#select_poi_play option:selected").text('Playing: ' + poiToPlay['name']);
     $('#pa_play_pause').val('pause');
     $('#pa_play_pause_icon').toggleClass('fa-play fa-pause');
     paPlayAudio(poiToPlay);
 }
 
 function pa_disconnect() {
-    console.log("discommectopm frp, poi audio");
+    console.log("disconnecting from poi audio");
     paStop();
     // clearInterval(updatePAIntervalID);
 }
@@ -351,7 +352,7 @@ function pa_disconnect() {
 function paSettings() {
 
     is_visible = $('#pa_audio_toolbar').is(":visible");
-    if(is_visible){
+    if (is_visible) {
         $("#pa_audio_toolbar").prop('hidden', true);
     } else {
         $("#pa_audio_toolbar").removeProp('hidden');
@@ -380,7 +381,7 @@ function populateSelectMenu(poisWithinArea) {
 
     //disable select menu by default
     $('#select_poi_play').prop('disabled', 'disabled');
-   
+
 
     //do not update select statement until play has finished.
     if (current_poi_playing) {
@@ -394,38 +395,39 @@ function populateSelectMenu(poisWithinArea) {
         poisWithinArea.forEach(function (poi, i) {
 
             //only add to list if POI has NOT been played previously
-            if(!pois_played.includes(poi['id'])){
+            if (!pois_played.includes(poi['id'])) {
                 html += `<option value=${poi['id']}>${poi['name']}</option>`;
                 tempPoiPlayList.push(poi);
-            } 
-                // console.log('poi already played: ' + poi['id']);
-                // if (poisWithinArea.length == 1) {
-                //     $('#select_poi_play').prop('disabled', 'disabled');
-                    // html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
-                    // return;
-                    // enableAllButtons = false;
-                // }              
-            
+            }
+            // console.log('poi already played: ' + poi['id']);
+            // if (poisWithinArea.length == 1) {
+            //     $('#select_poi_play').prop('disabled', 'disabled');
+            // html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
+            // return;
+            // enableAllButtons = false;
+            // }              
+
         });
     } else {
         $('#select_poi_play').prop('disabled', 'disabled');
         // html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
         enableAllButtons = false;
     }
- 
+
     //Allow user to select from list as there is at least one option
-    if(tempPoiPlayList.length > 0) {
+    if (tempPoiPlayList.length > 0) {
         $("input").prop('disabled', false);
     } else {
         $('#select_poi_play').prop('disabled', 'disabled');
         html = `<option selected value="all" selected>Searching for POI's within 10km ...</option>`;
     }
 
-    document.getElementById('select_poi_play').innerHTML = html;
+    // document.getElementById('select_poi_play').innerHTML = html;
+    $('#select_poi_play').html(html);
 
     //disable buttons if searching for pois
     changeBtnState(enableAllButtons);
-    
+
     //update select menu play list which is used by replay and next functions
     selectMenuPlayList = tempPoiPlayList;
 }
