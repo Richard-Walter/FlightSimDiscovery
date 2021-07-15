@@ -168,6 +168,8 @@ function removeActiveFlight() {
 
   // $('#get_active_flights_checkbox').prop('checked', false);
   $("#active_flight_flash").hide()
+
+  updateDBShowChecked(false);
 }
 
 //removes continuous calls to update map but leaves marker and plane trail.
@@ -194,6 +196,7 @@ function removeSetInterval(flash_message = '', timeout = null) {
   map.controls[google.maps.ControlPosition.TOP_CENTER].pop(paToolbarDiv);
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(searchPOIDiv);
   pa_disconnect();
+  updateDBShowChecked(false);
 
  
 }

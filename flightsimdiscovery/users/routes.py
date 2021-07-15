@@ -48,6 +48,7 @@ def register():
 @users.route("/logout")
 def logout():
     logout_user()
+    
     return redirect(url_for('main.home'))
 
 
@@ -267,6 +268,8 @@ def show_active_flight_checkbox():
 @users.route('/users/update_active_flight',  methods=['GET', 'POST'])
 @cross_origin()  # this decorator is requeired to accepted posts from external clients such as MSFS
 def update_active_flight():
+
+    html_return_code = 200
        
     sim_connect_data = request.get_json()
 
@@ -277,6 +280,7 @@ def update_active_flight():
     # Check to see if we have any simConnect data, given we have a user_id
     if len(sim_connect_data) >1:
 
+        
 
         encrpted_user_id = sim_connect_data['user_id']
         user_id = msfs_decrypt(encrpted_user_id)
@@ -292,6 +296,7 @@ def update_active_flight():
 
 
         if user_active_flight:
+
             if user_active_flight.show_checked:
                 user_active_flight.last_update = datetime.utcnow()
                 user_active_flight.latitude = lat
@@ -300,16 +305,19 @@ def update_active_flight():
                 user_active_flight.ias = ias
                 user_active_flight.ground_speed = ground_speed
                 user_active_flight.heading_true = heading_true
+
+                html_return_code = 200
             else:
                 #user has not check show active flight on browser
                 print('user has not check show active flight on browser')
                 return ('Fail', 204)
+
         else:
-
             #  create new user active flight
-            active_flight = ActiveFlights(user_id=user_id, latitude=lat, longitude=lng, altitude=alt, ias=ias,ground_speed=ground_speed, heading_true=heading_true)
-            db.session.add(active_flight)
+            user_active_flight = ActiveFlights(user_id=user_id, latitude=lat, longitude=lng, altitude=alt, ias=ias,ground_speed=ground_speed, heading_true=heading_true)
+            html_return_code = 2000
 
+        db.session.add(user_active_flight)
         db.session.commit()
 
         print("SAVING ACTIVE FLIGHT FROM MSFS!!!!!")

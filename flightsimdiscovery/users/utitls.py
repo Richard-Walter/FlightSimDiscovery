@@ -4,6 +4,7 @@ from PIL import Image
 from datetime import datetime, timedelta
 from flask import url_for, session
 from flask_mail import Message
+from sqlalchemy.sql.expression import false, true
 from flightsimdiscovery import mail, db
 from flightsimdiscovery.models import Pois, Visited, Favorites, User, Flagged, Flightplan, Flightplan_Waypoints, User_flight_positions, UserFlights
 from flightsimdiscovery.pois.utils import getTickImageBasedOnState
