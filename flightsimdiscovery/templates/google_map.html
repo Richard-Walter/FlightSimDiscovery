@@ -168,6 +168,8 @@
               let show_msfs_airport_on_map = default_airport_list[i]['Show_on_map'];
               let tower_freq = default_airport_list[i]['Tower_Freq'];
 
+              let search_name = airport_name + ' airport '
+
               if (show_msfs_airport_on_map != 1) {
                 continue
               }
@@ -213,6 +215,8 @@
 
                 defaults_airport_IW_HTML = getDefaultAirportIWDeatils(airport_IW_details);
 
+                iw_icons_html = getIWIconsHTML(lat, lng, search_name, airport_city, 'Airport', icao)
+
                 var custom_waypoint_iw_html =
                   "<head><link rel='stylesheet' href='static/css/style.css'/></head>" +
 
@@ -231,6 +235,7 @@
                   '</div>' +
                   '<div id="bodyContent">' +
 
+                  iw_icons_html + 
                   defaults_airport_IW_HTML +
 
                   '<input type="hidden" id="poi_lat_long" name="poi_lat_long" value="' + lat + ', ' + lng + '">' +

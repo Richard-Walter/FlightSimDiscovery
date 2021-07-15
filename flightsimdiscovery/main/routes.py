@@ -29,10 +29,10 @@ main = Blueprint('main', __name__)
 # DONE reduce data imported from volanta
 # DONE in game panel to display position on web browser
 # DONE FSD audio
+# DONE add wiki, youtube icons to deafult airport infowindow
 
 # TODO update FAQ about active flight when panel uploaded to flightsim.io - scramble javascript
 
-# TODO add wiki, youtube icons to deafult airport infowindow
 # TODO add 'create POI' option when clicking on airplane icon?
 # TODO add favorite, visited to default airports 
 # TODO add ability to import and dispaly flight plan on map

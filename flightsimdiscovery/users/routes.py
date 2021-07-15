@@ -316,7 +316,7 @@ def update_active_flight():
             #  create new user active flight
             user_active_flight = ActiveFlights(user_id=user_id, latitude=lat, longitude=lng, altitude=alt, ias=ias,ground_speed=ground_speed, heading_true=heading_true)
             html_return_code = 2000
-            print('html_return_code' is + html_return_code)
+            print('html_return_code - '  + str(html_return_code))
 
         db.session.add(user_active_flight)
         db.session.commit()
