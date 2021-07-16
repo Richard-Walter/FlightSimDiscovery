@@ -16,7 +16,7 @@ let af_details = { 'last_update_ms': 0 };
 
 //dictionary that records flight details and positions for saving to flask db
 let active_flight_details = {};
-let active_flight_positions = {};
+let active_flight_positions = [];
 
 
 function showActiveFlights() {
@@ -143,6 +143,8 @@ function updateFlightDataObjects(response) {
   user_lng = coordinates['lng'];
   altitude_m = Math.round(coordinates['alt']);
   altitude = Math.round(altitude_m * 3.281);
+  altitude_agl_m = Math.round(coordinates['alt_agl']);
+  altitude_agl = Math.round(altitude_m * 3.281);
   ground_speed = Math.round(coordinates['ground_speed']);
   ias = coordinates['ias'];
   heading_true = coordinates['heading_true'];
@@ -153,21 +155,31 @@ function updateFlightDataObjects(response) {
   af_details['user_lat'] = user_lat;
   af_details['user_lng'] = user_lng;
   af_details['altitude'] = altitude;
+  af_details['altitude'] = altitude;
   af_details['ground_speed'] = ground_speed;
   af_details['ias'] = ias;
   af_details['heading_true'] = heading_true;
   af_details['last_update_ms'] = last_update_ms;
 
-  //append new flight recording details
-  active_flight_position['last_update'] = last_update;
-  active_flight_position['user_lat'] = user_lat;
-  active_flight_position['user_lng'] = user_lng;
-  active_flight_position['altitude'] = altitude;
-  active_flight_position['ground_speed'] = ground_speed;
-  active_flight_position['ias'] = ias;
-  active_flight_position['last_update_ms'] = last_update_ms;
+  //append new flight recording details if we have recent flight data less than 10s
+  // current_date_ms = Date.now();
+  diff_millis = Date.now() - last_update_ms;
+  if (diff_millis < 10000) {
+    active_flight_position['last_update'] = last_update;
+    active_flight_position['user_lat'] = user_lat;
+    active_flight_position['user_lng'] = user_lng;
+    active_flight_position['altitude'] = altitude;
+    active_flight_position['altitude_agl'] = altitude_agl;
+    active_flight_position['ground_speed'] = ground_speed;
+    active_flight_position['ias'] = ias;
+    active_flight_position['heading_true'] = heading_true;
+    active_flight_position['last_update_ms'] = last_update_ms;
+    active_flight_position['altitude_agl'] = coordinates['altitude_agl'];
+    active_flight_position['aircraft_name'] = coordinates['aircraft_name'];
+    active_flight_position['aircraft_rego'] = coordinates['aircraft_rego'];
 
-  active_flight_positions
+    active_flight_positions.push(active_flight_position);
+  }
 }
 
 function getAFDetails() {
@@ -482,6 +494,10 @@ function activeFlightPanelHandler(e) {
     }
     recordFlightHandler(element_target.value);
 
+  } else if (element_id == "btn_save_flight") {
+
+    saveRecordedFlight();
+    
   }
 
 }
@@ -553,11 +569,19 @@ function recordFlightHandler(record_flag) {
   if (record_flag == 'on') {
     record_blink_interval = setInterval(blink_recording_text, 1000);
 
-    //
+    //reset recorder flight details
+    active_flight_details = {};
+    active_flight_positions = {};
+
+    //recording flights details happens regardless
+
     
 
   } else {
     reset_recording_html();
+    //reset recorder flight details
+    active_flight_details = {};
+    active_flight_positions = {};
     
   };
   
@@ -578,3 +602,44 @@ function reset_recording_html() {
   $('.record_slider_text').css({"color" : "black"});
 }
 
+function saveRecordedFlight(){
+
+  
+  console.log(active_flight_positions);
+
+  //create some dummy data
+  active_flight_position = {};
+  active_flight_position['last_update'] = "Wed, 14 Jul 2021 13:12:30 GMT";
+  active_flight_position['user_lat'] = -34.559230;
+  active_flight_position['user_lng'] = 150.792182;
+  active_flight_position['altitude'] = 157;
+  active_flight_position['altitude_agl'] = 200;
+  active_flight_position['ground_speed'] = 120;
+  active_flight_position['ias'] = 130;
+  active_flight_position['last_update_ms'] = 1626268350000;
+  active_flight_position['aircraft_name'] = 'Test Aricraft name';
+  active_flight_position['aircraft_rego'] = 'VH-RJW';
+
+  active_flight_positions.push(active_flight_position);
+
+  //create some dummy data
+  active_flight_position['last_update'] = "Wed, 14 Jul 2021 13:12:50 GMT";
+  active_flight_position['user_lat'] = -33.381610;
+  active_flight_position['user_lng'] = 149.128467;
+  active_flight_position['altitude'] = 2000;
+  active_flight_position['altitude_agl'] = 2009;
+  active_flight_position['ground_speed'] = 0;
+  active_flight_position['ias'] = 10;
+  active_flight_position['last_update_ms'] = 1626268350040;
+  active_flight_position['aircraft_name'] = 'Test Aricraft name';
+  active_flight_position['aircraft_rego'] = 'VH-RJW';
+
+  active_flight_positions.push(active_flight_position);
+
+
+  //save data to flask
+  
+
+
+
+}

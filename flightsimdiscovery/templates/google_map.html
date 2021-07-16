@@ -1531,7 +1531,7 @@
             //   '</label>' +
             //   '</div>' +
             '<div class="af_sliderWrapper af_options"  >' +
-              '<div class="mr-2 m-1">Auto-Centernbsp</div>' +
+              '<div class="mr-2 m-1">Auto-Center&nbsp</div>' +
               '<label class="af_switch mb-0">' +
               '<input class="af_checkbox" type="checkbox" value="on" id="af_autocenter" checked >' +
               '<div class="slider round">' +
@@ -1541,7 +1541,7 @@
               '</label>' +
               '</div>' +
             '<div class="af_sliderWrapper af_options" >' +
-              '<div class="mr-2 m-1">Show Trail&nbsp&nbsp&nbsp&nbsp&nbspnbsp</div>' +
+              '<div class="mr-2 m-1">Show Trail&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>' +
               '<label class="af_switch mb-0">' +
               '<input class="af_checkbox" type="checkbox" value="on" id="af_show_trail" checked >' +
               '<div class="slider round">' +
@@ -1551,7 +1551,7 @@
               '</label>' +
               '</div>' +
             '<div id="poi_audio_div" class="af_sliderWrapper">' +
-              '<div class="mr-2 m-1">POI Audio&nbsp&nbsp&nbsp&nbsp&nbsp&nbspnbsp</div>' +
+              '<div class="mr-2 m-1">POI Audio&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>' +
               '<label class="af_switch mb-0">' +
               '<input class="af_checkbox" type="checkbox" value="on" id="af_poi_audio" checked >' +
               '<div class="slider round">' +
@@ -1560,6 +1560,7 @@
               '</div>' +
               '</label>' +
             '</div>' +
+            '<div class="dropdown-divider"></div>'+
             '<div id="poi_record_div" class="af_sliderWrapper">' +
               '<div id="record_slider_text" class="record_slider_text mr-2 m-1">Record Flight</div>' +
               '<label class="af_switch mb-0">' +
@@ -1569,6 +1570,9 @@
               '<span class="off">OFF</span>' +
               '</div>' +
               '</label>' +
+            '</div>'+
+            '<div id="poi_record_div" class="">' +
+              '<button type="button" id="btn_save_flight" class="af_checkbox btn btn-sm btn-block btn-success mt-2">Temp Save</button>'+
             '</div>'
 
           const controlUI = document.createElement('div');
@@ -1625,6 +1629,7 @@
 
           });
 
+ 
           // var chkBox = document.getElementById('temp_waypoint_airport_checkbox');
           // if (chkBox.checked) {
 

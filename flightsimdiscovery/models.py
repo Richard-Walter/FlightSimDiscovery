@@ -166,10 +166,13 @@ class ActiveFlights(db.Model):
     latitude = db.Column(db.FLOAT, unique=False, nullable=False)
     longitude = db.Column(db.FLOAT, unique=False, nullable=False)
     altitude = db.Column(db.Integer, unique=False, nullable=False, default=0)
+    altitude_agl = db.Column(db.Integer, unique=False, nullable=True, default=0)
     heading_true = db.Column(db.Integer, unique=False, nullable=False, default=0)
     ias = db.Column(db.Integer, unique=False, nullable=False, default=0)
     ground_speed = db.Column(db.Integer, unique=False, nullable=False, default=0)
     show_checked = db.Column(db.Boolean(), nullable=False, default=False)
+    aircraft_name = db.Column(db.Text, nullable=True, default='Unknown')
+    aircraft_rego = db.Column(db.Text, nullable=True, default='Unknown')
     # OnGround = db.Column(db.Boolean(), nullable=False, default=False)
 
     def __repr__(self):

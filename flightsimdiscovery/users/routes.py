@@ -221,6 +221,9 @@ def get_user_location():
                 active_flight_info['ias'] = user_active_flight.ias
                 active_flight_info['ground_speed'] = user_active_flight.ground_speed
                 active_flight_info['heading_true'] = user_active_flight.heading_true
+                active_flight_info['altitude_agl'] = user_active_flight.altitude_agl
+                active_flight_info['aircraft_name'] = user_active_flight.aircraft_name
+                active_flight_info['heading_true'] = user_active_flight.aircraft_rego
 
             else:
                 print("no active flight in database for this user: " + user_id)
@@ -288,6 +291,7 @@ def update_active_flight():
         lat = sim_connect_data['lat']
         lng = sim_connect_data['lng']
         alt = sim_connect_data['alt']
+        alt_agl = sim_connect_data['alt_agl']
         ias = sim_connect_data['ias']
         ground_speed = sim_connect_data['ground_speed']
         heading_true = sim_connect_data['heading_true'] 
@@ -302,6 +306,7 @@ def update_active_flight():
                 user_active_flight.latitude = lat
                 user_active_flight.longitude = lng
                 user_active_flight.altitude = alt
+                user_active_flight.altitude_agl = alt_agl
                 user_active_flight.ias = ias
                 user_active_flight.ground_speed = ground_speed
                 user_active_flight.heading_true = heading_true
