@@ -5,6 +5,7 @@ var auto_center = true;
 var defaultZoomSet = false;
 var updateInterval = 5000;
 let updateIntervalID = null;
+let record_blink_interval;
 let airport_infowindow;
 
 //create inital user marker info
@@ -12,6 +13,10 @@ var userMarkerInfo = null;
 
 //active flight current details dictionary
 let af_details = { 'last_update_ms': 0 };
+
+//dictionary that records flight details and positions for saving to flask db
+let active_flight_details = {};
+let active_flight_positions = {};
 
 
 function showActiveFlights() {
@@ -112,7 +117,7 @@ function updateActiveFlightData(callback) {
   }).success(function (response) {
 
     // console.log("get user location returned data")
-    updateAFDict(response);
+    updateFlightDataObjects(response);
     callback();
 
   }).error(function () {
@@ -122,7 +127,9 @@ function updateActiveFlightData(callback) {
 
 }
 
-function updateAFDict(response) {
+function updateFlightDataObjects(response) {
+
+  active_flight_position = {};
 
   coordinates = JSON.parse(response);
   if (jQuery.isEmptyObject(coordinates)) {
@@ -150,6 +157,17 @@ function updateAFDict(response) {
   af_details['ias'] = ias;
   af_details['heading_true'] = heading_true;
   af_details['last_update_ms'] = last_update_ms;
+
+  //append new flight recording details
+  active_flight_position['last_update'] = last_update;
+  active_flight_position['user_lat'] = user_lat;
+  active_flight_position['user_lng'] = user_lng;
+  active_flight_position['altitude'] = altitude;
+  active_flight_position['ground_speed'] = ground_speed;
+  active_flight_position['ias'] = ias;
+  active_flight_position['last_update_ms'] = last_update_ms;
+
+  active_flight_positions
 }
 
 function getAFDetails() {
@@ -231,7 +249,7 @@ function updateMap() {
   if (diff_millis > 9000) {
     console.log('timestamp has not been updated for at least 9s')
 
-    removeSetInterval("No active flight detected.  Check that you are connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
+    // removeSetInterval("No active flight detected.  Check that you are connected via the in-game Flight Sim Discovery toolbar panel (download at https://www.flightsim.to/) and try again");
     return;
   }
 
@@ -421,22 +439,6 @@ function activeFlightPanelHandler(e) {
   element_id = element_target.id;
   element_value = element_target.value;
 
-  // if (element_id == "af_show") {
-
-
-
-  //   if (element_value == "off") {
-  //     element_target.value = "on";
-  //     $('.af_options').removeProp('hidden');
-  //     showActiveFlights();
-
-  //   } else {
-  //     $('.af_options').prop('hidden', true);
-  //     element_target.value = "off";
-  //     removeActiveFlight();
-  //   }
-
-  // } else if (element_id == "af_autocenter") {
   if (element_id == "af_autocenter") {
     if (element_value == "off") {
       element_target.value = "on";
@@ -469,6 +471,16 @@ function activeFlightPanelHandler(e) {
 
     }
     activeFlightPoiAudio(element_target.value);
+
+  } else if (element_id == "af_record") {
+
+    if (element_value == "off") {
+      element_target.value = "on";
+    } else {
+      element_target.value = "off";
+
+    }
+    recordFlightHandler(element_target.value);
 
   }
 
@@ -535,4 +547,34 @@ function showMarkerInfoWindow(evt, marker, infowindow) {
 
 }
 
+//
+function recordFlightHandler(record_flag) {
+
+  if (record_flag == 'on') {
+    record_blink_interval = setInterval(blink_recording_text, 1000);
+
+    //
+    
+
+  } else {
+    reset_recording_html();
+    
+  };
+  
+}
+
+function blink_recording_text() {
+
+  $('.record_slider_text').html('Recording&nbsp&nbsp&nbsp&nbsp&nbsp');
+  $('.record_slider_text').css({"color" : "red"});
+  $('.record_slider_text').fadeOut(500);
+  $('.record_slider_text').fadeIn(500);
+}
+
+function reset_recording_html() {
+
+  clearInterval(record_blink_interval);
+  $('.record_slider_text').html('Record Flight');
+  $('.record_slider_text').css({"color" : "black"});
+}
 
