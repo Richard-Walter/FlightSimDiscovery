@@ -209,7 +209,7 @@ function paPlayAudio(poi_to_play) {
     current_poi_playing = poi_to_play;
     current_poi_playing_id = current_poi_playing['id'];
     current_poi_playing_name = current_poi_playing['name'];
-    textTo_play = current_poi_playing['description'];
+    textTo_play = current_poi_playing_name + '\n' + current_poi_playing['description'];
     txtFld.value = textTo_play;
     speech.text = textTo_play;
 
