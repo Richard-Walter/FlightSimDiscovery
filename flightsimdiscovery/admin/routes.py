@@ -429,7 +429,7 @@ def update_poi_description():
                     if poi_description_word_count > word_limit:
                         continue
                         
-                    poi_data = {'id': poi.id,'name': poi.name,'category': poi.category,'description': poi.description}
+                    poi_data = {'id': poi.id,'name': poi.name,'category': poi.category,'description': poi.description, 'date': poi.date_posted}
                     filtered_pois.append(poi_data)
 
                 return render_template('filtered_pois.html', filtered_pois=filtered_pois, count = len(filtered_pois))

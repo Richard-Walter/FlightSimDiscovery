@@ -39,6 +39,8 @@ main = Blueprint('main', __name__)
 # TODO add ability to import and dispaly flight plan on map
 # TODO add favorite, visited, flag to default airports - would need to make an default airport database script
 
+# TODO imporve scrupt - update poi description by removing [] and  (numbers) and ( (listen)),==history== etc, microsot to Microsoft
+#        (U.S. or US) (U.S.A. or USA), (; Spanish: [el ˈpaso] "the pass")  (; locally )   ()
 # TODO add all world cities as pois.  Wait and see MSFS POIS - see the author of pois on the flight.to website also.
 
 # TODO select-all to delete flights
