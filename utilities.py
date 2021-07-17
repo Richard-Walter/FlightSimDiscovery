@@ -848,13 +848,7 @@ def get_nearest_airport(airports, waypoint):
         return 12742 * asin(sqrt(a))
 
     nearest_airport_data = min(airports, key=lambda p: distance_between_points(p['lat'], p['lon'], waypoint['lat'], waypoint['lon']))
-    # print('Closest airport: ', nearest_airport_data)
 
-    #why am i doint this.  YSHL does not work
-    # if nearest_airport_data['Airport_Name'].strip() == waypoint['airport_name'].strip():
-    #     altered_airport_list = [item for item in airports if item['Airport_Name'].strip() != waypoint['airport_name'].strip()]
-    #     # print('Altered: ', altered_airport_list)
-    #     nearest_airport_data = get_nearest_airport(altered_airport_list, waypoint)
 
     return nearest_airport_data
 

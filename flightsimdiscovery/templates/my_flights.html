@@ -27,10 +27,9 @@
         <div class="mt-5">
             <legend class="border-bottom mb-4">My Flights</legend>
             <p>
-              Flight Sim Discovery can show your exported Volanta flights on the world map.
-              Volanta is an easy-to-use smart flight tracker that integrates all your flight data across all major sims. 
-              See <a href="https://volanta.app/", target="_blank">https://volanta.app/ </a>for more information.  
-              Please let me know if you would like other flight tracking software supported.
+              Flight Sim Discovery can show your recorded flights on the world map.  A list of your recorded flights is displayed below.
+              You need to download the Flight Sim Discovery in-game panel from flight.to <a href="https://www.flightsim.to/", target="_blank">https://www.flightsim.to/ </a>.  
+              This download comes with a 'read me' file that explains how to record your flights using flight sim discovery.
             </p>
 
         </div>
@@ -38,14 +37,14 @@
             <br>
             {% if current_user.username %}
                 {% if user_flights %}
-                        <p>You have previously uploaded {{user_flights|length}} flights</p>
+                        <p>You have recorded {{user_flights|length}} flights</p>
                     {% else %}
-                        <p>No user volanta flights detected.  Please upload some volanta flights (*.json) to view on world map.</p>
+                        <p>No user recorded detected.  Please record some flights to view on world map.</p>
                 {% endif %}
             {% endif %}
             
         </div>
-        <form method="POST" action="/my_flights" enctype="multipart/form-data">
+        <!-- <form method="POST" action="/my_flights" enctype="multipart/form-data">
            
             <fieldset class="form-group mt-3">
                 <div class="box__input">
@@ -59,7 +58,7 @@
                     <p><input type="submit" id="upload_flights_btn" class="show_flights_btn" value="Upload Flights" disabled></p>
                 </div>               
             </fieldset>
-        </form>
+        </form> -->
 
             <div class="db_table_area my-5">
                 <!-- <legend class="border-bottom mb-5">My Points of Interest</legend> -->

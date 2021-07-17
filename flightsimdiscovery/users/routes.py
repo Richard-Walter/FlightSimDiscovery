@@ -261,6 +261,29 @@ def show_active_flight_checkbox():
                return ('User logged in - but has no active flight in database', 401)
     else:
         return ('User not logged into FSD browser - can not update database', 401)
+
+
+@users.route('/users/save_recorded_flight',  methods=['POST'])
+def save_recorded_flight():
+
+    recorded_flight = request.get_json()
+
+    if (not recorded_flight):
+        print('No recorded flight data')
+        return ('No recorded flight data', 401)
+
+    if (len(recorded_flight) <1):
+        print('No recorded flight data')
+        return ('No recorded flight data', 401)
+    
+    if current_user.is_authenticated:
+           
+        save_flight_data_to_db(recorded_flight)
+        print('SUCCESS CALL FROM BROWSER')
+        return ('SUCCESS CALL FROM BROWSER')
+        
+    else:
+        return ('User not logged into FSD browser - can not update database', 402)
  
 
 
