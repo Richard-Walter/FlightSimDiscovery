@@ -175,8 +175,12 @@ function updateFlightDataObjects(response) {
     active_flight_position['heading_true'] = heading_true;
     active_flight_position['last_update_ms'] = last_update_ms;
     active_flight_position['altitude_agl'] = coordinates['altitude_agl'];
-    active_flight_position['aircraft_name'] = coordinates['aircraft_name'];
-    active_flight_position['aircraft_rego'] = coordinates['aircraft_rego'];
+
+    //add flight details if none exist
+    if ((Object.keys(recorded_flight_details).length) == 0){
+      recorded_flight_details['aircraft_name'] = coordinates['aircraft_name'];
+      recorded_flight_details['aircraft_rego'] = coordinates['aircraft_rego'];
+    }
 
     recorded_flight_positions.push(active_flight_position);
   }
@@ -496,12 +500,7 @@ function activeFlightPanelHandler(e) {
 
   } else if (element_id == "btn_save_flight") {
 
-    //   //flight details
-    // recorded_flight_details['aircraft_name'] = 'Test Aricraft name';
-    // recorded_flight_details['aircraft_rego'] = 'VH-RJW';
-
     saveRecordedFlight();
-    // console.log(return_code);
     
   }
 
@@ -641,14 +640,17 @@ function saveRecordedFlight(){
   active_flight_position2['ground_speed'] = 0;
   active_flight_position2['ias'] = 10;
   active_flight_position2['last_update_ms'] = 1626269350040;
-  // active_flight_position['aircraft_name'] = 'Test Aricraft name';
-  // active_flight_position['aircraft_rego'] = 'VH-RJW';
+  active_flight_position['aircraft_name'] = 'Test Aricraft name';
+  active_flight_position['aircraft_rego'] = 'VH-RJW';
 
   recorded_flight_positions.push(active_flight_position2);
+  
+  recorded_flight_details['aircraft_name'] = 'Test Aricraft name';
+  recorded_flight_details['aircraft_rego'] = 'VH-RJW';
 
-  recorded_flight = {}
-  recorded_flight['recorded_flight_details'] = recorded_flight_details
-  recorded_flight['recorded_flight_positions'] = recorded_flight_positions
+  recorded_flight = {};
+  recorded_flight['recorded_flight_details'] = recorded_flight_details;
+  recorded_flight['recorded_flight_positions'] = recorded_flight_positions;
 
   //save data to flask
   $.ajax({
