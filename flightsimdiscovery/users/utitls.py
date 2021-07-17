@@ -219,7 +219,7 @@ def save_flight_data_to_db(recorded_flight):
     except Exception:
         raise JSONDecodeError
     else:
-        # assume user wants to see his flights after uploading
+        # assume user wants to see his flights upon a page refresh
         session['show_my_flights'] = 'Yes'
 
 # def save_flight_data_to_db(json_flight_data, flight_recorder):

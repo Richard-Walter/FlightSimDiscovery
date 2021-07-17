@@ -496,12 +496,12 @@ function activeFlightPanelHandler(e) {
 
   } else if (element_id == "btn_save_flight") {
 
-      //flight details
-    recorded_flight_details['aircraft_name'] = 'Test Aricraft name';
-    recorded_flight_details['aircraft_rego'] = 'VH-RJW';
+    //   //flight details
+    // recorded_flight_details['aircraft_name'] = 'Test Aricraft name';
+    // recorded_flight_details['aircraft_rego'] = 'VH-RJW';
 
-    return_code = saveRecordedFlight();
-    console.log(return_code);
+    saveRecordedFlight();
+    // console.log(return_code);
     
   }
 
@@ -577,16 +577,16 @@ function recordFlightHandler(record_flag) {
     //reset recorder flight details
     recorded_flight_details = {};
     recorded_flight_positions = [];
+    $('#af_record').prop('checked',true)
 
     //recording flights details happens regardless
+    $('#btn_save_flight').show();
 
-    
-
+  
   } else {
     reset_recording_html();
     //reset recorder flight details
-    recorded_flight_details = {};
-    recorded_flight_positions = [];
+
     
   };
   
@@ -605,6 +605,12 @@ function reset_recording_html() {
   clearInterval(record_blink_interval);
   $('.record_slider_text').html('Record Flight');
   $('.record_slider_text').css({"color" : "black"});
+  $('.record_slider_text').val('off');
+  $('#af_record').prop('checked', false); 
+  $('#btn_save_flight').hide();
+  recorded_flight_details = {};
+  recorded_flight_positions = [];
+
 }
 
 function saveRecordedFlight(){
@@ -651,13 +657,47 @@ function saveRecordedFlight(){
     contentType: "application/json",
     dataType: "json",
     data: JSON.stringify (recorded_flight)
-  }).done(function (response) {
-    console.log(response);
+  }).done(function (http) {
+
+    console.log( 'http status us ' + http.status);
+    if (http.status === 200) {
+
+      active_flight_flash('FLIGHT SAVED', timeout = 15);
+
+      //resest flight data
+      recorded_flight_details = {};
+      recorded_flight_positions = [];
+      reset_recording_html();
+
+    } else if (http.status === 401) { 
+    
+
+      console.log(http.responseText);
+      active_flight_flash('No recorded flight data to save', timeout = 15);
+
+    } else if (http.status === 402) { 
+
+      active_flight_flash('Problem saving recorded flight data to database.  Try again later.  If problem persists, contact me to report the issue', timeout = 15);
+      console.log(http.responseText);
+
+    } else if (http.status === 403) { 
+      active_flight_flash('You need to be logged in to save a recorded flight', timeout = 15);
+      console.log(http.responseText);
+
+    } else {
+
+      console.log('HTTP STATUS IS: ' + String(http.status));
+      active_flight_flash('Problem saving recorded flight data to database.  Try again later.  If problem persists, contact me to report the issue', timeout = 15);
+
+    }
+
+
+
+
   }).fail(function (err) {
     console.log(err)
     console.log('couldnt save recorded flight');
+    active_flight_flash('Problem saving recorded flight data to database.  Try again later.  If problem persists, contact me to report the issue', timeout = 15);
   });
-
-  return 'return code here';
 
 }

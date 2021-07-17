@@ -1485,6 +1485,7 @@
               $("#Map_ActiveFlight_Btn").val('off');
               removeActiveFlight();
               pa_disconnect();
+              reset_recording_html();
               // $('#af_poi_audio').val('off');
               // $('#af_poi_audio').removeAttr('checked');
               map.controls[google.maps.ControlPosition.TOP_CENTER].pop(paToolbarDiv);
@@ -1572,7 +1573,7 @@
               '</label>' +
             '</div>'+
             '<div id="poi_record_div" class="">' +
-              '<button type="button" id="btn_save_flight" class="af_checkbox btn btn-sm btn-block btn-success mt-2">Temp Save</button>'+
+              '<button type="button" id="btn_save_flight" style="display: none;" class="af_checkbox btn btn-sm btn-block btn-success mt-2">Save Flight Now</button>'+
             '</div>'
 
           const controlUI = document.createElement('div');

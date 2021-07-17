@@ -265,26 +265,30 @@ def show_active_flight_checkbox():
 
 @users.route('/users/save_recorded_flight',  methods=['POST'])
 def save_recorded_flight():
+    
 
     recorded_flight = request.get_json()
 
     if (not recorded_flight):
         print('No recorded flight data')
-        return ('No recorded flight data', 401)
+        return json.dumps({'status':401}), 401, {'ContentType':'application/json'} 
 
     if (len(recorded_flight) <1):
         print('No recorded flight data')
-        return ('No recorded flight data', 401)
+        return json.dumps({'status':401}), 401, {'ContentType':'application/json'} 
     
     if current_user.is_authenticated:
-           
-        save_flight_data_to_db(recorded_flight)
-        print('SUCCESS CALL FROM BROWSER')
-        return ('SUCCESS CALL FROM BROWSER')
-        
+
+        try:
+            save_flight_data_to_db(recorded_flight)
+            return json.dumps({'status':200}), 200, {'ContentType':'application/json'} 
+        except Exception as e:
+            print('Cannot save recorded flight from database')
+            return json.dumps({'status':402}), 402, {'ContentType':'application/json'} 
+    
     else:
-        return ('User not logged into FSD browser - can not update database', 402)
- 
+        print('User not logged into FSD browser - can not update database')
+        return json.dumps({'status':403}), 403, {'ContentType':'application/json'} 
 
 
 ####################################################################
